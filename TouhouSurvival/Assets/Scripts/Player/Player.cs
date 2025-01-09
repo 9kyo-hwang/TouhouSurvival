@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     private static readonly int Speed = Animator.StringToHash("Speed");
     
+    public EnemyScanner Scanner { get; private set; }
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        Scanner = GetComponent<EnemyScanner>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
