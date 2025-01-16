@@ -7,15 +7,17 @@ public class ItemData : ScriptableObject
     {
         Melee,
         Range,
+        Glove,
+        Shoe,
         Potion,
     }
 
     [Header("Main")]
-    public ItemType type;
-    public int id;
-    public string designation;
-    public string description;
-    public Sprite icon;
+    public ItemType itemType;
+    public int itemId;
+    [TextArea] public string itemName;
+    [TextArea] public string itemDesc;
+    public Sprite itemIcon;
 
     [Header("Level")] 
     public float baseDamage;

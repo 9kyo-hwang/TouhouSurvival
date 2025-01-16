@@ -5,12 +5,11 @@ using UnityEngine.Serialization;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    
     public Player player;
     public EnemyPool enemyPool;
     public MeleeWeaponPool meleeWeaponPool;
     public RangedWeaponPool rangedWeaponPool;
-
-    
     
     private void Awake()
     {

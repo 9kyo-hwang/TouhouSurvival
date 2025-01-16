@@ -1,18 +1,35 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class Weapon : MonoBehaviour
 {
+    public int id;
     public float damage;
-
-    protected virtual void Initialize() { }
     
-    protected virtual void Awake() {}
+    protected Player _player;
 
-    protected virtual void Start()
+    public virtual void Initialize(ItemData data)
     {
-        Initialize();
+        name = "Weapon " + data.itemId;
+        transform.parent = _player.transform;
+        transform.localPosition = Vector3.zero;
+        
+        id = data.itemId;
+        damage = data.baseDamage;
     }
+
+    public virtual void LevelUp(float nextDamage, int nextCount, int nextPenetration)
+    {
+        damage = nextDamage;
+    }
+
+    protected virtual void Awake()
+    {
+        _player = GetComponentInParent<Player>();
+    }
+
+    protected virtual void Start() { }
 
     protected virtual void Update() { }
 }

@@ -6,20 +6,27 @@ public class MeleeWeapon : Weapon
     public int weaponCount;  // 배치할 근접 무기 개수
     public float rotationSpeed;
 
-    public void LevelUp(float damage, int count)
+    public override void Initialize(ItemData data)
     {
-        this.damage = damage;
-        weaponCount += count;
+        base.Initialize(data);
+
+        weaponCount = data.baseCount;
+        rotationSpeed = -150;
+        
+        Batch();
+    }
+    
+    public override void LevelUp(float nextDamage, int nextCount, int nextPenetration)
+    {
+        base.LevelUp(nextDamage, nextCount, nextPenetration);
+        weaponCount += nextCount;
         
         Batch();
     }
 
-    protected override void Initialize()
+    protected override void Awake()
     {
-        base.Initialize();
-
-        rotationSpeed = -150;
-        Batch();
+        base.Awake();
     }
 
     protected override void Start()

@@ -7,18 +7,24 @@ public class RangedWeapon : Weapon
     public float firingSpeed;
 
     private float _elapsedTime;
-    private Player _player;
     
-    protected override void Initialize()
+    public override void Initialize(ItemData data)
     {
-        base.Initialize();
-        
+        base.Initialize(data);
+
+        penetration = data.basePenetration;
         firingSpeed = 0.3f;
+    }
+
+    public override void LevelUp(float nextDamage, int nextCount, int nextPenetration)
+    {
+        base.LevelUp(nextDamage, nextCount, nextPenetration);
+        penetration += nextPenetration;
     }
 
     protected override void Awake()
     {
-        _player = GetComponentInParent<Player>();
+        base.Awake();
     }
 
     protected override void Start()

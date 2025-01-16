@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be8516fff48b6d04b8f981953b65f773, type: 3}
+  m_Name: Survival Phase
+  m_EditorClassIdentifier: 
+  spawnerSoList:
+  - {fileID: 11400000, guid: a22f568f037f6104cbde746c69f3a2d4, type: 2}
+  - {fileID: 11400000, guid: efe0896378e3851498a7c8c3e305c97e, type: 2}
+  - {fileID: 11400000, guid: 026485c74214fa54fb680361c6a3ce38, type: 2}
+  phaseDuration: 10

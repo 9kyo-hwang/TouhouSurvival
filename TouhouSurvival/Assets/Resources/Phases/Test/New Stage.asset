@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f76f94db26f3af45a452f679b05418d, type: 3}
+  m_Name: New Stage
+  m_EditorClassIdentifier: 
+  phaseSoList:
+  - {fileID: 11400000, guid: 8202289fc974f4f4abc6bca23622bcdc, type: 2}
+  - {fileID: 11400000, guid: 69c74ccbb17e74846a12f82e6adc51dc, type: 2}
+  - {fileID: 11400000, guid: 8202289fc974f4f4abc6bca23622bcdc, type: 2}
+  - {fileID: 11400000, guid: 69c74ccbb17e74846a12f82e6adc51dc, type: 2}
+  - {fileID: 11400000, guid: 8202289fc974f4f4abc6bca23622bcdc, type: 2}
+  - {fileID: 11400000, guid: 69c74ccbb17e74846a12f82e6adc51dc, type: 2}
+  mapSO: {fileID: 11400000, guid: b5b7d33dd78237446b8d7442014f8b0d, type: 2}

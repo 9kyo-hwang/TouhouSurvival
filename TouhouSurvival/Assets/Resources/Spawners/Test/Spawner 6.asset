@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f87fd56a9115e3c49a19ec18379e9939, type: 3}
+  m_Name: Spawner 6
+  m_EditorClassIdentifier: 
+  spawnDataList:
+  - entityPrefab: {fileID: 2282169517585938027, guid: ed3797b58fd658042a740ae1a7791684, type: 3}
+    spawnRatio: 1
+  minSpawnCooltime: 1
+  maxSpawnCooltime: 2
+  spawnPositionFlag: 0
+  spawnCountAtOnce: 1
+  mixEntityAtOnce: 0
+  spawnShape: 0

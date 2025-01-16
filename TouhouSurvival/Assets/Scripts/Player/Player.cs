@@ -5,8 +5,6 @@ using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
-    private static readonly int Speed = Animator.StringToHash("Speed");
-    
     public EnemyScanner Scanner { get; private set; }
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
@@ -41,7 +39,7 @@ public class Player : MonoBehaviour
 
     private void LateUpdate()
     {
-        _animator.SetFloat(Speed, InputVector.magnitude);
+        _animator.SetFloat("Speed", InputVector.magnitude);
         if (InputVector.x != 0)
         {
             _spriteRenderer.flipX = InputVector.x < 0;

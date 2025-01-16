@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
-public class PoolManager : MonoBehaviour
+public class ObjectPoolEx : MonoBehaviour
 {
-    public ObjectPool<GameObject>[] Pools { get; private set; }
+    public ObjectPool<GameObject> Pool { get; private set; }
 
     public GameObject[] prefabs;
     public bool collectionCheck;
@@ -14,11 +14,8 @@ public class PoolManager : MonoBehaviour
 
     private void Awake()
     {
-        for (int index = 0; index < prefabs.Length; ++index)
-        {
-            Pools[index] = new ObjectPool<GameObject>(CreateFunc, ActionOnGet, ActionOnRelease, ActionOnDestroy,
-                collectionCheck, defaultCapacity, maxSize);
-        }
+        Pool = new ObjectPool<GameObject>(CreateFunc, ActionOnGet, ActionOnRelease, ActionOnDestroy, collectionCheck,
+            defaultCapacity, maxSize);
     }
     
     private void ActionOnDestroy(GameObject obj)
