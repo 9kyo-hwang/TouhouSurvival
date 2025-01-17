@@ -9,8 +9,10 @@ namespace Unchord
         private TextMeshProUGUI _txtResultText;
         private Button _btnBack;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             _txtResultText = transform.Find("Panel/ResultText").GetComponent<TextMeshProUGUI>();
             _btnBack = transform.Find("Panel/BackToMenuButton").GetComponent<Button>();
 

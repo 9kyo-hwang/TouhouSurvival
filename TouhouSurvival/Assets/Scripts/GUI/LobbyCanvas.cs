@@ -10,7 +10,7 @@ namespace Unchord
         private Button _btnSelectCharacters;
         private Button _btnQuit;
 
-        private void Awake()
+        protected override void Awake()
         {
             _btnSettings = transform.Find("Navigator/SettingsButton").GetComponent<Button>();
             _btnSelectCharacters = transform.Find("Navigator/SelectCharacterButton").GetComponent<Button>();
