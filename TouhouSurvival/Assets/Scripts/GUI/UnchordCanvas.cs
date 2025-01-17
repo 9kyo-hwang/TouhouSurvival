@@ -7,10 +7,13 @@ namespace Unchord
         protected static GameManager s_gameManager;
         protected static UIManager s_uiManager;
 
-        static UnchordCanvas()
+        protected virtual void Awake()
         {
-            s_gameManager = GameManager.Instance;
-            s_uiManager = UIManager.Instance;
+            if (s_gameManager == null)
+                s_gameManager = GameManager.Instance;
+
+            if (s_uiManager == null)
+                s_uiManager = UIManager.Instance;
         }
 
         public virtual void Hide()

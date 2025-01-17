@@ -14,7 +14,7 @@ namespace Unchord
         private TextMeshProUGUI _txtBgmAmp;
         private TextMeshProUGUI _txtSfxAmp;
 
-        private void Awake()
+        protected override void Awake()
         {
             _btnBack = transform.Find("SettingsPanel/BackButton").GetComponent<Button>();
             _sliderBgm = transform.Find("SettingsPanel/BgmSlider").GetComponent<Slider>();
