@@ -9,10 +9,10 @@ namespace Unchord
 
         private float[] _spawnerNextSpawnTimes;
 
-        public SurvivalPhaseRuntime(SurvivalPhaseSO phaseSO, GameManager.Properties gameManagerProperties)
-        : base(phaseSO, gameManagerProperties)
+        public SurvivalPhaseRuntime(SurvivalPhaseSO phaseSO)
+        : base(phaseSO)
         {
-            _createdPlaytime = gameManagerProperties.ElapsablePhasePlaytime;
+            _createdPlaytime = s_gameManager.ElapsedPlaytime;
             _spawnerNextSpawnTimes = new float[phaseSO.spawnerSoList.Count];
         }
 
@@ -26,17 +26,17 @@ namespace Unchord
             {
                 MarkNextSpawnTime(phaseSO.spawnerSoList, i);
             }
+
+            s_gameManager.ShouldUpdateElapsedPlaytime = true;
         }
 
         public override void Update()
         {
             SurvivalPhaseSO phaseSO = (SurvivalPhaseSO)_phaseSO;
 
-            _gameManagerProperties.ElapsablePhasePlaytime += Time.deltaTime;
-
             for (int i = 0; i < phaseSO.spawnerSoList.Count; ++i)
             {
-                if (_gameManagerProperties.ElapsablePhasePlaytime < _spawnerNextSpawnTimes[i])
+                if (s_gameManager.ElapsedPlaytime < _spawnerNextSpawnTimes[i])
                     continue;
 
                 Spawner.Spawn(phaseSO.spawnerSoList[i]);
@@ -62,7 +62,7 @@ namespace Unchord
         public override PhaseRuntimeState CheckPhaseRuntimeState()
         {
             SurvivalPhaseSO survivalPhaseSO = (SurvivalPhaseSO)_phaseSO;
-            float runtimeExecutionTime = _gameManagerProperties.ElapsablePhasePlaytime - _createdPlaytime;
+            float runtimeExecutionTime = s_gameManager.ElapsedPlaytime - _createdPlaytime;
 
             // TODO: Add following code here; if, player's health is lower than or equal 0, then, return PhaseRuntimeState.Fail;
 
@@ -77,7 +77,7 @@ namespace Unchord
             float min = spawnerSoList[index].minSpawnCooltime;
             float max = spawnerSoList[index].maxSpawnCooltime;
             float cooltime = (max - min) * UnityEngine.Random.value + min;
-            _spawnerNextSpawnTimes[index] = _gameManagerProperties.ElapsablePhasePlaytime + cooltime;
+            _spawnerNextSpawnTimes[index] = s_gameManager.ElapsedPlaytime + cooltime;
         }
     }
 }
