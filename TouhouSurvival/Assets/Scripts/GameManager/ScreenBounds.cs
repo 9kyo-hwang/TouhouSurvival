@@ -4,11 +4,11 @@ namespace Unchord
 {
     public static class ScreenBounds
     {
-        private static GameManager.Properties _gm;
+        private static GameManager s_gameManager;
 
         static ScreenBounds()
         {
-            _gm = GameManager.Instance.properties;
+            s_gameManager = GameManager.Instance;
         }
 
         public static ScreenZone EvalScreenZone(Vector3 worldPosition, float hiddenZoneWidth = 0.2f, float hiddenZoneHeight = 0.2f)
@@ -16,7 +16,7 @@ namespace Unchord
             Debug.Assert(hiddenZoneWidth >= 0.0f);
             Debug.Assert(hiddenZoneHeight >= 0.0f);
 
-            Vector3 viewportPosition = _gm.MainCamera.WorldToViewportPoint(worldPosition);
+            Vector3 viewportPosition = s_gameManager.MainCamera.WorldToViewportPoint(worldPosition);
 
             if (viewportPosition.x < -hiddenZoneWidth ||
                 viewportPosition.x >= 1.0f + hiddenZoneWidth ||
