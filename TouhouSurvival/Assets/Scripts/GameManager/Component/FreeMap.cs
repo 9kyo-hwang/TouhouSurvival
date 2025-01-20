@@ -51,8 +51,9 @@ namespace Unchord
         {
             Vector3 cameraPosition = camera.ViewportToWorldPoint(0.5f * Vector2.one);
 
-            int newChunkPositionX = Mathf.FloorToInt(0.5f + cameraPosition.x / _size.x);
-            int newChunkPositionY = Mathf.FloorToInt(0.5f + cameraPosition.y / _size.y);
+            int newChunkPositionX;
+            int newChunkPositionY;
+            Map.GetChunkPosition(cameraPosition, _size, out newChunkPositionX, out newChunkPositionY);
 
             if (_chunkPositionX == newChunkPositionX && _chunkPositionY == newChunkPositionY)
                 return;
