@@ -24,6 +24,11 @@ namespace Unchord
             chunkPositionY = Mathf.FloorToInt(0.5f + worldPosition.y / chunkSize.y);
         }
 
+        public static Vector2 GetChunkCenter(int chunkPositionX, int chunkPositionY, Vector2 chunkSize)
+        {
+            return new Vector2(chunkPositionX * chunkSize.x, chunkPositionY * chunkSize.y);
+        }
+
         public abstract bool IsCameraOutOfMap(Camera camera);
 
         public abstract void ScrollMap(Camera camera);
