@@ -8,23 +8,9 @@ namespace Unchord
         private string m_eventPath;
         private EventInstance m_soundEventInstance;
 
-        public override void ChangeVolume(float _volume)
-        {
-            UnityEngine.Debug.Assert(_volume >= 0.0f && _volume <= 1.0f, "Volume should be between 0 and 1");
-
-            m_soundEventInstance.setVolume(_volume);
-            base.Volume = _volume;
-        }
-
-        public override void SetPause(bool _isPaused)
-        {
-            m_soundEventInstance.setPaused(_isPaused);
-            base.IsPaused = _isPaused;
-        }
-
         public EventInstance ChangeSoundEvent(string _eventPath)
         {
-            UnityEngine.Debug.Assert(!base.IsPaused, "Cannot change sound event when sound channel paused.");
+            // UnityEngine.Debug.Assert(!base.IsPaused, "Cannot change sound event when sound channel paused.");
             UnityEngine.Debug.Assert(_eventPath != null, "Sound Event cannot be null.");
 
             PLAYBACK_STATE playbackState;
@@ -44,15 +30,75 @@ namespace Unchord
             m_soundEventInstance.start();
             return m_soundEventInstance;
         }
-
-        public void Play()
+        
+        protected override void SetVolume(float volume)
         {
-            m_soundEventInstance.start();
+            if (_isPaused || _isMuted)
+            {
+                _volumeBuffer = volume;
+            }
+            else
+            {
+                _volume = volume;
+                m_soundEventInstance.setVolume(_volume);
+            }
         }
 
-        public void Stop()
+        protected override void Pause()
         {
-            m_soundEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            System.Diagnostics.Debug.Assert(_isPaused == false);
+
+            if (!_isMuted)
+            {
+                _volumeBuffer = _volume;
+                _volume = 0.0f;
+                m_soundEventInstance.setPaused(true);
+            }
+
+            _isPaused = true;
+        }
+
+        protected override void Unpause()
+        {
+            System.Diagnostics.Debug.Assert(_isPaused == true);
+
+            _isPaused = false;
+
+            if (!_isMuted)
+            {
+                _volume = _volumeBuffer;
+                _volumeBuffer = 0.0f;
+                m_soundEventInstance.setVolume(_volume);
+                m_soundEventInstance.setPaused(false);
+            }
+        }
+
+        protected override void Mute()
+        {
+            System.Diagnostics.Debug.Assert(_isMuted == false);
+
+            if (!_isPaused)
+            {
+                _volumeBuffer = _volume;
+                _volume = 0.0f;
+                m_soundEventInstance.setVolume(_volume);
+            }
+
+            _isMuted = true;
+        }
+
+        protected override void Unmute()
+        {
+            System.Diagnostics.Debug.Assert(_isMuted == true);
+
+            if (!_isPaused)
+            {
+                _volume = _volumeBuffer;
+                _volumeBuffer = 0.0f;
+                m_soundEventInstance.setVolume(_volume);
+            }
+
+            _isMuted = false;
         }
     }
 }
