@@ -4,44 +4,55 @@ namespace Unchord
     {
         public float Volume
         {
-            get => m_volume;
-            protected set
-            {
-                m_volume = value;
+            get => _volume;
+            set => SetVolume(value);
+        }
 
-                if(!this.m_isMuted)
-                    m_volumeBuffer = value;
+        public float BufferedVolume => _volumeBuffer;
+
+        public bool IsMuted
+        {
+            get => _isMuted;
+            set
+            {
+                if (value == _isMuted)
+                    return;
+                else if (value)
+                    Mute();
+                else
+                    Unmute();
             }
         }
 
-        public float BufferedVolume => m_volumeBuffer;
-
-        protected float VolumeBuffer { get; set; } = 0.5f;
-        public bool IsPaused { get; protected set; } = false;
-        public bool IsMuted
+        public bool IsPaused
         {
-            get => m_isMuted;
-            set => this.SetMute(value);
+            get => _isPaused;
+            set
+            {
+                if (value == _isPaused)
+                    return;
+                else if (value)
+                    Pause();
+                else
+                    Unpause();
+            }
         }
 
-        private bool m_isMuted;
-        private float m_volume;
-        private float m_volumeBuffer;
-
-        public abstract void ChangeVolume(float _volume);
-        public abstract void SetPause(bool _isPaused);
+        protected float _volume;
+        protected float _volumeBuffer;
+        protected bool _isMuted;
+        protected bool _isPaused;
+        protected bool _volumeBufferFlag;
 
         public SoundChannel()
         {
-            this.Volume = 0.5f;
+            _volume = 0.5f;
         }
 
-        public void SetMute(bool _isMuted)
-        {
-            if (m_isMuted = _isMuted)
-                this.ChangeVolume(0.0f);
-            else
-                this.ChangeVolume(this.m_volumeBuffer);
-        }
+        protected abstract void SetVolume(float volume);
+        protected abstract void Pause();
+        protected abstract void Unpause();
+        protected abstract void Mute();
+        protected abstract void Unmute();
     }
 }
