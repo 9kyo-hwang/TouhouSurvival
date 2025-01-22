@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Unchord
 {
-    [CreateAssetMenu(fileName = "New Survival Phase", menuName = "ScriptableObjects/Game Management/Survival Phase", order = (int)GameManagerAssetMenuOrder.SurvivalPhaseSO)]
+    [CreateAssetMenu(fileName = "New Survival Phase", menuName = "Scriptable Objects/Game Management/Survival Phase", order = (int)GameManagerAssetMenuOrder.SurvivalPhaseSO)]
     public class SurvivalPhaseSO : PhaseSO
     {
         public List<SpawnerSO> spawnerSoList;
