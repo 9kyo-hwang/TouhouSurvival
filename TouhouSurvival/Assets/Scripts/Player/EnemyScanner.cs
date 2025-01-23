@@ -12,7 +12,6 @@ public class EnemyScanner : MonoBehaviour
     private void FixedUpdate()
     {
         _targets = Physics2D.CircleCastAll(transform.position, range, Vector2.zero, 0, targetLayer);
-        // FindNearestTarget(out nearestTarget);
     }
 
     public bool FindNearestTarget(out Transform targetTransform)

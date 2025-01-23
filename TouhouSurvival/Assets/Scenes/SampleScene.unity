@@ -152,6 +152,16 @@ MonoBehaviour:
   enemyPool: {fileID: 17770591}
   meleeWeaponPool: {fileID: 17770593}
   rangedWeaponPool: {fileID: 17770594}
+  playerMaxLevel: 0
+  playerStatTable:
+  - maxHp: 10
+    attack: 10
+    defense: 10
+    movementSpeed: 5
+  - maxHp: 20
+    attack: 20
+    defense: 20
+    movementSpeed: 10
 --- !u!4 &10829337
 Transform:
   m_ObjectHideFlags: 0
@@ -14241,7 +14251,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 10.791399
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -72312,7 +72322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1977833102
 Transform:
   m_ObjectHideFlags: 0
@@ -72547,6 +72557,7 @@ GameObject:
   - component: {fileID: 2061550030}
   - component: {fileID: 2061550029}
   - component: {fileID: 2061550036}
+  - component: {fileID: 2061550037}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -72566,7 +72577,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 288f08748959db249a34a3f4240a354b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
 --- !u!114 &2061550030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72710,7 +72720,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.2, y: 0.2}
+  m_Size: {x: 1, y: 1.1111112}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -72775,6 +72785,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   nearestTarget: {fileID: 0}
+--- !u!114 &2061550037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061550028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c44857d2f6b716499ef3273d22d1cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2117357048
 GameObject:
   m_ObjectHideFlags: 0

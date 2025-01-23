@@ -4,35 +4,31 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Pool;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Pawn
 {
     [SerializeField] private Rigidbody2D target;
     [SerializeField] private float speed;
-    [SerializeField] private float health;
-    [SerializeField] private float maxHealth;
+    //[SerializeField] private float health;
+    //[SerializeField] private float maxHealth;
     [SerializeField] private RuntimeAnimatorController[] animatorControllers;
-    private Rigidbody2D _rigidbody;
-    private Collider2D _collider;
-    private SpriteRenderer _spriteRenderer;
-    private Animator _animator;
+
     private bool _isDead;
     private WaitForFixedUpdate _wait;
+    private EnemyStatComponent _stat;
 
     public void Initialize(SpawnData spawnData)
     {
-        _animator.runtimeAnimatorController = animatorControllers[spawnData.enemyType];
-        speed = spawnData.speed;
-        maxHealth = spawnData.health;
-        health = spawnData.health;
+        Animator.runtimeAnimatorController = animatorControllers[spawnData.enemyType];
+        // speed = spawnData.speed;
+        // maxHealth = spawnData.health;
+        // health = spawnData.health;
     }
-    
-    private void Awake()
+
+    protected override void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _collider = GetComponent<Collider2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _animator = GetComponent<Animator>();
+        base.Awake();
         _wait = new WaitForFixedUpdate();
+        _stat = GetComponent<EnemyStatComponent>();
     }
 
     private void FixedUpdate()
@@ -42,15 +38,15 @@ public class Enemy : MonoBehaviour
             return;
         }
         
-        Vector2 direction = (target.position - _rigidbody.position).normalized;
-        Vector2 toTargetVector = direction * (speed * Time.fixedDeltaTime);
-        _rigidbody.MovePosition(_rigidbody.position + toTargetVector);
-        _rigidbody.linearVelocity = Vector2.zero;
+        Vector2 direction = (target.position - Rigidbody.position).normalized;
+        Vector2 toTargetVector = direction * (_stat.Speed * Time.fixedDeltaTime);
+        Rigidbody.MovePosition(Rigidbody.position + toTargetVector);
+        Rigidbody.linearVelocity = Vector2.zero;
     }
 
     private bool IsHitAnimationPlaying()  // like hit delay
     {
-        return _animator.GetCurrentAnimatorStateInfo(0).IsName("Hit");
+        return Animator.GetCurrentAnimatorStateInfo(0).IsName("Hit");
     }
 
     private void LateUpdate()
@@ -60,20 +56,27 @@ public class Enemy : MonoBehaviour
             return;
         }
         
-        _spriteRenderer.flipX = target.position.x < _rigidbody.position.x;
+        Renderer.flipX = target.position.x < Rigidbody.position.x;
+    }
+
+    public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
+    {
+        base.TakeDamage(damageAmount, eventInstigator, damageCauser);
+        _stat.ApplyDamage(damageAmount);
+        return damageAmount;
     }
 
     private void OnEnable()
     {
         target = GameManager.Instance.player.GetComponent<Rigidbody2D>();
         _isDead = false;
-        _rigidbody.simulated = true;
-        _collider.enabled = true;
-        _spriteRenderer.sortingOrder++;
-        _animator.SetBool("Dead", false);
+        Rigidbody.simulated = true;
+        Collider.enabled = true;
+        Renderer.sortingOrder++;
+        Animator.SetBool("Dead", false);
         
         // TODO: Stat Data Initialize(health = maxHealth, ...)
-        health = maxHealth;
+        _stat.Initialize();
     }
 
     private void OnDisable()
@@ -81,6 +84,8 @@ public class Enemy : MonoBehaviour
 
     }
 
+    // 기존에는 피격자 입장에서 피격을 판정,
+    // 바뀐 구조에서는 공격자가 공격 판정 후 데미지를 가하도록 변경.
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Bullet") && !_isDead)
@@ -91,17 +96,17 @@ public class Enemy : MonoBehaviour
 
     private void OnHitBullet(Bullet bullet)
     {
-        health -= bullet.damage;
-        StartCoroutine(KnockBack());
-        
-        if (health > 0)
-        {
-            _animator.SetTrigger("Hit");
-        }
-        else
-        {
-            Dead();
-        }
+        // health -= bullet.damage;
+        // StartCoroutine(KnockBack());
+        //
+        // if (health > 0)
+        // {
+        //     Animator.SetTrigger("Hit");
+        // }
+        // else
+        // {
+        //     Dead();
+        // }
     }
     
     IEnumerator KnockBack()
@@ -111,17 +116,17 @@ public class Enemy : MonoBehaviour
         
         // KnockBack Enemy to Player's Opposite Direction 
         Vector3 direction = transform.position - GameManager.Instance.player.transform.position;
-        _rigidbody.AddForce(direction.normalized * 3, ForceMode2D.Impulse);
+        Rigidbody.AddForce(direction.normalized * 3, ForceMode2D.Impulse);
     }
 
     private void Dead()
     {
         target = null;
         _isDead = true;
-        _rigidbody.simulated = false;
-        _collider.enabled = false;
-        _spriteRenderer.sortingOrder--;
-        _animator.SetBool("Dead", true);
+        Rigidbody.simulated = false;
+        Collider.enabled = false;
+        Renderer.sortingOrder--;
+        Animator.SetBool("Dead", true);
     }
 
     private void OnDeadAnimationEnd()  // Call by Dead Animation Event

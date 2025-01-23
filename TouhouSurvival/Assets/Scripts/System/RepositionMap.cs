@@ -17,7 +17,7 @@ public class RepositionMap : MonoBehaviour, IRepositionable
         float diffX = Mathf.Abs(playerPosition.x - transform.position.x);
         float diffY = Mathf.Abs(playerPosition.y - transform.position.y);
 
-        Vector3 playerDirection = GameManager.Instance.player.InputVector;
+        Vector3 playerDirection = GameManager.Instance.player.MovementVector;
         float dirX = playerDirection.x < 0 ? -1 : 1;
         float dirY = playerDirection.y < 0 ? -1 : 1;
         
