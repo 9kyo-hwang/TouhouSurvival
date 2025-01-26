@@ -8,8 +8,8 @@ namespace Unchord
         private int _ptrHandle = 0;
         private ReadOnlyCollection<GameObject> _bossHandle;
 
-        public BossPhaseRuntime(BossPhaseSO phaseSO, GameManager.Properties gameManagerProperties)
-        : base(phaseSO, gameManagerProperties)
+        public BossPhaseRuntime(BossPhaseSO phaseSO)
+        : base(phaseSO)
         {
 
         }
@@ -27,14 +27,13 @@ namespace Unchord
                 Debug.Assert(phaseSO.miscellaneousSpawnerSoList[i] != null);
                 Spawner.Spawn(phaseSO.miscellaneousSpawnerSoList[i]);
             }
+
+            s_gameManager.ShouldUpdateElapsedPlaytime = phaseSO.useTimerStop;
         }
 
         public override void Update()
         {
             BossPhaseSO phaseSO = (BossPhaseSO)_phaseSO;
-
-            if (!phaseSO.useTimerStop)
-                _gameManagerProperties.ElapsablePhasePlaytime += Time.deltaTime;
 
             while (_ptrHandle < _bossHandle.Count && _bossHandle[_ptrHandle] == null)
             {

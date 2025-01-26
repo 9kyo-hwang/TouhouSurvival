@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Unchord
 {
-    [CreateAssetMenu(fileName = "New Boss Phase", menuName = "ScriptableObjects/Game Management/Boss Phase", order = (int)GameManagerAssetMenuOrder.BossPhaseSO)]
+    [CreateAssetMenu(fileName = "New Boss Phase", menuName = "Scriptable Objects/Game Management/Boss Phase", order = (int)GameManagerAssetMenuOrder.BossPhaseSO)]
     public class BossPhaseSO : PhaseSO
     {
         public SpawnerSO bossSpawnerSO;

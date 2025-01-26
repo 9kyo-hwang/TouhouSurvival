@@ -2,13 +2,18 @@ namespace Unchord
 {
     public abstract class PhaseRuntime
     {
-        protected PhaseSO _phaseSO;
-        protected GameManager.Properties _gameManagerProperties;
+        protected static GameManager s_gameManager;
 
-        public PhaseRuntime(PhaseSO phaseSO, GameManager.Properties gameManagerProperties)
+        protected PhaseSO _phaseSO;
+
+        static PhaseRuntime()
+        {
+            s_gameManager = GameManager.Instance;
+        }
+        
+        public PhaseRuntime(PhaseSO phaseSO)
         {
             _phaseSO = phaseSO;
-            _gameManagerProperties = gameManagerProperties;
         }
 
         public virtual bool TrySearchNextRuntime()

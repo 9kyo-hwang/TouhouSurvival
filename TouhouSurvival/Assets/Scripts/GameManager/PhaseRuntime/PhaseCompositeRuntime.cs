@@ -5,10 +5,10 @@ namespace Unchord
         private PhaseRuntime _currentRuntime;
         private int _ptrPhase;
 
-        public PhaseCompositeRuntime(PhaseCompositeSO phaseSO, GameManager.Properties gameManagerProperties)
-        : base(phaseSO, gameManagerProperties)
+        public PhaseCompositeRuntime(PhaseCompositeSO phaseSO)
+        : base(phaseSO)
         {
-            _currentRuntime = PhaseRuntimeFactory.CreateRuntime(phaseSO.phaseSoList[0], gameManagerProperties);
+            _currentRuntime = PhaseRuntimeFactory.CreateRuntime(phaseSO.phaseSoList[0]);
             _ptrPhase = 0;
         }
 
@@ -21,7 +21,7 @@ namespace Unchord
             bool canGetNextRuntime = _ptrPhase < phaseSO.phaseSoList.Count - 1;
 
             if (canGetNextRuntime)
-                _currentRuntime = PhaseRuntimeFactory.CreateRuntime(phaseSO.phaseSoList[++_ptrPhase], _gameManagerProperties);
+                _currentRuntime = PhaseRuntimeFactory.CreateRuntime(phaseSO.phaseSoList[++_ptrPhase]);
             else
                 _currentRuntime = null;
 

@@ -5,19 +5,19 @@ using UnityEngine;
 
 namespace Unchord
 {
-    public partial class GameManager : Singleton<GameManager>
+    public class GameManager : Singleton<GameManager>
     {
         private const int INITIAL_EVENT_CAPACITY = 16;
         private const float BLOCKING_EVENT_HANDLING_COOLTIME = 1.0f;
 
-        public GameManager.Properties properties { get; private set; }
+        public bool IsGameStarted { get; private set; }
 
-        private bool _isGameStarted;
+        public float AbsolutePlaytime { get; private set; }
+        public float ElapsedPlaytime { get; private set; }
+        public bool ShouldUpdateElapsedPlaytime { get; set; }
 
-        private float _totalPlaytime;
-        private float _elapsablePhasePlaytime;
-        private int _killCount;
-        private int _gold;
+        public int KillCount { get; set; }
+        public int EarnedGold { get; set; }
 
         private bool _blockingEventFlag;
         private float _blockingEventHandlingCooltimeLeft;
@@ -27,11 +27,11 @@ namespace Unchord
 
         private PhaseRuntime _phaseRuntimeTree;
 
-        private Camera _mainCamera;
+        public Camera MainCamera { get; private set; }
         private Player _player;
         // private TestPlayer _testPlayer;
 
-        private Transform _runtimeContainer;
+        public Transform RuntimeContainer;
 
         // public void Subscribe(TestPlayer testPlayer)
         // {
@@ -47,7 +47,7 @@ namespace Unchord
             float limit = 2.0f;
             float traceSpeed = 1.5f;
 
-            Vector2 source = _mainCamera.transform.position;
+            Vector2 source = MainCamera.transform.position;
             Vector2 destination = _player.transform.position;
 
             Vector2 next = Vector2.Lerp(source, destination, traceSpeed * Time.deltaTime);
@@ -55,8 +55,8 @@ namespace Unchord
             if (Vector2.Distance(next, destination) > limit)
                 next = next.normalized * limit;
 
-            Vector3 camPosition = new Vector3(next.x, next.y, _mainCamera.transform.position.z);
-            _mainCamera.transform.position = camPosition;
+            Vector3 camPosition = new Vector3(next.x, next.y, MainCamera.transform.position.z);
+            MainCamera.transform.position = camPosition;
         }
 
         private void LateUpdate()
@@ -67,12 +67,11 @@ namespace Unchord
         private void Awake()
         {
             _blockingEventHandlers = new Queue<IEnumerator>(INITIAL_EVENT_CAPACITY);
-            properties = new GameManager.Properties(this);
-            _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+            MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
-            _runtimeContainer = new GameObject("@Runtime Container").transform;
+            RuntimeContainer = new GameObject("@Runtime Container").transform;
 
-            DontDestroyOnLoad(_runtimeContainer);
+            DontDestroyOnLoad(RuntimeContainer);
         }
 
         private void Start()
@@ -82,23 +81,24 @@ namespace Unchord
 
         private void Update()
         {
-            if (_isGameStarted)
+            if (IsGameStarted)
             {
                 HandleEvents();
                 UpdatePhaseRuntimeTree();
+                UpdatePlaytime();
             }
         }
 
         public void StartGame()
         {
-            if (_isGameStarted)
+            if (IsGameStarted)
                 return;
 
-            _isGameStarted = true;
+            IsGameStarted = true;
 
             StartPhaseRuntimeTree("Phases/Test/New Stage");
             CreatePlayer("TestPlayer");
-            _mainCamera.transform.position = 10.0f * Vector3.back;
+            MainCamera.transform.position = 10.0f * Vector3.back;
         }
 
         private void CreatePlayer(string resourcePath)
@@ -106,15 +106,15 @@ namespace Unchord
             GameObject resource = Resources.Load(resourcePath) as GameObject;
             GameObject instance = GameObject.Instantiate(resource);
             instance.name = "Player";
-            instance.transform.parent = _runtimeContainer.transform;
+            instance.transform.parent = RuntimeContainer.transform;
             instance.transform.position = Vector3.zero;
         }
 
         public void EndGame()
         {
-            _isGameStarted = false;
+            IsGameStarted = false;
 
-            Transform[] children = _runtimeContainer.GetComponentsInChildren<Transform>();
+            Transform[] children = RuntimeContainer.GetComponentsInChildren<Transform>();
 
             for (int i = 0; i < children.Length; ++i)
             {
@@ -156,7 +156,7 @@ namespace Unchord
 
             PhaseSO phaseSO = Resources.Load(phaseSoResourcePath) as PhaseSO;
 
-            _phaseRuntimeTree = PhaseRuntimeFactory.CreateRuntime(phaseSO, properties);
+            _phaseRuntimeTree = PhaseRuntimeFactory.CreateRuntime(phaseSO);
             _phaseRuntimeTree.Start();
         }
 
@@ -199,6 +199,14 @@ namespace Unchord
                     Debug.Assert(false, "Unknown case handling occured.");
                     break;
             }
+        }
+
+        private void UpdatePlaytime()
+        {
+            AbsolutePlaytime += Time.deltaTime;
+
+            if (ShouldUpdateElapsedPlaytime)
+                ElapsedPlaytime += Time.deltaTime;
         }
     }
 }

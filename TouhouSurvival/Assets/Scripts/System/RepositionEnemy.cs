@@ -21,7 +21,7 @@ public class RepositionEnemy : MonoBehaviour, IRepositionable
 
     public void Reposition()
     {
-        Vector3 playerDirection = GameManager.Instance.player.InputVector;
+        Vector3 playerDirection = GameManager.Instance.player.MovementVector;
         
         if (_collider.enabled)
         {

@@ -3,52 +3,63 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public class Player : MonoBehaviour
+public class Player : Pawn
 {
     public EnemyScanner Scanner { get; private set; }
-    private Rigidbody2D _rigidbody;
-    private SpriteRenderer _spriteRenderer;
-    private Animator _animator;
-    
-    [SerializeField] public Vector2 InputVector { get; private set; }
-    [SerializeField] private float speed;
+    [SerializeField] public Vector2 MovementVector { get; private set; }
 
-    private void Awake()
+    [SerializeField] public int maxLevel;
+    [SerializeField] private PlayerStatData[] statTable;
+    private PlayerStatComponent _stat;
+
+    protected override void Awake()
     {
+        base.Awake();
         Scanner = GetComponent<EnemyScanner>();
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _animator = GetComponent<Animator>();
+        _stat = GetComponent<PlayerStatComponent>();
     }
 
-    void Start()
+    protected override void Start()
     {
         
     }
 
-    void Update()
+    protected override void Update()
     {
         
     }
 
     private void FixedUpdate()
     {
-        Vector2 toNextVector = InputVector * (speed * Time.fixedDeltaTime);
-        _rigidbody.MovePosition(_rigidbody.position + toNextVector);
+        Vector2 toNextVector = MovementVector * (_stat.Speed * Time.fixedDeltaTime);
+        Rigidbody.MovePosition(Rigidbody.position + toNextVector);
+        Debug.Log(_stat.Speed);
     }
 
     private void LateUpdate()
     {
-        _animator.SetFloat("Speed", InputVector.magnitude);
-        if (InputVector.x != 0)
+        Animator.SetFloat("Speed", MovementVector.magnitude);
+        if (MovementVector.x != 0)
         {
-            _spriteRenderer.flipX = InputVector.x < 0;
+            Renderer.flipX = MovementVector.x > 0;  // TODO: 임시로 좌우 반전
         }
     }
 
     private void OnMove(InputValue value)
     {
         // Input Setting에서 이미 값을 Normalized된 상태로 받도록 세팅됨
-        InputVector = value.Get<Vector2>();
+        MovementVector = value.Get<Vector2>();
+    }
+
+    public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
+    {
+        base.TakeDamage(damageAmount, eventInstigator, damageCauser);
+        _stat.ApplyDamage(damageAmount);
+        return damageAmount;
+    }
+
+    public PlayerStatData GetPlayerStat(int level)
+    {
+        return level < statTable.Length ? statTable[level] : new PlayerStatData();
     }
 }

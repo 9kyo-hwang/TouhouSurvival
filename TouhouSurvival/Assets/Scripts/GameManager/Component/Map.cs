@@ -18,6 +18,17 @@ namespace Unchord
                 return null;
         }
 
+        public static void GetChunkPosition(Vector2 worldPosition, Vector2 chunkSize, out int chunkPositionX, out int chunkPositionY)
+        {
+            chunkPositionX = Mathf.FloorToInt(0.5f + worldPosition.x / chunkSize.x);
+            chunkPositionY = Mathf.FloorToInt(0.5f + worldPosition.y / chunkSize.y);
+        }
+
+        public static Vector2 GetChunkCenter(int chunkPositionX, int chunkPositionY, Vector2 chunkSize)
+        {
+            return new Vector2(chunkPositionX * chunkSize.x, chunkPositionY * chunkSize.y);
+        }
+
         public abstract bool IsCameraOutOfMap(Camera camera);
 
         public abstract void ScrollMap(Camera camera);
