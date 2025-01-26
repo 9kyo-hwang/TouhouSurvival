@@ -41,25 +41,25 @@ public class MeleeWeapon : Weapon
 
     private void Batch()
     {
-        for (int index = 0; index < weaponCount; ++index)
-        {
-            Transform bullet;
-            if (index < transform.childCount)
-            {
-                bullet = transform.GetChild(index);
-            }
-            else
-            {
-                bullet = GameManager.Instance.meleeWeaponPool.Pool.Get().transform;
-                bullet.parent = transform;
-            }
-            
-            bullet.localPosition = Vector3.zero;
-            bullet.localRotation = Quaternion.identity;
-            
-            bullet.Rotate(Vector3.forward * 360 * index / weaponCount);
-            bullet.Translate(bullet.transform.up * 1.5f, Space.World);
-            bullet.GetComponent<Bullet>().Initialize(damage);
-        }
+        // for (int index = 0; index < weaponCount; ++index)
+        // {
+        //     Transform bullet;
+        //     if (index < transform.childCount)
+        //     {
+        //         bullet = transform.GetChild(index);
+        //     }
+        //     else
+        //     {
+        //         bullet = GameManager.Instance.meleeWeaponPool.Pool.Get().transform;
+        //         bullet.parent = transform;
+        //     }
+        //     
+        //     bullet.localPosition = Vector3.zero;
+        //     bullet.localRotation = Quaternion.identity;
+        //     
+        //     bullet.Rotate(Vector3.forward * 360 * index / weaponCount);
+        //     bullet.Translate(bullet.transform.up * 1.5f, Space.World);
+        //     bullet.GetComponent<Bullet>().Initialize(damage);
+        // }
     }
 }

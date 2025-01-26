@@ -29,8 +29,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void Spawn()
     {
-        GameObject enemy = GameManager.Instance.enemyPool.Pool.Get();
-        enemy.transform.position = spawnPoints[Random.Range(1, spawnPoints.Length)].position;
+        //GameObject enemy = GameManager.Instance.enemyPool.Pool.Get();
+        //enemy.transform.position = spawnPoints[Random.Range(1, spawnPoints.Length)].position;
         
         // Deprecated. 플레이어와 최대한 유사한 구조를 가지기 위해 각 몬스터마다 스탯 데이터를 들고 있도록 변경.
         // enemy.GetComponent<Enemy>().Initialize(spawnData[/*level*/0]);

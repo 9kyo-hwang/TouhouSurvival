@@ -68,7 +68,7 @@ public class Enemy : Pawn
 
     private void OnEnable()
     {
-        target = GameManager.Instance.player.GetComponent<Rigidbody2D>();
+        //target = GameManager.Instance.player.GetComponent<Rigidbody2D>();
         _isDead = false;
         Rigidbody.simulated = true;
         Collider.enabled = true;
@@ -115,8 +115,8 @@ public class Enemy : Pawn
         yield return _wait;
         
         // KnockBack Enemy to Player's Opposite Direction 
-        Vector3 direction = transform.position - GameManager.Instance.player.transform.position;
-        Rigidbody.AddForce(direction.normalized * 3, ForceMode2D.Impulse);
+        //Vector3 direction = transform.position - GameManager.Instance.player.transform.position;
+        //Rigidbody.AddForce(direction.normalized * 3, ForceMode2D.Impulse);
     }
 
     private void Dead()

@@ -128,7 +128,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 10829337}
-  - component: {fileID: 10829336}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -136,32 +135,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &10829336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 10829335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e80b0f304fd7b14ba548b20692365bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 2061550029}
-  enemyPool: {fileID: 17770591}
-  meleeWeaponPool: {fileID: 17770593}
-  rangedWeaponPool: {fileID: 17770594}
-  playerMaxLevel: 0
-  playerStatTable:
-  - maxHp: 10
-    attack: 10
-    defense: 10
-    movementSpeed: 5
-  - maxHp: 20
-    attack: 20
-    defense: 20
-    movementSpeed: 10
 --- !u!4 &10829337
 Transform:
   m_ObjectHideFlags: 0
@@ -72577,6 +72550,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 288f08748959db249a34a3f4240a354b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLevel: 0
+  statTable: []
 --- !u!114 &2061550030
 MonoBehaviour:
   m_ObjectHideFlags: 0

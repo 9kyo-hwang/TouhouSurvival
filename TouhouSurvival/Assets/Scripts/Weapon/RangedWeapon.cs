@@ -46,14 +46,14 @@ public class RangedWeapon : Weapon
     {
         if (_player.Scanner.FindNearestTarget(out Transform nearestTarget))
         {
-            Transform bullet = GameManager.Instance.rangedWeaponPool.Pool.Get().transform;
-            bullet.position = transform.position;
-            bullet.parent = transform;
-            
-            Vector3 direction = (nearestTarget.position - transform.position).normalized;
-            bullet.rotation = Quaternion.FromToRotation(Vector3.up, direction);
-            
-            bullet.GetComponent<Bullet>().Initialize(damage, penetration, direction);
+            // Transform bullet = GameManager.Instance.rangedWeaponPool.Pool.Get().transform;
+            // bullet.position = transform.position;
+            // bullet.parent = transform;
+            //
+            // Vector3 direction = (nearestTarget.position - transform.position).normalized;
+            // bullet.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+            //
+            // bullet.GetComponent<Bullet>().Initialize(damage, penetration, direction);
         }
     }
 }
