@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unchord;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Pool;
@@ -29,6 +30,8 @@ public class Enemy : Pawn
         base.Awake();
         _wait = new WaitForFixedUpdate();
         _stat = GetComponent<EnemyStatComponent>();
+
+        target = GameManager.Instance.Player.transform.GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()

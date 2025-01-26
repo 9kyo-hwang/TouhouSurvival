@@ -33,7 +33,6 @@ public class Player : Pawn
     {
         Vector2 toNextVector = MovementVector * (_stat.Speed * Time.fixedDeltaTime);
         Rigidbody.MovePosition(Rigidbody.position + toNextVector);
-        Debug.Log(_stat.Speed);
     }
 
     private void LateUpdate()

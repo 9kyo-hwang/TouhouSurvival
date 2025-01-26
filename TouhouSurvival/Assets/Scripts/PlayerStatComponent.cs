@@ -65,6 +65,7 @@ public class PlayerStatComponent : MonoBehaviour
     private void Start()
     {
         CurrentLevel = 1f;
+        Speed = 5f;
         
         SetBaseStat((int)CurrentLevel);
         SetHp(Base.maxHp);
@@ -80,7 +81,7 @@ public class PlayerStatComponent : MonoBehaviour
     {
         CurrentLevel = Mathf.Clamp(newLevel, 1, _player.maxLevel);
         Base = _player.GetPlayerStat((int)CurrentLevel);
-        Debug.Assert(Base.maxHp > 0);
+        //Debug.Assert(Base.maxHp > 0);
     }
 
     public float ApplyDamage(float damage)

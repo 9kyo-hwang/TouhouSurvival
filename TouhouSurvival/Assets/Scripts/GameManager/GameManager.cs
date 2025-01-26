@@ -29,23 +29,16 @@ namespace Unchord
 
         public Camera MainCamera { get; private set; }
         private Player _player;
-        // private TestPlayer _testPlayer;
+        public Player Player => _player;
 
-        public Transform RuntimeContainer;
-
-        // public void Subscribe(TestPlayer testPlayer)
-        // {
-        //     // TODO. change to player
-        //     //_testPlayer = testPlayer;
-        // }
-
+        public Transform RuntimeContainer { get; private set; }
+        
         private void TraceCamera()
         {
-            //if (_testPlayer == null) return;
             if (!_player) return;
 
             float limit = 2.0f;
-            float traceSpeed = 1.5f;
+            float traceSpeed = 5f;
 
             Vector2 source = MainCamera.transform.position;
             Vector2 destination = _player.transform.position;
@@ -53,7 +46,9 @@ namespace Unchord
             Vector2 next = Vector2.Lerp(source, destination, traceSpeed * Time.deltaTime);
 
             if (Vector2.Distance(next, destination) > limit)
-                next = next.normalized * limit;
+            {
+                next = (next - destination).normalized * limit + source;
+            }
 
             Vector3 camPosition = new Vector3(next.x, next.y, MainCamera.transform.position.z);
             MainCamera.transform.position = camPosition;
@@ -96,6 +91,7 @@ namespace Unchord
 
             IsGameStarted = true;
 
+            // TODO: 이름 수정
             StartPhaseRuntimeTree("Phases/Test/New Stage");
             CreatePlayer("TestPlayer");
             MainCamera.transform.position = 10.0f * Vector3.back;
@@ -108,6 +104,9 @@ namespace Unchord
             instance.name = "Player";
             instance.transform.parent = RuntimeContainer.transform;
             instance.transform.position = Vector3.zero;
+            
+            // TEMP
+            _player = instance.GetComponent<Player>();
         }
 
         public void EndGame()

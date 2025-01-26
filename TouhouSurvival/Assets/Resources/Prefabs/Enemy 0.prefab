@@ -101,7 +101,6 @@ GameObject:
   - component: {fileID: 1390435503517730442}
   - component: {fileID: 333277259151319797}
   - component: {fileID: 9045243633738626452}
-  - component: {fileID: 2418592450400900612}
   - component: {fileID: -8910585044871003902}
   m_Layer: 6
   m_Name: Enemy 0
@@ -238,7 +237,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -259,8 +258,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   speed: 2.5
-  health: 0
-  maxHealth: 0
   animatorControllers:
   - {fileID: 9100000, guid: f2855d618fc8d9c499189d3f39b9cbbc, type: 2}
   - {fileID: 22100000, guid: 050556270436d4f4288557291a1a99c0, type: 2}
@@ -289,18 +286,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2418592450400900612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6996237603946166812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cd7be967700bbb4fa926873b76d83e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-8910585044871003902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,3 +298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cd49a3a57112e45a9e194fa618d8fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    maxHp: 10
+    attack: 10
+    defense: 10
+    movementSpeed: 0

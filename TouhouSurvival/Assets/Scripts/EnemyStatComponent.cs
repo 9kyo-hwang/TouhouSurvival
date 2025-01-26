@@ -36,7 +36,7 @@ public class EnemyStatComponent : MonoBehaviour
 
     private void Awake()
     {
-        data = GetComponent<EnemyStatData>();
+        
     }
 
     private void Start()

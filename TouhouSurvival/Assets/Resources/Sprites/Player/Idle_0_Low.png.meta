@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9cb0504dc7271cd4488e73bf19a3a5db
+guid: 055400ed0abd4ca4e9be397a789bfd37
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1780011725022423614
-    second: Idle_3_0
+      213: -4287186144223637547
+    second: Idle_0_Low_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 2301
+  spritePixelsToUnits: 126
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Idle_3_0
+      name: Idle_0_Low_0
       rect:
         serializedVersion: 2
-        x: 748
-        y: 444
-        width: 1484
-        height: 2282
+        x: 0
+        y: 0
+        width: 76
+        height: 123
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e3aedf5ab3fd3b810800000000000000
-      internalID: 1780011725022423614
+      spriteID: 5dfc2939aead084c0800000000000000
+      internalID: -4287186144223637547
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Idle_3_0: 1780011725022423614
+      Idle_0_Low_0: -4287186144223637547
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

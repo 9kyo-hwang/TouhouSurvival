@@ -48,7 +48,7 @@ namespace Unchord
                 if (spawnerSO.mixEntityAtOnce && i > 0)
                     prefabIndex = GetRandomPrefabIndex(spawnerSO);
 
-                GameObject instance = GameObject.Instantiate(spawnerSO.spawnDataList[prefabIndex].entityPrefab);
+                GameObject instance = GameObject.Instantiate(spawnerSO.spawnDataList[prefabIndex].entityPrefab, GameManager.Instance.RuntimeContainer, true);
                 Vector2 randomPosition = GetRandomPosition(spawnerSO.spawnPositionFlag);
                 instance.transform.position = randomPosition;
                 s_instances.Add(instance);
@@ -61,7 +61,7 @@ namespace Unchord
 
         private static ReadOnlyCollection<GameObject> CreateInstances_Group(SpawnerSO spawnerSO)
         {
-            // TODO: spawnPositionFlag¸¦ ÀÌ¿ëÇØ ¾îµð¾Ö °´Ã¼¸¦ »ý¼ºÇÒÁö °áÁ¤ÇØ¾ß ÇÕ´Ï´Ù.
+            // TODO: spawnPositionFlagï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Õ´Ï´ï¿½.
             SpawnPositionFlag spawnPositionFlag = spawnerSO.spawnPositionFlag;
 
             // Debug.LogFormat("Spawn with group mode, entity count == {0}", _instantiatedGameObjects.Count);
@@ -71,7 +71,7 @@ namespace Unchord
 
         private static ReadOnlyCollection<GameObject> CreateInstances_Circular(SpawnerSO spawnerSO)
         {
-            // TODO: spawnPositionFlag¸¦ ÀÌ¿ëÇØ ¾îµð¾Ö °´Ã¼¸¦ »ý¼ºÇÒÁö °áÁ¤ÇØ¾ß ÇÕ´Ï´Ù.
+            // TODO: spawnPositionFlagï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Õ´Ï´ï¿½.
             SpawnPositionFlag spawnPositionFlag = spawnerSO.spawnPositionFlag;
 
             // Debug.LogFormat("Spawn with circular mode, entity count == {0}", _instantiatedGameObjects.Count);
