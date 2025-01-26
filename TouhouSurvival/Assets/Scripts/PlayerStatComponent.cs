@@ -1,9 +1,23 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
+public enum PlayerStatType
+{
+    Health,
+    Attack,
+    Defense,
+    SKillRange,
+    Speed,
+    // etc
+}
 
 [Serializable]
 public struct PlayerStatData
 {
+    public PlayerStatType statType;
+    public float value;
+    
     public float maxHp;
     public float attack;
     public float defense;
@@ -29,6 +43,8 @@ public struct PlayerStatData
 // StatComponent base를 두고 Player와 Enemy로 상속시켜...?
 public class PlayerStatComponent : MonoBehaviour
 {
+    private Player _player;
+    
     [Header("Properties")] 
     public float CurrentHp { get; private set; }
     public float Speed { get; private set; }
@@ -38,17 +54,20 @@ public class PlayerStatComponent : MonoBehaviour
     public event Action<float> OnHpChanged;
     public event Action OnHpZero;
     #endregion
-
-    public PlayerStatData Total => _base + _modifier;
-    private PlayerStatData _base;       // From Character Stat Table(In GameManager)
-    private PlayerStatData _modifier;   // From Weapon Stat
     
+    public PlayerStatData Base { get; private set; }
+    
+    private void Awake()
+    {
+        _player = GetComponent<Player>();
+    }
+
     private void Start()
     {
         CurrentLevel = 1f;
         
         SetBaseStat((int)CurrentLevel);
-        SetHp(_base.maxHp);
+        SetHp(Base.maxHp);
     }
 
     // Update is called once per frame
@@ -59,14 +78,9 @@ public class PlayerStatComponent : MonoBehaviour
     
     public void SetBaseStat(int newLevel)
     {
-        CurrentLevel = Mathf.Clamp(newLevel, 1, GameManager.Instance.playerMaxLevel);
-        _base = GameManager.Instance.GetPlayerStat((int)CurrentLevel);
-        Debug.Assert(_base.maxHp > 0);
-    }
-
-    public void SetModifierStat(PlayerStatData modifier)
-    {
-        _modifier = modifier;
+        CurrentLevel = Mathf.Clamp(newLevel, 1, _player.maxLevel);
+        Base = _player.GetPlayerStat((int)CurrentLevel);
+        Debug.Assert(Base.maxHp > 0);
     }
 
     public float ApplyDamage(float damage)
@@ -86,7 +100,7 @@ public class PlayerStatComponent : MonoBehaviour
 
     private void SetHp(float newHp)
     {
-        CurrentHp = Mathf.Clamp(newHp, 0, _base.maxHp);
+        CurrentHp = Mathf.Clamp(newHp, 0, Base.maxHp);
         //OnHpChanged?.Invoke(Hp);
     }
 }

@@ -1,12 +1,15 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class Player : Pawn
 {
     public EnemyScanner Scanner { get; private set; }
     [SerializeField] public Vector2 MovementVector { get; private set; }
-    
+
+    [SerializeField] public int maxLevel;
+    [SerializeField] private PlayerStatData[] statTable;
     private PlayerStatComponent _stat;
 
     protected override void Awake()
@@ -53,5 +56,10 @@ public class Player : Pawn
         base.TakeDamage(damageAmount, eventInstigator, damageCauser);
         _stat.ApplyDamage(damageAmount);
         return damageAmount;
+    }
+
+    public PlayerStatData GetPlayerStat(int level)
+    {
+        return level < statTable.Length ? statTable[level] : new PlayerStatData();
     }
 }

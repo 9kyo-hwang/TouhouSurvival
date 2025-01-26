@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
@@ -10,9 +11,6 @@ public class GameManager : MonoBehaviour
     public EnemyPool enemyPool;
     public MeleeWeaponPool meleeWeaponPool;
     public RangedWeaponPool rangedWeaponPool;
-
-    public int playerMaxLevel;
-    [SerializeField] private PlayerStatData[] playerStatTable;
     
     private void Awake()
     {
@@ -24,18 +22,5 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
-        // Load Player Stat Data Table
-        
-        playerMaxLevel = playerStatTable.Length;
-        Debug.Assert(playerMaxLevel > 0);
-    }
-
-    public PlayerStatData GetPlayerStat(int level)
-    {
-        return level < playerStatTable.Length ? playerStatTable[level] : new PlayerStatData();
     }
 }
