@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Unchord
 {
     public abstract class WeaponComponent : AbilityComponent
@@ -6,5 +8,63 @@ namespace Unchord
         public float fixedCooltime = 1.0f;
         public float variableCooltimeMin = 1.0f;
         public float variableCooltimeMax = 2.0f;
+
+        private float _leftCooltime;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _leftCooltime = variableCooltimeMax;
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            switch (weaponActivationMode)
+            {
+                case WeaponActivationMode.Always:
+                    // NOTE: 매번 무기를 사용하므로 조심해서 활용해야 함.
+                    UseWeapon();
+                    break;
+                case WeaponActivationMode.FixedCooltime:
+                    if (TryUpdateCooltime())
+                        break;
+                    UseWeapon();
+                    ResetCooltime(fixedCooltime, fixedCooltime);
+                    break;
+                case WeaponActivationMode.VariableCooltime:
+                    if (TryUpdateCooltime())
+                        break;
+                    UseWeapon();
+                    ResetCooltime(variableCooltimeMin, variableCooltimeMax);
+                    break;
+                default:
+                    UnityEngine.Debug.Assert(false, "Invalid case occurred. Please debug.");
+                    break;
+            }
+        }
+
+        protected virtual void UseWeapon()
+        {
+
+        }
+
+        private bool TryUpdateCooltime()
+        {
+            if (_leftCooltime <= 0.0f)
+                return false;
+
+            _leftCooltime -= Time.deltaTime;
+            return true;
+        }
+
+        private void ResetCooltime(float minTime, float maxTime)
+        {
+            float w = UnityEngine.Random.value;
+            float nextCooltime = minTime + (maxTime - minTime) * w;
+            _leftCooltime += nextCooltime;
+        }
     }
 }
