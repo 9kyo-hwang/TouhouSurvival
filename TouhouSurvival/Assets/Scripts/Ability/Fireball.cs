@@ -34,12 +34,12 @@ namespace Unchord
         private ObjectPool<CollisionEventEmitter> explosionPool;
 
         private List<LinearProjectile> _enableProjectiles;
-        private List<CollisionEventEmitter> _destroyExplosionReserves;
+        private List<CollisionEventEmitter> _enableExplosions;
 
         [Header("Test Flag")]
         public bool flag_shoot;
 
-        private void Awake()
+        protected override void Awake()
         {
             projectilePool = new ObjectPool<LinearProjectile>(
                 OnCreateProjectile,
@@ -59,7 +59,7 @@ namespace Unchord
                 100);
 
             _enableProjectiles = new List<LinearProjectile>(projectilePoolCapacity);
-            _destroyExplosionReserves = new List<CollisionEventEmitter>(explosionPoolCapacity);
+            _enableExplosions = new List<CollisionEventEmitter>(explosionPoolCapacity);
         }
 
         private void Start()
@@ -67,46 +67,50 @@ namespace Unchord
             
         }
 
-        private void Update()
+        protected override void Update()
         {
             if (flag_shoot)
             {
                 flag_shoot = false;
-                float x = UnityEngine.Random.value;
-                float y = UnityEngine.Random.value;
-                Shoot(new Vector2(x, y).normalized);
+                UseWeapon();
             }
 
             for (int i = _enableProjectiles.Count - 1; i >= 0; --i)
             {
                 LinearProjectile projectile = _enableProjectiles[i];
 
-                if (projectile.ShouldDestroy)
+                if (projectile.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY])
                 {
                     _enableProjectiles.RemoveAt(i);
                     projectilePool.Release(projectile);
                 }
             }
 
-            for (int i = _destroyExplosionReserves.Count - 1; i >= 0; --i)
+            for (int i = _enableExplosions.Count - 1; i >= 0; --i)
             {
-                CollisionEventEmitter explosion = _destroyExplosionReserves[i];
-                explosionPool.Release(explosion);
-            }
+                CollisionEventEmitter explosion = _enableExplosions[i];
 
-            _destroyExplosionReserves.Clear();
+                if (explosion.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY])
+                {
+                    _enableExplosions.RemoveAt(i);
+                    explosionPool.Release(explosion);
+                }
+            }
         }
 
-        private void Shoot(Vector2 direction)
+        protected override void UseWeapon()
         {
-            float max = baseEulerAngleError;
-            float min = -baseEulerAngleError;
-            float eulerAngleRange = min + (max - min) * UnityEngine.Random.value;
+            base.UseWeapon();
 
             LinearProjectile projectile = projectilePool.Get();
             projectile.transform.localPosition = Vector3.zero;
             projectile.ProjectileSpeed = 3.0f;
-            projectile.ProjectileEulerAngle = eulerAngleRange;
+
+            // NOTE: Calculate nearest enemy here.
+            /* Transform nearestEnemy = calculate nearest enemy here. */
+            Vector3 playerPosition = Vector3.zero;
+            Vector3 enemyPosition = Vector3.one;
+            projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, baseEulerAngleError);
         }
 
         private LinearProjectile OnCreateProjectile()
@@ -116,9 +120,7 @@ namespace Unchord
 
             CollisionEventEmitter emitter = gameObject.GetComponent<CollisionEventEmitter>();
             emitter.AddHandler(OnProjectileEnter, CollisionEventType.OnTriggerEnter2D);
-            emitter.AddHandler(OnProjectileStay, CollisionEventType.OnTriggerStay2D);
-            emitter.AddHandler(OnProjectileExit, CollisionEventType.OnTriggerExit2D);
-            
+
             return gameObject.GetComponent<LinearProjectile>();
         }
 
@@ -146,8 +148,6 @@ namespace Unchord
 
             CollisionEventEmitter emitter = gameObject.GetComponent<CollisionEventEmitter>();
             emitter.AddHandler(OnExplosionEnter, CollisionEventType.OnTriggerEnter2D);
-            emitter.AddHandler(OnExplosionStay, CollisionEventType.OnTriggerStay2D);
-            emitter.AddHandler(OnExplosionExit, CollisionEventType.OnTriggerExit2D);
 
             return emitter;
         }
@@ -176,21 +176,11 @@ namespace Unchord
             // enemy.TakeDamage(/* event structure here. */);
 
             Projectile proj = projectile.GetComponent<Projectile>();
-            proj.ShouldDestroy = true;
+            proj.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
 
             CollisionEventEmitter explosion = explosionPool.Get();
             explosion.transform.parent = transform;
             explosion.transform.position = projectile.transform.position;
-        }
-
-        private void OnProjectileStay(GameObject projectile, Collider2D collider)
-        {
-            // NOTE: This block is intentionally no operation.
-        }
-
-        private void OnProjectileExit(GameObject projectile, Collider2D collider)
-        {
-            // NOTE: This block is intentionally no operation.
         }
 
         private void OnExplosionEnter(GameObject explosion, Collider2D collider)
@@ -202,19 +192,6 @@ namespace Unchord
             // enemy.TakeDamage(/* event structure here. */);
 
             CollisionEventEmitter emitter = explosion.GetComponent<CollisionEventEmitter>();
-
-            if (!_destroyExplosionReserves.Contains(emitter))
-                _destroyExplosionReserves.Add(emitter);
-        }
-
-        private void OnExplosionStay(GameObject projectile, Collider2D collider)
-        {
-            // NOTE: This block is intentionally no operation.
-        }
-
-        private void OnExplosionExit(GameObject projectile, Collider2D collider)
-        {
-            // NOTE: This block is intentionally no operation.
         }
     }
 }
