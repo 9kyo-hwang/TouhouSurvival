@@ -4,9 +4,12 @@ using UnityEngine;
 
 namespace Unchord
 {
+    [RequireComponent(typeof(FlagComponent))]
     public class CollisionEventEmitter : MonoBehaviour
     {
         // [Header("Collider Ignorance Criterias")]
+
+        public FlagComponent FlagTable { get; private set; }
 
         private class _HandlerInfo<T_Handler>
         {
@@ -20,6 +23,8 @@ namespace Unchord
 
         private void Awake()
         {
+            FlagTable = GetComponent<FlagComponent>();
+
             _onTriggerEnter2D = new SortedDictionary<TriggerEventHandler2D, _HandlerInfo<TriggerEventHandler2D>>();
             _onTriggerStay2D = new SortedDictionary<TriggerEventHandler2D, _HandlerInfo<TriggerEventHandler2D>>();
             _onTriggerExit2D = new SortedDictionary<TriggerEventHandler2D, _HandlerInfo<TriggerEventHandler2D>>();
