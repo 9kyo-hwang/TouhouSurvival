@@ -17,14 +17,15 @@ namespace Unchord
 
         protected virtual void OnEnable()
         {
-            FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = false;
+            // TODO: Projectile을 사용하는 Pool의 Event Handler에서 Flag를 세팅할지, 여기세 세팅할지 추후 결정해볼 문제.
+            // FlagTable.SetFlagFalseWithoutEvent(AbilityComponent.FLAG_SHOULD_DESTROY);
             transform.localPosition = Vector3.zero;
             transform.eulerAngles = Vector3.zero;
         }
 
         protected virtual void OnDisable()
         {
-            FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = false;
+            // FlagTable.SetFlagFalseWithoutEvent(AbilityComponent.FLAG_SHOULD_DESTROY);
         }
 
         public static Vector2 GetTargetDirectionVector(Vector2 origin, Vector2 target, float eulerAngleError)
