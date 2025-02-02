@@ -14,6 +14,8 @@ namespace Unchord
         private TextMeshProUGUI _txtBgm;
         private TextMeshProUGUI _txtSfx;
 
+        private UnchordCanvas _reservedReturnCanvas;
+
         protected override void Awake()
         {
             _btnBack = transform.Find("SettingsPanel/BackButton").GetComponent<Button>();
@@ -54,10 +56,18 @@ namespace Unchord
             _sliderSfx.onValueChanged.RemoveListener(OnSfxSliderValueChanged);
         }
 
+        public void ReserveReturnCanvas(UnchordCanvas returnCanvas)
+        {
+            _reservedReturnCanvas = returnCanvas;
+        }
+
         private void OnBackButtonClick()
         {
             this.Hide();
-            UIManager.Instance.LobbyCanvas.Show();
+
+            Debug.Assert(_reservedReturnCanvas != null);
+
+            _reservedReturnCanvas.Show();
         }
 
         private void OnBgmSliderValueChanged(float value)

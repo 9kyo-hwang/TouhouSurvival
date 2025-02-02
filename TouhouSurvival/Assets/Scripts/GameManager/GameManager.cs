@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Unchord
@@ -95,6 +96,18 @@ namespace Unchord
             StartPhaseRuntimeTree("Phases/Test/New Stage");
             CreatePlayer("TestPlayer");
             MainCamera.transform.position = 10.0f * Vector3.back;
+
+            UIManager.Instance.GameCanvas.Show();
+        }
+
+        public void PauseGame()
+        {
+            // TODO: 추후 구현해야 합니다.
+        }
+
+        public void ResumeGame()
+        {
+            // TODO: 추후 구현해야 합니다.
         }
 
         private void CreatePlayer(string resourcePath)
@@ -109,18 +122,25 @@ namespace Unchord
             _player = instance.GetComponent<Player>();
         }
 
-        public void EndGame()
+        public void HaltGame()
+        {
+            _phaseExecutionResult = PhaseRuntimeState.Fail;
+            _phaseRuntimeTree = null;
+            EndGame();
+        }
+
+        private void EndGame()
         {
             IsGameStarted = false;
 
-            Transform[] children = RuntimeContainer.GetComponentsInChildren<Transform>();
-
-            for (int i = 0; i < children.Length; ++i)
+            for (int i = RuntimeContainer.childCount - 1; i >= 0; --i)
             {
-                Destroy(children[i].gameObject);
+                Destroy(RuntimeContainer.GetChild(i).gameObject);
             }
 
             UIManager.Instance.GameResultCanvas.Show();
+
+            ClearPlaytime();
         }
 
         public void PublishEvent(IEnumerator eventHandler)
@@ -183,6 +203,7 @@ namespace Unchord
                     else
                     {
                         _phaseRuntimeTree = null;
+                        UIManager.Instance.GameCanvas.Hide();
                         EndGame();
                     }
                     break;
@@ -191,6 +212,7 @@ namespace Unchord
                     _phaseRuntimeTree.End();
                     _phaseRuntimeTree = null;
                     _phaseExecutionResult = phaseRuntimeState;
+                    UIManager.Instance.GameCanvas.Hide();
                     EndGame();
                     break;
 
@@ -205,7 +227,16 @@ namespace Unchord
             AbsolutePlaytime += Time.deltaTime;
 
             if (ShouldUpdateElapsedPlaytime)
+            {
                 ElapsedPlaytime += Time.deltaTime;
+                UIManager.Instance.GameCanvas.SetTimer((int)ElapsedPlaytime);
+            }
+        }
+
+        private void ClearPlaytime()
+        {
+            AbsolutePlaytime = 0.0f;
+            ElapsedPlaytime = 0.0f;
         }
     }
 }

@@ -12,6 +12,8 @@ namespace Unchord
 
         protected override void Awake()
         {
+            base.Awake();
+
             _btnSettings = transform.Find("Navigator/SettingsButton").GetComponent<Button>();
             _btnSelectCharacters = transform.Find("Navigator/SelectCharacterButton").GetComponent<Button>();
             _btnQuit = transform.Find("Navigator/QuitButton").GetComponent<Button>();
@@ -19,6 +21,13 @@ namespace Unchord
             _btnSettings.onClick.AddListener(OnSettingsButtonClick);
             _btnSelectCharacters.onClick.AddListener(OnSelectCharactersButtonClick);
             _btnQuit.onClick.AddListener(OnQuitButtonClick);
+        }
+
+        public override void Show()
+        {
+            base.Show();
+
+            s_uiManager.SettingsCanvas.ReserveReturnCanvas(this);
         }
 
         private void OnSettingsButtonClick()
