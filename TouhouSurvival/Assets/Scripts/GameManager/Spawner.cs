@@ -8,14 +8,55 @@ namespace Unchord
     public static class Spawner
     {
         private const int INITIAL_INSTANTIATED_GAMEOBJECT_CAPACITY = 32;
+        private const int INITIAL_SPAWNED_OBJECT_POOL_CAPACITY = 256;
 
         private static System.Random s_prng;
         private static List<GameObject> s_instances;
+
+        public static List<GameObject> SpawnedObjects { get; private set; }
+
+        // TODO:
+        // Player의 구현이 일정 수준 이상 되었을 때 Player 클래스로 이 함수를 옮겨 작성하도록 합니다. 자세한 지침은 아래를 따르세요.
+        //      1. 함수에 static 제거해 멤버 함수로 작성해야 합니다.
+        //      2. originPosition 매개변수를 제거하세요.
+        //      3. 함수 내부에 주석 처리한 originPosition 선언문을 활성화합니다.
+        //      4. diffTarget, diffSelected 계산식의 우변에 존재하는 Vector2로의 형변환 연산자를 제거하세요.
+        public static GameObject GetNearestEnemyOrNull(Vector2 originPosition)
+        {
+            // Vector3 originPosition = transform.position;
+            GameObject selected = null;
+
+            for (int i = Spawner.SpawnedObjects.Count - 1; i >= 0; --i)
+            {
+                if (Spawner.SpawnedObjects[i] == null)
+                {
+                    Spawner.SpawnedObjects.RemoveAt(i);
+                    continue;
+                }
+                else if (selected == null)
+                {
+                    selected = Spawner.SpawnedObjects[i];
+                    continue;
+                }
+
+                Vector2 diffTarget = (Vector2)Spawner.SpawnedObjects[i].transform.position - originPosition;
+                Vector2 diffSelected = (Vector2)selected.transform.position - originPosition;
+
+                if (diffTarget.sqrMagnitude < diffSelected.sqrMagnitude)
+                {
+                    selected = Spawner.SpawnedObjects[i];
+                    continue;
+                }
+            }
+
+            return selected;
+        }
 
         static Spawner()
         {
             Spawner.s_prng = new System.Random();
             Spawner.s_instances = new List<GameObject>(INITIAL_INSTANTIATED_GAMEOBJECT_CAPACITY);
+            Spawner.SpawnedObjects = new List<GameObject>(INITIAL_SPAWNED_OBJECT_POOL_CAPACITY);
         }
 
         public static ReadOnlyCollection<GameObject> Spawn(SpawnerSO spawnerSO)
@@ -52,16 +93,14 @@ namespace Unchord
                 Vector2 randomPosition = GetRandomPosition(spawnerSO.spawnPositionFlag);
                 instance.transform.position = randomPosition;
                 s_instances.Add(instance);
+                SpawnedObjects.Add(instance);
             }
-
-            Debug.LogFormat("Spawn with single mode, entity count == {0}", s_instances.Count);
 
             return new ReadOnlyCollection<GameObject>(s_instances);
         }
 
         private static ReadOnlyCollection<GameObject> CreateInstances_Group(SpawnerSO spawnerSO)
         {
-            // TODO: spawnPositionFlag�� �̿��� ���� ��ü�� �������� �����ؾ� �մϴ�.
             SpawnPositionFlag spawnPositionFlag = spawnerSO.spawnPositionFlag;
 
             // Debug.LogFormat("Spawn with group mode, entity count == {0}", _instantiatedGameObjects.Count);
@@ -71,7 +110,6 @@ namespace Unchord
 
         private static ReadOnlyCollection<GameObject> CreateInstances_Circular(SpawnerSO spawnerSO)
         {
-            // TODO: spawnPositionFlag�� �̿��� ���� ��ü�� �������� �����ؾ� �մϴ�.
             SpawnPositionFlag spawnPositionFlag = spawnerSO.spawnPositionFlag;
 
             // Debug.LogFormat("Spawn with circular mode, entity count == {0}", _instantiatedGameObjects.Count);
