@@ -23,4 +23,12 @@ public class EnemyAttributeSet : AttributeSet
         Debug.Log("Enemy Dead!");
         OnAttributeChanged -= ActionOnAttributeChanged;  // 중복 등록을 막기 위해
     }
+
+    public void ResetAttributes()
+    {
+        foreach (AttributeDataSO attribute in attributes)
+        {
+            attribute.ResetCurrentValue();
+        }
+    }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,7 @@ public class NewPlayer : Pawn
 {
     private Vector2 _movementVector;
     private PlayerAttributeSet _attributeSet;
+    public List<GameObject> SpawnedObjects { get; private set; }
 
     protected override void Awake()
     {
@@ -16,19 +18,19 @@ public class NewPlayer : Pawn
 
     protected override void Start()
     {
-        
+        base.Start();
     }
 
     protected override void Update()
     {
-        
+        base.Update();
     }
 
     private void FixedUpdate()
     {
-        Vector2 next = _movementVector * (_attributeSet.GetAttribute("Speed") *
-                                          Time.fixedDeltaTime);
-        Rigidbody.MovePosition(Rigidbody.position + next);
+        Vector2 nextPosition = _movementVector * (_attributeSet.GetAttribute("Speed") *
+                                                  Time.fixedDeltaTime);
+        Rigidbody.MovePosition(Rigidbody.position + nextPosition);
     }
 
     private void LateUpdate()
@@ -60,5 +62,36 @@ public class NewPlayer : Pawn
         
         Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
         return damageAmount;
+    }
+
+    public GameObject GetNearestEnemyOrNull()
+    {
+        Vector3 originPosition = transform.position;
+        GameObject selected = null;
+
+        for (int i = SpawnedObjects.Count - 1; i >= 0; i--)
+        {
+            if (!SpawnedObjects[i])
+            {
+                SpawnedObjects.RemoveAt(i);
+                continue;
+            }
+
+            if (!selected)
+            {
+                selected = SpawnedObjects[i];
+                continue;
+            }
+            
+            Vector2 diffTarget = SpawnedObjects[i].transform.position - originPosition;
+            Vector2 diffSelected = selected.transform.position - originPosition;
+
+            if (diffTarget.magnitude < diffSelected.magnitude)
+            {
+                selected = SpawnedObjects[i];
+            }
+        }
+        
+        return selected;
     }
 }

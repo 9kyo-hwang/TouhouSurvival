@@ -68,6 +68,6 @@ public class PlayerAttributeSet : AttributeSet
     private void ActionOnHealthZero()
     {
         Debug.Log("Player Dead!");
-        // TODO: 사망 처리 로직
+        // TODO: 사망 시 관련 스탯 처리
     }
 }

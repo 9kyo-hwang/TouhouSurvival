@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40b549c5b21291743a8737795e02809c, type: 3}
-  m_Name: LevelAttribute
+  m_Name: Test
   m_EditorClassIdentifier: 
-  attributeName: Level
-  baseValue: 1
-  currentValue: 1
-  minValue: 1
-  maxValue: 10
+  attributeName: 
+  baseValue: 0
+  currentValue: -1
+  minValue: -3.4028235e+38
+  maxValue: 3.4028235e+38

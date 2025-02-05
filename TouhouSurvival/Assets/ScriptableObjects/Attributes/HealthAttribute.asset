@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HealthAttribute
   m_EditorClassIdentifier: 
   attributeName: Health
-  baseValue: 100
-  currentValue: 100
+  baseValue: 10
+  currentValue: 10
   minValue: 0
-  maxValue: 9999
+  maxValue: 3.402823e+38
