@@ -14,9 +14,12 @@ namespace Unchord
         public float _handlingCooldown;
         public bool _eventEnabled;
 
+        private GameManager _gameManager;
+
         public void Publish(IEnumerator eventHandler)
         {
             _eventHandlers.Enqueue(eventHandler);
+            _gameManager = GameManager.Instance;
         }
 
         private void Awake()
@@ -36,12 +39,14 @@ namespace Unchord
 
         private IEnumerator HandleEventCoroutine(IEnumerator eventHandler)
         {
+            _gameManager.InterruptTimeStop();
             _eventEnabled = true;
             onBlockingEventOccurred?.Invoke();
             yield return StartCoroutine(eventHandler);
             _handlingCooldown = 1.0f;
             _eventEnabled = false;
             onBlockingEventHandled?.Invoke();
+            _gameManager.ReleaseTimeStopInterrupt();
         }
     }
 }

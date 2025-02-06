@@ -28,6 +28,8 @@ namespace Unchord
 
         private PhaseRuntime _phaseRuntimeTree;
 
+        private int _timeStopInterruptCounter = 0;
+
         public Camera MainCamera { get; private set; }
         private Player _player;
         public Player Player => _player;
@@ -102,12 +104,26 @@ namespace Unchord
 
         public void PauseGame()
         {
+            InterruptTimeStop();
             // TODO: 추후 구현해야 합니다.
         }
 
         public void ResumeGame()
         {
+            ReleaseTimeStopInterrupt();
             // TODO: 추후 구현해야 합니다.
+        }
+
+        public void InterruptTimeStop()
+        {
+            _timeStopInterruptCounter++;
+            Time.timeScale = 0.0f;
+        }
+
+        public void ReleaseTimeStopInterrupt()
+        {
+            if (--_timeStopInterruptCounter == 0)
+                Time.timeScale = 1.0f;
         }
 
         private void CreatePlayer(string resourcePath)
