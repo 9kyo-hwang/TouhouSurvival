@@ -7,6 +7,7 @@ public class NewEnemy : Pawn
     [SerializeField] private Rigidbody2D target;
     private EnemyAttributeSet _attributeSet;
     private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
+    [SerializeField] private GameObject dropExperiencePrefab;
 
     protected override void Awake()
     {
@@ -107,11 +108,24 @@ public class NewEnemy : Pawn
         Collider.enabled = false;
         Renderer.sortingOrder--;
         Animator.SetBool("Dead", true);
+        
+        DropExperienceObject();
     }
     
     // 적 사망 애니메이션 종료 시 이벤트
     private void OnDeadAnimationEnd()
     {
         gameObject.SetActive(false);
+    }
+
+    private void DropExperienceObject()
+    {
+        if (!dropExperiencePrefab)
+        {
+            Debug.LogAssertion("DropExperiencePrefab is null");
+            return;
+        }
+        
+        GameObject experience = Instantiate(dropExperiencePrefab, transform.position, Quaternion.identity);
     }
 }

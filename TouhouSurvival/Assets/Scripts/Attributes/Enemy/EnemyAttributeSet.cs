@@ -5,10 +5,10 @@ public class EnemyAttributeSet : AttributeSet
     protected override void Awake()
     {
         base.Awake();
-        OnAttributeChanged += ActionOnAttributeChanged;
+        OnAttributeChanged += HandleAttributeChanged;
     }
     
-    private void ActionOnAttributeChanged(string attributeName, float oldValue, float newValue)
+    private void HandleAttributeChanged(string attributeName, float oldValue, float newValue)
     {
         switch (attributeName)
         {
@@ -21,12 +21,12 @@ public class EnemyAttributeSet : AttributeSet
     private void ActionOnHealthZero()
     {
         Debug.Log("Enemy Dead!");
-        OnAttributeChanged -= ActionOnAttributeChanged;  // 중복 등록을 막기 위해
+        OnAttributeChanged -= HandleAttributeChanged;  // 중복 등록을 막기 위해
     }
 
     public void ResetAttributes()
     {
-        foreach (AttributeDataSO attribute in attributes)
+        foreach (AttributeData attribute in attributes)
         {
             attribute.ResetCurrentValue();
         }

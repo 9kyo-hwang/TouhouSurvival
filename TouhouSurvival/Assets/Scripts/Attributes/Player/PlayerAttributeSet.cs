@@ -4,32 +4,25 @@ using UnityEngine;
 public class PlayerAttributeSet : AttributeSet
 {
     [SerializeField] protected LevelingData levelingData;
+    public float CurrentExperience { get; private set; }
+    
     protected override void Awake()
     {
         // 인스펙터 창에서 세팅되지 않았을 경우 초기값
         if (attributes.Count == 0)
         {
-            // attributes.Add(new AttributeData(AttributeNames.Level, 1, 1, 99));
-            // attributes.Add(new AttributeData(AttributeNames.Experience, 0, 0));
-            // attributes.Add(new AttributeData(AttributeNames.Health, 100, 0));
-            // attributes.Add(new AttributeData(AttributeNames.Attack, 10));
-            // attributes.Add(new AttributeData(AttributeNames.Speed, 1));
-            
             Debug.Assert(false, "PlayerAttributeSet is not set");
             return;
         }
         
         base.Awake();
-        OnAttributeChanged += ActionOnAttributeChanged;
+        OnAttributeChanged += HandleAttributeChanged;
     }
 
-    private void ActionOnAttributeChanged(string attributeName, float oldValue, float newValue)
+    private void HandleAttributeChanged(string attributeName, float oldValue, float newValue)
     {
         switch (attributeName)
         {
-            case "Experience":
-                CheckLevelUp();
-                break;
             case "Health" when newValue <= 0:
                 ActionOnHealthZero();
                 break;
@@ -39,29 +32,40 @@ public class PlayerAttributeSet : AttributeSet
     public void AddExperience(float amount)
     {
         // 필요한 경우 경험치 증가량 어트리뷰트를 얻어서 연산 후 적용
-        ModifyAttribute("Experience", amount);
+        CheckLevelUp(amount);
     }
 
-    private void CheckLevelUp()
+    private void CheckLevelUp(float amount)
     {
         int currentLevel = (int)GetAttribute("Level");
-        float currentExp = GetAttribute("Experience");
+        Debug.Log($"Current level: {currentLevel}, CurrentExperience: {CurrentExperience}");
+        if (currentLevel > levelingData.levelRequirements.Length)
+        {
+            Debug.Log("maximum level!");
+            return;
+        }
         
         var requirement = levelingData.levelRequirements[currentLevel - 1];  // level은 1부터 시작하므로
-        if (currentExp >= requirement.requiredExp)
+        if (CurrentExperience + amount < requirement.requiredExp)
         {
-            // 경험치 초과분
-            float remainingExp = currentExp - requirement.requiredExp;
-            SetAttribute("Experience", remainingExp);
+            Debug.Log("Not enough experience to level up");
+            CurrentExperience += amount;
+            return;
+        }
+        
+        // 경험치 초과분
+        float remainingExp = CurrentExperience + amount - requirement.requiredExp;
+        CurrentExperience = remainingExp;
 
-            // 1레벨 증가
-            ModifyAttribute("Level", 1);
+        // 1레벨 증가
+        ModifyAttributeBase("Level", 1);
+        Debug.Log("Level Up!");
 
-            // 레벨 업 시 증가하는 어트리뷰트
-            foreach (var bonus in requirement.levelUpBonuses)
-            {
-                ModifyAttribute(bonus.attributeName, bonus.bonusValue);
-            }
+        // 레벨 업 시 증가하는 어트리뷰트
+        foreach (var bonus in requirement.levelUpBonuses)
+        {
+            Debug.Log(bonus);
+            ModifyAttributeBase(bonus.attributeName, bonus.bonusValue);
         }
     }
 

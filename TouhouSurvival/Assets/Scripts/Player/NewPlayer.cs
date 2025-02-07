@@ -6,14 +6,14 @@ using UnityEngine.InputSystem;
 public class NewPlayer : Pawn
 {
     private Vector2 _movementVector;
-    private PlayerAttributeSet _attributeSet;
+    public PlayerAttributeSet AttributeSet { get; private set; }
     public List<GameObject> SpawnedObjects { get; private set; }
 
     protected override void Awake()
     {
         base.Awake();
         
-        _attributeSet = gameObject.GetComponent<PlayerAttributeSet>();
+        AttributeSet = gameObject.GetComponent<PlayerAttributeSet>();
     }
 
     protected override void Start()
@@ -28,7 +28,7 @@ public class NewPlayer : Pawn
 
     private void FixedUpdate()
     {
-        Vector2 nextPosition = _movementVector * (_attributeSet.GetAttribute("Speed") *
+        Vector2 nextPosition = _movementVector * (AttributeSet.GetAttribute("Speed") *
                                                   Time.fixedDeltaTime);
         Rigidbody.MovePosition(Rigidbody.position + nextPosition);
     }
@@ -50,15 +50,15 @@ public class NewPlayer : Pawn
 
     public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
     {
-        if (!_attributeSet)
+        if (!AttributeSet)
         {
             Debug.Assert(false, "Player has no attribute set");
             return 0f;
         }
         
-        float currentHealth = _attributeSet.GetAttribute("Health");
-        _attributeSet.ModifyAttribute("Health", -damageAmount);
-        float newHealth = _attributeSet.GetAttribute("Health");
+        float currentHealth = AttributeSet.GetAttribute("Health");
+        AttributeSet.ModifyAttribute("Health", -damageAmount);
+        float newHealth = AttributeSet.GetAttribute("Health");
         
         Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
         return damageAmount;

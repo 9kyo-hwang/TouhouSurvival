@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelRequirements:
   - level: 0
-    requiredExp: 0
-    levelUpBonuses: []
+    requiredExp: 10
+    levelUpBonuses:
+    - attributeName: Health
+      bonusValue: 10
   - level: 0
-    requiredExp: 0
-    levelUpBonuses: []
-  - level: 0
-    requiredExp: 0
-    levelUpBonuses: []
+    requiredExp: 15
+    levelUpBonuses:
+    - attributeName: Attack
+      bonusValue: 5

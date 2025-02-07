@@ -7,9 +7,8 @@ public class LevelingData : ScriptableObject
     [Serializable]
     public struct LevelRequirement
     {
-        public int level;
-        public int requiredExp;
-        public AttributeBonus[] levelUpBonuses;
+        public int requiredExp;                 // 다음 레벨로 업하기 위한 필요 경험치
+        public AttributeBonus[] levelUpBonuses; // 다음 레벨로 업할 때 오르는 attribute들
     }
 
     /**
@@ -29,6 +28,11 @@ public class LevelingData : ScriptableObject
     {
         public string attributeName;
         public float bonusValue;
+
+        public override string ToString()
+        {
+            return $"Attribute: {attributeName}, Increase : {bonusValue}";
+        }
     }
     
     public LevelRequirement[] levelRequirements;
