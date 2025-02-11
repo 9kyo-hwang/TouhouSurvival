@@ -39,10 +39,7 @@ namespace Unchord
         private void OnSelectCharactersButtonClick()
         {
             this.Hide();
-            // UIManager.Instance.SelectCharactersCanvas.Show();
-
-            // TEST: 캐릭터 선택 과정을 무시하고 바로 게임을 진행합니다.
-            GameManager.Instance.StartGame();
+            UIManager.Instance.SelectCharacterCanvas.Show();
         }
 
         private void OnQuitButtonClick()
