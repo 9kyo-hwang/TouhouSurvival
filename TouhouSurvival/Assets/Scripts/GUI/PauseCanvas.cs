@@ -39,6 +39,7 @@ namespace Unchord
             this.Hide();
             s_uiManager.GameCanvas.Show();
             s_gameManager.ResumeGame();
+            s_gameManager.ReleaseTimeStopInterrupt();
         }
 
         private void OnSettingsButtonClick()
@@ -51,6 +52,7 @@ namespace Unchord
         {
             this.Hide();
             s_gameManager.HaltGame();
+            s_gameManager.ReleaseTimeStopInterrupt();
         }
     }
 }

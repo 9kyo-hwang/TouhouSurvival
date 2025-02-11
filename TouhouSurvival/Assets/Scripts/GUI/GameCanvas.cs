@@ -136,6 +136,7 @@ namespace Unchord
 
         private void OnPauseButtonClick()
         {
+            s_gameManager.InterruptTimeStop();
             s_gameManager.PauseGame();
             this.Hide();
             s_uiManager.PauseCanvas.Show();
