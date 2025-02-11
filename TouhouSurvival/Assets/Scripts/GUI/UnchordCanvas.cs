@@ -16,6 +16,11 @@ namespace Unchord
                 s_uiManager = UIManager.Instance;
         }
 
+        protected virtual void OnEnable()
+        {
+
+        }
+
         public virtual void Hide()
         {
             gameObject.SetActive(false);
