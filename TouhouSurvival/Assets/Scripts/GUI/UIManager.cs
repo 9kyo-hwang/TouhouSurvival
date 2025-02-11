@@ -16,6 +16,7 @@ namespace Unchord
         public SettingsCanvas SettingsCanvas => this.GetCanvas<SettingsCanvas>("GUIs/Canvas/Settings");
         public GameCanvas GameCanvas => this.GetCanvas<GameCanvas>("GUIs/Canvas/Game");
         public PauseCanvas PauseCanvas => this.GetCanvas<PauseCanvas>("GUIs/Canvas/Pause");
+        public SelectCharacterCanvas SelectCharacterCanvas => this.GetCanvas<SelectCharacterCanvas>("GUIs/Canvas/SelectCharacter");
         #endregion
 
         private void Awake()
