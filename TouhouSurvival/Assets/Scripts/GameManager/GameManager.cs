@@ -108,13 +108,11 @@ namespace Unchord
 
         public void PauseGame()
         {
-            InterruptTimeStop();
             // TODO: 추후 구현해야 합니다.
         }
 
         public void ResumeGame()
         {
-            ReleaseTimeStopInterrupt();
             // TODO: 추후 구현해야 합니다.
         }
 
