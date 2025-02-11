@@ -10,6 +10,10 @@ namespace Unchord
     {
         private const int INITIAL_EVENT_CAPACITY = 16;
         private const float BLOCKING_EVENT_HANDLING_COOLTIME = 1.0f;
+        private const string PLAYABLE_CHARACTER_RESOURCES_DIRECTORY = "Prefabs/PlayableCharacters/";
+
+        public Player[] PlayerPrefabs { get; private set; }
+        public int PlayerPrefabIndex { get; set; } = -1;
 
         public bool IsGameStarted { get; private set; }
 
@@ -96,7 +100,7 @@ namespace Unchord
 
             // TODO: 이름 수정
             StartPhaseRuntimeTree("Phases/Test/New Stage");
-            CreatePlayer("TestPlayer");
+            CreatePlayer();
             MainCamera.transform.position = 10.0f * Vector3.back;
 
             UIManager.Instance.GameCanvas.Show();
@@ -126,16 +130,23 @@ namespace Unchord
                 Time.timeScale = 1.0f;
         }
 
-        private void CreatePlayer(string resourcePath)
+        public void LoadPlayerPrefabs()
         {
-            GameObject resource = Resources.Load(resourcePath) as GameObject;
-            GameObject instance = GameObject.Instantiate(resource);
+            PlayerPrefabs = Resources.LoadAll<Player>(PLAYABLE_CHARACTER_RESOURCES_DIRECTORY);
+            PlayerPrefabIndex = -1;
+        }
+
+        private void CreatePlayer()
+        {
+            Player resource = PlayerPrefabs[PlayerPrefabIndex];
+            Player instance = GameObject.Instantiate(resource);
             instance.name = "Player";
             instance.transform.parent = RuntimeContainer.transform;
             instance.transform.position = Vector3.zero;
             
             // TEMP
-            _player = instance.GetComponent<Player>();
+            // _player = instance.GetComponent<Player>();
+            _player = instance;
         }
 
         public void HaltGame()
