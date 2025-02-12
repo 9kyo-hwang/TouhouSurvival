@@ -17,9 +17,6 @@ namespace Unchord
         private ObjectPool<GameObject> _effectPool;
         private int _effectBeginAnimHash;
 
-        [Header("Test Flag")]
-        public bool flag_shoot;
-
         protected override void Awake()
         {
             _effectPool = new ObjectPool<GameObject>(
@@ -32,15 +29,6 @@ namespace Unchord
                 10);
 
             _effectBeginAnimHash = Animator.StringToHash("BattojutsuEffect");
-        }
-
-        protected override void Update()
-        {
-            if (flag_shoot)
-            {
-                flag_shoot = false;
-                UseWeapon();
-            }
         }
 
         protected override void UseWeapon()
