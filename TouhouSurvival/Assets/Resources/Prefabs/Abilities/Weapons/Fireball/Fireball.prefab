@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8348780640732899047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1505903977203026540}
+  - component: {fileID: 6836255382025485038}
+  - component: {fileID: 7197898148767006592}
+  m_Layer: 0
+  m_Name: Fireball
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1505903977203026540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8348780640732899047}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6836255382025485038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8348780640732899047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53ff2ed278775e44f90ed07cd70e0173, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponActivationMode: 1
+  fixedCooltime: 1
+  variableCooltimeMin: 1
+  variableCooltimeMax: 2
+  baseShootingCooldown: 0
+  baseProjectileSize: 0
+  baseEulerAngleError: 5
+  baseBurstDelay: 0
+  baseBurstCount: 0
+  projectilePrefab: {fileID: 7389579929433498551, guid: 040917b989cffd64cbd276e44b67a014, type: 3}
+  baseProjectileSpeed: 0
+  baseProjectileDamage: 0
+  baseProjectileKnockbackForce: 0
+  explosionPrefab: {fileID: 7389579929433498551, guid: 8109957d4d5bd6d4db110f341238dd4f, type: 3}
+  baseExplosionSize: 0
+  baseExplosionDuration: 0
+  baseExplosionKnockbackForce: 0
+  baseExplosionDamage: 0
+  projectilePoolCapacity: 0
+  explosionPoolCapacity: 0
+  flag_shoot: 0
+--- !u!114 &7197898148767006592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8348780640732899047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9dd9d5954a55db4fa04786e7b8b2a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
