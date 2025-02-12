@@ -11,7 +11,7 @@ namespace Unchord
 
         [Header("Shooting Properties")]
         public float baseShootingCooldown;
-        public float baseProjectileSize;
+        public float baseProjectileSize = 1.0f;
         public float baseEulerAngleError;
         public float baseBurstDelay;
         public int baseBurstCount;
@@ -24,7 +24,7 @@ namespace Unchord
 
         [Header("Explosion Properties")]
         public GameObject explosionPrefab;
-        public float baseExplosionSize;
+        public float baseExplosionSize = 1.0f;
         public float baseExplosionDuration;
         public float baseExplosionKnockbackForce;
         public float baseExplosionDamage;
