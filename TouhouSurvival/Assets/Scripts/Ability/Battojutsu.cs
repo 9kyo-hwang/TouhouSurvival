@@ -9,7 +9,7 @@ namespace Unchord
         public GameObject effectPrefab;
         public float baseDamage;
         public float baseKnockbackForce;
-        public float baseEffectScale = 1.0f;
+        public float baseEffectSize = 1.0f;
 
         [Header("Object Pool Properties")]
         public int effectPoolCapacity;
