@@ -51,7 +51,8 @@ namespace Unchord
         private void OnBackButtonClick()
         {
             this.Hide();
-            UIManager.Instance.LobbyCanvas.Show();
+            s_gameManager.CleanupGame();
+            s_uiManager.LobbyCanvas.Show();
         }
     }
 }

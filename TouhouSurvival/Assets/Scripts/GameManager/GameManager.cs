@@ -154,18 +154,21 @@ namespace Unchord
             EndGame();
         }
 
-        private void EndGame()
+        public void CleanupGame()
         {
-            IsGameStarted = false;
-
             for (int i = RuntimeContainer.childCount - 1; i >= 0; --i)
             {
                 Destroy(RuntimeContainer.GetChild(i).gameObject);
             }
 
-            UIManager.Instance.GameResultCanvas.Show();
-
             ClearPlaytime();
+        }
+
+        private void EndGame()
+        {
+            IsGameStarted = false;
+
+            UIManager.Instance.GameResultCanvas.Show();
         }
 
         public void PublishEvent(IEnumerator eventHandler)
