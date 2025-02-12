@@ -33,15 +33,12 @@ namespace Unchord
         public int projectilePoolCapacity;
         public int explosionPoolCapacity;
 
-        private ObjectPool<GameObject> projectilePool;
-        private ObjectPool<GameObject> explosionPool;
-
-        [Header("Test Flag")]
-        public bool flag_shoot;
+        private ObjectPool<GameObject> _projectilePool;
+        private ObjectPool<GameObject> _explosionPool;
 
         protected override void Awake()
         {
-            projectilePool = new ObjectPool<GameObject>(
+            _projectilePool = new ObjectPool<GameObject>(
                 OnCreateProjectile,
                 OnGetProjectile,
                 OnReleaseProjectile,
@@ -49,7 +46,7 @@ namespace Unchord
                 true,
                 projectilePoolCapacity,
                 100);
-            explosionPool = new ObjectPool<GameObject>(
+            _explosionPool = new ObjectPool<GameObject>(
                 OnCreateExplosion,
                 OnGetExplosion,
                 OnReleaseExplosion,
@@ -59,25 +56,11 @@ namespace Unchord
                 100);
         }
 
-        private void Start()
-        {
-            
-        }
-
-        protected override void Update()
-        {
-            if (flag_shoot)
-            {
-                flag_shoot = false;
-                UseWeapon();
-            }
-        }
-
         protected override void UseWeapon()
         {
             base.UseWeapon();
 
-            GameObject projectileObject = projectilePool.Get();
+            GameObject projectileObject = _projectilePool.Get();
 
             LinearProjectile projectile = projectileObject.GetComponent<LinearProjectile>();
             projectile.transform.localPosition = Vector3.zero;
@@ -127,7 +110,7 @@ namespace Unchord
 
         private void OnProjectileDestroyFlagSetTrue(FlagComponent flagTable)
         {
-            projectilePool.Release(flagTable.gameObject);
+            _projectilePool.Release(flagTable.gameObject);
         }
 
         private GameObject OnCreateExplosion()
@@ -167,7 +150,7 @@ namespace Unchord
 
         private void OnExplosionDestroyFlagSetTrue(FlagComponent flagTable)
         {
-            explosionPool.Release(flagTable.gameObject);
+            _explosionPool.Release(flagTable.gameObject);
         }
 
         private void OnProjectileEnter(GameObject projectile, Collider2D collider)
@@ -181,7 +164,7 @@ namespace Unchord
             Projectile proj = projectile.GetComponentInParent<Projectile>();
             proj.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
 
-            GameObject explosion = explosionPool.Get();
+            GameObject explosion = _explosionPool.Get();
             explosion.transform.parent = transform;
             explosion.transform.position = projectile.transform.position;
         }
