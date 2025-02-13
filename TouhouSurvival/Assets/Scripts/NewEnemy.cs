@@ -5,14 +5,16 @@ using UnityEngine;
 public class NewEnemy : Pawn
 {
     [SerializeField] private Rigidbody2D target;
-    private EnemyAttributeSet _attributeSet;
+    //private EnemyAttributeSet _attributeSet;
+    private NewEnemyAttributeSet _newAttributeSet;
     private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
     [SerializeField] private GameObject dropExperiencePrefab;
 
     protected override void Awake()
     {
         base.Awake();
-        _attributeSet = gameObject.GetComponent<EnemyAttributeSet>();
+        //_attributeSet = gameObject.GetComponent<EnemyAttributeSet>();
+        _newAttributeSet = gameObject.GetComponent<NewEnemyAttributeSet>();
     }
 
     protected override void Start()
@@ -38,7 +40,7 @@ public class NewEnemy : Pawn
         }
         
         Vector2 toTargetDirection = (target.position - Rigidbody.position).normalized;
-        Vector2 nextPosition = toTargetDirection * (_attributeSet.GetAttribute("Speed") * Time.fixedDeltaTime);
+        Vector2 nextPosition = toTargetDirection * (_newAttributeSet.GetAttributeValue("Speed") * Time.fixedDeltaTime);
         Rigidbody.MovePosition(Rigidbody.position + nextPosition);
         Rigidbody.linearVelocity = Vector2.zero;
     }
@@ -55,15 +57,19 @@ public class NewEnemy : Pawn
 
     public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
     {
-        if (!_attributeSet)
-        {
-            Debug.Assert(false, "Enemy has no attribute set");
-            return 0f;
-        }
+        // if (!_attributeSet)
+        // {
+        //     Debug.Assert(false, "Enemy has no attribute set");
+        //     return 0f;
+        // }
+        //
+        // float currentHealth = _attributeSet.GetAttribute("Health");
+        // _attributeSet.ModifyAttribute("Health", -damageAmount);
+        // float newHealth = _attributeSet.GetAttribute("Health");
         
-        float currentHealth = _attributeSet.GetAttribute("Health");
-        _attributeSet.ModifyAttribute("Health", -damageAmount);
-        float newHealth = _attributeSet.GetAttribute("Health");
+        float currentHealth = _newAttributeSet.GetAttributeValue("Health");
+        _newAttributeSet.ModifyAttributeValue("Health", -damageAmount);
+        float newHealth = _newAttributeSet.GetAttributeValue("Health");
 
         if (newHealth > 0)
         {
@@ -85,7 +91,7 @@ public class NewEnemy : Pawn
         Collider.enabled = true;
         Renderer.sortingOrder++;
         Animator.SetBool("Dead", false);
-        _attributeSet.ResetAttributes();
+        _newAttributeSet.ResetAttributes();
     }
 
     private void OnDisable()

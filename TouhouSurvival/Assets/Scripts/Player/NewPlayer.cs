@@ -7,13 +7,15 @@ public class NewPlayer : Pawn
 {
     private Vector2 _movementVector;
     public PlayerAttributeSet AttributeSet { get; private set; }
+    public NewPlayerAttributeSet NewAttributeSet { get; private set; }
     public List<GameObject> SpawnedObjects { get; private set; }
 
     protected override void Awake()
     {
         base.Awake();
         
-        AttributeSet = gameObject.GetComponent<PlayerAttributeSet>();
+        //AttributeSet = gameObject.GetComponent<PlayerAttributeSet>();
+        NewAttributeSet = gameObject.GetComponent<NewPlayerAttributeSet>();
     }
 
     protected override void Start()
@@ -28,9 +30,9 @@ public class NewPlayer : Pawn
 
     private void FixedUpdate()
     {
-        Vector2 nextPosition = _movementVector * (AttributeSet.GetAttribute("Speed") *
-                                                  Time.fixedDeltaTime);
-        Rigidbody.MovePosition(Rigidbody.position + nextPosition);
+        // Vector2 nextPosition = _movementVector * (AttributeSet.GetAttribute("Speed") * Time.fixedDeltaTime);
+        Vector2 next = _movementVector * (NewAttributeSet.GetAttributeValue(PlayerAttributeNames.Speed) * Time.fixedDeltaTime);
+        Rigidbody.MovePosition(Rigidbody.position + next);
     }
 
     private void LateUpdate()
@@ -56,11 +58,15 @@ public class NewPlayer : Pawn
             return 0f;
         }
         
-        float currentHealth = AttributeSet.GetAttribute("Health");
-        AttributeSet.ModifyAttribute("Health", -damageAmount);
-        float newHealth = AttributeSet.GetAttribute("Health");
+        // float currentHealth = AttributeSet.GetAttribute("Health");
+        // AttributeSet.ModifyAttribute("Health", -damageAmount);
+        // float newHealth = AttributeSet.GetAttribute("Health");
+
+        float currentHp = NewAttributeSet.GetAttributeValue(PlayerAttributeNames.Health);
+        NewAttributeSet.ModifyAttributeValue(PlayerAttributeNames.Health, -damageAmount);
+        float newHp = NewAttributeSet.GetAttributeValue(PlayerAttributeNames.Health);
         
-        Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
+        Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHp} -> {newHp}");
         return damageAmount;
     }
 

@@ -559,9 +559,7 @@ GameObject:
   - component: {fileID: 6953679403157487291}
   - component: {fileID: 7538594378780880987}
   - component: {fileID: 1687368410410601425}
-  - component: {fileID: 577926796740342639}
   - component: {fileID: 5993739452696240177}
-  - component: {fileID: 809047035461926333}
   m_Layer: 0
   m_Name: NewPlayer
   m_TagString: Player
@@ -758,23 +756,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &577926796740342639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6831920981336867835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1473c6a0cf0c814c916427cd188ead1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 7
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  nearestTarget: {fileID: 0}
 --- !u!114 &5993739452696240177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,20 +768,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa81ac904013a549972e820f2827861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &809047035461926333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6831920981336867835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 393f0e62dc6bb374190ca6dca6cbb366, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributes: []
-  levelingData: {fileID: 11400000, guid: 84d7addf4b1d5d24eb6d495b887db40b, type: 2}
 --- !u!1 &7263046464981066159
 GameObject:
   m_ObjectHideFlags: 0
