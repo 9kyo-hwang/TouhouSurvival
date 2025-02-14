@@ -141,9 +141,7 @@ namespace Unchord
             instance.name = "Player";
             instance.transform.parent = RuntimeContainer.transform;
             instance.transform.position = Vector3.zero;
-            
-            // TEMP
-            // _player = instance.GetComponent<Player>();
+
             _player = instance;
         }
 
