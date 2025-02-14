@@ -54,7 +54,7 @@ namespace Unchord
 
             if (Vector2.Distance(next, destination) > limit)
             {
-                next = (next - destination).normalized * limit + source;
+                next = (next - destination).normalized * limit + destination;
             }
 
             Vector3 camPosition = new Vector3(next.x, next.y, MainCamera.transform.position.z);
