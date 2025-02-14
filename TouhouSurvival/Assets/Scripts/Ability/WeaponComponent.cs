@@ -49,7 +49,7 @@ namespace Unchord
 
         protected virtual void UseWeapon()
         {
-
+            // NOTE: This block is intentionally no operation.
         }
 
         private bool TryUpdateCooltime()
