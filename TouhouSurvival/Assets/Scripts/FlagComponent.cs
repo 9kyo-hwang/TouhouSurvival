@@ -21,7 +21,7 @@ namespace Unchord
         {
             CreateFlagTable();
 
-            // NOTE: flagÀÇ ÃÊ±â »óÅÂ´Â Ç×»ó false·Î Á¤ÀÇÇÔ.
+            // NOTE: flagì˜ ì´ˆê¸° ìƒíƒœëŠ” í•­ìƒ falseë¡œ ì •ì˜í•¨.
             AppendKey(key, false);
 
             return _flagTable[key];

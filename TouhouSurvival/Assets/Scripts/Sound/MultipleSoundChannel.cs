@@ -17,15 +17,17 @@ namespace Unchord
             m_root.next = m_root;
         }
 
-        public EventInstance AddSoundEvent(string _eventPath)
+        public EventInstance AddSoundEvent(string eventPath)
         {
             // UnityEngine.Debug.Assert(!base.IsPaused, "Cannot add sound event when sound channel paused.");
-            UnityEngine.Debug.Assert(_eventPath != null, "Sound Event cannot be null.");
+            UnityEngine.Debug.Assert(eventPath != null, "Sound Event cannot be null.");
 
-            SoundNode node = new SoundNode();
-            node.instance = FMODUnity.RuntimeManager.CreateInstance(_eventPath);
+            SoundNode node = new SoundNode
+            {
+                instance = FMODUnity.RuntimeManager.CreateInstance(eventPath)
+            };
 
-            // NOTE: �ʱ�ȭ �ڵ�
+            // NOTE: 초기화 코드
             node.instance.setVolume(base.Volume);
             node.instance.start();
 
@@ -43,16 +45,15 @@ namespace Unchord
             if (base.IsPaused)
                 return;
 
-            PLAYBACK_STATE playbackState;
             SoundNode ptr = m_root.next;
 
             while(ptr != m_root)
             {
                 SoundNode next = ptr.next;
 
-                if (ptr.instance.getPlaybackState(out playbackState) == RESULT.OK &&
+                if (ptr.instance.getPlaybackState(out var playbackState) == RESULT.OK &&
                     playbackState == PLAYBACK_STATE.STOPPED
-                    )
+                   )
                 {
                     ptr.prev.next = ptr.next;
                     ptr.next.prev = ptr.prev;

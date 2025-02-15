@@ -17,7 +17,7 @@ namespace Unchord
 
         protected virtual void OnEnable()
         {
-            // TODO: ProjectileÀ» »ç¿ëÇÏ´Â PoolÀÇ Event Handler¿¡¼­ Flag¸¦ ¼¼ÆÃÇÒÁö, ¿©±â¼¼ ¼¼ÆÃÇÒÁö ÃßÈÄ °áÁ¤ÇØº¼ ¹®Á¦.
+            // TODO: Projectileì„ ì‚¬ìš©í•˜ëŠ” Poolì˜ Event Handlerì—ì„œ Flagë¥¼ ì„¸íŒ…í• ì§€, ì—¬ê¸°ì„¸ ì„¸íŒ…í• ì§€ ì¶”í›„ ê²°ì •í•´ë³¼ ë¬¸ì œ.
             // FlagTable.SetFlagFalseWithoutEvent(AbilityComponent.FLAG_SHOULD_DESTROY);
             transform.localPosition = Vector3.zero;
             transform.eulerAngles = Vector3.zero;

@@ -4,24 +4,24 @@ using UnityEngine;
 
 namespace Unchord
 {
-    // TEST: Unchord.BlockingEventHandler ������Ʈ �׽�Ʈ�� ���� �ڵ��Դϴ�.
-    // TODO: GameManager���� Blocking Event�� ó���ϴ� �κ��� �и� ���θ� ���� �� �� ������ �����մϴ�.
+    // TEST: Unchord.BlockingEventHandler 컴포넌트 테스트를 위한 코드입니다.
+    // TODO: GameManager에서 Blocking Event를 처리하는 부분의 분리 여부를 결정 후 이 파일을 삭제합니다.
     public class EventEmitter : MonoBehaviour
     {
         /*
-         * �׽�Ʈ ���� ���
-         * 1. �׽�Ʈ�� ���� ���ο� Scene�� ����ϴ�.
-         * 2. ���ο� GameObject�� �����ϰ� �Ʒ� ������Ʈ�� �����մϴ�.
+         * 테스트 수행 방법
+         * 1. 테스트를 위한 새로운 Scene을 만듭니다.
+         * 2. 새로운 GameObject를 생성하고 아래 컴포넌트를 부착합니다.
          *      - Unchord.BlockingEventHandler
          *      - Unchord.EventEmitter
-         * 3. Play ��忡 �����մϴ�.
-         * 4. Ű������ F1 �Ǵ� F2 Ű�� �����ϴ�. �׷��� �̺�Ʈ�� ��ϵ˴ϴ�.
-         *      - �̺�Ʈ�� ��ϵǸ� Occurred �޽����� Console â�� ��µ˴ϴ�.
-         * 5. �ν����� â���� EventEmitter ������Ʈ�� b1 �Ǵ� b2 ������ true�� �����մϴ�.
-         *      - F1�� ���� �̺�Ʈ�� ����ߴٸ� b1�� true�� �����ϼ���.
-         *      - F2�� ���� �̺�Ʈ�� ����ߴٸ� b2�� true�� �����ϼ���.
-         * 6. �̺�Ʈ�� ���������� ����Ǿ����� Ȯ���մϴ�.
-         *      - �ùٸ��� ����Ǿ��ٸ� OK �޽����� Console â�� ��µ˴ϴ�.
+         * 3. Play 모드에 진입합니다.
+         * 4. 키보드의 F1 또는 F2 키를 누릅니다. 그러면 이벤트가 등록됩니다.
+         *      - 이벤트가 등록되면 Occurred 메시지가 Console 창에 출력됩니다.
+         * 5. 인스펙터 창에서 EventEmitter 컴포넌트의 b1 또는 b2 변수를 true로 설정합니다.
+         *      - F1을 눌러 이벤트를 등록했다면 b1을 true로 설정하세요.
+         *      - F2를 눌러 이벤트를 등록했다면 b2를 true로 설정하세요.
+         * 6. 이벤트가 성공적으로 수행되었는지 확인합니다.
+         *      - 올바르게 수행되었다면 OK 메시지가 Console 창에 출력됩니다.
          */
 
         private GameManager _gameManager;

@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" addBOMForNewFiles="with BOM under Windows, with no BOM otherwise" />
+  <component name="Encoding" addBOMForNewFiles="with BOM under Windows, with no BOM otherwise">
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Ability/Battojutsu.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Ability/Fireball.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Ability/Projectile/Projectile.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/FlagComponent.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/GUI/PauseCanvas.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/GUI/SettingsCanvas.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/GameManager/EventEmitter.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Sound/MultipleSoundChannel.cs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/UnchordUtility.cs" charset="UTF-8" />
+  </component>
 </project>

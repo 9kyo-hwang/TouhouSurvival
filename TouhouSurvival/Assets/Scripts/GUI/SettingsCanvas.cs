@@ -76,7 +76,7 @@ namespace Unchord
 
             float volume = GetChannelVolume(_sliderBgm);
 
-            // NOTE: ÄÚµå ¼ø¼­ ¹Ù²îÁö ¾Êµµ·Ï ÁÖÀÇ.
+            // NOTE: ì½”ë“œ ìˆœì„œ ë°”ë€Œì§€ ì•Šë„ë¡ ì£¼ì˜.
             channel.Volume = volume;
             channel.IsMuted = false;
 
@@ -89,7 +89,7 @@ namespace Unchord
 
             float volume = value / _sliderSfx.maxValue;
 
-            // NOTE: ÄÚµå ¼ø¼­ ¹Ù²îÁö ¾Êµµ·Ï ÁÖÀÇ.
+            // NOTE: ì½”ë“œ ìˆœì„œ ë°”ë€Œì§€ ì•Šë„ë¡ ì£¼ì˜.
             channel.Volume = volume;
             channel.IsMuted = false;
 

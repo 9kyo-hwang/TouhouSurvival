@@ -96,7 +96,7 @@ namespace Unchord
 
         private void OnEffectEnter(GameObject target, Collider2D collider)
         {
-            // TODO: µ¥¹ÌÁö ÀÌº¥Æ® ±¸Á¶Ã¼¸¦ ¸¸µé¾î Å¸°Ù¿¡°Ô ¹İÈ¯ÇÕ´Ï´Ù.
+            // TODO: ë°ë¯¸ì§€ ì´ë²¤íŠ¸ êµ¬ì¡°ì²´ë¥¼ ë§Œë“¤ì–´ íƒ€ê²Ÿì—ê²Œ ë°˜í™˜í•©ë‹ˆë‹¤.
             // Pawn enemy = collider.gameObject.GetComponent<Pawn>();
             // enemy.TakeDamage(/* event structure here. */);
         }

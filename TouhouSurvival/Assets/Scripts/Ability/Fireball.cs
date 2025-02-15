@@ -156,8 +156,8 @@ namespace Unchord
         private void OnProjectileEnter(GameObject projectile, Collider2D collider)
         {
             Debug.Log("Enter Projectile");
+            // TODO: ë°ë¯¸ì§€ ì´ë²¤íŠ¸ êµ¬ì¡°ì²´ë¥¼ ë§Œë“¤ì–´ íƒ€ê²Ÿì—ê²Œ ë°˜í™˜í•©ë‹ˆë‹¤.
             
-            // TODO: µ¥¹ÌÁö ÀÌº¥Æ® ±¸Á¶Ã¼¸¦ ¸¸µé¾î Å¸°Ù¿¡°Ô ¹İÈ¯ÇÕ´Ï´Ù.
             // Pawn enemy = collider.gameObject.GetComponent<Pawn>();
             // enemy.TakeDamage(/* event structure here. */);
 
@@ -172,8 +172,8 @@ namespace Unchord
         private void OnExplosionStay(GameObject explosion, Collider2D collider)
         {
             Debug.Log("Enter Explosion");
-
-            // TODO: µ¥¹ÌÁö ÀÌº¥Æ® ±¸Á¶Ã¼¸¦ ¸¸µé¾î Å¸°Ù¿¡°Ô ¹İÈ¯ÇÕ´Ï´Ù.
+            // TODO: ë°ë¯¸ì§€ ì´ë²¤íŠ¸ êµ¬ì¡°ì²´ë¥¼ ë§Œë“¤ì–´ íƒ€ê²Ÿì—ê²Œ ë°˜í™˜í•©ë‹ˆë‹¤.
+            
             // Pawn enemy = collider.gameObject.GetComponent<Pawn>();
             // enemy.TakeDamage(/* event structure here. */);
 

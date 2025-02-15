@@ -12,7 +12,7 @@ namespace Unchord
         {
             base.Awake();
 
-            // TODO: Äµ¹ö½º ±¸Çö ÈÄ »ó´ë °æ·Î¸¦ ¹®ÀÚ¿­·Î »ğÀÔÇÕ´Ï´Ù.
+            // TODO: ìº”ë²„ìŠ¤ êµ¬í˜„ í›„ ìƒëŒ€ ê²½ë¡œë¥¼ ë¬¸ìì—´ë¡œ ì‚½ì…í•©ë‹ˆë‹¤.
             _resumeButton = transform.Find("ResumeButton").GetComponent<Button>();
             _settingsButtons = transform.Find("SettingsButton").GetComponent<Button>();
             _menuButton = transform.Find("MenuButton").GetComponent<Button>();
