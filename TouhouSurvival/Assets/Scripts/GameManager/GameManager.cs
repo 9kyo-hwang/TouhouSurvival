@@ -164,6 +164,21 @@ namespace Unchord
         {
             IsGameStarted = false;
 
+            GameData.Instance.totalAbsolutePlaytime += AbsolutePlaytime;
+            GameData.Instance.totalElapsedPlaytime += ElapsedPlaytime;
+            GameData.Instance.totalGamePlayCount += 1;
+
+            if (_phaseExecutionResult == PhaseRuntimeState.Pass)
+            {
+                GameData.Instance.totalGamePlaySuccessCount += 1;
+            }
+            else
+            {
+                UnityEngine.Debug.Assert(_phaseExecutionResult == PhaseRuntimeState.Fail);
+                GameData.Instance.totalGamePlayFailureCount += 1;
+            }
+
+            GameData.Instance.Save();
             UIManager.Instance.GameResultCanvas.Show();
         }
 
