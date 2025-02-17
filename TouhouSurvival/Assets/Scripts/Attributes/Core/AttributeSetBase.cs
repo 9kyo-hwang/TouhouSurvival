@@ -52,7 +52,7 @@ public class AttributeSetBase : MonoBehaviour
         }
     }
     
-    public void SetAttributeValueBase(string attributeName, float value)
+    public void SetAttributeBaseValue(string attributeName, float value)
     {
         var attribute = GetAttribute(attributeName);
         if (attribute != null)
@@ -70,7 +70,7 @@ public class AttributeSetBase : MonoBehaviour
         }
     }
 
-    public void ModifyAttributeValueBase(string attributeName, float delta)
+    public void ModifyAttributeBaseValue(string attributeName, float delta)
     {
         var attribute = GetAttribute(attributeName);
         if (attribute != null)
