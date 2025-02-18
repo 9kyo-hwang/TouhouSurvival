@@ -7,7 +7,7 @@ public abstract class Weapon : MonoBehaviour
     public int id;
     public float damage;
     
-    protected Player _player;
+    protected Unchord.Player _player;
 
     public virtual void Initialize(ItemData data)
     {
@@ -26,7 +26,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void Awake()
     {
-        _player = GetComponentInParent<Player>();
+        _player = GetComponentInParent<Unchord.Player>();
     }
 
     protected virtual void Start() { }

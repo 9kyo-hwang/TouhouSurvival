@@ -1,34 +1,37 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttributeSet : AttributeSet
+public enum EnemyAttributeType
+{
+    Health,
+    Speed,
+    Attack,
+    DropRate
+}
+
+public class EnemyAttributeSet : AttributeSetBase
 {
     protected override void Awake()
     {
         base.Awake();
-        OnAttributeChanged += HandleAttributeChanged;
-    }
-    
-    private void HandleAttributeChanged(string attributeName, float oldValue, float newValue)
-    {
-        switch (attributeName)
+        
+        GameplayAttribute healthAttribute = GetAttribute(EnemyAttributeType.Health.ToString());
+        if (healthAttribute != null)
         {
-            case "Health" when newValue <= 0:
-                ActionOnHealthZero();
-                break;
+            healthAttribute.OnAttributeChanged += OnHealthChanged;
         }
     }
-
-    private void ActionOnHealthZero()
+    
+    private void OnHealthChanged(object sender, AttributeChangedEventArgs e)
     {
-        Debug.Log("Enemy Dead!");
-        OnAttributeChanged -= HandleAttributeChanged;  // 중복 등록을 막기 위해
+        //Debug.Log($"Health changed from {e.OldValue} to {e.NewValue}");
     }
 
     public void ResetAttributes()
     {
-        foreach (AttributeData attribute in attributes)
+        foreach (KeyValuePair<string, GameplayAttribute> attribute in Attributes)
         {
-            attribute.ResetCurrentValue();
+            attribute.Value.ResetToBase();
         }
     }
 }

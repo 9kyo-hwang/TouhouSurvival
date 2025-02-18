@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
     public float damage;
     public int penetrations;
 
-    private Player _player;
+    private Unchord.Player _player;
     private Rigidbody2D _rigidbody;
     
     private const int NotPenetrate = -1;
@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
 
     private void Awake()
     {
-        _player = GetComponentInParent<Player>();
+        _player = GetComponentInParent<Unchord.Player>();
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 

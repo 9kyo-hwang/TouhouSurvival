@@ -1,77 +1,88 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class PlayerAttributeSet : AttributeSet
+public enum PlayerAttributeType
 {
-    [SerializeField] protected LevelingData levelingData;
-    public float CurrentExperience { get; private set; }
+    Health,
+    Speed,
+    Attack,
+    HealthRegenPerSecs,
+    Defense,
+    ScanRangeMultiplier,
+    ExperienceGainRate,
+    CooldownReduceRate,
+    KnockBackStrengthRate,
+    ProjectileSpeed,
+    ProjectileSize,
+    ProjectileDuration,
+    ProjectileCount,
+}
+
+public class PlayerAttributeSet : AttributeSetBase
+{
+    public float Level { get; private set; } = 1;
+    public float Experience { get; private set; } = 0;
+    
+    [Serializable]
+    public struct LevelUpData
+    {
+        public int requiredExp;
+        public PlayerAttributeType attribute;
+        public float value;
+    }
+
+    public LevelUpData[] levelUpData;
     
     protected override void Awake()
     {
-        // 인스펙터 창에서 세팅되지 않았을 경우 초기값
-        if (attributes.Count == 0)
+        base.Awake();
+     
+        if (Attributes.Count == 0)
         {
-            Debug.Assert(false, "PlayerAttributeSet is not set");
+            Debug.Assert(false, "PlayerAttributeSet is empty");
             return;
         }
         
-        base.Awake();
-        OnAttributeChanged += HandleAttributeChanged;
-    }
-
-    private void HandleAttributeChanged(string attributeName, float oldValue, float newValue)
-    {
-        switch (attributeName)
+        GameplayAttribute healthAttribute = GetAttribute(PlayerAttributeType.Health.ToString());
+        if (healthAttribute != null)
         {
-            case "Health" when newValue <= 0:
-                ActionOnHealthZero();
-                break;
+            healthAttribute.OnAttributeChanged += OnHealthChanged;
         }
     }
 
     public void AddExperience(float amount)
     {
-        // 필요한 경우 경험치 증가량 어트리뷰트를 얻어서 연산 후 적용
-        CheckLevelUp(amount);
-    }
-
-    private void CheckLevelUp(float amount)
-    {
-        int currentLevel = (int)GetAttribute("Level");
-        Debug.Log($"Current level: {currentLevel}, CurrentExperience: {CurrentExperience}");
-        if (currentLevel > levelingData.levelRequirements.Length)
+        if (Level > levelUpData.Length)
         {
-            Debug.Log("maximum level!");
             return;
         }
         
-        var requirement = levelingData.levelRequirements[currentLevel - 1];  // level은 1부터 시작하므로
-        if (CurrentExperience + amount < requirement.requiredExp)
+        float expGainMultiplier = GetAttributeValue(PlayerAttributeType.ExperienceGainRate.ToString());
+        amount *= expGainMultiplier;
+        
+        LevelUpData data = levelUpData[(int)Level - 1];
+        if (Experience + amount < data.requiredExp)
         {
-            Debug.Log("Not enough experience to level up");
-            CurrentExperience += amount;
+            Experience += amount;
             return;
         }
         
-        // 경험치 초과분
-        float remainingExp = CurrentExperience + amount - requirement.requiredExp;
-        CurrentExperience = remainingExp;
+        float remainingExp = Experience + amount - data.requiredExp;
+        Experience = remainingExp;
+        Level += 1;
 
-        // 1레벨 증가
-        ModifyAttributeBase("Level", 1);
-        Debug.Log("Level Up!");
+        ModifyAttributeBaseValue(data.attribute.ToString(), data.value);
 
-        // 레벨 업 시 증가하는 어트리뷰트
-        foreach (var bonus in requirement.levelUpBonuses)
+        foreach (KeyValuePair<string, GameplayAttribute> attribute in Attributes)
         {
-            Debug.Log(bonus);
-            ModifyAttributeBase(bonus.attributeName, bonus.bonusValue);
+            attribute.Value.ResetToBase();
         }
     }
-
-    private void ActionOnHealthZero()
+    
+    private void OnHealthChanged(object sender, AttributeChangedEventArgs e)
     {
-        Debug.Log("Player Dead!");
-        // TODO: 사망 시 관련 스탯 처리
+        //Debug.Log($"Health changed from {e.OldValue} to {e.NewValue}");
     }
 }

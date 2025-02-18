@@ -1,139 +1,143 @@
 using System;
 using System.Collections;
-using Unchord;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
-public class Enemy : Pawn
+namespace Unchord
 {
-    [SerializeField] private Rigidbody2D target;
-    [SerializeField] private float speed;
-    //[SerializeField] private float health;
-    //[SerializeField] private float maxHealth;
-    [SerializeField] private RuntimeAnimatorController[] animatorControllers;
-
-    private bool _isDead;
-    private WaitForFixedUpdate _wait;
-    private EnemyStatComponent _stat;
-
-    public void Initialize(SpawnData spawnData)
+    public class Enemy : Pawn
     {
-        Animator.runtimeAnimatorController = animatorControllers[spawnData.enemyType];
-        // speed = spawnData.speed;
-        // maxHealth = spawnData.health;
-        // health = spawnData.health;
-    }
+        [SerializeField] private Rigidbody2D target;
+        private EnemyAttributeSet _attributeSet;
+        private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
+        [SerializeField] private GameObject dropExperiencePrefab;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        _wait = new WaitForFixedUpdate();
-        _stat = GetComponent<EnemyStatComponent>();
-
-        target = GameManager.Instance.Player.transform.GetComponent<Rigidbody2D>();
-    }
-
-    private void FixedUpdate()
-    {
-        if (_isDead || IsHitAnimationPlaying())
+        protected override void Awake()
         {
-            return;
+            base.Awake();
+            _attributeSet = gameObject.GetComponent<EnemyAttributeSet>();
+            Random.InitState((int)DateTime.Now.Ticks);
         }
-        
-        Vector2 direction = (target.position - Rigidbody.position).normalized;
-        Vector2 toTargetVector = direction * (_stat.Speed * Time.fixedDeltaTime);
-        Rigidbody.MovePosition(Rigidbody.position + toTargetVector);
-        Rigidbody.linearVelocity = Vector2.zero;
-    }
 
-    private bool IsHitAnimationPlaying()  // like hit delay
-    {
-        return Animator.GetCurrentAnimatorStateInfo(0).IsName("Hit");
-    }
-
-    private void LateUpdate()
-    {
-        if (_isDead)
+        protected override void Start()
         {
-            return;
+            base.Start();
         }
-        
-        Renderer.flipX = target.position.x < Rigidbody.position.x;
-    }
 
-    public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
-    {
-        base.TakeDamage(damageAmount, eventInstigator, damageCauser);
-        _stat.ApplyDamage(damageAmount);
-        return damageAmount;
-    }
-
-    private void OnEnable()
-    {
-        //target = GameManager.Instance.player.GetComponent<Rigidbody2D>();
-        _isDead = false;
-        Rigidbody.simulated = true;
-        Collider.enabled = true;
-        Renderer.sortingOrder++;
-        Animator.SetBool("Dead", false);
-        
-        // TODO: Stat Data Initialize(health = maxHealth, ...)
-        _stat.Initialize();
-    }
-
-    private void OnDisable()
-    {
-
-    }
-
-    // 기존에는 피격자 입장에서 피격을 판정,
-    // 바뀐 구조에서는 공격자가 공격 판정 후 데미지를 가하도록 변경.
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Bullet") && !_isDead)
+        protected override void Update()
         {
-            OnHitBullet(other.GetComponent<Bullet>());
+            if (!gameObject.activeSelf)
+            {
+                return;
+            }
+
+            base.Update();
         }
-    }
 
-    private void OnHitBullet(Bullet bullet)
-    {
-        // health -= bullet.damage;
-        // StartCoroutine(KnockBack());
-        //
-        // if (health > 0)
-        // {
-        //     Animator.SetTrigger("Hit");
-        // }
-        // else
-        // {
-        //     Dead();
-        // }
-    }
-    
-    IEnumerator KnockBack()
-    {
-        // Wait for Next Fixed Update Frame
-        yield return _wait;
-        
-        // KnockBack Enemy to Player's Opposite Direction 
-        //Vector3 direction = transform.position - GameManager.Instance.player.transform.position;
-        //Rigidbody.AddForce(direction.normalized * 3, ForceMode2D.Impulse);
-    }
+        private void FixedUpdate()
+        {
+            if (!gameObject.activeSelf)
+            {
+                return;
+            }
 
-    private void Dead()
-    {
-        target = null;
-        _isDead = true;
-        Rigidbody.simulated = false;
-        Collider.enabled = false;
-        Renderer.sortingOrder--;
-        Animator.SetBool("Dead", true);
-    }
+            Vector2 toTargetDirection = (target.position - Rigidbody.position).normalized;
+            Vector2 nextPosition = toTargetDirection *
+                                   (_attributeSet.GetAttributeValue(EnemyAttributeType.Health.ToString()) *
+                                    Time.fixedDeltaTime);
+            Rigidbody.MovePosition(Rigidbody.position + nextPosition);
+            Rigidbody.linearVelocity = Vector2.zero;
+        }
 
-    private void OnDeadAnimationEnd()  // Call by Dead Animation Event
-    {
-        gameObject.SetActive(false);
+        private void LateUpdate()
+        {
+            if (!gameObject.activeSelf)
+            {
+                return;
+            }
+
+            Renderer.flipX = target.position.x < Rigidbody.position.x;
+        }
+
+        public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
+        {
+            if (!_attributeSet)
+            {
+                Debug.Assert(false, "Enemy has no attribute set");
+                return 0f;
+            }
+
+            float currentHealth = _attributeSet.GetAttributeValue(EnemyAttributeType.Health.ToString());
+            _attributeSet.ModifyAttributeValue(EnemyAttributeType.Health.ToString(), -damageAmount);
+            float newHealth = _attributeSet.GetAttributeValue(EnemyAttributeType.Health.ToString());
+
+            if (newHealth > 0)
+            {
+                Animator.SetTrigger("Hit");
+            }
+            else
+            {
+                OnDead();
+            }
+
+            Debug.Log($"적이 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
+            return damageAmount;
+        }
+
+        private void OnEnable()
+        {
+            // TODO: Target Set
+            Rigidbody.simulated = true;
+            Collider.enabled = true;
+            Renderer.sortingOrder++;
+            Animator.SetBool("Dead", false);
+            _attributeSet.ResetAttributes();
+        }
+
+        private void OnDisable()
+        {
+
+        }
+
+        private IEnumerator KnockBack()
+        {
+            yield return _waitForFixedUpdate; // 1 frame 대기
+
+            // TODO: 플레이어 반대 방향으로 넉백
+            Vector3 direction = transform.position - target.transform.position;
+            Rigidbody.AddForce(direction.normalized * 3, ForceMode2D.Impulse);
+        }
+
+        private void OnDead()
+        {
+            Rigidbody.simulated = false;
+            Collider.enabled = false;
+            Renderer.sortingOrder--;
+            Animator.SetBool("Dead", true);
+
+            DropExperienceObject();
+        }
+
+        // 적 사망 애니메이션 종료 시 이벤트
+        private void OnDeadAnimationEnd()
+        {
+            gameObject.SetActive(false);
+        }
+
+        private void DropExperienceObject()
+        {
+            if (!dropExperiencePrefab)
+            {
+                Debug.LogAssertion("DropExperiencePrefab is null");
+                return;
+            }
+
+            // TODO: 드랍 확률 적용 & 해당 맵 섹션(청크)에 정보를 넘겨줘야 함
+            float dropRate = _attributeSet.GetAttributeValue(EnemyAttributeType.DropRate.ToString());
+            if (Random.value > dropRate)
+            {
+                GameObject experience = Instantiate(dropExperiencePrefab, transform.position, Quaternion.identity);
+            }
+        }
     }
 }

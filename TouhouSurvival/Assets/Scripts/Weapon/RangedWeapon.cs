@@ -44,7 +44,7 @@ public class RangedWeapon : Weapon
 
     private void Fire()
     {
-        if (_player.Scanner.FindNearestTarget(out Transform nearestTarget))
+        //if (_player.Scanner.FindNearestTarget(out Transform nearestTarget))
         {
             // Transform bullet = GameManager.Instance.rangedWeaponPool.Pool.Get().transform;
             // bullet.position = transform.position;

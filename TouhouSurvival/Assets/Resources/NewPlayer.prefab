@@ -560,6 +560,7 @@ GameObject:
   - component: {fileID: 7538594378780880987}
   - component: {fileID: 1687368410410601425}
   - component: {fileID: 5993739452696240177}
+  - component: {fileID: 4616271507409370602}
   m_Layer: 0
   m_Name: NewPlayer
   m_TagString: Player
@@ -768,6 +769,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa81ac904013a549972e820f2827861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponSet: []
+  passiveSet: []
+  maxWeaponCount: 6
+  maxPassiveCount: 6
+--- !u!114 &4616271507409370602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831920981336867835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e79f43687722d449bbb1330fff23eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialAttributes:
+  - attributeName: 
+    baseValue: 0
+    minValue: 0
+    maxValue: 0
+  levelUpData:
+  - requiredExp: 0
+    attribute: 
+    value: 0
 --- !u!1 &7263046464981066159
 GameObject:
   m_ObjectHideFlags: 0
