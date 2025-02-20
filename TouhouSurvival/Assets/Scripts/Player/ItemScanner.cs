@@ -16,7 +16,7 @@ namespace Unchord
 
         private void FixedUpdate()
         {
-            float scanRangeMultiplier = _player.GetComponent<PlayerAttributeSet>().GetAttributeValue(PlayerAttributeType.ScanRangeMultiplier.ToString());
+            float scanRangeMultiplier = _player.GetComponent<PlayerAttributeSet>().GetCurrentValue(PlayerAttributeType.ScanRangeMultiplier);
             _hits = Physics2D.CircleCastAll(_player.transform.position, range * scanRangeMultiplier, Vector2.zero);
             AddExperiences();
         }

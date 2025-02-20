@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unchord;
 using UnityEngine;
 
 public enum EnemyAttributeType
@@ -9,13 +10,16 @@ public enum EnemyAttributeType
     DropRate
 }
 
-public class EnemyAttributeSet : AttributeSetBase
+public class EnemyAttributeSet : AttributeSetBase<EnemyAttributeType>
 {
+    private Enemy _owner;
     protected override void Awake()
     {
         base.Awake();
+
+        _owner = gameObject.GetComponent<Enemy>();
         
-        GameplayAttribute healthAttribute = GetAttribute(EnemyAttributeType.Health.ToString());
+        GameplayAttribute healthAttribute = GetAttribute(EnemyAttributeType.Health);
         if (healthAttribute != null)
         {
             healthAttribute.OnAttributeChanged += OnHealthChanged;
@@ -25,11 +29,19 @@ public class EnemyAttributeSet : AttributeSetBase
     private void OnHealthChanged(object sender, AttributeChangedEventArgs e)
     {
         //Debug.Log($"Health changed from {e.OldValue} to {e.NewValue}");
+        if (e.NewValue <= 0.0f)
+        {
+            _owner.OnDead();
+        }
+        else
+        {
+            _owner.OnHit(1.0f);
+        }
     }
 
     public void ResetAttributes()
     {
-        foreach (KeyValuePair<string, GameplayAttribute> attribute in Attributes)
+        foreach (KeyValuePair<EnemyAttributeType, GameplayAttribute> attribute in Attributes)
         {
             attribute.Value.ResetToBase();
         }

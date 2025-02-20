@@ -35,20 +35,19 @@ namespace Unchord
         private int _timeStopInterruptCounter = 0;
 
         public Camera MainCamera { get; private set; }
-        private Player _player;
-        public Player Player => _player;
+        public Player Player { get; private set; }
 
         public Transform RuntimeContainer { get; private set; }
         
         private void TraceCamera()
         {
-            if (!_player) return;
+            if (!Player) return;
 
             float limit = 2.0f;
             float traceSpeed = 5f;
 
             Vector2 source = MainCamera.transform.position;
-            Vector2 destination = _player.transform.position;
+            Vector2 destination = Player.transform.position;
 
             Vector2 next = Vector2.Lerp(source, destination, traceSpeed * Time.deltaTime);
 
@@ -137,12 +136,11 @@ namespace Unchord
         private void CreatePlayer()
         {
             Player resource = PlayerPrefabs[PlayerPrefabIndex];
-            Player instance = GameObject.Instantiate(resource);
+            Player instance = GameObject.Instantiate(resource, RuntimeContainer.transform, true);
             instance.name = "Player";
-            instance.transform.parent = RuntimeContainer.transform;
             instance.transform.position = Vector3.zero;
 
-            _player = instance;
+            Player = instance;
         }
 
         public void HaltGame()
@@ -177,11 +175,18 @@ namespace Unchord
         private void HandleEvents()
         {
             if (_blockingEventFlag)
+            {
                 return;
-            else if (_blockingEventHandlingCooltimeLeft > 0.0f)
+            }
+
+            if (_blockingEventHandlingCooltimeLeft > 0.0f)
+            {
                 _blockingEventHandlingCooltimeLeft -= Time.deltaTime;
+            }
             else if (_blockingEventHandlers.Count > 0)
+            {
                 StartCoroutine(HandleBlockingEvent(_blockingEventHandlers.Dequeue()));
+            }
         }
 
         private IEnumerator HandleBlockingEvent(IEnumerator eventHandler)

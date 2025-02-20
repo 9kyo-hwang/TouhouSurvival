@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class AttributeChangedEventArgs : EventArgs
 {
@@ -19,8 +18,8 @@ public class GameplayAttribute
 {
     [SerializeField] private float baseValue;
     [SerializeField] private float currentValue;
-    [SerializeField] private  float minValue;
-    [SerializeField] private  float maxValue;
+    [SerializeField] private float minValue;
+    [SerializeField] private float maxValue;
 
     public event EventHandler<AttributeChangedEventArgs> OnAttributeChanged;
 

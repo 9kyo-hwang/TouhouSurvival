@@ -49,8 +49,8 @@ namespace Unchord
 
         private void FixedUpdate()
         {
-            // Vector2 nextPosition = _movementVector * (AttributeSet.GetAttribute("Speed") * Time.fixedDeltaTime);
-            Vector2 next = _movementVector * (AttributeSet.GetAttributeValue(PlayerAttributeType.Speed.ToString()) * Time.fixedDeltaTime);
+            float movementSpeed = AttributeSet.GetCurrentValue(PlayerAttributeType.MovementSpeed);
+            Vector2 next = _movementVector * (movementSpeed * Time.fixedDeltaTime);
             Rigidbody.MovePosition(Rigidbody.position + next);
         }
 
@@ -77,9 +77,12 @@ namespace Unchord
                 return 0f;
             }
 
-            float currentHealth = AttributeSet.GetAttributeValue(PlayerAttributeType.Health.ToString());
-            AttributeSet.ModifyAttributeValue(PlayerAttributeType.Health.ToString(), -damageAmount);
-            float newHealth = AttributeSet.GetAttributeValue(PlayerAttributeType.Health.ToString());
+            float currentHealth = AttributeSet.GetCurrentValue(PlayerAttributeType.MaxHealth);
+            float defense = AttributeSet.GetCurrentValue(PlayerAttributeType.Defense);
+            damageAmount -= defense;
+            
+            AttributeSet.ModifyCurrentValue(PlayerAttributeType.MaxHealth, -damageAmount);
+            float newHealth = AttributeSet.GetCurrentValue(PlayerAttributeType.MaxHealth);
             
             Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;

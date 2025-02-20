@@ -40,8 +40,7 @@ namespace Unchord
             {
                 if (bCount - 1 <= i)
                 {
-                    GameObject newButton = GameObject.Instantiate(buttonPrefab);
-                    newButton.transform.SetParent(_characterButtonContainer, false);
+                    GameObject newButton = GameObject.Instantiate(buttonPrefab, _characterButtonContainer, false);
                     newButton.name = $"CharacterButtonBase ({i + 1})";
                 }
 

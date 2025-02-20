@@ -1,26 +1,28 @@
 using System;
 using System.Collections.Generic;
+using Unchord;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public enum PlayerAttributeType
 {
-    Health,
-    Speed,
-    Attack,
-    HealthRegenPerSecs,
-    Defense,
-    ScanRangeMultiplier,
-    ExperienceGainRate,
-    CooldownReduceRate,
-    KnockBackStrengthRate,
-    ProjectileSpeed,
-    ProjectileSize,
-    ProjectileDuration,
-    ProjectileCount,
+    MaxHealth,              // 최대 체력
+    MovementSpeed,          // 이동 속도
+    Attack,                 // 공격력
+    HealthRecovery,         // 초당 체력 회복량
+    Defense,                // 방어력
+    ScanRangeMultiplier,    // 아이템 획득 거리 배율
+    ExpGainIncrease,        // 경험치 획득량 증가율(기본 100%)
+    CooldownDecrease,       // 스킬 쿨타임 감소율(기본 0%)
+    KnockBackStrength,      // 넉백율(기본 100%)
+    ProjectileSpeedChange,  // 투사체 속도 변화율(기본 100%)
+    ProjectileSizeChange,   // 투사체 크기 변화율(기본 100%)
+    ProjectileDurationChange,   // 투사체 지속시간 변화율(기본 100%)
+    ProjectileIncreaseCount,    // 투사체 발사 개수 증가(기본 0개)
+    Lucky,                      // 행운(기본값 10), 각종 확률에 보정
 }
 
-public class PlayerAttributeSet : AttributeSetBase
+public class PlayerAttributeSet : AttributeSetBase<PlayerAttributeType>
 {
     public float Level { get; private set; } = 1;
     public float Experience { get; private set; } = 0;
@@ -29,8 +31,8 @@ public class PlayerAttributeSet : AttributeSetBase
     public struct LevelUpData
     {
         public int requiredExp;
-        public PlayerAttributeType attribute;
-        public float value;
+        public PlayerAttributeType levelUpAttributeType;
+        public float levelUpAttributeValue;
     }
 
     public LevelUpData[] levelUpData;
@@ -45,7 +47,7 @@ public class PlayerAttributeSet : AttributeSetBase
             return;
         }
         
-        GameplayAttribute healthAttribute = GetAttribute(PlayerAttributeType.Health.ToString());
+        GameplayAttribute healthAttribute = GetAttribute(PlayerAttributeType.MaxHealth);
         if (healthAttribute != null)
         {
             healthAttribute.OnAttributeChanged += OnHealthChanged;
@@ -59,8 +61,8 @@ public class PlayerAttributeSet : AttributeSetBase
             return;
         }
         
-        float expGainMultiplier = GetAttributeValue(PlayerAttributeType.ExperienceGainRate.ToString());
-        amount *= expGainMultiplier;
+        float expGainIncrease = GetCurrentValue(PlayerAttributeType.ExpGainIncrease);
+        amount *= expGainIncrease;
         
         LevelUpData data = levelUpData[(int)Level - 1];
         if (Experience + amount < data.requiredExp)
@@ -69,20 +71,33 @@ public class PlayerAttributeSet : AttributeSetBase
             return;
         }
         
+        // LevelUp!
         float remainingExp = Experience + amount - data.requiredExp;
         Experience = remainingExp;
         Level += 1;
 
-        ModifyAttributeBaseValue(data.attribute.ToString(), data.value);
+        ModifyBaseValue(data.levelUpAttributeType, data.levelUpAttributeValue);
 
-        foreach (KeyValuePair<string, GameplayAttribute> attribute in Attributes)
+        foreach (KeyValuePair<PlayerAttributeType, GameplayAttribute> attribute in Attributes)
         {
             attribute.Value.ResetToBase();
         }
+        
+        // TODO: 레벨업 시 UI가 뜨고 Pause, 선택 완료 시 ResumeGame
+        GameManager.Instance.PauseGame();
     }
     
     private void OnHealthChanged(object sender, AttributeChangedEventArgs e)
     {
         //Debug.Log($"Health changed from {e.OldValue} to {e.NewValue}");
+        
+        if (e.NewValue <= 0.0f)
+        {
+            // TODO: Call Player OnDead Method
+        }
+        else
+        {
+            // TODO: Call Player OnHit Method
+        }
     }
 }
