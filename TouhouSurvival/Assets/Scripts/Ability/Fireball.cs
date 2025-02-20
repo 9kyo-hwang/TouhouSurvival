@@ -6,7 +6,7 @@ namespace Unchord
 {
     public class Fireball : WeaponComponent
     {
-        private static int s_fireballProjectileShootHash = Animator.StringToHash("FireballProjectileShoot");
+        private static int s_fireballProjectileFlyingHash = Animator.StringToHash("FireballProjectileFlying");
         private static int s_fireballExplosionHash = Animator.StringToHash("FireballExplosion");
 
         [Header("Shooting Properties")]
@@ -95,7 +95,7 @@ namespace Unchord
             projectile.gameObject.SetActive(true);
 
             Animator animator = projectile.GetComponent<Animator>();
-            animator.Play(s_fireballProjectileShootHash);
+            animator.Play(s_fireballProjectileFlyingHash);
         }
 
         private void OnReleaseProjectile(GameObject projectile)
