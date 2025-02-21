@@ -8,8 +8,6 @@ namespace Unchord
 {
     public class GameManager : Singleton<GameManager>
     {
-        private const int INITIAL_EVENT_CAPACITY = 16;
-        private const float BLOCKING_EVENT_HANDLING_COOLTIME = 1.0f;
         private const string PLAYABLE_CHARACTER_RESOURCES_DIRECTORY = "Prefabs/PlayableCharacters/";
 
         public Player[] PlayerPrefabs { get; private set; }
@@ -68,6 +66,9 @@ namespace Unchord
             MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
             RuntimeContainer = new GameObject("@Runtime Container").transform;
+
+            BlockingEvent.onBlockingEventOccurred += OnBlockEventOccurred;
+            BlockingEvent.onBlockingEventHandled += OnBlockEventHandled;
 
             DontDestroyOnLoad(RuntimeContainer);
         }
