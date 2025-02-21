@@ -24,16 +24,13 @@ namespace Unchord
         public int KillCount { get; set; }
         public int EarnedGold { get; set; }
 
-        private bool _blockingEventFlag;
-        private float _blockingEventHandlingCooltimeLeft;
-        private Queue<IEnumerator> _blockingEventHandlers;
-
         private PhaseRuntimeState _phaseExecutionResult;
 
         private PhaseRuntime _phaseRuntimeTree;
 
         private int _timeStopInterruptCounter = 0;
 
+        public BlockingEventHandler BlockingEvent { get; private set; }
         public Camera MainCamera { get; private set; }
         public Player Player { get; private set; }
 
@@ -67,7 +64,7 @@ namespace Unchord
 
         private void Awake()
         {
-            _blockingEventHandlers = new Queue<IEnumerator>(INITIAL_EVENT_CAPACITY);
+            BlockingEvent = GetComponent<BlockingEventHandler>();
             MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
             RuntimeContainer = new GameObject("@Runtime Container").transform;
@@ -84,7 +81,6 @@ namespace Unchord
         {
             if (IsGameStarted)
             {
-                HandleEvents();
                 UpdatePhaseRuntimeTree();
                 UpdatePlaytime();
             }
@@ -182,35 +178,13 @@ namespace Unchord
             UIManager.Instance.GameResultCanvas.Show();
         }
 
-        public void PublishEvent(IEnumerator eventHandler)
-        {
-            _blockingEventHandlers.Enqueue(eventHandler);
-        }
-
-        private void HandleEvents()
-        {
-            if (_blockingEventFlag)
-            {
-                return;
-            }
-
-            if (_blockingEventHandlingCooltimeLeft > 0.0f)
-            {
-                _blockingEventHandlingCooltimeLeft -= Time.deltaTime;
-            }
-            else if (_blockingEventHandlers.Count > 0)
-            {
-                StartCoroutine(HandleBlockingEvent(_blockingEventHandlers.Dequeue()));
-            }
-        }
-
-        private IEnumerator HandleBlockingEvent(IEnumerator eventHandler)
+        private void OnBlockEventOccurred()
         {
             _phaseRuntimeTree.Pause();
-            _blockingEventFlag = true;
-            yield return StartCoroutine(eventHandler);
-            _blockingEventHandlingCooltimeLeft = BLOCKING_EVENT_HANDLING_COOLTIME;
-            _blockingEventFlag = false;
+        }
+
+        private void OnBlockEventHandled()
+        {
             _phaseRuntimeTree.Resume();
         }
 
