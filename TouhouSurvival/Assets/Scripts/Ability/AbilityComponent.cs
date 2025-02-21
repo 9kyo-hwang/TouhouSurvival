@@ -16,6 +16,7 @@ namespace Unchord
         public float NormalizedLevel => (float)_level / maxLevel;
 
         public int maxLevel = 1;
+        public Sprite icon;
 
         protected Player _player { get; private set; }
         private int _level;

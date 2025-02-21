@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21627c3b1a727cf4c9f0c06de163cf52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLevel: 1
+  icon: {fileID: 21300000, guid: f6f3620e39d2e944fb0b17b30d410164, type: 3}
   weaponActivationMode: 1
   fixedCooltime: 2
   variableCooltimeMin: 1
@@ -51,5 +53,5 @@ MonoBehaviour:
   effectPrefab: {fileID: 1683605131522403942, guid: 5a7db31677d4ac744910aa7c3b4102a5, type: 3}
   baseDamage: 0
   baseKnockbackForce: 0
+  baseEffectSize: 1
   effectPoolCapacity: 2
-  flag_shoot: 0
