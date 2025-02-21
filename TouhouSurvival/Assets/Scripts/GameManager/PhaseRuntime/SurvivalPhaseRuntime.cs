@@ -46,12 +46,12 @@ namespace Unchord
 
         public override void Pause()
         {
-            Time.timeScale = 0.0f;
+            s_gameManager.InterruptTimeStop();
         }
 
         public override void Resume()
         {
-            Time.timeScale = 1.0f;
+            s_gameManager.ReleaseTimeStopInterrupt();
         }
 
         public override void End()
