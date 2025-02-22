@@ -138,7 +138,7 @@ namespace Unchord
 
         private bool IsIgnoredCollider(Collider2D collider)
         {
-            return (targetLayerMask & (1 << collider.gameObject.layer)) != 0;
+            return (targetLayerMask & (1 << collider.gameObject.layer)) == 0;
         }
 
         private void OnTriggerEnter2D(Collider2D collider)

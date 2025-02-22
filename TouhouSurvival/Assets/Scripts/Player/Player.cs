@@ -202,7 +202,7 @@ namespace Unchord
 
             int maxLevel = abilityComponent.maxLevel;
 
-            AbilitySamplingOptions options = _samplingOptions[abilityComponent.transform];
+            AbilitySamplingOptions options = _samplingOptions[abilityComponent.transform.parent];
 
             if (prevLevel < nextLevel)
             {

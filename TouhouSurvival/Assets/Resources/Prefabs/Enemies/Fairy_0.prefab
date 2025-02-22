@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  dropExperiencePrefab: {fileID: 6831472195125531340, guid: bc176a623e618ec4a918ef528cfdebc1, type: 3}
+  dropExperiencePrefab: {fileID: 6831472195125531340, guid: 72da7da7c9bf58048982f4a8288bb329, type: 3}
 --- !u!114 &8226576738396443539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1044509956880046245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 056829be0ecf7c3459b958c86392138b, type: 3}
+  m_Script: {fileID: 11500000, guid: e969a355b91d926479eefbcc0a33f767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   initialAttributes:
@@ -124,9 +124,9 @@ MonoBehaviour:
     minValue: 0
     maxValue: 20
   - attributeType: 1
-    baseValue: 5
+    baseValue: 2
     minValue: 0
-    maxValue: 10
+    maxValue: 5
 --- !u!50 &4702386692299432747
 Rigidbody2D:
   serializedVersion: 5

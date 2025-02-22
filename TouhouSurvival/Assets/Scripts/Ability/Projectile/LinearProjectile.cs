@@ -17,13 +17,22 @@ namespace Unchord
             }
         }
 
+        private Vector3 _nextPosition;
         private Vector3 _projectileDirection;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            _nextPosition = transform.position;
+        }
 
         protected void FixedUpdate()
         {
-            transform.position += ProjectileSpeed * Time.fixedDeltaTime * ProjectileDirection;
+            _nextPosition += ProjectileSpeed * Time.fixedDeltaTime * ProjectileDirection;
+            transform.position = _nextPosition;
 
-            base.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] |= ScreenBounds.EvalScreenZone(transform.position) == ScreenZone.Dead;
+            base.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] |= ScreenBounds.EvalScreenZone(_nextPosition) == ScreenZone.Dead;
         }
     }
 }

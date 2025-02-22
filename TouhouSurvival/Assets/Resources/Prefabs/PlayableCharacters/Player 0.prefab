@@ -341,86 +341,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6831920981336867835}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26e79f43687722d449bbb1330fff23eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 393f0e62dc6bb374190ca6dca6cbb366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   initialAttributes:
   - attributeType: 0
-    baseValue: 100
-    minValue: 0
-    maxValue: 999
-  - attributeType: 1
-    baseValue: 10
-    minValue: 0
-    maxValue: 99
-  - attributeType: 2
-    baseValue: 10
-    minValue: 0
-    maxValue: 99
-  - attributeType: 3
-    baseValue: 1
-    minValue: 0
-    maxValue: 10
-  - attributeType: 4
-    baseValue: 5
-    minValue: 0
-    maxValue: 10
-  - attributeType: 5
-    baseValue: 1
-    minValue: 0
-    maxValue: 2
-  - attributeType: 6
-    baseValue: 1
-    minValue: 0
-    maxValue: 2
-  - attributeType: 7
-    baseValue: 0
-    minValue: 0
-    maxValue: 1
-  - attributeType: 8
-    baseValue: 1
-    minValue: 0
-    maxValue: 2
-  - attributeType: 9
-    baseValue: 1
-    minValue: 0
-    maxValue: 2
-  - attributeType: 10
-    baseValue: 1
-    minValue: 0
-    maxValue: 2
-  - attributeType: 9
-    baseValue: 1
-    minValue: 0
-    maxValue: 2
-  - attributeType: 9
-    baseValue: 1
-    minValue: 0
-    maxValue: 2
-  - attributeType: 1
-    baseValue: 100
-    minValue: 0
-    maxValue: 200
-  - attributeType: 13
     baseValue: 10
     minValue: 0
     maxValue: 20
-  levelUpData:
-  - requiredExp: 10
-    levelUpAttributeType: 0
-    levelUpAttributeValue: 10
-  - requiredExp: 15
-    levelUpAttributeType: 1
-    levelUpAttributeValue: 5
-  - requiredExp: 25
-    levelUpAttributeType: 2
-    levelUpAttributeValue: 10
-  - requiredExp: 40
-    levelUpAttributeType: 4
-    levelUpAttributeValue: 15
-  - requiredExp: 60
-    levelUpAttributeType: 13
-    levelUpAttributeValue: 3
+  - attributeType: 1
+    baseValue: 5
+    minValue: 0
+    maxValue: 5
+  levelUpData: []
 --- !u!1 &7941737267563311883
 GameObject:
   m_ObjectHideFlags: 0

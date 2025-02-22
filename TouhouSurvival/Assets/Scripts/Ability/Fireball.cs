@@ -60,16 +60,19 @@ namespace Unchord
         {
             base.UseWeapon();
 
+            GameObject nearestEnemy = Spawner.GetNearestEnemyOrNull(_player.transform.position);
+
+            if (nearestEnemy == null)
+                return;
+
             GameObject projectileObject = _projectilePool.Get();
 
             LinearProjectile projectile = projectileObject.GetComponent<LinearProjectile>();
             projectile.transform.localPosition = Vector3.zero;
             projectile.ProjectileSpeed = 3.0f;
 
-            // NOTE: Calculate nearest enemy here.
-            /* Transform nearestEnemy = calculate nearest enemy here. */
-            Vector3 playerPosition = Vector3.zero;
-            Vector3 enemyPosition = Vector3.one;
+            Vector3 playerPosition = _player.transform.position;
+            Vector3 enemyPosition = nearestEnemy.transform.position;
             projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, baseEulerAngleError);
         }
 
@@ -161,7 +164,7 @@ namespace Unchord
             // Pawn enemy = collider.gameObject.GetComponent<Pawn>();
             // enemy.TakeDamage(/* event structure here. */);
 
-            Projectile proj = projectile.GetComponentInParent<Projectile>();
+            LinearProjectile proj = projectile.GetComponentInParent<LinearProjectile>();
             proj.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
 
             GameObject explosion = _explosionPool.Get();
