@@ -52,14 +52,16 @@ namespace Unchord
             Rigidbody.linearVelocity = Vector2.zero;
         }
 
-        private void LateUpdate()
+        protected override void LateUpdate()
         {
             if (!gameObject.activeSelf)
             {
                 return;
             }
-
-            Renderer.flipX = target.position.x < Rigidbody.position.x;
+            
+            float angle = target.position.x < Rigidbody.position.x ? 0f : 180f;
+            Renderers.eulerAngles = Vector3.up * angle;
+            Colliders.eulerAngles = Vector3.up * angle;
         }
 
         public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
@@ -77,18 +79,12 @@ namespace Unchord
             Debug.Log($"적이 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
         }
-
-        private void Attack()
-        {
-            
-        }
         
         private void OnEnable()
         {
             // TODO: Target Set
             Rigidbody.simulated = true;
-            Collider.enabled = true;
-            Renderer.sortingOrder++;
+            // Renderer.sortingOrder++;
             Animator.SetBool("Dead", false);
             _attributeSet.ResetAttributes();
             target = GameManager.Instance.Player.Rigidbody;
@@ -105,7 +101,7 @@ namespace Unchord
 
             // TODO: 플레이어 반대 방향으로 넉백
             Vector3 direction = transform.position - target.transform.position;
-            Rigidbody.AddForce(direction.normalized * 3 * knockBackStrength, ForceMode2D.Impulse);
+            Rigidbody.AddForce(direction.normalized * (3 * knockBackStrength), ForceMode2D.Impulse);
         }
 
         public void OnHit(float knockBackStrength)
@@ -117,8 +113,7 @@ namespace Unchord
         public void OnDead()
         {
             Rigidbody.simulated = false;
-            Collider.enabled = false;
-            Renderer.sortingOrder--;
+            // Renderer.sortingOrder--;
             Animator.SetBool("Dead", true);
 
             DropExperienceObject();

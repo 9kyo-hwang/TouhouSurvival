@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ff2ed278775e44f90ed07cd70e0173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLevel: 1
+  maxLevel: 5
   icon: {fileID: 21300000, guid: 3a5ceaae6bf1e79439054d91cc17d753, type: 3}
   weaponActivationMode: 1
   fixedCooltime: 1

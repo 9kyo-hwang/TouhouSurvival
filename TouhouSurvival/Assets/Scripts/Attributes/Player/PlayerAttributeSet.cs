@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unchord;
 using UnityEngine;
@@ -83,9 +84,20 @@ public class PlayerAttributeSet : AttributeSetBase<PlayerAttributeType>
             attribute.Value.ResetToBase();
         }
         
-        // TODO: 레벨업 시 UI가 뜨고 Pause, 선택 완료 시 ResumeGame
-        GameManager.Instance.PauseGame();
+        GameManager.Instance.BlockingEvent.Publish(OnLevelUp());
     }
+
+    private IEnumerator OnLevelUp()
+    {
+        LevelUpCanvas levelUpCanvas = UIManager.Instance.LevelUpCanvas;
+        levelUpCanvas.Show();
+        yield return new WaitUntil(() => levelUpCanvas.IsButtonClicked);
+        
+        // TODO: 기능 처리
+        
+        levelUpCanvas.Hide();
+    }
+    
     
     private void OnHealthChanged(object sender, AttributeChangedEventArgs e)
     {

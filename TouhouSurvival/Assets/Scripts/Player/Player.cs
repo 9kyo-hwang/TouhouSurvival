@@ -21,17 +21,24 @@ namespace Unchord
         private List<AbilityComponent> _samplePool;
         private Dictionary<Transform, AbilitySamplingOptions> _samplingOptions;
 
+        public Transform WeaponTransform  { get; private set; }
+        public Transform PassiveTransform { get; private  set; }
+        public int EnabledWeaponCount => _samplingOptions[WeaponTransform].enabledCount;
+        public int EnabledPassiveCount => _samplingOptions[PassiveTransform].enabledCount;
+        
         protected override void Awake()
         {
             base.Awake();
             
             AttributeSet = gameObject.GetComponent<PlayerAttributeSet>();
+            WeaponTransform = transform.Find($"Abilities/Weapons");
+            PassiveTransform = transform.Find($"Abilities/Passives");
             
             _samplePool = new List<AbilityComponent>(INITIAL_SAMPLE_POOL_CAPACITY);
             _samplingOptions = new Dictionary<Transform, AbilitySamplingOptions>(2)
             {
-                { transform.Find($"Abilities/Weapons"), new AbilitySamplingOptions(maxWeaponCount) },
-                { transform.Find($"Abilities/Passives"), new AbilitySamplingOptions(maxPassiveCount) }
+                { WeaponTransform, new AbilitySamplingOptions(maxWeaponCount) },
+                { PassiveTransform, new AbilitySamplingOptions(maxPassiveCount) }
             };
 
             CreateAbilities();
@@ -54,12 +61,14 @@ namespace Unchord
             Rigidbody.MovePosition(Rigidbody.position + next);
         }
 
-        private void LateUpdate()
+        protected override void LateUpdate()
         {
             Animator.SetFloat("Speed", _movementVector.magnitude);
             if (_movementVector.x != 0)
             {
-                Renderer.flipX = _movementVector.x > 0;  // TODO: 임시로 좌우 반전
+                float angle = _movementVector.x < 0 ? 180.0f : 0.0f;
+                Renderers.eulerAngles = Vector3.up * angle;
+                Colliders.eulerAngles = Vector3.up * angle;
             };
         }
         
@@ -145,18 +154,17 @@ namespace Unchord
             string resourcePath = $"Prefabs/Abilities/{strAbilityType}s/{abilityName}/{abilityName}";
             AbilityComponent abilityComponent = Resources.Load<AbilityComponent>(resourcePath);
 
-            if (abilityComponent == null)
+            if (!abilityComponent)
                 return;
-            else
-                abilityComponent = GameObject.Instantiate<AbilityComponent>(abilityComponent);
+            abilityComponent = Instantiate(abilityComponent);
 
             Debug.Assert(initialLevel >= 0);
 
-            Transform abilityContainer = transform.Find($"Abilities/{strAbilityType}");
+            Transform abilityContainer = transform.Find($"Abilities/{strAbilityType}s");
 
             abilityComponent.transform.SetParent(abilityContainer, true);
             abilityComponent.transform.localPosition = Vector3.zero;
-            abilityComponent.Subscribe(/* this */ null); // TODO: After integrating this function on Player class, remove null and remove comment in as parameter.
+            abilityComponent.Subscribe(this);
             _samplePool.Add(abilityComponent);
             _samplingOptions[abilityContainer].samplePool.Add(abilityComponent);
             abilityComponent.gameObject.SetActive(initialActive);

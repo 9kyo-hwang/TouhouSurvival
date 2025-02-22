@@ -61,26 +61,17 @@ namespace Unchord
         {
             Debug.Assert(level >= 0);
 
-            int prevLevel = _level;
-            int nextLevel = level;
-
             for (int i = _level + 1; i <= level; ++i)
             {
-                // TODO: Write code for updating player's stat. (level increasing)
+                _player.OnChangeAbilityLevel(this, i - 1, i);
             }
 
             for (int i = _level; i > level; --i)
             {
-                // TODO: Write code for updating player's stat. (level decreasing)
+                _player.OnChangeAbilityLevel(this, i, i - 1);
             }
 
             _level = level;
-
-            if (prevLevel != nextLevel)
-            {
-                // TODO: Enable this comment after integrating region Ability Pool Management from this class to Player class.
-                // _player.OnChangeAbilityLevel(this, prevLevel, nextLevel);
-            }
         }
     }
 }

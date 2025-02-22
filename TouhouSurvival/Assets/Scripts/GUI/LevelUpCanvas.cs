@@ -9,6 +9,7 @@ namespace Unchord
     public class LevelUpCanvas : UnchordCanvas
     {
         private List<AbilityComponent> _nextSelections;
+        public bool IsButtonClicked { get; private set; }
 
         protected override void Awake()
         {
@@ -19,10 +20,12 @@ namespace Unchord
         {
             base.OnEnable();
 
+            IsButtonClicked = false;
             int samplingCount = 3;
-            //List<AbilityComponent> _nextSelections = s_gameManager.Player.SampleAbility(samplingCount);
+            _nextSelections = s_gameManager.Player.SampleAbility(samplingCount);
             Transform selectionParent = null;
 
+            // TODO: selectionParent nullable 수정(추후 UI 구성 완료 후)
             int iCount = _nextSelections.Count;
             int bCount = selectionParent.childCount;
             GameObject buttonPrefab = selectionParent.GetChild(0).gameObject;
@@ -33,8 +36,7 @@ namespace Unchord
             {
                 if (bCount - 1 <= i)
                 {
-                    GameObject newButton = GameObject.Instantiate(buttonPrefab);
-                    newButton.transform.SetParent(selectionParent, false);
+                    GameObject newButton = GameObject.Instantiate(buttonPrefab, selectionParent, false);
                     newButton.name = $"SelectionButtonBase ({i + 1})";
                 }
 
@@ -62,8 +64,32 @@ namespace Unchord
 
         private void OnSelectionButtonClick(Button button, int selectionIndex)
         {
+            IsButtonClicked = true;
             _nextSelections[selectionIndex].Level += 1;
             _nextSelections[selectionIndex].SortSiblingIndex();
+
+            GameCanvas gameCanvas = s_uiManager.GameCanvas;
+            
+            for (int i = 0; i < s_gameManager.Player.EnabledWeaponCount; ++i)
+            {
+                AbilityComponent abilityComponent =
+                    s_gameManager.Player.WeaponTransform.GetChild(i).GetComponent<AbilityComponent>();
+                
+                gameCanvas.SetWeaponIcon(i, abilityComponent.icon);
+                gameCanvas.SetWeaponLevel(i, abilityComponent.Level);
+            }
+            
+            // TODO: Passive Icon Set Method
+            
+            // for (int i = 0; i < s_gameManager.Player.EnabledPassiveCount; ++i)
+            // {
+            //     AbilityComponent abilityComponent =
+            //         s_gameManager.Player.PassiveTransform.GetChild(i).GetComponent<AbilityComponent>();
+            //     
+            //     gameCanvas.SetPassiveIcon(i, abilityComponent.icon);
+            //     gameCanvas.SetPassiveLevel(i, abilityComponent.Level);
+            // }
+            
             this.Hide();
         }
     }

@@ -6,16 +6,16 @@ using UnityEngine;
 public abstract class Pawn : MonoBehaviour
 {
     [Header("Components")] 
+    public Transform Colliders { get; protected set; }
+    public Transform Renderers { get; protected set; }
     public Rigidbody2D Rigidbody { get; protected set; }
-    public Collider2D Collider { get; protected set; }
-    public SpriteRenderer Renderer { get; protected set; }
     public Animator Animator { get; protected set; }
     
     protected virtual void Awake()
     {
+        Colliders = transform.Find("Colliders");
+        Renderers = transform.Find("Renderers");
         Rigidbody = GetComponent<Rigidbody2D>();
-        Collider = GetComponent<Collider2D>();
-        Renderer = GetComponent<SpriteRenderer>();
         Animator = GetComponent<Animator>();
     }
 
@@ -27,6 +27,11 @@ public abstract class Pawn : MonoBehaviour
 
     // Update is called once per frame
     protected virtual void Update()
+    {
+        
+    }
+
+    protected virtual void LateUpdate()
     {
         
     }
