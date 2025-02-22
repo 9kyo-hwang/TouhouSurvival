@@ -134,6 +134,7 @@ namespace Unchord
         {
             Player resource = PlayerPrefabs[PlayerPrefabIndex];
             Player instance = GameObject.Instantiate(resource, RuntimeContainer.transform, true);
+
             instance.name = "Player";
             instance.transform.position = Vector3.zero;
 

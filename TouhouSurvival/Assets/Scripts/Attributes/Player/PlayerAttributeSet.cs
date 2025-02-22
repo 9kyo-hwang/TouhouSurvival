@@ -89,13 +89,22 @@ public class PlayerAttributeSet : AttributeSetBase<PlayerAttributeType>
 
     private IEnumerator OnLevelUp()
     {
-        LevelUpCanvas levelUpCanvas = UIManager.Instance.LevelUpCanvas;
-        levelUpCanvas.Show();
-        yield return new WaitUntil(() => levelUpCanvas.IsButtonClicked);
+        // LevelUpCanvas levelUpCanvas = UIManager.Instance.LevelUpCanvas;
+        // levelUpCanvas.Show();
+        // yield return new WaitUntil(() => levelUpCanvas.IsButtonClicked);
+        //
+        // // TODO: 기능 처리
+        //
+        // levelUpCanvas.Hide();
+
+        LobbyCanvas canvas = UIManager.Instance.LobbyCanvas;
+        canvas.Show();
+
+        Debug.Log("Level Up! Show Canvas");
+        yield return new WaitForSecondsRealtime(1f);
+        Debug.Log("Level Up End! Hide Canvas");
         
-        // TODO: 기능 처리
-        
-        levelUpCanvas.Hide();
+        canvas.Hide();
     }
     
     

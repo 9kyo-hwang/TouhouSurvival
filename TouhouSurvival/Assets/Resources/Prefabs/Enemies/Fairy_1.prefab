@@ -44,8 +44,8 @@ GameObject:
   - component: {fileID: 5499114322139423601}
   - component: {fileID: 6820256368915522761}
   - component: {fileID: 3973276599897718334}
-  - component: {fileID: 8226576738396443539}
   - component: {fileID: 4516828506503507494}
+  - component: {fileID: 8945113215154246641}
   m_Layer: 6
   m_Name: Fairy_1
   m_TagString: Untagged
@@ -106,27 +106,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   dropExperiencePrefab: {fileID: 6831472195125531340, guid: 72da7da7c9bf58048982f4a8288bb329, type: 3}
---- !u!114 &8226576738396443539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044509956880046245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e969a355b91d926479eefbcc0a33f767, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialAttributes:
-  - attributeType: 0
-    baseValue: 10
-    minValue: 0
-    maxValue: 20
-  - attributeType: 1
-    baseValue: 2
-    minValue: 0
-    maxValue: 5
 --- !u!50 &4516828506503507494
 Rigidbody2D:
   serializedVersion: 5
@@ -154,6 +133,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8945113215154246641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044509956880046245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 056829be0ecf7c3459b958c86392138b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialAttributes:
+  - attributeType: 0
+    baseValue: 10
+    minValue: 0
+    maxValue: 20
+  - attributeType: 1
+    baseValue: 2
+    minValue: 0
+    maxValue: 5
 --- !u!1 &1779591075832894044
 GameObject:
   m_ObjectHideFlags: 0

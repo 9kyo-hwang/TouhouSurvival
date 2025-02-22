@@ -170,6 +170,14 @@ namespace Unchord
             _samplingOptions[abilityContainer].samplePool.Add(abilityComponent);
             abilityComponent.gameObject.SetActive(initialActive);
             abilityComponent.Level = initialLevel;
+            
+            if (initialActive)
+            {
+                abilityComponent.SortSiblingIndex();
+                GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
+                gameCanvas.SetWeaponIcon(abilityComponent.transform.GetSiblingIndex(), abilityComponent.icon);
+                gameCanvas.SetWeaponLevel(abilityComponent.transform.GetSiblingIndex(), abilityComponent.Level);
+            }
         }
 
         public List<AbilityComponent> SampleAbility(int samplingCount)

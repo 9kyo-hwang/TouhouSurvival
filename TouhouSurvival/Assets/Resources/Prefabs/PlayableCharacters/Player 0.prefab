@@ -209,7 +209,8 @@ GameObject:
   - component: {fileID: 6953679403157487291}
   - component: {fileID: 1687368410410601425}
   - component: {fileID: 5993739452696240177}
-  - component: {fileID: 4616271507409370602}
+  - component: {fileID: 2175564194275827575}
+  - component: {fileID: 8863588712717059164}
   m_Layer: 7
   m_Name: Player 0
   m_TagString: Player
@@ -332,7 +333,7 @@ MonoBehaviour:
   passiveSet: []
   maxWeaponCount: 6
   maxPassiveCount: 6
---- !u!114 &4616271507409370602
+--- !u!114 &2175564194275827575
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -341,7 +342,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6831920981336867835}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 393f0e62dc6bb374190ca6dca6cbb366, type: 3}
+  m_Script: {fileID: 11500000, guid: 26e79f43687722d449bbb1330fff23eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   initialAttributes:
@@ -352,8 +353,31 @@ MonoBehaviour:
   - attributeType: 1
     baseValue: 5
     minValue: 0
-    maxValue: 5
-  levelUpData: []
+    maxValue: 10
+  - attributeType: 6
+    baseValue: 1
+    minValue: 0
+    maxValue: 2
+  levelUpData:
+  - requiredExp: 5
+    levelUpAttributeType: 0
+    levelUpAttributeValue: 5
+  - requiredExp: 10
+    levelUpAttributeType: 1
+    levelUpAttributeValue: 5
+--- !u!114 &8863588712717059164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831920981336867835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cab52a764c725f45b3e2c68da8a62dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 10
 --- !u!1 &7941737267563311883
 GameObject:
   m_ObjectHideFlags: 0
