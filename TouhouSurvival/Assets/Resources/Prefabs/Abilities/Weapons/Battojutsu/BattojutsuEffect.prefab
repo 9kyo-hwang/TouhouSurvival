@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7609362528255124379}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 1936907930427294564}
   - component: {fileID: 2289891219521513512}
   - component: {fileID: 4088868023616967904}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BattojutsuEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1411918207188484755}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Renderers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 4886643304850417579}
   - component: {fileID: 1665505857082881816}
   - component: {fileID: 8292710905331059287}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Damaging Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,6 +234,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b70440da8e374044b4ba32b38431587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!61 &8292710905331059287
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -290,7 +293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2426651139910703142}
   - component: {fileID: 975851869106840460}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sprite Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,8 +356,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 55952141
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

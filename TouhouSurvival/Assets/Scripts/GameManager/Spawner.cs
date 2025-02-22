@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Unchord
 {
@@ -89,7 +90,7 @@ namespace Unchord
                 if (spawnerSO.mixEntityAtOnce && i > 0)
                     prefabIndex = GetRandomPrefabIndex(spawnerSO);
 
-                GameObject instance = GameObject.Instantiate(spawnerSO.spawnDataList[prefabIndex].entityPrefab, GameManager.Instance.RuntimeContainer, true);
+                GameObject instance = Object.Instantiate(spawnerSO.spawnDataList[prefabIndex].entityPrefab, GameManager.Instance.RuntimeContainer, true);
                 Vector2 randomPosition = GetRandomPosition(spawnerSO.spawnPositionFlag);
                 instance.transform.position = randomPosition;
                 s_instances.Add(instance);

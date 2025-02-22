@@ -66,7 +66,7 @@ namespace Unchord
             Animator.SetFloat("Speed", _movementVector.magnitude);
             if (_movementVector.x != 0)
             {
-                float angle = _movementVector.x < 0 ? 180.0f : 0.0f;
+                float angle = _movementVector.x < 0 ? 0.0f : 180.0f;
                 Renderers.eulerAngles = Vector3.up * angle;
                 Colliders.eulerAngles = Vector3.up * angle;
             };
@@ -75,6 +75,7 @@ namespace Unchord
         private void OnMove(InputValue value)
         {
             // Input Setting에서 이미 값을 Normalized된 상태로 받도록 세팅됨
+            Debug.Log("OnMove");
             _movementVector = value.Get<Vector2>();
         }
 

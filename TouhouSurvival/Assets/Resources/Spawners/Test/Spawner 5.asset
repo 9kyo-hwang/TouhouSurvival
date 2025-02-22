@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spawner 5
   m_EditorClassIdentifier: 
   spawnDataList:
-  - entityPrefab: {fileID: 6996237603946166812, guid: 622e050f6f4244b47b38b0798cee9019, type: 3}
+  - entityPrefab: {fileID: 1044509956880046245, guid: 07092dfe8fea55d4a8edd66381647f11, type: 3}
     spawnRatio: 1
   minSpawnCooltime: 1
   maxSpawnCooltime: 2

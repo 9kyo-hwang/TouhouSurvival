@@ -44,7 +44,7 @@ namespace Unchord
             Vector2 source = MainCamera.transform.position;
             Vector2 destination = Player.transform.position;
 
-            Vector2 next = Vector2.Lerp(source, destination, traceSpeed * Time.deltaTime);
+            Vector2 next = Vector2.Lerp(destination, source, traceSpeed * Time.deltaTime);
 
             if (Vector2.Distance(next, destination) > limit)
             {
