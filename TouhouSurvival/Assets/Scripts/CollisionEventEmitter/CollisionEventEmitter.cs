@@ -6,7 +6,8 @@ namespace Unchord
 {
     public class CollisionEventEmitter : MonoBehaviour
     {
-        // [Header("Collider Ignorance Criterias")]
+        [Header("Collider Ignorance Criterias")]
+        public LayerMask targetLayerMask;
 
         private class _HandlerInfo<T_Handler>
         {
@@ -137,7 +138,7 @@ namespace Unchord
 
         private bool IsIgnoredCollider(Collider2D collider)
         {
-            return false;
+            return (targetLayerMask & (1 << collider.gameObject.layer)) != 0;
         }
 
         private void OnTriggerEnter2D(Collider2D collider)
