@@ -7,8 +7,7 @@ namespace Unchord
     public abstract class Projectile : MonoBehaviour
     {
         public FlagComponent FlagTable { get; private set; }
-
-        public LayerMask layerMask;
+        public Vector3 OriginPosition { get; set; }
 
         protected virtual void Awake()
         {
