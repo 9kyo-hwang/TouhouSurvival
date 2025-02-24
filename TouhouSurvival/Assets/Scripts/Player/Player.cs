@@ -218,10 +218,16 @@ namespace Unchord
                 {
                     options.enabledCount++;
                 }
-                if (prevLevel < maxLevel && maxLevel <= nextLevel &&
-                    ++options.maxLevelReachedCount == options.maxAbilityCount)
+                if (prevLevel < maxLevel && maxLevel <= nextLevel)
                 {
-                    options.HideAllFrom(_samplePool);
+                    ++options.maxLevelReachedCount;
+                    _samplePool.Remove(abilityComponent);
+
+                    if (options.maxLevelReachedCount == options.maxAbilityCount ||
+                        options.maxLevelReachedCount == options.samplePool.Count)
+                    {
+                        options.HideAllFrom(_samplePool);
+                    }
                 }
             }
             else
@@ -230,10 +236,17 @@ namespace Unchord
                 {
                     options.enabledCount--;
                 }
-                if (nextLevel < maxLevel && maxLevel <= prevLevel &&
-                    options.maxLevelReachedCount-- == options.maxAbilityCount)
+                if (nextLevel < maxLevel && maxLevel <= prevLevel)
                 {
-                    options.RevokeAllAt(_samplePool);
+                    _samplePool.Add(abilityComponent);
+
+                    if (options.maxLevelReachedCount == options.maxAbilityCount ||
+                        options.maxLevelReachedCount == options.samplePool.Count)
+                    {
+                        options.RevokeAllAt(_samplePool);
+                    }
+
+                    --options.maxLevelReachedCount;
                 }
             }
         }
