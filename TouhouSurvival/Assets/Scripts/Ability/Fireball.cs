@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -9,42 +8,28 @@ namespace Unchord
         private static int s_fireballProjectileFlyingHash = Animator.StringToHash("FireballProjectileFlying");
         private static int s_fireballExplosionHash = Animator.StringToHash("FireballExplosion");
 
-        [Header("Shooting Properties")]
-        public float baseShootingCooldown;
-        public float baseProjectileSize = 1.0f;
-        public float baseEulerAngleError;
-        public float baseBurstDelay;
-        public int baseBurstCount;
+        public FireballAttributeSet Attributes { get; private set; }
 
-        [Header("Projectile Properties")]
+        [Header("Prefab Settings")]
         public GameObject projectilePrefab;
-        public float baseProjectileSpeed;
-        public float baseProjectileDamage;
-        public float baseProjectileKnockbackForce;
-
-        [Header("Explosion Properties")]
         public GameObject explosionPrefab;
-        public float baseExplosionSize = 1.0f;
-        public float baseExplosionDuration;
-        public float baseExplosionKnockbackForce;
-        public float baseExplosionDamage;
-
-        [Header("Object Pool Setting")]
-        public int projectilePoolCapacity;
-        public int explosionPoolCapacity;
 
         private ObjectPool<GameObject> _projectilePool;
         private ObjectPool<GameObject> _explosionPool;
 
         protected override void Awake()
         {
+            base.Awake();
+
+            Attributes = GetComponent<FireballAttributeSet>();
+
             _projectilePool = new ObjectPool<GameObject>(
                 OnCreateProjectile,
                 OnGetProjectile,
                 OnReleaseProjectile,
                 OnDestroyProjectile,
                 true,
-                projectilePoolCapacity,
+                4,
                 100);
             _explosionPool = new ObjectPool<GameObject>(
                 OnCreateExplosion,
@@ -52,7 +37,7 @@ namespace Unchord
                 OnReleaseExplosion,
                 OnDestroyExplosion,
                 true,
-                explosionPoolCapacity,
+                4,
                 100);
         }
 
@@ -69,11 +54,14 @@ namespace Unchord
 
             LinearProjectile projectile = projectileObject.GetComponent<LinearProjectile>();
             projectile.transform.localPosition = Vector3.zero;
+            projectile.OriginPosition = projectile.transform.position;
             projectile.ProjectileSpeed = 3.0f;
 
             Vector3 playerPosition = _player.transform.position;
             Vector3 enemyPosition = nearestEnemy.transform.position;
-            projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, baseEulerAngleError);
+            GameplayAttribute attrEulerAngleError = Attributes.GetAttribute(FireballAttributeType.ShootingEulerAngleError);
+
+            projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, attrEulerAngleError.CurrentValue);
         }
 
         private GameObject OnCreateProjectile()
@@ -167,9 +155,12 @@ namespace Unchord
             LinearProjectile proj = projectile.GetComponentInParent<LinearProjectile>();
             proj.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
 
-            GameObject explosion = _explosionPool.Get();
-            explosion.transform.parent = transform;
-            explosion.transform.position = projectile.transform.position;
+            GameObject explosionObject = _explosionPool.Get();
+            explosionObject.transform.parent = transform;
+            explosionObject.transform.position = projectile.transform.position;
+
+            DotProjectile explosion = explosionObject.GetComponent<DotProjectile>();
+            explosion.OriginPosition = explosionObject.transform.position;
         }
 
         private void OnExplosionStay(GameObject explosion, Collider2D collider)
