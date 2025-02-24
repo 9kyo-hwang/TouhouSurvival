@@ -114,6 +114,13 @@ namespace Unchord
             _earnedGold.text = earnedGold.ToString();
         }
 
+        public void EnableWeaponSlot(int index)
+        {
+            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
+
+            _weaponSlots[index].Enable();
+        }
+
         public void SetWeaponIcon(int index, Sprite weaponIcon)
         {
             UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
@@ -127,6 +134,13 @@ namespace Unchord
 
             _weaponSlots[index].level.SetValue(level);
         }
+
+        //public void EnablePassiveSlot(int index)
+        //{
+        //    UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
+
+        //    _passiveSlots[index].Enable();
+        //}
 
         //public void SetPassiveIcon(int index, Sprite passiveIcon)
         //{
