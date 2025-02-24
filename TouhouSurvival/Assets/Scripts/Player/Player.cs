@@ -186,9 +186,9 @@ namespace Unchord
 
             List<AbilityComponent> sampleAbilities = new List<AbilityComponent>(samplingCount);
 
-            for (int i = _samplePool.Count; i > 0; --i)
+            for (int i = _samplePool.Count - 1; i >= 0; --i)
             {
-                int j = UnityEngine.Random.Range(0, i);
+                int j = UnityEngine.Random.Range(0, i + 1);
 
                 (_samplePool[i], _samplePool[j]) = (_samplePool[j], _samplePool[i]);
 
