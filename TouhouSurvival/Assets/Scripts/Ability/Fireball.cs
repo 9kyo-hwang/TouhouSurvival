@@ -152,7 +152,7 @@ namespace Unchord
             // Pawn enemy = collider.gameObject.GetComponent<Pawn>();
             // enemy.TakeDamage(/* event structure here. */);
 
-            LinearProjectile proj = projectile.GetComponentInParent<LinearProjectile>();
+            LinearProjectile proj = projectile.GetComponentInParent<LinearProjectile>(true);
             proj.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
 
             GameObject explosionObject = _explosionPool.Get();
