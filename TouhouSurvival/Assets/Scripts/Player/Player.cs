@@ -175,7 +175,7 @@ namespace Unchord
             {
                 abilityComponent.SortSiblingIndex();
                 GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
-                gameCanvas.SetWeaponIcon(abilityComponent.transform.GetSiblingIndex(), abilityComponent.icon);
+                gameCanvas.SetWeaponIcon(abilityComponent.transform.GetSiblingIndex(), abilityComponent.DisplayIcon);
                 gameCanvas.SetWeaponLevel(abilityComponent.transform.GetSiblingIndex(), abilityComponent.Level);
             }
         }
@@ -208,7 +208,7 @@ namespace Unchord
             UnityEngine.Debug.Assert(prevLevel >= 0);
             UnityEngine.Debug.Assert(nextLevel >= 0);
 
-            int maxLevel = abilityComponent.maxLevel;
+            int maxLevel = abilityComponent.MaxLevel;
 
             AbilitySamplingOptions options = _samplingOptions[abilityComponent.transform.parent];
 

@@ -13,10 +13,25 @@ namespace Unchord
             set => SetLevel(value);
         }
 
+        public int MaxLevel => maxLevel;
         public float NormalizedLevel => (float)_level / maxLevel;
 
-        public int maxLevel = 1;
-        public Sprite icon;
+        public Sprite DisplayIcon => displayIcon;
+        public string DisplayName => displayName;
+        public string DisplayDescription => displayDescription;
+
+        [SerializeField]
+        private int maxLevel = 1;
+        
+        [Header("Displays on GUI")]
+        [SerializeField]
+        private Sprite displayIcon;
+
+        [SerializeField]
+        private string displayName;
+
+        [SerializeField]
+        private string displayDescription;
 
         protected Player _player { get; private set; }
         private int _level;

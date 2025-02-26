@@ -56,8 +56,8 @@ namespace Unchord
 
             buttonTransform.gameObject.SetActive(true);
 
-            this.GetIcon(buttonTransform).sprite = ability.icon;
-            this.GetName(buttonTransform).text = ability.name;
+            this.GetIcon(buttonTransform).sprite = ability.DisplayIcon;
+            this.GetName(buttonTransform).text = ability.DisplayName;
             this.GetDescription(buttonTransform).text = "level up description here.";
         }
 
