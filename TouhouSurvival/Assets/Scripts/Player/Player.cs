@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -42,11 +43,21 @@ namespace Unchord
             };
 
             CreateAbilities();
+
+            // AttributeSet.onLevelUp = OnLevelUp;
+
+            AttributeSet.onLevelUp += (level, remainingExp, requiredExp) =>
+            {
+                GameManager.Instance.BlockingEvent.Publish(OnLevelUp());
+            };
         }
 
         protected override void Start()
         {
             base.Start();
+
+            int level = (int)AttributeSet.Level;
+            LevelUpData<PlayerAttributeType> data = AttributeSet.levelUpData[level];
         }
 
         protected override void Update()
@@ -96,6 +107,39 @@ namespace Unchord
             
             Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
+        }
+
+        private IEnumerator OnLevelUp()
+        {
+            List<AbilityComponent> sampledAbilities = SampleAbility(3);
+            LevelUpCanvas lvUpCanvas = UIManager.Instance.LevelUpCanvas;
+
+            lvUpCanvas.Clear();
+
+            for (int i = 0; i < sampledAbilities.Count; ++i)
+            {
+                lvUpCanvas.Add(sampledAbilities[i]);
+            }
+
+            lvUpCanvas.Show();
+            yield return new WaitWhile(() => lvUpCanvas.SelectedIndex < 0);
+            lvUpCanvas.Hide();
+
+            if (sampledAbilities.Count == 0)
+                yield break;
+
+            int selectedIndex = lvUpCanvas.SelectedIndex;
+            AbilityComponent selectedAbility = sampledAbilities[selectedIndex];
+
+            selectedAbility.Level += 1;
+            selectedAbility.SortSiblingIndex();
+
+            int siblingIndex = selectedAbility.transform.GetSiblingIndex();
+
+            GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
+            gameCanvas.EnableWeaponSlot(siblingIndex);
+            gameCanvas.SetWeaponIcon(siblingIndex, selectedAbility.DisplayIcon);
+            gameCanvas.SetWeaponLevel(siblingIndex, selectedAbility.Level);
         }
         
         #region Ability Pool Management

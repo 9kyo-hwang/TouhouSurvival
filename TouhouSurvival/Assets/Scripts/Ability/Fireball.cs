@@ -85,6 +85,9 @@ namespace Unchord
 
             projectile.gameObject.SetActive(true);
 
+            float scale = Attributes.GetAttribute(FireballAttributeType.ProjectileSize).CurrentValue;
+            projectile.transform.localScale = new Vector3(scale, scale, 1.0f);
+
             Animator animator = projectile.GetComponent<Animator>();
             animator.Play(s_fireballProjectileFlyingHash);
         }

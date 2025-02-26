@@ -46,15 +46,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ff2ed278775e44f90ed07cd70e0173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLevel: 5
-  icon: {fileID: 21300000, guid: 3a5ceaae6bf1e79439054d91cc17d753, type: 3}
+  maxLevel: 1
+  displayIcon: {fileID: 21300000, guid: 3a5ceaae6bf1e79439054d91cc17d753, type: 3}
+  displayName: Fireball
+  displayDescription: 
   weaponActivationMode: 1
   fixedCooltime: 1
   variableCooltimeMin: 1
   variableCooltimeMax: 2
   projectilePrefab: {fileID: 7389579929433498551, guid: 040917b989cffd64cbd276e44b67a014, type: 3}
   explosionPrefab: {fileID: 7389579929433498551, guid: 8109957d4d5bd6d4db110f341238dd4f, type: 3}
-  attributes: {fileID: 0}
 --- !u!114 &7197898148767006592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +94,7 @@ MonoBehaviour:
     minValue: 1
     maxValue: 10
   - attributeType: 3
-    baseValue: 1
+    baseValue: 0.6
     minValue: 0.01
     maxValue: 10
   - attributeType: 4

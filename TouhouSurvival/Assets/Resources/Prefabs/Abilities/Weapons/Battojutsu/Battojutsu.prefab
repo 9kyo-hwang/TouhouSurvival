@@ -44,8 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21627c3b1a727cf4c9f0c06de163cf52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLevel: 6
-  icon: {fileID: 21300000, guid: f6f3620e39d2e944fb0b17b30d410164, type: 3}
+  maxLevel: 1
+  displayIcon: {fileID: 21300000, guid: f6f3620e39d2e944fb0b17b30d410164, type: 3}
+  displayName: Battojutsu
+  displayDescription: 
   weaponActivationMode: 1
   fixedCooltime: 2
   variableCooltimeMin: 1
