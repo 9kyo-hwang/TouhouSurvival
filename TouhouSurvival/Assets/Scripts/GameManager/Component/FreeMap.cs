@@ -17,15 +17,13 @@ namespace Unchord
 
             map._size = mapSO.size;
 
-            FreeMap.InstantiateTessellation(mapSO, parent, new Vector2(0.0f, 0.0f), "C");
-            FreeMap.InstantiateTessellation(mapSO, parent, new Vector2(1.0f, 0.0f), "R");
-            FreeMap.InstantiateTessellation(mapSO, parent, new Vector2(1.0f, 1.0f), "RT");
-            FreeMap.InstantiateTessellation(mapSO, parent, new Vector2(0.0f, 1.0f), "T");
-            FreeMap.InstantiateTessellation(mapSO, parent, new Vector2(-1.0f, 1.0f), "LT");
-            FreeMap.InstantiateTessellation(mapSO, parent, new Vector2(-1.0f, 0.0f), "L");
-            FreeMap.InstantiateTessellation(mapSO, parent, new Vector2(-1.0f, -1.0f), "LB");
-            FreeMap.InstantiateTessellation(mapSO, parent, new Vector2(0.0f, -1.0f), "B");
-            FreeMap.InstantiateTessellation(mapSO, parent, new Vector2(1.0f, -1.0f), "RB");
+            for (int i = 0; i < 9; ++i)
+            {
+                int dx, dy;
+                UnchordUtility.IndexToPoint(i, out dx, out dy);
+                FreeMap.InstantiateTessellation(mapSO, parent, new Vector2(dx, dy), Chunk.directionStrings[i]);
+                Chunk.GetChunkByIndex(i).Enable();
+            }
 
             return map;
         }
@@ -58,6 +56,7 @@ namespace Unchord
             if (_chunkPositionX == newChunkPositionX && _chunkPositionY == newChunkPositionY)
                 return;
 
+            Chunk.MoveChunkPosition(_chunkPositionX, _chunkPositionY, newChunkPositionX, newChunkPositionY);
             _chunkPositionX = newChunkPositionX;
             _chunkPositionY = newChunkPositionY;
 
