@@ -47,6 +47,11 @@ namespace Unchord
             InitAttributes();
         }
 
+        protected virtual void Start()
+        {
+
+        }
+
         private void CreateSingletonReference()
         {
             if (s_gameManager == null)

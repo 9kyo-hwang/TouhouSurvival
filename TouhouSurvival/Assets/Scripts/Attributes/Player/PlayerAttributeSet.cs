@@ -10,8 +10,16 @@ namespace Unchord
 
             OnLevelUp += HandleLevelUp;
             OnExpChanged += HandleExpChange;
-        
+
             base[PlayerAttributeType.Health].OnAttributeChanged += OnHealthChanged;
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+
+            s_uiManager.GameCanvas.SetPlayerLevel((int)Level);
+            s_uiManager.GameCanvas.SetExpGauge(base.Experience, base.ExperienceRequirement);
         }
 
         private void Update()
