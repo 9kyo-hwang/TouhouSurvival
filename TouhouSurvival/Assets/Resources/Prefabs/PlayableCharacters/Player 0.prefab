@@ -359,12 +359,16 @@ MonoBehaviour:
     minValue: 0
     maxValue: 2
   levelUpData:
-  - requiredExp: 5
-    levelUpAttributeType: 0
-    levelUpAttributeValue: 5
-  - requiredExp: 10
-    levelUpAttributeType: 1
-    levelUpAttributeValue: 5
+  - expRequirement: 5
+    attributeType: 0
+    attributeOperation: 0
+    deltaValue: 3
+    displayDescription: 
+  - expRequirement: 10
+    attributeType: 1
+    attributeOperation: 0
+    deltaValue: 3
+    displayDescription: 
 --- !u!114 &8863588712717059164
 MonoBehaviour:
   m_ObjectHideFlags: 0
