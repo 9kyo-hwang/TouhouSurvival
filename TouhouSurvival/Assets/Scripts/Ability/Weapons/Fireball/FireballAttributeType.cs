@@ -18,9 +18,4 @@ namespace Unchord
         ExplosionDamage,
         ExplosionKnockbackForce,
     }
-
-    public class FireballAttributeSet : AbilityAttributeSet<FireballAttributeType>
-    {
-
-    }
 }
