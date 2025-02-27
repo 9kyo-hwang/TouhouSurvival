@@ -6,6 +6,9 @@ namespace Unchord
 {
     public abstract class AttributeSetBase<TAttributeType> : MonoBehaviour where TAttributeType : Enum
     {
+        protected static GameManager s_gameManager { get; private set; }
+        protected static UIManager s_uiManager { get; private set; }
+
         public float Level { get; private set; } = 1;
         protected float Experience { get; private set; }
 
@@ -26,6 +29,8 @@ namespace Unchord
 
         protected virtual void Awake()
         {
+            CreateSingletonReference();
+
             // 인스펙터에서 설정된 초기 속성들을 딕셔너리에 추가
             foreach (GameplayAttributeData<TAttributeType> data in initialAttributes)
             {
@@ -36,6 +41,15 @@ namespace Unchord
             }
 
             CheckAllAttributeDefined();
+        }
+
+        private void CreateSingletonReference()
+        {
+            if (s_gameManager == null)
+                s_gameManager = GameManager.Instance;
+
+            if (s_uiManager == null)
+                s_uiManager = UIManager.Instance;
         }
         
         private void CheckAllAttributeDefined()
