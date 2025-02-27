@@ -39,14 +39,16 @@ namespace Unchord
 
         private void HandleExpChange(int level, float remainingExp, float requiredExp)
         {
-            LevelUpData<PlayerAttributeType> data = levelUpData[(int)Level - 1];
-            UIManager.Instance.GameCanvas.SetExpGauge(Experience, data.expRequirement);
-        
+            s_uiManager.GameCanvas.SetExpGauge(Experience, ExperienceRequirement);
         }
 
         private void HandleLevelUp(int level, float remainingExp, float requiredExp)
         {
-            UIManager.Instance.GameCanvas.SetPlayerLevel((int)Level);
+            s_uiManager.GameCanvas.SetPlayerLevel((int)Level);
+
+            // 최대 레벨에 도달하면 경험치바를 항상 가득 채워놓음.
+            if (IsReachedMaxLevel)
+                s_uiManager.GameCanvas.SetExpGauge(1.0f, 1.0f);
         }
 
         private void OnHealthChanged(object sender, AttributeChangedEventArgs e)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 namespace Unchord
@@ -101,19 +102,81 @@ namespace Unchord
                 return;
             }
 
+            // TODO: 어떤 방식으로 코드를 작성할지 합의가 필요해 보임.
+            // 코드 작성 합의 후 코드를 확정, 이후에는 코드 로직을 건드리면 안 됨.
+            #region Level Up Code
+            // 레벨업 코드 - 작성자: ㅊㅁㅅ
             // LevelUp!
-            while (remainingExp >= requiredExp)
+            while (!IsReachedMaxLevel && remainingExp >= requiredExp)
             {
+                int prevLevel = (int)Level;
+
                 remainingExp -= requiredExp;
                 Experience = remainingExp;
-                OnExpChanged?.Invoke((int)Level, remainingExp, requiredExp);
-                
                 Level += 1;
-                OnLevelUp?.Invoke((int)Level, remainingExp, requiredExp);
-                
-                data = levelUpData[(int)Level - 1];
-                requiredExp = data.expRequirement;
-                Attributes[data.attributeType].BaseValue += data.deltaValue;
+                requiredExp = ExperienceRequirement;
+                ApplyLevelUpData(prevLevel);
+
+                // 모든 값이 다 바뀐 후 최종적으로 한 번만 UI를 갱신하기 때문에
+                // 이벤트 함수가 경험치, 레벨, 스텟이 전부 바뀐 후 호출되는 것이 논리적으로 맞다고 생각함.
+                int intLevel = (int)Level;
+                OnExpChanged?.Invoke(intLevel, remainingExp, requiredExp); // 이 곳에서 경험치, 레벨을 UI에 갱신하는 코드가 호출됨.
+                OnLevelUp?.Invoke(intLevel, remainingExp, requiredExp); // 이 곳에는 경험치, 레벨 UI를 갱신하는 코드가 없다고 생각하고 이벤트 호출을 전부 뒤로 미룸.
+            }
+
+            // 레벨업 코드 - 작성자: ㄱㄱㅎ
+            // LevelUp!
+            //while (remainingExp >= requiredExp)
+            //{
+            //    remainingExp -= requiredExp;
+            //    Experience = remainingExp;
+
+            // 1. 현재 레벨에서의 레벨, 경험치, 경헙치 요구량을 보여주는 부분
+            //    OnExpChanged?.Invoke((int)Level, remainingExp, requiredExp);
+
+            //    Level += 1;
+
+            // 만약에 여기서도 UI를 갱신하는 코드가 호출된다고 하면 말이 됨.
+            // 2. 레벨업 후 레벨, 경험치, 경험치 요구량을 보여주는 부분
+            //    OnLevelUp?.Invoke((int)Level, remainingExp, requiredExp);
+
+            // 3. 만약 상기한 1, 2의 동작을 가정하고 코딩했다 하면
+            //    경험치 요구량은 레벨업 후 도착한 레벨의 경험치 요구량을 UI에 표시하는 것이 적절하므로
+            //    아래 코드 두 줄은 OnLevelUp 이벤트 호출 직전에 와야됨.
+            //    data = levelUpData[(int)Level - 1];
+            //    requiredExp = data.expRequirement;
+
+            // 4. 만약 상기한 1, 2의 동작이 아닌 다른 방식의 동작을 가정하고 코딩했다면
+            //    차후 회의에서 간단한 설명을 부탁.
+
+            //    Attributes[data.attributeType].BaseValue += data.deltaValue;
+            //}
+            #endregion
+        }
+
+        private void ApplyLevelUpData(int level)
+        {
+            LevelUpData<TAttributeType> data = levelUpData[level - 1];
+            TAttributeType type = data.attributeType;
+            float deltaValue = data.deltaValue;
+
+            switch (data.attributeOperation)
+            {
+                case AttributeOperation.Add:
+                    Attributes[type].BaseValue += deltaValue;
+                    break;
+                case AttributeOperation.Subtract:
+                    Attributes[type].BaseValue -= deltaValue;
+                    break;
+                case AttributeOperation.Multiply:
+                    Attributes[type].BaseValue *= deltaValue;
+                    break;
+                case AttributeOperation.Divide:
+                    Attributes[type].BaseValue /= deltaValue;
+                    break;
+                default:
+                    UnityEngine.Debug.Assert(false);
+                    break;
             }
         }
     }
