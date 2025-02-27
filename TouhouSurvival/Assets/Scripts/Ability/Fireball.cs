@@ -47,7 +47,7 @@ namespace Unchord
 
             GameObject nearestEnemy = Spawner.GetNearestEnemyOrNull(_player.transform.position);
 
-            if (nearestEnemy == null)
+            if (!nearestEnemy)
                 return;
 
             GameObject projectileObject = _projectilePool.Get();
@@ -59,23 +59,22 @@ namespace Unchord
 
             Vector3 playerPosition = _player.transform.position;
             Vector3 enemyPosition = nearestEnemy.transform.position;
-            GameplayAttribute attrEulerAngleError = Attributes.GetAttribute(FireballAttributeType.ShootingEulerAngleError);
+            GameplayAttribute attrEulerAngleError = Attributes[FireballAttributeType.ShootingEulerAngleError];
 
             projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, attrEulerAngleError.CurrentValue);
         }
 
         private GameObject OnCreateProjectile()
         {
-            GameObject gameObject = GameObject.Instantiate(projectilePrefab.gameObject);
-            gameObject.transform.parent = transform;
+            GameObject projectile = GameObject.Instantiate(projectilePrefab.gameObject, transform, true);
 
-            CollisionEventEmitter emitter = gameObject.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
+            CollisionEventEmitter emitter = projectile.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
             emitter.AddHandler(OnProjectileEnter, CollisionEventType.OnTriggerEnter2D);
 
-            FlagComponent flagTable = gameObject.GetComponent<FlagComponent>();
+            FlagComponent flagTable = projectile.GetComponent<FlagComponent>();
             flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnProjectileDestroyFlagSetTrue);
 
-            return gameObject;
+            return projectile;
         }
 
         private void OnGetProjectile(GameObject projectile)
@@ -85,7 +84,7 @@ namespace Unchord
 
             projectile.gameObject.SetActive(true);
 
-            float scale = Attributes.GetAttribute(FireballAttributeType.ProjectileSize).CurrentValue;
+            float scale = Attributes[FireballAttributeType.ProjectileSize].CurrentValue;
             projectile.transform.localScale = new Vector3(scale, scale, 1.0f);
 
             Animator animator = projectile.GetComponent<Animator>();
@@ -109,16 +108,15 @@ namespace Unchord
 
         private GameObject OnCreateExplosion()
         {
-            GameObject gameObject = GameObject.Instantiate(explosionPrefab.gameObject);
-            gameObject.transform.parent = transform;
+            GameObject explosion = GameObject.Instantiate(explosionPrefab.gameObject, transform, true);
 
-            CollisionEventEmitter emitter = gameObject.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
+            CollisionEventEmitter emitter = explosion.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
             emitter.AddHandler(OnExplosionStay, CollisionEventType.OnTriggerStay2D);
 
-            FlagComponent flagTable = gameObject.GetComponent<FlagComponent>();
+            FlagComponent flagTable = explosion.GetComponent<FlagComponent>();
             flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnExplosionDestroyFlagSetTrue);
 
-            return gameObject;
+            return explosion;
         }
 
         private void OnGetExplosion(GameObject explosion)

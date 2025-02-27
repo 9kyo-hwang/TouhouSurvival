@@ -1,61 +1,64 @@
 using System;
 using UnityEngine;
 
-public class AttributeChangedEventArgs : EventArgs
+namespace Unchord
 {
-    public float OldValue { get; private set; }
-    public float NewValue { get; private set; }
-
-    public AttributeChangedEventArgs(float oldValue, float newValue)
+    public class AttributeChangedEventArgs : EventArgs
     {
-        OldValue = oldValue;
-        NewValue = newValue;
-    }
-}
+        public float OldValue { get; private set; }
+        public float NewValue { get; private set; }
 
-[Serializable]
-public class GameplayAttribute
-{
-    [SerializeField] private float baseValue;
-    [SerializeField] private float currentValue;
-    [SerializeField] private float minValue;
-    [SerializeField] private float maxValue;
-
-    public event EventHandler<AttributeChangedEventArgs> OnAttributeChanged;
-
-    public float BaseValue
-    {
-        get => baseValue;
-        set
+        public AttributeChangedEventArgs(float oldValue, float newValue)
         {
-            float oldValue = baseValue;
-            baseValue = value;
-            currentValue = Mathf.Clamp(baseValue, minValue, maxValue);
-            OnAttributeChanged?.Invoke(this, new AttributeChangedEventArgs(oldValue, currentValue));
+            OldValue = oldValue;
+            NewValue = newValue;
         }
     }
-
-    public float CurrentValue
+    
+    [Serializable]
+    public class GameplayAttribute
     {
-        get => currentValue;
-        set
+        [SerializeField] private float baseValue;
+        [SerializeField] private float currentValue;
+        [SerializeField] private float minValue;
+        [SerializeField] private float maxValue;
+
+        public event EventHandler<AttributeChangedEventArgs> OnAttributeChanged;
+
+        public float BaseValue
         {
-            float oldValue = currentValue;
-            currentValue = Mathf.Clamp(value, minValue, maxValue);
-            OnAttributeChanged?.Invoke(this, new AttributeChangedEventArgs(oldValue, currentValue));
+            get => baseValue;
+            set
+            {
+                float oldValue = baseValue;
+                baseValue = value;
+                currentValue = Mathf.Clamp(baseValue, minValue, maxValue);
+                OnAttributeChanged?.Invoke(this, new AttributeChangedEventArgs(oldValue, currentValue));
+            }
         }
-    }
 
-    public GameplayAttribute(float baseValue, float minValue = float.MinValue, float maxValue = float.MaxValue)
-    {
-        this.baseValue = baseValue;
-        this.currentValue = baseValue;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-    }
+        public float CurrentValue
+        {
+            get => currentValue;
+            set
+            {
+                float oldValue = currentValue;
+                currentValue = Mathf.Clamp(value, minValue, maxValue);
+                OnAttributeChanged?.Invoke(this, new AttributeChangedEventArgs(oldValue, currentValue));
+            }
+        }
 
-    public void ResetToBase()
-    {
-        CurrentValue = BaseValue;
+        public GameplayAttribute(float baseValue, float minValue = float.MinValue, float maxValue = float.MaxValue)
+        {
+            this.baseValue = baseValue;
+            this.currentValue = baseValue;
+            this.minValue = minValue;
+            this.maxValue = maxValue;
+        }
+
+        public void ResetToBase()
+        {
+            CurrentValue = BaseValue;
+        }
     }
 }

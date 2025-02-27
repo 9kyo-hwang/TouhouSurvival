@@ -45,7 +45,7 @@ namespace Unchord
                 return;
             }
 
-            float speed = _attributeSet.GetCurrentValue(EnemyAttributeType.Speed);
+            float speed = _attributeSet[EnemyAttributeType.Speed].CurrentValue;
             Vector2 toTargetDirection = (target.position - Rigidbody.position).normalized;
             Vector2 nextPosition = toTargetDirection * (speed * Time.fixedDeltaTime);
             Rigidbody.MovePosition(Rigidbody.position + nextPosition);
@@ -72,10 +72,11 @@ namespace Unchord
                 return 0f;
             }
 
-            float currentHealth = _attributeSet.GetCurrentValue(EnemyAttributeType.Health);
-            _attributeSet.ModifyCurrentValue(EnemyAttributeType.Health, -damageAmount);
-            float newHealth = _attributeSet.GetCurrentValue(EnemyAttributeType.Health);
-
+            GameplayAttribute healthAttribute = _attributeSet[EnemyAttributeType.Health];
+            float currentHealth = healthAttribute.CurrentValue;
+            healthAttribute.CurrentValue -= damageAmount;
+            float newHealth = healthAttribute.CurrentValue;
+            
             Debug.Log($"적이 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
         }
@@ -134,7 +135,7 @@ namespace Unchord
             }
 
             // TODO: 드랍 확률 적용 & 해당 맵 섹션(청크)에 정보를 넘겨줘야 함
-            float dropRate = _attributeSet.GetCurrentValue(EnemyAttributeType.DropRate);
+            float dropRate = _attributeSet[EnemyAttributeType.DropRate].CurrentValue;
             if (Random.value >= dropRate)    // [0.0f, 1.0f] 사이 랜덤값이 dropRate(0.0 ~ 1.0) 사이보다 크거나 같으면 Drop
             {
                 GameObject experience = Instantiate(dropExperiencePrefab, transform.position, Quaternion.identity);

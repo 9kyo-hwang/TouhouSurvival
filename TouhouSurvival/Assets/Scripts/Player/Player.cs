@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,7 +45,7 @@ namespace Unchord
 
             // AttributeSet.onLevelUp = OnLevelUp;
 
-            AttributeSet.onLevelUp += (level, remainingExp, requiredExp) =>
+            AttributeSet.OnLevelUp += (level, remainingExp, requiredExp) =>
             {
                 GameManager.Instance.BlockingEvent.Publish(OnLevelUp());
             };
@@ -67,7 +66,7 @@ namespace Unchord
 
         private void FixedUpdate()
         {
-            float movementSpeed = AttributeSet.GetCurrentValue(PlayerAttributeType.MovementSpeed);
+            float movementSpeed = AttributeSet[PlayerAttributeType.MovementSpeed].CurrentValue;
             Vector2 next = _movementVector * (movementSpeed * Time.fixedDeltaTime);
             Rigidbody.MovePosition(Rigidbody.position + next);
         }
@@ -80,7 +79,7 @@ namespace Unchord
                 float angle = _movementVector.x < 0 ? 0.0f : 180.0f;
                 Renderers.eulerAngles = Vector3.up * angle;
                 Colliders.eulerAngles = Vector3.up * angle;
-            };
+            }
         }
         
         private void OnMove(InputValue value)
@@ -98,12 +97,15 @@ namespace Unchord
                 return 0f;
             }
 
-            float currentHealth = AttributeSet.GetCurrentValue(PlayerAttributeType.MaxHealth);
-            float defense = AttributeSet.GetCurrentValue(PlayerAttributeType.Defense);
-            damageAmount -= defense;
+            GameplayAttribute health = AttributeSet[PlayerAttributeType.Health];
+            GameplayAttribute defense = AttributeSet[PlayerAttributeType.Defense];
             
-            AttributeSet.ModifyCurrentValue(PlayerAttributeType.MaxHealth, -damageAmount);
-            float newHealth = AttributeSet.GetCurrentValue(PlayerAttributeType.MaxHealth);
+            float currentHealth = health.CurrentValue;
+            float currentDefense = defense.CurrentValue;
+            damageAmount -= currentDefense;
+            
+            health.CurrentValue -= damageAmount;
+            float newHealth = health.CurrentValue;
             
             Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
@@ -111,24 +113,23 @@ namespace Unchord
 
         private IEnumerator OnLevelUp()
         {
+            LevelUpCanvas levelUpCanvas = UIManager.Instance.LevelUpCanvas;
+            levelUpCanvas.Clear();
+
             List<AbilityComponent> sampledAbilities = SampleAbility(3);
-            LevelUpCanvas lvUpCanvas = UIManager.Instance.LevelUpCanvas;
-
-            lvUpCanvas.Clear();
-
-            for (int i = 0; i < sampledAbilities.Count; ++i)
+            foreach (AbilityComponent sampledAbility in sampledAbilities)
             {
-                lvUpCanvas.Add(sampledAbilities[i]);
+                levelUpCanvas.Add(sampledAbility);
             }
 
-            lvUpCanvas.Show();
-            yield return new WaitWhile(() => lvUpCanvas.SelectedIndex < 0);
-            lvUpCanvas.Hide();
+            levelUpCanvas.Show();
+            yield return new WaitWhile(() => levelUpCanvas.SelectedIndex < 0);
+            levelUpCanvas.Hide();
 
             if (sampledAbilities.Count == 0)
                 yield break;
 
-            int selectedIndex = lvUpCanvas.SelectedIndex;
+            int selectedIndex = levelUpCanvas.SelectedIndex;
             AbilityComponent selectedAbility = sampledAbilities[selectedIndex];
 
             selectedAbility.Level += 1;

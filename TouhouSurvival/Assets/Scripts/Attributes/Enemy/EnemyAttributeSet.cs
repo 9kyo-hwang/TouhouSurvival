@@ -1,49 +1,37 @@
 using System.Collections.Generic;
-using Unchord;
-using UnityEngine;
 
-public enum EnemyAttributeType
+namespace Unchord
 {
-    Health,
-    Speed,
-    Attack,
-    DropRate
-}
-
-public class EnemyAttributeSet : AttributeSetBase<EnemyAttributeType>
-{
-    private Enemy _owner;
-    protected override void Awake()
+    public class EnemyAttributeSet : AttributeSetBase<EnemyAttributeType>
     {
-        base.Awake();
-
-        _owner = gameObject.GetComponent<Enemy>();
-        
-        GameplayAttribute healthAttribute = GetAttribute(EnemyAttributeType.Health);
-        if (healthAttribute != null)
+        private Enemy _owner;
+        protected override void Awake()
         {
-            healthAttribute.OnAttributeChanged += OnHealthChanged;
+            base.Awake();
+
+            _owner = gameObject.GetComponent<Enemy>();
+            Attributes[EnemyAttributeType.Health].OnAttributeChanged += OnHealthChanged;
         }
-    }
     
-    private void OnHealthChanged(object sender, AttributeChangedEventArgs e)
-    {
-        //Debug.Log($"Health changed from {e.OldValue} to {e.NewValue}");
-        if (e.NewValue <= 0.0f)
+        private void OnHealthChanged(object sender, AttributeChangedEventArgs e)
         {
-            _owner.OnDead();
+            //Debug.Log($"Health changed from {e.OldValue} to {e.NewValue}");
+            if (e.NewValue <= 0.0f)
+            {
+                _owner.OnDead();
+            }
+            else
+            {
+                _owner.OnHit(1.0f);
+            }
         }
-        else
-        {
-            _owner.OnHit(1.0f);
-        }
-    }
 
-    public void ResetAttributes()
-    {
-        foreach (KeyValuePair<EnemyAttributeType, GameplayAttribute> attribute in Attributes)
+        public void ResetAttributes()
         {
-            attribute.Value.ResetToBase();
+            foreach (KeyValuePair<EnemyAttributeType, GameplayAttribute> attribute in Attributes)
+            {
+                attribute.Value.ResetToBase();
+            }
         }
     }
 }
