@@ -30,17 +30,7 @@ namespace Unchord
         protected virtual void Awake()
         {
             CreateSingletonReference();
-
-            // 인스펙터에서 설정된 초기 속성들을 딕셔너리에 추가
-            foreach (GameplayAttributeData<TAttributeType> data in initialAttributes)
-            {
-                if (!Attributes.ContainsKey(data.attributeType))
-                {
-                    Attributes.Add(data.attributeType, new GameplayAttribute(data.baseValue, data.minValue, data.maxValue));
-                }
-            }
-
-            CheckAllAttributeDefined();
+            InitAttributes();
         }
 
         private void CreateSingletonReference()
@@ -51,9 +41,20 @@ namespace Unchord
             if (s_uiManager == null)
                 s_uiManager = UIManager.Instance;
         }
-        
-        private void CheckAllAttributeDefined()
+
+        private void InitAttributes()
         {
+            // 1. 속성 추가
+            // 인스펙터에서 설정된 초기 속성들을 딕셔너리에 추가
+            foreach (GameplayAttributeData<TAttributeType> data in initialAttributes)
+            {
+                if (!Attributes.ContainsKey(data.attributeType))
+                {
+                    Attributes.Add(data.attributeType, new GameplayAttribute(data.baseValue, data.minValue, data.maxValue));
+                }
+            }
+
+            // 2. 정의되지 않은 속성 검사
             foreach (TAttributeType type in Enum.GetValues(typeof(TAttributeType)))
             {
                 if (!Attributes.ContainsKey(type))
