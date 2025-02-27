@@ -10,7 +10,21 @@ namespace Unchord
         protected static UIManager s_uiManager { get; private set; }
 
         public float Level { get; private set; } = 1;
+        public bool IsReachedMaxLevel => (int)Level > levelUpData.Length;
+
         protected float Experience { get; private set; }
+        protected float ExperienceRequirement
+        {
+            get
+            {
+                int intLevel = (int)Level;
+
+                if (IsReachedMaxLevel)
+                    return 1.0f;
+
+                return levelUpData[intLevel - 1].expRequirement;
+            }
+        }
 
         [SerializeField] private List<GameplayAttributeData<TAttributeType>> initialAttributes = new();
 
