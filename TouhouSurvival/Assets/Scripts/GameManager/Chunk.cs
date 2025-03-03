@@ -10,11 +10,15 @@ namespace Unchord
 
         private static ReadOnlyCollection<string> s_directionStrings;
         private static SortedDictionary<int, Chunk> s_chunkDictionary;
+        private static Transform s_chunkParent;
 
         static Chunk()
         {
             s_directionStrings = new ReadOnlyCollection<string>(new string[] { "C", "R", "RT", "T", "LT", "L", "LB", "B", "RB" });
             s_chunkDictionary = new SortedDictionary<int, Chunk>();
+            s_chunkParent = new GameObject("@Chunks").transform;
+
+            UnityEngine.Object.DontDestroyOnLoad(s_chunkParent);
         }
 
         public static void MoveChunkPosition(int prevChunkPositionX, int prevChunkPositionY, int nextChunkPositionX, int nextChunkPositionY)
@@ -94,16 +98,22 @@ namespace Unchord
             chunkObject = new GameObject();
             expOrbs = new List<GameObject>(32);
             items = new List<GameObject>(8);
+
+            int cx, cy;
+            UnchordUtility.IndexToPoint(index, out cx, out cy);
+
+            chunkObject.name = $"Chunk ({cx}, {cy})";
+            chunkObject.transform.SetParent(s_chunkParent);
         }
 
         public void Enable()
         {
-            UnityEngine.Debug.Log($"Chunk #{chunkIndex} Enabled.");
+            //UnityEngine.Debug.Log($"Chunk #{chunkIndex} Enabled.");
         }
 
         public void Disable()
         {
-            UnityEngine.Debug.Log($"Chunk #{chunkIndex} Disabled.");
+            //UnityEngine.Debug.Log($"Chunk #{chunkIndex} Disabled.");
         }
 
         public void Clear()
