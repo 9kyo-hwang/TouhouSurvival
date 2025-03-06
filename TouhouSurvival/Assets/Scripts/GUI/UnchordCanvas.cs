@@ -21,6 +21,11 @@ namespace Unchord
 
         }
 
+        protected virtual void OnDisable()
+        {
+
+        }
+
         public virtual void Hide()
         {
             gameObject.SetActive(false);
