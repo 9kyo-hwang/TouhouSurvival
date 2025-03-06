@@ -34,32 +34,6 @@ namespace Unchord
 
         public Transform RuntimeContainer { get; private set; }
         
-        private void TraceCamera()
-        {
-            if (!Player) return;
-
-            float limit = 2.0f;
-            float traceSpeed = 5f;
-
-            Vector2 source = MainCamera.transform.position;
-            Vector2 destination = Player.transform.position;
-
-            Vector2 next = Vector2.Lerp(destination, source, traceSpeed * Time.deltaTime);
-
-            if (Vector2.Distance(next, destination) > limit)
-            {
-                next = (next - destination).normalized * limit + destination;
-            }
-
-            Vector3 camPosition = new Vector3(next.x, next.y, MainCamera.transform.position.z);
-            MainCamera.transform.position = camPosition;
-        }
-
-        private void LateUpdate()
-        {
-            TraceCamera();
-        }
-
         private void Awake()
         {
             BlockingEvent = GetComponent<BlockingEventHandler>();
