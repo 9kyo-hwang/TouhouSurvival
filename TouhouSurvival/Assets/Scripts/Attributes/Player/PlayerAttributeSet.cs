@@ -20,6 +20,9 @@ namespace Unchord
 
             s_uiManager.GameCanvas.SetPlayerLevel((int)Level);
             s_uiManager.GameCanvas.SetExpGauge(base.Experience, base.ExperienceRequirement);
+
+            s_wuiManager.SetPlayerHealthPosition(transform.position + Vector3.up * 0.7f);
+            s_wuiManager.SetPlayerHealthValue(base[PlayerAttributeType.Health].CurrentValue, 10.0f);
         }
 
         private void Update()
@@ -29,6 +32,8 @@ namespace Unchord
                 Debug.Log("Get 1 Exp.");
                 AddExperience(1.0f);
             }
+
+            s_wuiManager.SetPlayerHealthPosition(transform.position + Vector3.up * 0.7f);
         }
 
         public override void AddExperience(float amount)
@@ -54,6 +59,7 @@ namespace Unchord
         private void OnHealthChanged(object sender, AttributeChangedEventArgs e)
         {
             // TODO: 플레이어의 현재 체력을 UI에 표시하는 코드를 이 곳에 작성합니다.
+            s_wuiManager.SetPlayerHealthValue(base[PlayerAttributeType.Health].CurrentValue, 10.0f);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Unchord
     {
         protected static GameManager s_gameManager { get; private set; }
         protected static UIManager s_uiManager { get; private set; }
+        protected static WorldUIManager s_wuiManager { get; private set; }
 
         public float Level { get; private set; } = 1;
         public bool IsReachedMaxLevel => (int)Level > levelUpData.Length;
@@ -60,6 +61,9 @@ namespace Unchord
 
             if (s_uiManager == null)
                 s_uiManager = UIManager.Instance;
+
+            if (s_wuiManager == null)
+                s_wuiManager = WorldUIManager.Instance;
         }
 
         private void InitAttributes()

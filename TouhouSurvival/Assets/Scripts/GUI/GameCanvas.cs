@@ -78,6 +78,20 @@ namespace Unchord
             _pauseButton.onClick.AddListener(OnPauseButtonClick);
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            s_wuiManager.ShowPlayerHealth();
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            s_wuiManager.HidePlayerHealth();
+        }
+
         public void SetExpGauge(float value, float max)
         {
             UnityEngine.Debug.Assert(max > 0.0f);
