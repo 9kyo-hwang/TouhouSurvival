@@ -123,7 +123,8 @@ namespace Unchord
         // 적 사망 애니메이션 종료 시 이벤트
         private void OnDeadAnimationEnd()
         {
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+            Destroy(this.gameObject);
         }
 
         private void DropExperienceObject()
