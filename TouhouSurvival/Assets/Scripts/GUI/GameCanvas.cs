@@ -78,16 +78,16 @@ namespace Unchord
             _pauseButton.onClick.AddListener(OnPauseButtonClick);
         }
 
-        protected override void OnEnable()
+        public override void Show()
         {
-            base.OnEnable();
+            base.Show();
 
             s_wuiManager.ShowPlayerHealth();
         }
 
-        protected override void OnDisable()
+        public override void Hide()
         {
-            base.OnDisable();
+            base.Hide();
 
             s_wuiManager.HidePlayerHealth();
         }
