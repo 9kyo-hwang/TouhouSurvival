@@ -358,6 +358,10 @@ MonoBehaviour:
     baseValue: 1
     minValue: 0
     maxValue: 2
+  - attributeType: 2
+    baseValue: 1
+    minValue: 0
+    maxValue: 99999
   levelUpData:
   - expRequirement: 5
     attributeType: 0
@@ -381,7 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cab52a764c725f45b3e2c68da8a62dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
+  range: 2
 --- !u!1 &7941737267563311883
 GameObject:
   m_ObjectHideFlags: 0
