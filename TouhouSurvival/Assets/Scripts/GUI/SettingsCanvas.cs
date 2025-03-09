@@ -4,15 +4,20 @@ using UnityEngine.UI;
 
 namespace Unchord
 {
+    // NOTE:
+    // 일시적으로 아래 기능을 사용 중지합니다.
+    //      1. Mute 기능
+    //      2. GUI에 볼륨 값을 표시하는 기능
+    // 필요에 따라 언제든 코드를 복구하여 사용할 수 있도록 주석 처리된 코드를 다수 포함하고 있습니다.
     public class SettingsCanvas : UnchordCanvas
     {
         private Button _btnBack;
         private Slider _sliderBgm;
         private Slider _sliderSfx;
-        private Button _btnBgmMute;
-        private Button _btnSfxMute;
-        private TextMeshProUGUI _txtBgm;
-        private TextMeshProUGUI _txtSfx;
+        //private Button _btnBgmMute;
+        //private Button _btnSfxMute;
+        //private TextMeshProUGUI _volLabelBgm;
+        //private TextMeshProUGUI _volLabelSfx;
 
         private UnchordCanvas _reservedReturnCanvas;
 
@@ -21,14 +26,14 @@ namespace Unchord
             _btnBack = transform.Find("SettingsPanel/BackButton").GetComponent<Button>();
             _sliderBgm = transform.Find("SettingsPanel/BgmSlider").GetComponent<Slider>();
             _sliderSfx = transform.Find("SettingsPanel/SfxSlider").GetComponent<Slider>();
-            _btnBgmMute = transform.Find("SettingsPanel/BgmMuteButton").GetComponent<Button>();
-            _btnSfxMute = transform.Find("SettingsPanel/SfxMuteButton").GetComponent<Button>();
-            _txtBgm = _sliderBgm.transform.Find("VolumeLabel/ContentText").GetComponent<TextMeshProUGUI>();
-            _txtSfx = _sliderSfx.transform.Find("VolumeLabel/ContentText").GetComponent<TextMeshProUGUI>();
+            //_btnBgmMute = transform.Find("SettingsPanel/BgmMuteButton").GetComponent<Button>();
+            //_btnSfxMute = transform.Find("SettingsPanel/SfxMuteButton").GetComponent<Button>();
+            //_volLabelBgm = _sliderBgm.transform.Find("VolumeLabel/ContentText").GetComponent<TextMeshProUGUI>();
+            //_volLabelSfx = _sliderSfx.transform.Find("VolumeLabel/ContentText").GetComponent<TextMeshProUGUI>();
 
             _btnBack.onClick.AddListener(OnBackButtonClick);
-            _btnBgmMute.onClick.AddListener(OnBgmMuteButtonClick);
-            _btnSfxMute.onClick.AddListener(OnSfxMuteButtonClick);
+            //_btnBgmMute.onClick.AddListener(OnBgmMuteButtonClick);
+            //_btnSfxMute.onClick.AddListener(OnSfxMuteButtonClick);
         }
 
         public override void Show()
@@ -44,8 +49,8 @@ namespace Unchord
             _sliderBgm.onValueChanged.AddListener(OnBgmSliderValueChanged);
             _sliderSfx.onValueChanged.AddListener(OnSfxSliderValueChanged);
 
-            _txtBgm.text = GetVolumeString(_sliderBgm.value);
-            _txtSfx.text = GetVolumeString(_sliderSfx.value);
+            //_volLabelBgm.text = GetVolumeString(_sliderBgm.value);
+            //_volLabelSfx.text = GetVolumeString(_sliderSfx.value);
         }
 
         public override void Hide()
@@ -80,7 +85,7 @@ namespace Unchord
             channel.Volume = volume;
             channel.IsMuted = false;
 
-            _txtBgm.text = GetVolumeString(_sliderBgm.value);
+            //_volLabelBgm.text = GetVolumeString(_sliderBgm.value);
         }
 
         private void OnSfxSliderValueChanged(float value)
@@ -93,7 +98,7 @@ namespace Unchord
             channel.Volume = volume;
             channel.IsMuted = false;
 
-            _txtSfx.text = GetVolumeString(_sliderSfx.value);
+            //_volLabelSfx.text = GetVolumeString(_sliderSfx.value);
         }
 
         private void OnBgmMuteButtonClick()
@@ -101,7 +106,7 @@ namespace Unchord
             SoundChannel channel = SoundManager.Instance.BGM;
 
             _sliderBgm.onValueChanged.RemoveListener(OnBgmSliderValueChanged);
-            ToggleMute(channel, _sliderBgm, _txtBgm);
+            //ToggleMute(channel, _sliderBgm, _volLabelBgm);
             _sliderBgm.onValueChanged.AddListener(OnBgmSliderValueChanged);
         }
 
@@ -110,18 +115,18 @@ namespace Unchord
             SoundChannel channel = SoundManager.Instance.SFX;
 
             _sliderSfx.onValueChanged.RemoveListener(OnSfxSliderValueChanged);
-            ToggleMute(channel, _sliderSfx, _txtSfx);
+            //ToggleMute(channel, _sliderSfx, _volLabelSfx);
             _sliderSfx.onValueChanged.AddListener(OnSfxSliderValueChanged);
         }
 
-        private void ToggleMute(SoundChannel channel, Slider slider, TextMeshProUGUI textComponent)
-        {
-            channel.IsMuted ^= true;
+        //private void ToggleMute(SoundChannel channel, Slider slider, TextMeshProUGUI textComponent)
+        //{
+        //    channel.IsMuted ^= true;
 
-            float sliderVolume = GetSliderVolume(channel, slider);
-            slider.value = sliderVolume;
-            textComponent.text = GetVolumeString(sliderVolume);
-        }
+        //    float sliderVolume = GetSliderVolume(channel, slider);
+        //    slider.value = sliderVolume;
+        //    textComponent.text = GetVolumeString(sliderVolume);
+        //}
 
         private string GetVolumeString(float sliderVolume)
         {
