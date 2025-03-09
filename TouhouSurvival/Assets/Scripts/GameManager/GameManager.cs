@@ -129,7 +129,10 @@ namespace Unchord
                 Destroy(RuntimeContainer.GetChild(i).gameObject);
             }
 
-            ClearPlaytime();
+            KillCount = 0;
+            EarnedGold = 0;
+            AbsolutePlaytime = 0.0f;
+            ElapsedPlaytime = 0.0f;
         }
 
         private void EndGame()
@@ -139,6 +142,8 @@ namespace Unchord
             GameData.Instance.totalAbsolutePlaytime += AbsolutePlaytime;
             GameData.Instance.totalElapsedPlaytime += ElapsedPlaytime;
             GameData.Instance.totalGamePlayCount += 1;
+            GameData.Instance.totalKillCount += KillCount;
+            GameData.Instance.gold += EarnedGold;
 
             if (_phaseExecutionResult == PhaseRuntimeState.Pass)
             {
@@ -227,12 +232,6 @@ namespace Unchord
                 ElapsedPlaytime += Time.deltaTime;
                 UIManager.Instance.GameCanvas.SetTimer((int)ElapsedPlaytime);
             }
-        }
-
-        private void ClearPlaytime()
-        {
-            AbsolutePlaytime = 0.0f;
-            ElapsedPlaytime = 0.0f;
         }
     }
 }

@@ -125,6 +125,7 @@ namespace Unchord
         {
             //gameObject.SetActive(false);
             Destroy(this.gameObject);
+            UIManager.Instance.GameCanvas.SetKillCount(++GameManager.Instance.KillCount);
         }
 
         private void DropExperienceObject()
