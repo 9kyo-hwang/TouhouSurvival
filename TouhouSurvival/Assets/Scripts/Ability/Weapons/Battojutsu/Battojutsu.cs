@@ -5,30 +5,27 @@ namespace Unchord
 {
     public class Battojutsu : WeaponComponent
     {
-        [Header("Effect Properties")]
-        public GameObject effectPrefab;
-        public float baseDamage;
-        public float baseKnockbackForce;
-        public float baseEffectSize = 1.0f;
+        private static int s_effectBeginAnimHash = Animator.StringToHash("BattojutsuEffect");
 
-        [Header("Object Pool Properties")]
-        public int effectPoolCapacity;
+        public BattojutsuAttributeSet Attributes { get; private set; }
+
+        [Header("Prefab Settings")]
+        public GameObject effectPrefab;
 
         private ObjectPool<GameObject> _effectPool;
-        private int _effectBeginAnimHash;
 
         protected override void Awake()
         {
+            Attributes = GetComponent<BattojutsuAttributeSet>();
+
             _effectPool = new ObjectPool<GameObject>(
                 OnCreateEffect,
                 OnGetEffect,
                 OnReleaseEffect,
                 OnDestroyEffect,
                 true,
-                effectPoolCapacity,
+                4,
                 10);
-
-            _effectBeginAnimHash = Animator.StringToHash("BattojutsuEffect");
         }
 
         protected override void UseWeapon()
@@ -76,7 +73,7 @@ namespace Unchord
             effect.gameObject.SetActive(true);
 
             Animator animator = effect.GetComponent<Animator>();
-            animator.Play(_effectBeginAnimHash);
+            animator.Play(s_effectBeginAnimHash);
         }
 
         private void OnReleaseEffect(GameObject effect)
@@ -96,9 +93,14 @@ namespace Unchord
 
         private void OnEffectEnter(GameObject target, Collider2D collider)
         {
-            // TODO: 데미지 이벤트 구조체를 만들어 타겟에게 반환합니다.
-            // Pawn enemy = collider.gameObject.GetComponent<Pawn>();
-            // enemy.TakeDamage(/* event structure here. */);
+            Enemy enemy = collider.gameObject.GetComponentInParent<Enemy>();
+
+            if (enemy == null)
+                return;
+
+            Debug.Log("Enter Battojutsu Effect");
+            float damage = this.Attributes[BattojutsuAttributeType.EffectDamage].CurrentValue;
+            enemy.TakeDamage(damage, null, null);
         }
     }
 }
