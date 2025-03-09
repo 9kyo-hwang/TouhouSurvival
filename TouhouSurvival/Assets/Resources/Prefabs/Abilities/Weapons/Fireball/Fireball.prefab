@@ -102,7 +102,7 @@ MonoBehaviour:
     minValue: 0.01
     maxValue: 100
   - attributeType: 5
-    baseValue: 5
+    baseValue: 1
     minValue: 0
     maxValue: 100
   - attributeType: 6
@@ -114,10 +114,11 @@ MonoBehaviour:
     minValue: 0.01
     maxValue: 10
   - attributeType: 8
-    baseValue: 5
+    baseValue: 1
     minValue: 0
     maxValue: 100
   - attributeType: 9
     baseValue: 0
     minValue: 0
     maxValue: 10
+  levelUpData: []
