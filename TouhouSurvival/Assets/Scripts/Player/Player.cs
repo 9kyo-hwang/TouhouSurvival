@@ -134,6 +134,7 @@ namespace Unchord
 
             selectedAbility.Level += 1;
             selectedAbility.SortSiblingIndex();
+            selectedAbility.gameObject.SetActive(true);
 
             int siblingIndex = selectedAbility.transform.GetSiblingIndex();
 
