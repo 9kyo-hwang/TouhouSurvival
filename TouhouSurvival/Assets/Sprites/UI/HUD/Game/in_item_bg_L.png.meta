@@ -3,23 +3,23 @@ guid: 4ca3b2b8275da38478bb3d89da6168d7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -398878543291097245
-    second: in_item_bg_0
+      213: 8432324799490676330
+    second: in_item_bg_L_0
   - first:
-      213: 3124728940979988504
-    second: in_item_bg_1
+      213: 7931396614184188952
+    second: in_item_bg_L_1
   - first:
-      213: -955920110816247825
-    second: in_item_bg_2
+      213: -8475064149399851943
+    second: in_item_bg_L_2
   - first:
-      213: -5736942915296558981
-    second: in_item_bg_3
+      213: -8393487026706538682
+    second: in_item_bg_L_3
   - first:
-      213: -4408373254340406479
-    second: in_item_bg_4
+      213: 6013114435413476421
+    second: in_item_bg_L_4
   - first:
-      213: -5275654494052877944
-    second: in_item_bg_5
+      213: 3327246795206879678
+    second: in_item_bg_L_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -115,7 +115,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: in_item_bg_0
+      name: in_item_bg_L_0
       rect:
         serializedVersion: 2
         x: 4
@@ -130,14 +130,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 36fdb960416e67af0800000000000000
-      internalID: -398878543291097245
+      spriteID: a66db509ab2a50570800000000000000
+      internalID: 8432324799490676330
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_item_bg_1
+      name: in_item_bg_L_1
       rect:
         serializedVersion: 2
         x: 4
@@ -152,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 818ae729a644d5b20800000000000000
-      internalID: 3124728940979988504
+      spriteID: 81c3f21c23bf11e60800000000000000
+      internalID: 7931396614184188952
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_item_bg_2
+      name: in_item_bg_L_2
       rect:
         serializedVersion: 2
         x: 4
@@ -174,14 +174,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fef352159b3ebb2f0800000000000000
-      internalID: -955920110816247825
+      spriteID: 95caf561f06826a80800000000000000
+      internalID: -8475064149399851943
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_item_bg_3
+      name: in_item_bg_L_3
       rect:
         serializedVersion: 2
         x: 4
@@ -196,14 +196,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b700e0d60d84260b0800000000000000
-      internalID: -5736942915296558981
+      spriteID: 64f9e421508548b80800000000000000
+      internalID: -8393487026706538682
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_item_bg_4
+      name: in_item_bg_L_4
       rect:
         serializedVersion: 2
         x: 4
@@ -218,14 +218,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 13315b9b1ef42d2c0800000000000000
-      internalID: -4408373254340406479
+      spriteID: 544089c58bfd27350800000000000000
+      internalID: 6013114435413476421
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_item_bg_5
+      name: in_item_bg_L_5
       rect:
         serializedVersion: 2
         x: 4
@@ -240,8 +240,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 889f844703c19c6b0800000000000000
-      internalID: -5275654494052877944
+      spriteID: eb9ec5ce451cc2e20800000000000000
+      internalID: 3327246795206879678
       vertices: []
       indices: 
       edges: []
@@ -260,12 +260,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      in_item_bg_0: -398878543291097245
-      in_item_bg_1: 3124728940979988504
-      in_item_bg_2: -955920110816247825
-      in_item_bg_3: -5736942915296558981
-      in_item_bg_4: -4408373254340406479
-      in_item_bg_5: -5275654494052877944
+      in_item_bg_L_0: 8432324799490676330
+      in_item_bg_L_1: 7931396614184188952
+      in_item_bg_L_2: -8475064149399851943
+      in_item_bg_L_3: -8393487026706538682
+      in_item_bg_L_4: 6013114435413476421
+      in_item_bg_L_5: 3327246795206879678
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
