@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -103,6 +104,15 @@ namespace Unchord
 
         private void OnProjectileDestroyFlagSetTrue(FlagComponent flagTable)
         {
+            UnityEngine.Debug.Assert(flagTable.GetComponent<Projectile>() != null);
+
+            GameObject explosionObject = _explosionPool.Get();
+            explosionObject.transform.parent = transform;
+            explosionObject.transform.position = flagTable.transform.position;
+
+            DotProjectile explosion = explosionObject.GetComponent<DotProjectile>();
+            explosion.OriginPosition = explosionObject.transform.position;
+
             _projectilePool.Release(flagTable.gameObject);
         }
 
@@ -111,7 +121,7 @@ namespace Unchord
             GameObject explosion = GameObject.Instantiate(explosionPrefab.gameObject, transform, true);
 
             CollisionEventEmitter emitter = explosion.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
-            emitter.AddHandler(OnExplosionStay, CollisionEventType.OnTriggerStay2D);
+            emitter.AddHandler(OnExplosionEnter, CollisionEventType.OnTriggerEnter2D);
 
             FlagComponent flagTable = explosion.GetComponent<FlagComponent>();
             flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnExplosionDestroyFlagSetTrue);
@@ -147,32 +157,31 @@ namespace Unchord
 
         private void OnProjectileEnter(GameObject projectile, Collider2D collider)
         {
-            Debug.Log("Enter Projectile");
-            // TODO: 데미지 이벤트 구조체를 만들어 타겟에게 반환합니다.
-            
-            // Pawn enemy = collider.gameObject.GetComponent<Pawn>();
-            // enemy.TakeDamage(/* event structure here. */);
+            Enemy enemy = collider.gameObject.GetComponentInParent<Enemy>();
 
+            if (enemy == null)
+                return;
+
+            Debug.Log("Enter Projectile");
+            float damage = this.Attributes[FireballAttributeType.ProjectileDamage].CurrentValue;
+            enemy.TakeDamage(damage, null, null);
+            
             LinearProjectile proj = projectile.GetComponentInParent<LinearProjectile>(true);
             proj.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
-
-            GameObject explosionObject = _explosionPool.Get();
-            explosionObject.transform.parent = transform;
-            explosionObject.transform.position = projectile.transform.position;
-
-            DotProjectile explosion = explosionObject.GetComponent<DotProjectile>();
-            explosion.OriginPosition = explosionObject.transform.position;
         }
 
-        private void OnExplosionStay(GameObject explosion, Collider2D collider)
+        private void OnExplosionEnter(GameObject explosion, Collider2D collider)
         {
-            Debug.Log("Enter Explosion");
-            // TODO: 데미지 이벤트 구조체를 만들어 타겟에게 반환합니다.
-            
-            // Pawn enemy = collider.gameObject.GetComponent<Pawn>();
-            // enemy.TakeDamage(/* event structure here. */);
+            Enemy enemy = collider.gameObject.GetComponentInParent<Enemy>();
 
-            CollisionEventEmitter emitter = explosion.GetComponent<CollisionEventEmitter>();
+            if (enemy == null)
+                return;
+
+            Debug.Log("Enter Explosion");
+            float damage = this.Attributes[FireballAttributeType.ExplosionDamage].CurrentValue;
+            enemy.TakeDamage(damage, null, null);
+
+            //CollisionEventEmitter emitter = explosion.GetComponent<CollisionEventEmitter>();
         }
     }
 }
