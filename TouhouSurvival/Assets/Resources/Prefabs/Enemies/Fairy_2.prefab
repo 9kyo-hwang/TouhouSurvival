@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  dropExperiencePrefab: {fileID: 6831472195125531340, guid: 72da7da7c9bf58048982f4a8288bb329, type: 3}
+  dropExperiencePrefab: {fileID: 7779634252459525370, guid: 8f702a556e1b88a4d8a888be48d21a25, type: 3}
 --- !u!114 &8226576738396443539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,13 +120,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialAttributes:
   - attributeType: 0
-    baseValue: 10
+    baseValue: 4
     minValue: 0
     maxValue: 20
   - attributeType: 1
-    baseValue: 2
+    baseValue: 1
     minValue: 0
     maxValue: 5
+  - attributeType: 3
+    baseValue: 0.8
+    minValue: 0
+    maxValue: 1
+  levelUpData: []
 --- !u!50 &7843518008944392187
 Rigidbody2D:
   serializedVersion: 5
