@@ -1,16 +1,9 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class ExperienceDropObject : MonoBehaviour
+namespace Unchord
 {
-    [Header("경험치 드랍 오브젝트 정보")] public Sprite sprite;
-    public float amount;
-    private SpriteRenderer _renderer;
-
-    private void Awake()
+    public class ExperienceDropObject : MonoBehaviour
     {
-        _renderer = GetComponent<SpriteRenderer>();
-        _renderer.sprite = sprite;
+        public float amount;
     }
 }
