@@ -82,6 +82,8 @@ namespace Unchord
         {
             base.Show();
 
+            SetKillCount(s_gameManager.KillCount);
+            SetEarnedGold(s_gameManager.EarnedGold);
             s_wuiManager.ShowPlayerHealth();
         }
 
