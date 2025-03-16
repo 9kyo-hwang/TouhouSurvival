@@ -74,7 +74,7 @@ namespace Unchord
 
         private void OnTriggerStay2D(Collider2D collider)
         {
-            for (int i = 0; i < _onTriggerEnter2D.Count; ++i)
+            for (int i = 0; i < _onTriggerStay2D.Count; ++i)
             {
                 _onTriggerStay2D[i].Enqueue(collider);
             }
@@ -82,7 +82,7 @@ namespace Unchord
 
         private void OnTriggerExit2D(Collider2D collider)
         {
-            for (int i = 0; i < _onTriggerEnter2D.Count; ++i)
+            for (int i = 0; i < _onTriggerExit2D.Count; ++i)
             {
                 _onTriggerExit2D[i].Enqueue(collider);
             }

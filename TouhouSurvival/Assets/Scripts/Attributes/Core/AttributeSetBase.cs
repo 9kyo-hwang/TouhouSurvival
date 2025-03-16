@@ -158,7 +158,8 @@ namespace Unchord
             #endregion
         }
 
-        private void ApplyLevelUpData(int level)
+        // TODO: 경험치 상승과 레벨업 데이터 적용 코드의 분리 검토 필요.
+        public void ApplyLevelUpData(int level)
         {
             LevelUpData<TAttributeType> data = levelUpData[level - 1];
             TAttributeType type = data.attributeType;

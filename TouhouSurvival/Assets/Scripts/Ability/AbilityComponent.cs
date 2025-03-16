@@ -79,14 +79,22 @@ namespace Unchord
             for (int i = _level + 1; i <= level; ++i)
             {
                 _player.OnChangeAbilityLevel(this, i - 1, i);
+                OnChangeAbilityLevel(i - 1, i);
             }
 
             for (int i = _level; i > level; --i)
             {
                 _player.OnChangeAbilityLevel(this, i, i - 1);
+                OnChangeAbilityLevel(i, i - 1);
             }
 
             _level = level;
+        }
+
+        // TODO: 매 자식 컴포넌트에서 이를 재정의해야 하는데, 코드 중복을 제거할 수 있는 방안을 찾아야 합니다.
+        protected virtual void OnChangeAbilityLevel(int prevLevel, int nextLevel)
+        {
+
         }
     }
 }

@@ -330,6 +330,7 @@ MonoBehaviour:
   weaponSet:
   - Fireball
   - Battojutsu
+  - ShanghaiGuard
   passiveSet: []
   maxWeaponCount: 6
   maxPassiveCount: 6
