@@ -103,8 +103,8 @@ TextureImporter:
       name: dager_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 6
+        x: 10
+        y: 11
         width: 38
         height: 38
       alignment: 0

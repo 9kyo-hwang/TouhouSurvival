@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLevel: 1
-  displayIcon: {fileID: 21300000, guid: 3a5ceaae6bf1e79439054d91cc17d753, type: 3}
+  displayIcon: {fileID: 21300000, guid: 110c8d3f8954b3444b7261d5423d02dd, type: 3}
   displayName: Fireball
   displayDescription: 
   weaponActivationMode: 1

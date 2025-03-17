@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 3a5ceaae6bf1e79439054d91cc17d753
+guid: 110c8d3f8954b3444b7261d5423d02dd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4995086436515345966
-    second: icon_fire_0
+      213: 8334651344603559088
+    second: fire_0
   - first:
-      213: -8274198283766521084
-    second: icon_fire_1
+      213: 9204931480678746970
+    second: fire_1
   - first:
-      213: -2596704675561075113
-    second: icon_fire_2
+      213: -8359625512513901107
+    second: fire_2
   - first:
-      213: 6680250541770628928
-    second: icon_fire_3
+      213: 7804807344221744696
+    second: fire_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,11 +109,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: icon_fire_0
+      name: fire_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 5
+        x: 15
+        y: 10
         width: 26
         height: 40
       alignment: 0
@@ -124,18 +124,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e267ede16ac125540800000000000000
-      internalID: 4995086436515345966
+      spriteID: 0b4b3d13d31aaa370800000000000000
+      internalID: 8334651344603559088
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: icon_fire_1
+      name: fire_1
       rect:
         serializedVersion: 2
-        x: 28
-        y: 36
+        x: 33
+        y: 41
         width: 7
         height: 12
       alignment: 0
@@ -146,18 +146,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 40323fedf742c2d80800000000000000
-      internalID: -8274198283766521084
+      spriteID: a5bcaaf696c7ebf70800000000000000
+      internalID: 9204931480678746970
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: icon_fire_2
+      name: fire_2
       rect:
         serializedVersion: 2
-        x: 9
-        y: 25
+        x: 14
+        y: 30
         width: 9
         height: 10
       alignment: 0
@@ -168,18 +168,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 75e06920bd6a6fbd0800000000000000
-      internalID: -2596704675561075113
+      spriteID: dcde05733e4acfb80800000000000000
+      internalID: -8359625512513901107
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: icon_fire_3
+      name: fire_3
       rect:
         serializedVersion: 2
-        x: 33
-        y: 8
+        x: 38
+        y: 13
         width: 9
         height: 18
       alignment: 0
@@ -190,8 +190,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 04f59d8697405bc50800000000000000
-      internalID: 6680250541770628928
+      spriteID: 83e62bc8dee305c60800000000000000
+      internalID: 7804807344221744696
       vertices: []
       indices: 
       edges: []
@@ -210,10 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      icon_fire_0: 4995086436515345966
-      icon_fire_1: -8274198283766521084
-      icon_fire_2: -2596704675561075113
-      icon_fire_3: 6680250541770628928
+      fire_0: 8334651344603559088
+      fire_1: 9204931480678746970
+      fire_2: -8359625512513901107
+      fire_3: 7804807344221744696
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

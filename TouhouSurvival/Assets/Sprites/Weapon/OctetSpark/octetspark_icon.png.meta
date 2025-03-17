@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0388698c909e5c84fb4ba5d1e99bbe33
+guid: 353531f2e96b29c469ae1ea9b3b6ae5e
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -103,8 +103,8 @@ TextureImporter:
       name: pal_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 5
+        y: 5
         width: 50
         height: 50
       alignment: 0

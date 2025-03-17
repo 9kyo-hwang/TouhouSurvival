@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7f7cec97979ab004d82660b24acee497
+guid: 70170fab5e8fac247acb15eb473eeced
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3980093065161596866
-    second: shanghai_doll_1_0
+      213: 4492222248747052305
+    second: dollb_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,11 +100,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: shanghai_doll_1_0
+      name: dollb_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 2
+        x: 9
+        y: 7
         width: 42
         height: 45
       alignment: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e302c06d17ed3c8c0800000000000000
-      internalID: -3980093065161596866
+      spriteID: 11dacac9554975e30800000000000000
+      internalID: 4492222248747052305
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      shanghai_doll_1_0: -3980093065161596866
+      dollb_0: 4492222248747052305
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

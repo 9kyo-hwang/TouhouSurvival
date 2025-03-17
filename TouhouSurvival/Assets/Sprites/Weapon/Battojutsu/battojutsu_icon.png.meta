@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f6f3620e39d2e944fb0b17b30d410164
+guid: 66338f2422926064e96f8443d93b7c1a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2292452523061677956
-    second: icon_katana_0
+      213: 5587124563336528128
+    second: katana_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,11 +100,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: icon_katana_0
+      name: katana_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 2
+        x: 8
+        y: 7
         width: 44
         height: 45
       alignment: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 48f0a8d7c6d60df10800000000000000
-      internalID: 2292452523061677956
+      spriteID: 00188814034798d40800000000000000
+      internalID: 5587124563336528128
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      icon_katana_0: 2292452523061677956
+      katana_0: 5587124563336528128
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

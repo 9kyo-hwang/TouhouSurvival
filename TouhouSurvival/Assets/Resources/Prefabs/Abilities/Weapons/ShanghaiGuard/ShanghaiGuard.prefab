@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLevel: 2
-  displayIcon: {fileID: 21300000, guid: c712541cf4106ba45867e0bbf6fd2f69, type: 3}
+  displayIcon: {fileID: 21300000, guid: 70170fab5e8fac247acb15eb473eeced, type: 3}
   displayName: Shanghai Guard
   displayDescription: 
   weaponActivationMode: 1
