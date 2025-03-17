@@ -1,6 +1,6 @@
 namespace Unchord
 {
-    public class ShanghaiGuardAttributeSet : AttributeSetBase<ShanghaiGuardAttributeType>
+    public class ShanghaiGuardAttributeSet : AttributeSet
     {
 
     }

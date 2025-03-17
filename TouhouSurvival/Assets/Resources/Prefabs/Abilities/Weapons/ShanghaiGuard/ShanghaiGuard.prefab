@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f030b9d19b1be94d94cbf051367a94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLevel: 2
   displayIcon: {fileID: 21300000, guid: 70170fab5e8fac247acb15eb473eeced, type: 3}
   displayName: Shanghai Guard
   displayDescription: 
@@ -68,34 +67,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c58908fc8f08d874b968e94eec4c7f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialAttributes:
-  - attributeType: 0
-    baseValue: 3
-    minValue: 0
-    maxValue: 0
-  - attributeType: 1
-    baseValue: 3
-    minValue: 1
-    maxValue: 100
-  - attributeType: 2
-    baseValue: 1
-    minValue: 0.01
-    maxValue: 10
-  - attributeType: 3
-    baseValue: 1
-    minValue: 0
-    maxValue: 99999
-  - attributeType: 4
-    baseValue: 120
-    minValue: 0.01
-    maxValue: 9600
-  - attributeType: 5
-    baseValue: 5
-    minValue: 0.01
-    maxValue: 25
-  levelUpData:
-  - expRequirement: 0
-    attributeType: 1
-    attributeOperation: 0
-    deltaValue: 7
-    displayDescription: "\uC0C1\uD558\uC774 \uC778\uD615 \uAC1C\uC218 +7"
+  attributeAssetPath: /Attribute/ShanghaiGuardAttribute.csv
+  levelUpDataAssetPath: /Attribute/ShanghaiGuardLevelUpData.csv

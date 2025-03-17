@@ -56,7 +56,6 @@ namespace Unchord
             base.Start();
 
             int level = (int)AttributeSet.Level;
-            LevelUpData<PlayerAttributeType> data = AttributeSet.levelUpData[level];
         }
 
         protected override void Update()
@@ -132,7 +131,7 @@ namespace Unchord
             int selectedIndex = levelUpCanvas.SelectedIndex;
             AbilityComponent selectedAbility = sampledAbilities[selectedIndex];
 
-            selectedAbility.Level += 1;
+            selectedAbility.Attributes.Level += 1;
             selectedAbility.SortSiblingIndex();
             selectedAbility.gameObject.SetActive(true);
 
@@ -141,7 +140,7 @@ namespace Unchord
             GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
             gameCanvas.EnableWeaponSlot(siblingIndex);
             gameCanvas.SetWeaponIcon(siblingIndex, selectedAbility.DisplayIcon);
-            gameCanvas.SetWeaponLevel(siblingIndex, selectedAbility.Level);
+            gameCanvas.SetWeaponLevel(siblingIndex, selectedAbility.Attributes.Level);
         }
         
         #region Ability Pool Management
@@ -215,14 +214,14 @@ namespace Unchord
             _samplePool.Add(abilityComponent);
             _samplingOptions[abilityContainer].samplePool.Add(abilityComponent);
             abilityComponent.gameObject.SetActive(initialActive);
-            abilityComponent.Level = initialLevel;
+            abilityComponent.Attributes.Level = initialLevel;
             
             if (initialActive)
             {
                 abilityComponent.SortSiblingIndex();
                 GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
                 gameCanvas.SetWeaponIcon(abilityComponent.transform.GetSiblingIndex(), abilityComponent.DisplayIcon);
-                gameCanvas.SetWeaponLevel(abilityComponent.transform.GetSiblingIndex(), abilityComponent.Level);
+                gameCanvas.SetWeaponLevel(abilityComponent.transform.GetSiblingIndex(), abilityComponent.Attributes.Level);
             }
         }
 
@@ -254,7 +253,7 @@ namespace Unchord
             UnityEngine.Debug.Assert(prevLevel >= 0);
             UnityEngine.Debug.Assert(nextLevel >= 0);
 
-            int maxLevel = abilityComponent.MaxLevel;
+            int maxLevel = abilityComponent.Attributes.MaxLevel;
 
             AbilitySamplingOptions options = _samplingOptions[abilityComponent.transform.parent];
 

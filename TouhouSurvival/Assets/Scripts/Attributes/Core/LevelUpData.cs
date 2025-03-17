@@ -4,11 +4,10 @@ using UnityEngine;
 namespace Unchord
 {
     [Serializable]
-    public struct LevelUpData<T_Enum>
-    where T_Enum : System.Enum
+    public struct LevelUpData
     {
         public float expRequirement;
-        public T_Enum attributeType;
+        public string attributeType;
         public AttributeOperation attributeOperation;
         public float deltaValue;
 

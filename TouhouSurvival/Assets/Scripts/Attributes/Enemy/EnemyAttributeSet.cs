@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-
 namespace Unchord
 {
-    public class EnemyAttributeSet : AttributeSetBase<EnemyAttributeType>
+    public class EnemyAttributeSet : AttributeSet
     {
         private Enemy _owner;
+
         protected override void Awake()
         {
             base.Awake();
@@ -12,7 +11,7 @@ namespace Unchord
             _owner = gameObject.GetComponent<Enemy>();
             Attributes[EnemyAttributeType.Health].OnAttributeChanged += OnHealthChanged;
         }
-    
+
         private void OnHealthChanged(object sender, AttributeChangedEventArgs e)
         {
             //Debug.Log($"Health changed from {e.OldValue} to {e.NewValue}");
@@ -23,14 +22,6 @@ namespace Unchord
             else
             {
                 _owner.OnHit(1.0f);
-            }
-        }
-
-        public void ResetAttributes()
-        {
-            foreach (KeyValuePair<EnemyAttributeType, GameplayAttribute> attribute in Attributes)
-            {
-                attribute.Value.ResetToBase();
             }
         }
     }

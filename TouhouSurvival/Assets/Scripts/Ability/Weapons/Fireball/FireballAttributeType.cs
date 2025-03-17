@@ -1,21 +1,21 @@
 namespace Unchord
 {
-    public enum FireballAttributeType
+    public class FireballAttributeType
     {
         // NOTE: Options for Shooting.
-        ShootingEulerAngleError,
-        ShootingBurstDelay,
-        ShootingBurstCount,
+        public const string ShootingEulerAngleError = "ShootingEulerAngleError";
+        public const string ShootingBurstDelay = "ShootingBurstDelay";
+        public const string ShootingBurstCount = "ShootingBurstCount";
 
         // NOTE: Options for Projectile.
-        ProjectileSize,
-        ProjectileSpeed,
-        ProjectileDamage,
-        ProjectileKnockbackForce,
+        public const string ProjectileSize = "ProjectileSize";
+        public const string ProjectileSpeed = "ProjectileSpeed";
+        public const string ProjectileDamage = "ProjectileDamage";
+        public const string ProjectileKnockbackForce = "ProjectileKnockbackForce";
 
         // NOTE: Options for Explosion Area.
-        ExplosionSize,
-        ExplosionDamage,
-        ExplosionKnockbackForce,
+        public const string ExplosionSize = "ExplosionSize";
+        public const string ExplosionDamage = "ExplosionDamage";
+        public const string ExplosionKnockbackForce = "ExplosionKnockbackForce";
     }
 }

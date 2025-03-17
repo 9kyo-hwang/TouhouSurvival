@@ -9,8 +9,6 @@ namespace Unchord
         private static int s_fireballProjectileFlyingHash = Animator.StringToHash("FireballProjectileFlying");
         private static int s_fireballExplosionHash = Animator.StringToHash("FireballExplosion");
 
-        public FireballAttributeSet Attributes { get; private set; }
-
         [Header("Prefab Settings")]
         public GameObject projectilePrefab;
         public GameObject explosionPrefab;
@@ -21,8 +19,6 @@ namespace Unchord
         protected override void Awake()
         {
             base.Awake();
-
-            Attributes = GetComponent<FireballAttributeSet>();
 
             _projectilePool = new ObjectPool<GameObject>(
                 OnCreateProjectile,

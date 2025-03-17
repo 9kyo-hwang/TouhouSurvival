@@ -1,6 +1,6 @@
 namespace Unchord
 {
-    public class BattojutsuAttributeSet : AttributeSetBase<BattojutsuAttributeType>
+    public class BattojutsuAttributeSet : AttributeSet
     {
 
     }

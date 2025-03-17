@@ -1,6 +1,6 @@
 namespace Unchord
 {
-    public class FireballAttributeSet : AbilityAttributeSet<FireballAttributeType>
+    public class FireballAttributeSet : AbilityAttributeSet
     {
 
     }

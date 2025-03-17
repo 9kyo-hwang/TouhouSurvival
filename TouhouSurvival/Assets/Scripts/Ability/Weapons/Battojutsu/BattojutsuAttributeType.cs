@@ -1,9 +1,9 @@
 namespace Unchord
 {
-    public enum BattojutsuAttributeType
+    public class BattojutsuAttributeType
     {
-        EffectSize,
-        EffectDamage,
-        KnockbackForce,
+        public const string EffectSize = "EffectSize";
+        public const string EffectDamage = "EffectDamage";
+        public const string KnockbackForce = "KnockbackForce";
     }
 }

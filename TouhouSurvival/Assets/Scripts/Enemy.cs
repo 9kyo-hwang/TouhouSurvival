@@ -87,7 +87,6 @@ namespace Unchord
             Rigidbody.simulated = true;
             // Renderer.sortingOrder++;
             Animator.SetBool("Dead", false);
-            _attributeSet.ResetAttributes();
             target = GameManager.Instance.Player.Rigidbody;
         }
 

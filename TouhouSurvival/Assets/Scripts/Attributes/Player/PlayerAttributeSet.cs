@@ -1,17 +1,54 @@
+using System;
 using UnityEngine;
 
 namespace Unchord
 {
-    public class PlayerAttributeSet : AttributeSetBase<PlayerAttributeType>
+    public class PlayerAttributeSet : AttributeSet
     {
+        protected static GameManager s_gameManager { get; private set; }
+        protected static UIManager s_uiManager { get; private set; }
+        protected static WorldUIManager s_wuiManager { get; private set; }
+
+        // TODO: EventHandler<> delegate 형식으로 전환합니다.
+        public Action<int, float, float> OnExpChanged;
+        public Action<int, float, float> OnLevelUp;
+
+        protected float Experience { get; private set; }
+        protected float ExperienceRequirement
+        {
+            get
+            {
+                int intLevel = (int)Level;
+
+                if (IsReachedMaxLevel)
+                    return 1.0f;
+
+                return levelUpData[intLevel - 1].expRequirement;
+            }
+        }
+
         protected override void Awake()
         {
             base.Awake();
 
-            OnLevelUp += HandleLevelUp;
+            CreateSingletonReference();
+
             OnExpChanged += HandleExpChange;
+            OnLevelUp += HandleLevelUp;
 
             base[PlayerAttributeType.Health].OnAttributeChanged += OnHealthChanged;
+        }
+
+        private void CreateSingletonReference()
+        {
+            if (s_gameManager == null)
+                s_gameManager = GameManager.Instance;
+
+            if (s_uiManager == null)
+                s_uiManager = UIManager.Instance;
+
+            if (s_wuiManager == null)
+                s_wuiManager = WorldUIManager.Instance;
         }
 
         protected override void Start()
@@ -19,7 +56,7 @@ namespace Unchord
             base.Start();
 
             s_uiManager.GameCanvas.SetPlayerLevel((int)Level);
-            s_uiManager.GameCanvas.SetExpGauge(base.Experience, base.ExperienceRequirement);
+            s_uiManager.GameCanvas.SetExpGauge(Experience, ExperienceRequirement);
 
             s_wuiManager.SetPlayerHealthPosition(transform.position + Vector3.up * 0.7f);
             s_wuiManager.SetPlayerHealthValue(base[PlayerAttributeType.Health].CurrentValue, 10.0f);
@@ -47,12 +84,6 @@ namespace Unchord
             s_wuiManager.SetPlayerHealthPosition(transform.position + Vector3.up * 0.7f);
         }
 
-        public override void AddExperience(float amount)
-        {
-            float expGainIncrease = Attributes[PlayerAttributeType.ExpGainIncrease].CurrentValue;
-            base.AddExperience(amount * expGainIncrease);
-        }
-
         private void HandleExpChange(int level, float remainingExp, float requiredExp)
         {
             s_uiManager.GameCanvas.SetExpGauge(Experience, ExperienceRequirement);
@@ -71,6 +102,40 @@ namespace Unchord
         {
             // TODO: 플레이어의 현재 체력을 UI에 표시하는 코드를 이 곳에 작성합니다.
             s_wuiManager.SetPlayerHealthValue(base[PlayerAttributeType.Health].CurrentValue, 10.0f);
+        }
+
+        public void AddExperience(float amount)
+        {
+            if (IsReachedMaxLevel)
+            {
+                return;
+            }
+
+            LevelUpData data = levelUpData[Level - 1];
+            float remainingExp = Experience + amount * (1.0f + Attributes[PlayerAttributeType.ExpGainIncrease].CurrentValue);
+            float requiredExp = data.expRequirement;
+
+            if (remainingExp < requiredExp)
+            {
+                Experience = remainingExp;
+                OnExpChanged?.Invoke(Level, remainingExp, requiredExp);
+                return;
+            }
+
+            // LevelUp!
+            while (!IsReachedMaxLevel && remainingExp >= requiredExp)
+            {
+                int prevLevel = Level;
+
+                remainingExp -= requiredExp;
+                Experience = remainingExp;
+                Level += 1;
+                requiredExp = ExperienceRequirement;
+
+                int nextLevel = Level;
+                OnExpChanged?.Invoke(nextLevel, remainingExp, requiredExp);
+                OnLevelUp?.Invoke(nextLevel, remainingExp, requiredExp);
+            }
         }
     }
 }

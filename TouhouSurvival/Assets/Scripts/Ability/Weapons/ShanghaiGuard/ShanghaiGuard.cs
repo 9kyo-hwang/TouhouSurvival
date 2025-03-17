@@ -8,10 +8,7 @@ namespace Unchord
     public class ShanghaiGuard : WeaponComponent
     {
         private static int s_shanghaiShowHash = Animator.StringToHash("ShanghaiDollShow");
-        //private static int s_shanghaiHideHash = Animator.StringToHash("ShanghaiDollHide");
-
-        public ShanghaiGuardAttributeSet Attributes { get; private set; }
-
+        
         [Header("Prefab Settings")]
         public GameObject shanghaiPrefab;
 
@@ -32,8 +29,6 @@ namespace Unchord
         protected override void Awake()
         {
             base.Awake();
-
-            Attributes = GetComponent<ShanghaiGuardAttributeSet>();
 
             _shanghaiPool = new ObjectPool<DotProjectile>(
                 OnCreateShanghai,
@@ -99,15 +94,15 @@ namespace Unchord
             }
         }
 
-        protected override void OnChangeAbilityLevel(int prevLevel, int nextLevel)
-        {
-            if (prevLevel == 0)
-                return;
+        //protected override void OnChangeAbilityLevel(int prevLevel, int nextLevel)
+        //{
+        //    if (prevLevel == 0)
+        //        return;
 
-            base.OnChangeAbilityLevel(prevLevel, nextLevel);
+        //    base.OnChangeAbilityLevel(prevLevel, nextLevel);
 
-            Attributes.ApplyLevelUpData(prevLevel);
-        }
+        //    Attributes.ApplyLevelUpData(prevLevel);
+        //}
 
         private void RotateShanghaiDolls()
         {

@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ff2ed278775e44f90ed07cd70e0173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLevel: 1
   displayIcon: {fileID: 21300000, guid: 110c8d3f8954b3444b7261d5423d02dd, type: 3}
   displayName: Fireball
   displayDescription: 
@@ -80,45 +79,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8ebb5a7284a1a439d6224d676086ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialAttributes:
-  - attributeType: 0
-    baseValue: 5
-    minValue: 0
-    maxValue: 30
-  - attributeType: 1
-    baseValue: 0.6
-    minValue: 0.01
-    maxValue: 10
-  - attributeType: 2
-    baseValue: 1
-    minValue: 1
-    maxValue: 10
-  - attributeType: 3
-    baseValue: 0.6
-    minValue: 0.01
-    maxValue: 10
-  - attributeType: 4
-    baseValue: 3
-    minValue: 0.01
-    maxValue: 100
-  - attributeType: 5
-    baseValue: 1
-    minValue: 0
-    maxValue: 100
-  - attributeType: 6
-    baseValue: 0
-    minValue: 0
-    maxValue: 10
-  - attributeType: 7
-    baseValue: 1
-    minValue: 0.01
-    maxValue: 10
-  - attributeType: 8
-    baseValue: 1
-    minValue: 0
-    maxValue: 100
-  - attributeType: 9
-    baseValue: 0
-    minValue: 0
-    maxValue: 10
-  levelUpData: []
+  attributeAssetPath: /Attribute/FireballAttribute.csv
+  levelUpDataAssetPath: /Attribute/FireballLevelUpData.csv

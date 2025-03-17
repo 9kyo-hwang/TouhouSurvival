@@ -7,8 +7,6 @@ namespace Unchord
     {
         private static int s_effectBeginAnimHash = Animator.StringToHash("BattojutsuEffect");
 
-        public BattojutsuAttributeSet Attributes { get; private set; }
-
         [Header("Prefab Settings")]
         public GameObject effectPrefab;
 
@@ -16,8 +14,6 @@ namespace Unchord
 
         protected override void Awake()
         {
-            Attributes = GetComponent<BattojutsuAttributeSet>();
-
             _effectPool = new ObjectPool<GameObject>(
                 OnCreateEffect,
                 OnGetEffect,

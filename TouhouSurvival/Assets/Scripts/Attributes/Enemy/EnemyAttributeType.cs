@@ -1,10 +1,10 @@
-﻿namespace Unchord
+namespace Unchord
 {
-    public enum EnemyAttributeType
+    public class EnemyAttributeType
     {
-        Health,
-        Speed,
-        Attack,
-        DropRate
+        public const string Health = "Health";
+        public const string Speed = "Speed";
+        public const string Attack = "Attack";
+        public const string DropRate = "DropRate";
     }
 }
