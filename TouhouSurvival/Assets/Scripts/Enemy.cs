@@ -141,6 +141,7 @@ namespace Unchord
             if (Random.value >= dropRate)    // [0.0f, 1.0f] 사이 랜덤값이 dropRate(0.0 ~ 1.0) 사이보다 크거나 같으면 Drop
             {
                 GameObject experience = Instantiate(dropExperiencePrefab, transform.position, Quaternion.identity);
+                experience.transform.SetParent(GameManager.Instance.RuntimeContainer, true);
             }
         }
     }
