@@ -26,7 +26,7 @@ namespace Unchord
             switch (weaponActivationMode)
             {
                 case WeaponActivationMode.Always:
-                    // NOTE: ¸Å¹ø ¹«±â¸¦ »ç¿ëÇÏ¹Ç·Î Á¶½ÉÇØ¼­ È°¿ëÇØ¾ß ÇÔ.
+                    // NOTE: ë§¤ë²ˆ ë¬´ê¸°ë¥¼ ì‚¬ìš©í•˜ë¯€ë¡œ ì¡°ì‹¬í•´ì„œ í™œìš©í•´ì•¼ í•¨.
                     UseWeapon();
                     break;
                 case WeaponActivationMode.FixedCooltime:
