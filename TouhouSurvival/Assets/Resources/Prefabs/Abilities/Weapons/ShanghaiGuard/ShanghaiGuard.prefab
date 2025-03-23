@@ -53,7 +53,6 @@ MonoBehaviour:
   variableCooltimeMin: 1
   variableCooltimeMax: 2
   shanghaiPrefab: {fileID: 8067668102894359120, guid: d292fb349d192b241a9ac6c80a9f8be5, type: 3}
-  _shanghaiEnabledList: []
   _leftDuration: 0
 --- !u!114 &5561079242372143258
 MonoBehaviour:
@@ -67,5 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c58908fc8f08d874b968e94eec4c7f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeAssetPath: /Attribute/ShanghaiGuardAttribute.csv
-  levelUpDataAssetPath: /Attribute/ShanghaiGuardLevelUpData.csv
+  attributeAssetPath: \AttributeTables\Abilities\Weapons\shanghai_guard.xlsx
+  levelUpDataAssetPath: 
+  levelUpData: []

@@ -118,19 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e969a355b91d926479eefbcc0a33f767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialAttributes:
-  - attributeType: 0
-    baseValue: 4
-    minValue: 0
-    maxValue: 20
-  - attributeType: 1
-    baseValue: 1
-    minValue: 0
-    maxValue: 5
-  - attributeType: 3
-    baseValue: 0.8
-    minValue: 0
-    maxValue: 1
+  attributeAssetPath: \AttributeTables\Enemies\fairy_2.xlsx
+  levelUpDataAssetPath: 
   levelUpData: []
 --- !u!50 &7843518008944392187
 Rigidbody2D:

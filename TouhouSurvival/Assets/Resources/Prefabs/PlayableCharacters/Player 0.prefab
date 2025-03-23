@@ -346,34 +346,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 393f0e62dc6bb374190ca6dca6cbb366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialAttributes:
-  - attributeType: 0
-    baseValue: 10
-    minValue: 0
-    maxValue: 20
-  - attributeType: 1
-    baseValue: 5
-    minValue: 0
-    maxValue: 10
-  - attributeType: 6
-    baseValue: 1
-    minValue: 0
-    maxValue: 2
-  - attributeType: 2
-    baseValue: 1
-    minValue: 0
-    maxValue: 99999
-  levelUpData:
-  - expRequirement: 5
-    attributeType: 0
-    attributeOperation: 0
-    deltaValue: 3
-    displayDescription: 
-  - expRequirement: 10
-    attributeType: 1
-    attributeOperation: 0
-    deltaValue: 3
-    displayDescription: 
+  attributeAssetPath: \AttributeTables\PlayableCharacters\player_0.xlsx
+  levelUpDataAssetPath: 
+  levelUpData: []
 --- !u!114 &8863588712717059164
 MonoBehaviour:
   m_ObjectHideFlags: 0
