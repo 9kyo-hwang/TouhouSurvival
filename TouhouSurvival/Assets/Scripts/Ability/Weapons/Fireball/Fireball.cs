@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -66,7 +65,7 @@ namespace Unchord
             GameObject projectile = GameObject.Instantiate(projectilePrefab.gameObject, transform, true);
 
             CollisionEventEmitter emitter = projectile.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
-            emitter.AddHandler(OnProjectileEnter, CollisionEventType.OnTriggerEnter2D);
+            emitter.onTriggerEnter2D += OnProjectileEnter;
 
             FlagComponent flagTable = projectile.GetComponent<FlagComponent>();
             flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnProjectileDestroyFlagSetTrue);
@@ -85,7 +84,7 @@ namespace Unchord
             projectile.transform.localScale = new Vector3(scale, scale, 1.0f);
 
             Animator animator = projectile.GetComponent<Animator>();
-            animator.Play(s_fireballProjectileFlyingHash);
+            animator.Play(s_fireballProjectileFlyingHash, -1, 0.0f);
         }
 
         private void OnReleaseProjectile(GameObject projectile)
@@ -117,10 +116,10 @@ namespace Unchord
             GameObject explosion = GameObject.Instantiate(explosionPrefab.gameObject, transform, true);
 
             CollisionEventEmitter emitter = explosion.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
-            emitter.AddHandler(OnExplosionEnter, CollisionEventType.OnTriggerEnter2D);
+            emitter.onTriggerEnter2D += OnExplosionEnter;
 
             FlagComponent flagTable = explosion.GetComponent<FlagComponent>();
-            flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnExplosionDestroyFlagSetTrue);
+            flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnExplosionHit);
 
             return explosion;
         }
@@ -133,7 +132,7 @@ namespace Unchord
             explosion.gameObject.SetActive(true);
 
             Animator animator = explosion.GetComponent<Animator>();
-            animator.Play(s_fireballExplosionHash);
+            animator.Play(s_fireballExplosionHash, -1, 0.0f);
         }
 
         private void OnReleaseExplosion(GameObject explosion)
@@ -146,38 +145,44 @@ namespace Unchord
             // NOTE: This block is intentionally no operation.
         }
 
-        private void OnExplosionDestroyFlagSetTrue(FlagComponent flagTable)
+        private void OnProjectileEnter(object collisionEventEmitter, CollisionEventArgs args)
+        {
+            GameObject enemyObject = args.targetObject;
+            Enemy enemy = enemyObject.GetComponentInParent<Enemy>(true);
+
+            UnityEngine.Debug.Assert(enemy != null);
+
+            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            {
+                float damage = this.Attributes[FireballAttributeType.ProjectileDamage].CurrentValue;
+                enemy.TakeDamage(damage, null, null);
+            }
+
+            GameObject projectileObject = args.eventSource;
+            LinearProjectile projectile = projectileObject.GetComponentInParent<LinearProjectile>(true);
+
+            UnityEngine.Debug.Assert(projectile != null);
+
+            projectile.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
+        }
+
+        private void OnExplosionEnter(object collisionEventEmitter, CollisionEventArgs args)
+        {
+            GameObject enemyObject = args.targetObject;
+            Enemy enemy = enemyObject.GetComponentInParent<Enemy>();
+
+            UnityEngine.Debug.Assert(enemy != null);
+
+            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            {
+                float damage = this.Attributes[FireballAttributeType.ExplosionDamage].CurrentValue;
+                enemy.TakeDamage(damage, null, null);
+            }
+        }
+
+        private void OnExplosionHit(FlagComponent flagTable)
         {
             _explosionPool.Release(flagTable.gameObject);
-        }
-
-        private void OnProjectileEnter(GameObject projectile, Collider2D collider)
-        {
-            Enemy enemy = collider.gameObject.GetComponentInParent<Enemy>();
-
-            if (enemy == null)
-                return;
-
-            Debug.Log("Enter Projectile");
-            float damage = this.Attributes[FireballAttributeType.ProjectileDamage].CurrentValue;
-            enemy.TakeDamage(damage, null, null);
-            
-            LinearProjectile proj = projectile.GetComponentInParent<LinearProjectile>(true);
-            proj.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
-        }
-
-        private void OnExplosionEnter(GameObject explosion, Collider2D collider)
-        {
-            Enemy enemy = collider.gameObject.GetComponentInParent<Enemy>();
-
-            if (enemy == null)
-                return;
-
-            Debug.Log("Enter Explosion");
-            float damage = this.Attributes[FireballAttributeType.ExplosionDamage].CurrentValue;
-            enemy.TakeDamage(damage, null, null);
-
-            //CollisionEventEmitter emitter = explosion.GetComponent<CollisionEventEmitter>();
         }
     }
 }

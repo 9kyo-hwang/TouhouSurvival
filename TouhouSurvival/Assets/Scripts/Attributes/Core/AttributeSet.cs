@@ -22,23 +22,23 @@ namespace Unchord
 
                 _level = value;
 
-                for (int i = prevLevel + 1; i <= nextLevel; ++i) // 레벨 상승 시 적용
+                for (int i = Math.Max(prevLevel + 1, 1); i <= Math.Min(nextLevel, this.MaxLevel - 1); ++i) // 레벨 상승 시 적용
                     AttachLevelUpData(i);
 
-                for (int i = prevLevel - 1; i >= nextLevel; --i) // 레벨 감소 시 적용
+                for (int i = Math.Min(prevLevel - 1, this.MaxLevel - 1); i >= Math.Max(nextLevel, 1); --i) // 레벨 감소 시 적용
                     DetachLevelUpData(i);
             }
         }
 
-        public int MaxLevel => levelUpData.Length + 1;
+        public int MaxLevel => levelUpData.Count + 1;
 
-        public bool IsReachedMaxLevel => (int)Level > levelUpData.Length;
+        public bool IsReachedMaxLevel => (int)Level > levelUpData.Count;
 
         public string attributeAssetPath;
         public string levelUpDataAssetPath;
 
-        protected readonly Dictionary<string, GameplayAttribute> Attributes = new();
-        protected readonly LevelUpData[] levelUpData;
+        public Dictionary<string, GameplayAttribute> Attributes { get; private set; }
+        public List<LevelUpData> levelUpData;// { get; private set; }
         private int _level;
 
         public GameplayAttribute this[string attributeType]
@@ -49,7 +49,10 @@ namespace Unchord
 
         protected virtual void Awake()
         {
-            
+            Attributes = new Dictionary<string, GameplayAttribute>();
+            levelUpData = new List<LevelUpData>();
+
+            AttributeSetBuilder.LoadAttributes(this);
         }
 
         protected virtual void Start()

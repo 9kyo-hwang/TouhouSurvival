@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -14,6 +15,8 @@ namespace Unchord
 
         protected override void Awake()
         {
+            base.Awake();
+
             _effectPool = new ObjectPool<GameObject>(
                 OnCreateEffect,
                 OnGetEffect,
@@ -30,8 +33,7 @@ namespace Unchord
 
             GameObject effectObject = _effectPool.Get();
 
-            Vector2 posPlayer = GameManager.Instance.Player.transform.position; // TODO: Remove this line after injecting _player variable and enable below line.
-            // Vector2 posPlayer = _player.transform.position;
+            Vector2 posPlayer = _player.transform.position;
             GameObject nearestEnemy = Spawner.GetNearestEnemyOrNull(posPlayer);
 
             if (nearestEnemy == null)
@@ -53,7 +55,7 @@ namespace Unchord
             effect.transform.localPosition = Vector2.zero;
 
             CollisionEventEmitter emitter = effect.transform.Find("Colliders/Damaging Collider").GetComponent<CollisionEventEmitter>();
-            emitter.AddHandler(OnEffectEnter, CollisionEventType.OnTriggerEnter2D);
+            emitter.onTriggerEnter2D += OnEffectEnter;
 
             FlagComponent flagTable = effect.GetComponent<FlagComponent>();
             flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnEffectDestroyFlagSetTrue);
@@ -87,16 +89,18 @@ namespace Unchord
             _effectPool.Release(flagTable.gameObject);
         }
 
-        private void OnEffectEnter(GameObject target, Collider2D collider)
+        private void OnEffectEnter(object collisionEventEmitter, CollisionEventArgs args)
         {
-            Enemy enemy = collider.gameObject.GetComponentInParent<Enemy>();
+            GameObject enemyObject = args.targetObject;
+            Enemy enemy = enemyObject.GetComponentInParent<Enemy>();
 
-            if (enemy == null)
-                return;
+            UnityEngine.Debug.Assert(enemy != null);
 
-            Debug.Log("Enter Battojutsu Effect");
-            float damage = this.Attributes[BattojutsuAttributeType.EffectDamage].CurrentValue;
-            enemy.TakeDamage(damage, null, null);
+            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            {
+                float damage = this.Attributes[BattojutsuAttributeType.EffectDamage].CurrentValue;
+                enemy.TakeDamage(damage, null, null);
+            }
         }
     }
 }

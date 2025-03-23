@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Unchord
 {
     [Serializable]
-    public struct LevelUpData
+    public class LevelUpData
     {
         public float expRequirement;
         public string attributeType;

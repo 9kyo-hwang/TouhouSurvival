@@ -41,8 +41,6 @@ namespace Unchord
                 { PassiveTransform, new AbilitySamplingOptions(maxPassiveCount) }
             };
 
-            CreateAbilities();
-
             // AttributeSet.onLevelUp = OnLevelUp;
 
             AttributeSet.OnLevelUp += (level, remainingExp, requiredExp) =>
@@ -55,7 +53,8 @@ namespace Unchord
         {
             base.Start();
 
-            int level = (int)AttributeSet.Level;
+            AttributeSet.Level = 1;
+            CreateAbilities();
         }
 
         protected override void Update()
@@ -202,7 +201,9 @@ namespace Unchord
 
             if (!abilityComponent)
                 return;
+
             abilityComponent = Instantiate(abilityComponent);
+            abilityComponent.gameObject.SetActive(true);
 
             Debug.Assert(initialLevel >= 0);
 
@@ -213,7 +214,6 @@ namespace Unchord
             abilityComponent.Subscribe(this);
             _samplePool.Add(abilityComponent);
             _samplingOptions[abilityContainer].samplePool.Add(abilityComponent);
-            abilityComponent.gameObject.SetActive(initialActive);
             abilityComponent.Attributes.Level = initialLevel;
             
             if (initialActive)
@@ -223,6 +223,8 @@ namespace Unchord
                 gameCanvas.SetWeaponIcon(abilityComponent.transform.GetSiblingIndex(), abilityComponent.DisplayIcon);
                 gameCanvas.SetWeaponLevel(abilityComponent.transform.GetSiblingIndex(), abilityComponent.Attributes.Level);
             }
+
+            abilityComponent.gameObject.SetActive(initialActive);
         }
 
         public List<AbilityComponent> SampleAbility(int samplingCount)

@@ -20,7 +20,7 @@ namespace Unchord
             {
                 int intLevel = (int)Level;
 
-                if (IsReachedMaxLevel)
+                if (IsReachedMaxLevel || this.Level == 0)
                     return 1.0f;
 
                 return levelUpData[intLevel - 1].expRequirement;
@@ -30,7 +30,7 @@ namespace Unchord
         protected override void Awake()
         {
             base.Awake();
-
+            
             CreateSingletonReference();
 
             OnExpChanged += HandleExpChange;

@@ -29,6 +29,11 @@ namespace Unchord
             Attributes = GetComponent<AttributeSet>();
         }
 
+        protected virtual void FixedUpdate()
+        {
+
+        }
+
         protected virtual void Update()
         {
 
@@ -58,12 +63,6 @@ namespace Unchord
 
             transform.SetSiblingIndex(i);
             return i;
-        }
-
-        // TODO: 매 자식 컴포넌트에서 이를 재정의해야 하는데, 코드 중복을 제거할 수 있는 방안을 찾아야 합니다.
-        protected virtual void OnChangeAbilityLevel(int prevLevel, int nextLevel)
-        {
-
         }
     }
 }

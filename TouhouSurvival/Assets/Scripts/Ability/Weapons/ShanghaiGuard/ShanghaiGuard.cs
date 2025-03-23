@@ -1,4 +1,3 @@
-using Mono.Cecil.Cil;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -13,7 +12,7 @@ namespace Unchord
         public GameObject shanghaiPrefab;
 
         private ObjectPool<DotProjectile> _shanghaiPool;
-        public List<DotProjectile> _shanghaiEnabledList;
+        private List<DotProjectile> _shanghaiEnabledList;
 
         private float _targetShanghaiSize = 0.0f;
         private float _currentShanghaiSize = 0.0f;
@@ -23,8 +22,6 @@ namespace Unchord
 
         public float _leftDuration;
         private float _rotationPhaseAngle;
-
-        private Queue<Collider2D> _targetColliders;
 
         protected override void Awake()
         {
@@ -41,13 +38,6 @@ namespace Unchord
                 );
 
             _shanghaiEnabledList = new List<DotProjectile>(6);
-            _targetColliders = new Queue<Collider2D>(20);
-        }
-
-        protected void FixedUpdate()
-        {
-            while (_targetColliders.Count > 0)
-                OnShanghaiStay(_targetColliders.Dequeue());
         }
 
         protected override void Update()
@@ -145,8 +135,8 @@ namespace Unchord
         {
             GameObject shanghai = GameObject.Instantiate(shanghaiPrefab, transform, true);
 
-            CollisionEventEmitterTest emitter = shanghai.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitterTest>();
-            emitter.AddHandler(_targetColliders, CollisionEventType.OnTriggerStay2D);
+            CollisionEventEmitter emitter = shanghai.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
+            emitter.onTriggerStay2D += OnShanghaiDollStay;
 
             return shanghai.GetComponent<DotProjectile>();
         }
@@ -173,15 +163,18 @@ namespace Unchord
             // NOTE: This block is intentionally no operation.
         }
 
-        private void OnShanghaiStay(Collider2D collider)
+        private void OnShanghaiDollStay(object collisionEventEmitter, CollisionEventArgs args)
         {
-            Enemy enemy = collider.GetComponentInParent<Enemy>();
+            GameObject enemyObject = args.targetObject;
+            Enemy enemy = enemyObject.GetComponentInParent<Enemy>();
 
-            if (enemy == null)
-                return;
+            UnityEngine.Debug.Assert(enemy != null);
 
-            float damage = Attributes[ShanghaiGuardAttributeType.ShanghaiDamage].CurrentValue;
-            enemy.TakeDamage(damage, null, null);
+            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            {
+                float damage = Attributes[ShanghaiGuardAttributeType.ShanghaiDamage].CurrentValue;
+                enemy.TakeDamage(damage, null, null);
+            }
         }
     }
 }
