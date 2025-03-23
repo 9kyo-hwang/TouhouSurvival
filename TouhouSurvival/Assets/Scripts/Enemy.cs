@@ -7,8 +7,11 @@ namespace Unchord
 {
     public class Enemy : Pawn
     {
+        // TODO: 추후 Attributes 속성을 Pawn에 배치해야 합니다. (AbilityComponent에 선언한 Attributes 속성과 같은 형태로 코드를 작성할 수 있도록 합니다.)
+        public AttributeSet Attributes => _attributeSet;
+
         [SerializeField] private Rigidbody2D target;
-        private EnemyAttributeSet _attributeSet;
+        private EnemyAttributeSet _attributeSet; // TODO: Pawn에 Attributes 속성을 배치한 후 이 속성 선언을 삭제하세요.
         private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
         [SerializeField] private GameObject dropExperiencePrefab;
 
