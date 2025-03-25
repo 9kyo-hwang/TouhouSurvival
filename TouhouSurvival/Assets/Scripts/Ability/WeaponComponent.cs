@@ -10,6 +10,8 @@ namespace Unchord
         public float variableCooltimeMin = 1.0f;
         public float variableCooltimeMax = 2.0f;
 
+        protected bool _isCooltimePaused;
+
         private float _leftCooltime;
 
         protected override void Awake()
@@ -57,7 +59,9 @@ namespace Unchord
             if (_leftCooltime <= 0.0f)
                 return false;
 
-            _leftCooltime -= Time.deltaTime;
+            if (!_isCooltimePaused)
+                _leftCooltime -= Time.deltaTime;
+
             return true;
         }
 
