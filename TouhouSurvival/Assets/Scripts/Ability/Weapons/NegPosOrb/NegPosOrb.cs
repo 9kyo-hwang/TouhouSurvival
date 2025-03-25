@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -30,12 +31,28 @@ namespace Unchord
         {
             base.UseWeapon();
 
-            GameObject nearestEnemy = Spawner.GetNearestEnemyOrNull(_player.transform.position);
+            StartCoroutine(ShootCoroutine());
+        }
 
-            if (!nearestEnemy)
-                return;
+        private IEnumerator ShootCoroutine()
+        {
+            _isCooltimePaused = true;
 
-            Shoot(nearestEnemy);
+            int burstCount = (int)Attributes[NegPosOrbAttributeType.ShootingBurstCount].CurrentValue;
+            float burstDelay = Attributes[NegPosOrbAttributeType.ShootingBurstDelay].CurrentValue;
+
+            for (int i = burstCount - 1; i >= 0; --i)
+            {
+                GameObject nearestEnemy = Spawner.GetNearestEnemyOrNull(_player.transform.position);
+
+                if (nearestEnemy)
+                    Shoot(nearestEnemy);
+
+                if (i > 0)
+                    yield return new WaitForSeconds(burstDelay);
+            }
+
+            _isCooltimePaused = false;
         }
 
         private void Shoot(GameObject nearestEnemyObject)
