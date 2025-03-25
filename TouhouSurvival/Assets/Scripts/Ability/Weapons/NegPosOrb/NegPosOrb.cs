@@ -1,9 +1,11 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
+using static UnityEngine.Rendering.GPUSort;
 
 namespace Unchord
 {
+    // TODO: 넉백 방향, 플레이어를 기준으로 플레이어에서 멀어지는 방향.
     public class NegPosOrb : WeaponComponent
     {
         private static int s_projectileFlyingHash = Animator.StringToHash("ProjectileFlying");
@@ -69,6 +71,21 @@ namespace Unchord
             GameplayAttribute attrEulerAngleError = Attributes[NegPosOrbAttributeType.ShootingEulerAngleError];
 
             projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, attrEulerAngleError.CurrentValue);
+
+            StartCoroutine(ElapseProjectileTimeout(projectileObject));
+        }
+
+        private IEnumerator ElapseProjectileTimeout(GameObject projectileObject)
+        {
+            float duration = Attributes[NegPosOrbAttributeType.ProjectileDuration].CurrentValue;
+
+            yield return new WaitForSeconds(duration);
+
+            LinearProjectile projectile = projectileObject.GetComponentInParent<LinearProjectile>(true);
+
+            UnityEngine.Debug.Assert(projectile != null);
+
+            projectile.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
         }
 
         private GameObject OnCreateProjectile()
@@ -76,10 +93,10 @@ namespace Unchord
             GameObject projectile = GameObject.Instantiate(projectilePrefab.gameObject, transform, true);
 
             CollisionEventEmitter emitter = projectile.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
-            emitter.onTriggerEnter2D += OnProjectileEnter;
+            emitter.onTriggerStay2D += OnProjectileStay;
 
             FlagComponent flagTable = projectile.GetComponent<FlagComponent>();
-            flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnProjectileHit);
+            flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnProjectileTimeout);
 
             return projectile;
         }
@@ -108,7 +125,7 @@ namespace Unchord
             // NOTE: This block is intentionally no operation.
         }
 
-        private void OnProjectileEnter(object collisionEventEmitter, CollisionEventArgs args)
+        private void OnProjectileStay(object collisionEventEmitter, CollisionEventArgs args)
         {
             GameObject enemyObject = args.targetObject;
             Enemy enemy = enemyObject.GetComponentInParent<Enemy>(true);
@@ -120,22 +137,6 @@ namespace Unchord
                 float damage = this.Attributes[FireballAttributeType.ProjectileDamage].CurrentValue;
                 enemy.TakeDamage(damage, null, null);
             }
-
-            GameObject projectileObject = args.eventSource;
-            LinearProjectile projectile = projectileObject.GetComponentInParent<LinearProjectile>(true);
-
-            UnityEngine.Debug.Assert(projectile != null);
-
-            projectile.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
-        }
-
-        private void OnProjectileHit(FlagComponent flagTable)
-        {
-            LinearProjectile projectile = flagTable.GetComponent<LinearProjectile>();
-
-            UnityEngine.Debug.Assert(projectile != null);
-
-            _projectilePool.Release(projectile.gameObject);
         }
 
         private void OnProjectileTimeout(FlagComponent flagTable)

@@ -12,5 +12,7 @@ namespace Unchord
         public const string ProjectileSpeed = "ProjectileSpeed";
         public const string ProjectileDamage = "ProjectileDamage";
         public const string ProjectileKnockbackForce = "ProjectileKnockbackForce";
+        public const string ProjectileDamageTime = "ProjectileDamageTime";
+        public const string ProjectileDuration = "ProjectileDuration";
     }
 }
