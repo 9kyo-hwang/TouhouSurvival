@@ -108,7 +108,7 @@ namespace Unchord
 
             projectile.gameObject.SetActive(true);
 
-            float scale = Attributes[FireballAttributeType.ProjectileSize].CurrentValue;
+            float scale = Attributes[NegPosOrbAttributeType.ProjectileSize].CurrentValue;
             projectile.transform.localScale = new Vector3(scale, scale, 1.0f);
 
             Animator animator = projectile.GetComponent<Animator>();
@@ -134,7 +134,7 @@ namespace Unchord
 
             if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
             {
-                float damage = this.Attributes[FireballAttributeType.ProjectileDamage].CurrentValue;
+                float damage = this.Attributes[NegPosOrbAttributeType.ProjectileDamage].CurrentValue;
                 enemy.TakeDamage(damage, null, null);
             }
         }
