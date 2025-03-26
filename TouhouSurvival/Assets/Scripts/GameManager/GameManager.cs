@@ -156,6 +156,7 @@ namespace Unchord
             }
 
             GameData.Instance.Save();
+            UIManager.Instance.GameCanvas.Clear();
             UIManager.Instance.GameResultCanvas.Show();
         }
 

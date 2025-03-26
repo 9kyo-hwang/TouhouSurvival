@@ -185,6 +185,7 @@ namespace Unchord
         private void CreateAbilities()
         {
             CreateAbility(AbilityType.Weapon, weaponSet[0], true, 1);
+            UIManager.Instance.GameCanvas.EnableWeaponSlot(0);
 
             for (int i = 1; i < weaponSet.Count; ++i)
                 CreateAbility(AbilityType.Weapon, weaponSet[i], false, 0);

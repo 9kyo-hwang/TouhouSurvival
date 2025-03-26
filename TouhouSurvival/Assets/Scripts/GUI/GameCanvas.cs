@@ -94,6 +94,18 @@ namespace Unchord
             s_wuiManager.HidePlayerHealth();
         }
 
+        public void Clear()
+        {
+            SetKillCount(0);
+            SetEarnedGold(0);
+
+            for (int i = 0; i < MAX_ABILITY_COUNT; ++i)
+            {
+                DisableWeaponSlot(i);
+                //DisablePassiveSlot(i);
+            }
+        }
+
         public void SetExpGauge(float value, float max)
         {
             UnityEngine.Debug.Assert(max > 0.0f);
@@ -135,6 +147,13 @@ namespace Unchord
             UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
 
             _weaponSlots[index].Enable();
+        }
+
+        public void DisableWeaponSlot(int index)
+        {
+            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
+
+            _weaponSlots[index].Disable();
         }
 
         public void SetWeaponIcon(int index, Sprite weaponIcon)
