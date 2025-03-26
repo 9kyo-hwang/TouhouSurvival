@@ -79,6 +79,25 @@ namespace Unchord
             float currentHealth = healthAttribute.CurrentValue;
             healthAttribute.CurrentValue -= damageAmount;
             float newHealth = healthAttribute.CurrentValue;
+
+            if (newHealth <= 0.0f)
+            {
+                OnDead();
+            }
+            else
+            {
+                if (eventInstigator)
+                {
+                    float knockBackStrength = eventInstigator.GetComponent<PlayerAttributeSet>()
+                        .Attributes[PlayerAttributeType.KnockBackStrength].CurrentValue;
+                    
+                    OnHit(knockBackStrength);
+                }
+                else
+                {
+                    OnHit(1.0f);
+                }
+            }
             
             Debug.Log($"적이 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;

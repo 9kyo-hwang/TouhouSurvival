@@ -15,14 +15,6 @@ namespace Unchord
         private void OnHealthChanged(object sender, AttributeChangedEventArgs e)
         {
             //Debug.Log($"Health changed from {e.OldValue} to {e.NewValue}");
-            if (e.NewValue <= 0.0f)
-            {
-                _owner.OnDead();
-            }
-            else
-            {
-                _owner.OnHit(1.0f);
-            }
         }
     }
 }
