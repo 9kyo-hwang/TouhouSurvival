@@ -103,10 +103,10 @@ TextureImporter:
       name: master_spark_light_1-5_0
       rect:
         serializedVersion: 2
-        x: 18
-        y: 3
-        width: 194
-        height: 188
+        x: 404
+        y: 0
+        width: 149
+        height: 143
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
