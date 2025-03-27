@@ -8,76 +8,73 @@ namespace Unchord
 {
     public class Harudesuyo : MonoBehaviour
     {
-        private float _fallTime;
-        private float _radius;
-        private float _damage;
-        private Transform _target;
+        private float _delay;                           // 생성 후 떨어지기까지 걸리는 지연시간
+        private float _radius;                          // 폭발 범위
+        private float _damage;                          // 폭발 데미지
+        private Quaternion _rotation;                   // 폭탄 이미지 회전값
+        private Vector3 _spawnPoint;                    // 폭탄 생성 지점
+        private Vector3 _dropPoint;                     // 폭탄 낙하 지점
         private ObjectPool<Harudesuyo> _pool;           // 생성 후 Pool에 반환시키기 위해 참조만 들고 있음
         private ObjectPool<GameObject> _explosionPool;  // Controller에서 Pool 주소값을 넘겨받아 생성
         
-        public GameObject projectile;   // 떨어지는 미사일 이미지
-
-        public void Initialize(float fallTime, float radius, float damage, Transform target, ObjectPool<Harudesuyo> pool, ObjectPool<GameObject> explosionPool)
+        public GameObject bombImage;                    // 떨어지는 폭탄 이미지
+        public float bombFallSpeed = 5f;                // 폭탄 떨어지는 속도
+        
+        public void Initialize(float fallDelay, float explosionRadius, float explosionDamage, 
+            Quaternion rotation, Vector3 spawnPoint, Vector3 dropPoint, 
+            ObjectPool<Harudesuyo> bombPool, ObjectPool<GameObject> explosionPool)
         {
-            _fallTime = fallTime;
-            _radius = radius;
-            _damage = damage;
-            _target = target;
-            _pool = pool;
+            _delay = fallDelay;
+            _radius = explosionRadius;
+            _damage = explosionDamage;
+            _rotation = rotation;
+            _spawnPoint = spawnPoint;
+            _dropPoint = dropPoint;
+            _pool = bombPool;
             _explosionPool = explosionPool;
             
-            projectile.SetActive(true);
+            bombImage.SetActive(true);
             StartCoroutine(Fall());
         }
 
-        // _fallTime에 걸쳐 폭탄이 떨어짐
+        // _delay 시간 후 dropPoint를 향해 폭탄 낙하
         private IEnumerator Fall()
         {
-            Vector3 startPos = projectile.transform.position;
-            Vector3 targetPos = _target.position;
-            
-            float journeyLength = Vector3.Distance(startPos, targetPos);
-            float journeyTime = _fallTime;
-            float startTime = Time.time;
+            yield return new WaitForSeconds(_delay);
 
-            while (projectile.transform.position.y < targetPos.y)
-            {
-                float distCovered = (Time.time - startTime) * (journeyLength / journeyTime);
-                float fractionOfJourney = distCovered / journeyLength;
-                
-                projectile.transform.position = Vector3.Lerp(startPos, targetPos, fractionOfJourney);
-                yield return null;
-            }
-            
-            projectile.transform.position = targetPos;
-            Explode();
+            LinearProjectile projectile = GetComponent<LinearProjectile>();
+            projectile.transform.localPosition = Vector3.zero;
+            projectile.transform.rotation = _rotation;
+            projectile.OriginPosition = _spawnPoint;
+            projectile.ProjectileSpeed = bombFallSpeed;
+
+            projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(_spawnPoint, _dropPoint, 0.0f);
         }
 
         private void Explode()
         {
             GameObject effect = _explosionPool.Get();
-            effect.transform.position = projectile.transform.position;
+            effect.transform.position = _dropPoint;
             effect.GetComponent<HarudesuyoExplosionEffect>().Play();
             
-            Collider2D[] hitObjects = Physics2D.OverlapCircleAll(effect.transform.position, _radius, LayerMask.GetMask("Enemy"));
+            Collider2D[] hitObjects = Physics2D.OverlapCircleAll(_dropPoint, _radius, LayerMask.GetMask("Enemy"));
             foreach (Collider2D hit in hitObjects)
             {
                 Enemy enemy = hit.GetComponentInParent<Enemy>();
                 if (enemy)
                 {
-                    enemy.TakeDamage(_damage, enemy, effect);
+                    Player player = gameObject.GetComponentInParent<Player>();
+                    enemy.TakeDamage(_damage, player, effect);
                 }
             }
             
-            // 폭발 완료 후 오브젝트 풀에 반환
-            _pool.Release(this);
-            projectile.SetActive(false);
+            bombImage.SetActive(false);
         }
 
         private void OnDisable()
         {
             // TODO: 폭탄 이미지 및 기타 상태 초기화
-            projectile.SetActive(false);
+            bombImage.SetActive(false);
         }
     }
 }
