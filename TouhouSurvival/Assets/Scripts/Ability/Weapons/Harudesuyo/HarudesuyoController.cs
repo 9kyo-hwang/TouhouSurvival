@@ -17,8 +17,8 @@ namespace Unchord
         public GameObject explosionPrefab;  // 폭발 이펙트
         
         private const float SpawnDelayVariationRatio = 0.2f;
-        private const float SpawnHorizontalDirectionOffset = 96f;
-        private const float SpawnVerticalDirectionOffset = 270f;
+        private const float SpawnHorizontalDirectionOffset = 5f;
+        private const float SpawnVerticalDirectionOffset = 10f;
         
         #region Harudesuyo Bomb Pool
         private ObjectPool<Harudesuyo> _bombPool;
@@ -39,7 +39,7 @@ namespace Unchord
 
         private Harudesuyo ProjectileCreateFunc()
         {
-            return Instantiate(harudesuyoPrefab);
+            return Instantiate(harudesuyoPrefab, transform);
         }
         #endregion
         
@@ -59,16 +59,18 @@ namespace Unchord
         {
             FlagComponent flagTable = obj.GetComponent<FlagComponent>();
             flagTable.SetFlagFalseWithoutEvent(FLAG_SHOULD_DESTROY);
-            
+
+            float explosionScale = Attributes[HarudesuyoAttributeType.BombExplosionRadius].CurrentValue;
+            obj.transform.localScale = new Vector3(explosionScale, explosionScale, 1);
             obj.gameObject.SetActive(true);
             
             Animator animator = obj.GetComponent<Animator>();
-            animator.Play("HarudesuyoExplosion", -1, 0.0f);
+            animator.Play("FireballExplosion", -1, 0.0f);   // TODO: Harudesuyo 전용으로 변경
         }
 
         private GameObject ExplosionCreateFunc()
         {
-            GameObject explosion = Instantiate(explosionPrefab.gameObject);
+            GameObject explosion = Instantiate(explosionPrefab.gameObject, transform);
             
             CollisionEventEmitter emitter = explosion.transform.Find("Colliders/Circle Collider 2D")
                 .GetComponent<CollisionEventEmitter>();
@@ -136,10 +138,7 @@ namespace Unchord
         {
             base.UseWeapon();
             
-            foreach (Vector3 dropPoint in GetDropPoints())
-            {
-                StartCoroutine(SpawnBomb(dropPoint));
-            }
+            StartCoroutine(SpawnBombCoroutine());
         }
 
         private Vector3[] GetDropPoints()
@@ -151,47 +150,54 @@ namespace Unchord
             for (int i = 0; i < numDropPoint; ++i)
             {
                 points[i] = new Vector3(
-                    transform.position.x + Random.Range(-bombingRange, bombingRange),
-                    transform.position.y + Random.Range(-bombingRange, bombingRange),
-                    transform.position.z
+                    _player.transform.position.x + Random.Range(-bombingRange, bombingRange),
+                    _player.transform.position.y + Random.Range(-bombingRange, bombingRange),
+                    _player.transform.position.z
                 );
+                
+                Debug.Log($"Drop Point: {points[i].x}, {points[i].y}, {points[i].z}");
             }
 
             return points;
         }
 
-        private IEnumerator SpawnBomb(Vector3 dropPoint)
+        private IEnumerator SpawnBombCoroutine()
         {
-            Vector3 spawnPoint = GetBombSpawnPoint();
-            Quaternion rotation = GetBombRotation(spawnPoint);
+            // _isCooltimePaused = true;
+            
+            foreach (Vector3 dropPoint in GetDropPoints())
+            {
+                SpawnBomb(dropPoint);
+                
+                float spawnDelay = Attributes[HarudesuyoAttributeType.BombSpawnDelay].CurrentValue;
+                float randomFactor = Random.Range(1f - SpawnDelayVariationRatio, 1f + SpawnDelayVariationRatio);
+                yield return new WaitForSeconds(spawnDelay * randomFactor);
+            }
+            
+            // _isCooltimePaused = false;
+        }
+        
+        private void SpawnBomb(Vector3 dropPoint)
+        {
+            Vector3 bombSpawnOffset = GetBombSpawnPointOffset();
+            Vector3 spawnPoint = bombSpawnOffset + dropPoint;
+            float angle = Vector2.SignedAngle(Vector2.right, -bombSpawnOffset);
+            Vector3 rotation = Vector3.forward * angle;  // TODO: 각도 수정
             float fallDelay = Attributes[HarudesuyoAttributeType.BombFallDelay].CurrentValue;
-            float explosionRadius = Attributes[HarudesuyoAttributeType.BombExplosionRadius].CurrentValue;
-            float explosionDamage = Attributes[HarudesuyoAttributeType.BombExplosionDamage].CurrentValue;
             
             Harudesuyo bomb = _bombPool.Get();
-            bomb.Initialize(fallDelay, explosionRadius, explosionDamage, rotation, spawnPoint, dropPoint, _bombPool, _explosionPool);
-
-            float spawnDelay = Attributes[HarudesuyoAttributeType.BombSpawnDelay].CurrentValue;
-            float randomFactor = Random.Range(1f - SpawnDelayVariationRatio, 1f + SpawnDelayVariationRatio);
-            yield return new WaitForSeconds(spawnDelay * randomFactor);
+            bomb.Initialize(fallDelay, rotation, spawnPoint, dropPoint, _bombPool, _explosionPool);
         }
 
-        private Vector3 GetBombSpawnPoint()
+        private Vector3 GetBombSpawnPointOffset()
         {
             return Random.Range(0, 3) switch
             {
-                0 => new Vector3(transform.position.x - SpawnHorizontalDirectionOffset, transform.position.y + SpawnVerticalDirectionOffset, transform.position.z),
-                1 => new Vector3(transform.position.x, transform.position.y + SpawnVerticalDirectionOffset, transform.position.z),
-                2 => new Vector3(transform.position.x + SpawnHorizontalDirectionOffset, transform.position.y + SpawnVerticalDirectionOffset, transform.position.z),
+                0 => new Vector3(-SpawnHorizontalDirectionOffset, SpawnVerticalDirectionOffset, 0),
+                1 => new Vector3(0, SpawnVerticalDirectionOffset, 0),
+                2 => new Vector3(SpawnHorizontalDirectionOffset, SpawnVerticalDirectionOffset, 0),
                 _ => Vector3.zero
             };
-        }
-
-        private Quaternion GetBombRotation(Vector3 spawnPoint)
-        {
-            if (spawnPoint.x < transform.position.x) return Quaternion.Euler(0f, 0f, 45f);  // 좌측 상공
-            if (spawnPoint.x > transform.position.x) return Quaternion.Euler(0f, 0f, -45f); // 우측 상공
-            return Quaternion.Euler(0f, 0f, 0f);
         }
     }
 }
