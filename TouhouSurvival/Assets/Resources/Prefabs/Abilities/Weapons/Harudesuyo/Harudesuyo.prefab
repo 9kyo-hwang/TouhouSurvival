@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8239103857834861338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7376760699097865426}
+  - component: {fileID: 7871210333720805974}
+  - component: {fileID: 5743177516272268397}
+  - component: {fileID: 4006998538697097703}
+  m_Layer: 0
+  m_Name: Harudesuyo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7376760699097865426
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8239103857834861338}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7871210333720805974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8239103857834861338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01317d104ecce7d48abad988e064f6a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayIcon: {fileID: 21300000, guid: bce4bd4525621d14780a5dd49580ad2a, type: 3}
+  displayName: "\uBD04\uC774\uC5D0\uC694"
+  displayDescription: "\uC0AC\uC2E4\uC740 \uD3ED\uD0C4\uC785\uB2C8\uB2E4,"
+  weaponActivationMode: 1
+  fixedCooltime: 5
+  variableCooltimeMin: 10
+  variableCooltimeMax: 20
+  harudesuyoPrefab: {fileID: 1343935588900269220, guid: 26d938f000a54104696662d54924e786, type: 3}
+  explosionPrefab: {fileID: 6291589043752310054, guid: cc12db9895f2c784aa14d9b1c6ae3b1c, type: 3}
+--- !u!114 &5743177516272268397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8239103857834861338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2923781929feed0418cbf215ce46df22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attributeAssetPath: \AttributeTables\Abilities\Weapons\harudesuyo.xlsx
+  levelUpDataAssetPath: 
+  levelUpData: []
+--- !u!114 &4006998538697097703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8239103857834861338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9dd9d5954a55db4fa04786e7b8b2a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
