@@ -163,7 +163,7 @@ namespace Unchord
 
         private IEnumerator SpawnBombCoroutine()
         {
-            // _isCooltimePaused = true;
+            _isCooltimePaused = true;
             
             foreach (Vector3 dropPoint in GetDropPoints())
             {
@@ -174,7 +174,7 @@ namespace Unchord
                 yield return new WaitForSeconds(spawnDelay * randomFactor);
             }
             
-            // _isCooltimePaused = false;
+            _isCooltimePaused = false;
         }
         
         private void SpawnBomb(Vector3 dropPoint)
