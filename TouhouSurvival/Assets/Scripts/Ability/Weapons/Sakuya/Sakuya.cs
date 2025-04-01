@@ -1,3 +1,4 @@
+using System.Collections;
 using Unchord;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -6,30 +7,36 @@ namespace Unchord
 {
     public class Sakuya : MonoBehaviour
     {
-        private ObjectPool<GameObject> _pool;
         private Vector3 _direction;
         private float _speed;
+        private float _duration;
 
-        public void Initialize(ObjectPool<GameObject> pool, 
-            Vector3 playerPosition, Vector3 targetPosition, float throwAngleOffset,
-            float speed)
+        public void Initialize(Vector3 playerPosition, Vector3 targetPosition, float throwAngleOffset, float speed, float duration)
         {
-            _pool = pool;
             _direction = Projectile.GetTargetDirectionVector(playerPosition, targetPosition, throwAngleOffset);
             _speed = speed;
+            _duration = duration;
             
             Move();
         }
 
         private void Move()
         {
-            GameObject sakuyaGameObject = _pool.Get();
-            
-            LinearProjectile projectile = sakuyaGameObject.GetComponent<LinearProjectile>();
+            LinearProjectile projectile = GetComponent<LinearProjectile>();
             projectile.transform.localPosition = Vector3.zero;
             projectile.OriginPosition = projectile.transform.position;
             projectile.ProjectileSpeed = _speed;
             projectile.ProjectileDirection = _direction;
+
+            StartCoroutine(Timeout());
+        }
+
+        private IEnumerator Timeout()
+        {
+            yield return new WaitForSeconds(_duration);
+
+            GetComponentInParent<LinearProjectile>(includeInactive: true)
+                .FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
         }
     }
 }

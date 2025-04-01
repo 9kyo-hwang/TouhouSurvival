@@ -86,21 +86,16 @@ namespace Unchord
             }
             else
             {
-                if (eventInstigator)
-                {
-                    float knockBackStrength = eventInstigator.GetComponent<PlayerAttributeSet>()
-                        .Attributes[PlayerAttributeType.KnockBackStrength].CurrentValue;
-                    
-                    OnHit(knockBackStrength);
-                }
-                else
-                {
-                    OnHit(1.0f);
-                }
+                OnHit();
             }
             
             Debug.Log($"적이 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
+        }
+        
+        public void KnockBack(float knockBackStrength)
+        {
+            StartCoroutine(KnockBackCoroutine(knockBackStrength));
         }
         
         private void OnEnable()
@@ -117,7 +112,7 @@ namespace Unchord
 
         }
 
-        private IEnumerator KnockBack(float knockBackStrength)
+        private IEnumerator KnockBackCoroutine(float knockBackStrength)
         {
             yield return _waitForFixedUpdate; // 1 frame 대기
 
@@ -126,13 +121,12 @@ namespace Unchord
             Rigidbody.AddForce(direction.normalized * (3 * knockBackStrength), ForceMode2D.Impulse);
         }
 
-        public void OnHit(float knockBackStrength)
+        private void OnHit()
         {
             Animator.SetTrigger("Hit");
-            StartCoroutine(KnockBack(knockBackStrength));
         }
 
-        public void OnDead()
+        private void OnDead()
         {
             Rigidbody.simulated = false;
             // Renderer.sortingOrder--;

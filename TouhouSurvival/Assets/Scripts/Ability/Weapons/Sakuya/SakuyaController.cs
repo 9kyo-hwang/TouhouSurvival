@@ -27,14 +27,15 @@ namespace Unchord
             obj.GetComponent<FlagComponent>()
                 .SetFlagFalseWithoutEvent(FLAG_SHOULD_DESTROY);
             
-            obj.SetActive(false);
-            
-            // NOTE: 단순히 단검이 이동하면 되기 때문에 Animation X
+            obj.SetActive(true);
+
+            float size = Attributes[SakuyaAttributeType.Size].CurrentValue;
+            obj.transform.localScale = new Vector3(size, size, 1.0f);
         }
 
         private GameObject CreateFunc()
         {
-            GameObject sakuyaGameObject = Instantiate(sakuyaPrefab, transform);
+            GameObject sakuyaGameObject = Instantiate(sakuyaPrefab.gameObject, transform, true);
 
             sakuyaGameObject.transform.Find("Colliders/Circle Collider 2D")
                 .GetComponent<CollisionEventEmitter>()
@@ -46,14 +47,16 @@ namespace Unchord
                     return;
                 }
 
-                Enemy enemy = enemyGameObject.GetComponent<Enemy>();
+                Enemy enemy = enemyGameObject.GetComponentInParent<Enemy>(true);
                 if (!enemy)
                 {
                     return;
                 }
                 
                 float damage = Attributes[SakuyaAttributeType.Damage].CurrentValue;
+                float knockBackStrength = Attributes[SakuyaAttributeType.KnockbackStrength].CurrentValue;
                 enemy.TakeDamage(damage, GetComponentInParent<Player>(), gameObject);
+                enemy.KnockBack(knockBackStrength);
 
                 GameObject projectileGameObject = args.eventSource;
                 LinearProjectile projectile = projectileGameObject.GetComponentInParent<LinearProjectile>(true);
@@ -99,11 +102,11 @@ namespace Unchord
             GameObject nearestGameObject = Spawner.GetNearestEnemyOrNull(_player.transform.position);
             if (nearestGameObject)
             {
-                Vector3 throwDirection = (nearestGameObject.transform.position - _player.transform.position).normalized;
                 int throwCount = (int)Attributes[SakuyaAttributeType.ThrowCount].CurrentValue;
+                Vector3 targetPosition = nearestGameObject.transform.position;
                 for (int i = 0; i < throwCount; i++)
                 {
-                    Throw(nearestGameObject);
+                    Throw(targetPosition);
                     float throwDelay = Attributes[SakuyaAttributeType.ThrowDelay].CurrentValue;
                     yield return new WaitForSeconds(throwDelay);
                 }
@@ -112,19 +115,19 @@ namespace Unchord
             _isCooltimePaused = false;
         }
 
-        private void Throw(GameObject nearestGameObject)
+        private void Throw(Vector3 targetPosition)
         {
-            GameObject sakuyaObject = _sakuyaPool.Get();
-            
             float throwAngleOffset = Attributes[SakuyaAttributeType.ThrowAngleOffset].CurrentValue;
             float speed = Attributes[SakuyaAttributeType.ThrowSpeed].CurrentValue;
+            float duration = Attributes[SakuyaAttributeType.Duration].CurrentValue;
 
+            GameObject sakuyaObject = _sakuyaPool.Get();
             sakuyaObject.GetComponent<Sakuya>().Initialize(
-                _sakuyaPool,
                 _player.transform.position,
-                nearestGameObject.transform.position,
+                targetPosition,
                 throwAngleOffset,
-                speed
+                speed,
+                duration
             );
         }
     }    

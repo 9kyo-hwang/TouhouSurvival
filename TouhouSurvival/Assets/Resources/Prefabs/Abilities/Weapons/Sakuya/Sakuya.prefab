@@ -62,10 +62,10 @@ MonoBehaviour:
   displayName: "\uC0AC\uCFE0\uC57C"
   displayDescription: 
   weaponActivationMode: 1
-  fixedCooltime: 1
+  fixedCooltime: 5
   variableCooltimeMin: 1
   variableCooltimeMax: 2
-  sakuyaPrefab: {fileID: 0}
+  sakuyaPrefab: {fileID: 7440575811571424432, guid: ac8723d954b01564d9601330a5e21ba9, type: 3}
 --- !u!114 &8748863915990199830
 MonoBehaviour:
   m_ObjectHideFlags: 0
