@@ -104,9 +104,10 @@ namespace Unchord
             {
                 int throwCount = (int)Attributes[SakuyaAttributeType.ThrowCount].CurrentValue;
                 Vector3 targetPosition = nearestGameObject.transform.position;
+                Vector3 playerPosition = _player.transform.position;
                 for (int i = 0; i < throwCount; i++)
                 {
-                    Throw(targetPosition);
+                    Throw(targetPosition, playerPosition);
                     float throwDelay = Attributes[SakuyaAttributeType.ThrowDelay].CurrentValue;
                     yield return new WaitForSeconds(throwDelay);
                 }
@@ -115,7 +116,7 @@ namespace Unchord
             _isCooltimePaused = false;
         }
 
-        private void Throw(Vector3 targetPosition)
+        private void Throw(Vector3 targetPosition, Vector3 playerPosition)
         {
             float throwAngleOffset = Attributes[SakuyaAttributeType.ThrowAngleOffset].CurrentValue;
             float speed = Attributes[SakuyaAttributeType.ThrowSpeed].CurrentValue;
@@ -123,7 +124,7 @@ namespace Unchord
 
             GameObject sakuyaObject = _sakuyaPool.Get();
             sakuyaObject.GetComponent<Sakuya>().Initialize(
-                _player.transform.position,
+                playerPosition,
                 targetPosition,
                 throwAngleOffset,
                 speed,
