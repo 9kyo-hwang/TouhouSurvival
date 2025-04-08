@@ -60,6 +60,9 @@ namespace Unchord
         protected override void Update()
         {
             base.Update();
+
+            Animator.SetFloat("Health", AttributeSet[PlayerAttributeType.Health].CurrentValue);
+            Animator.SetBool("IsMove", _movementVector.magnitude > 0.0f);
         }
 
         private void FixedUpdate()
