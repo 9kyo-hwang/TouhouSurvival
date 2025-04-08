@@ -6,6 +6,7 @@ namespace Unchord
     public class UIManager : UIManagerBase<UIManager>
     {
         #region GUI Canvas Instance Factory Properties
+        public MainIllustCanvas MainIllustCanvas => this.GetCanvas<MainIllustCanvas>("GUIs/Canvas/MainIllust", false);
         public LobbyCanvas LobbyCanvas => this.GetCanvas<LobbyCanvas>("GUIs/Canvas/Lobby", true);
         public LoadingCanvas LoadingCanvas => this.GetCanvas<LoadingCanvas>("GUIs/Canvas/Loading");
         public GameResultCanvas GameResultCanvas => this.GetCanvas<GameResultCanvas>("GUIs/Canvas/GameResult");
