@@ -85,6 +85,8 @@ namespace Unchord
             SetKillCount(s_gameManager.KillCount);
             SetEarnedGold(s_gameManager.EarnedGold);
             s_wuiManager.ShowPlayerHealth();
+
+            s_uiManager.MainIllustCanvas.Hide();
         }
 
         public override void Hide()

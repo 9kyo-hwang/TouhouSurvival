@@ -28,6 +28,7 @@ namespace Unchord
             base.Show();
 
             s_uiManager.SettingsCanvas.ReserveReturnCanvas(this);
+            s_uiManager.MainIllustCanvas.Show();
         }
 
         private void OnSettingsButtonClick()

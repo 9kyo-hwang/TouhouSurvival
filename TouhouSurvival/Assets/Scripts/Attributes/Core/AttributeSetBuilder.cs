@@ -1,23 +1,23 @@
 using System.Diagnostics;
 using System.IO;
-using UnityEditor.Build;
-using UnityEditor.Build.Reporting;
+//using UnityEditor.Build;
+//using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 namespace Unchord
 {
-    public class AttributeSetBuilder : IPreprocessBuildWithReport
+    public class AttributeSetBuilder // : IPreprocessBuildWithReport
     {
-        int IOrderedCallback.callbackOrder => 0;
+        //int IOrderedCallback.callbackOrder => 0;
 
-        void IPreprocessBuildWithReport.OnPreprocessBuild(BuildReport report)
-        {
-            _LoadAttributes("Prefabs/Abilities");
-            _LoadAttributes("Prefabs/Enemies");
-            _LoadAttributes("Prefabs/PlayableCharacters");
-        }
+        //void IPreprocessBuildWithReport.OnPreprocessBuild(BuildReport report)
+        //{
+        //    _LoadAttributes("Prefabs/Abilities");
+        //    _LoadAttributes("Prefabs/Enemies");
+        //    _LoadAttributes("Prefabs/PlayableCharacters");
+        //}
 
-        [Conditional("UNITY_EDITOR")]
+        //[Conditional("UNITY_EDITOR")]
         public static void LoadAttributes(AttributeSet attributeSet)
         {
             _LoadAttributes(attributeSet);

@@ -539,6 +539,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2195174643676556566}
   - component: {fileID: -7562552460742696996}
+  - component: {fileID: 361013435396563761}
   m_Layer: 5
   m_Name: Lobby
   m_TagString: Untagged
@@ -579,6 +580,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38bedc2a74229ce479461c30f14a8f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!222 &361013435396563761
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2779476731687185137}
+  m_CullTransparentMesh: 1
 --- !u!1 &4182492896148927120
 GameObject:
   m_ObjectHideFlags: 0
