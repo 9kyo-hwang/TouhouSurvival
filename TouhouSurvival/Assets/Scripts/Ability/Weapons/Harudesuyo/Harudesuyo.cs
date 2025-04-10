@@ -39,7 +39,7 @@ namespace Unchord
             projectile.ProjectileSpeed = 0.0f;
             projectile.ProjectileDirection = Vector2.zero;
             
-            yield return new WaitForSeconds(_delay);
+            yield return new WaitForSeconds(/*_delay*/ 0.0f);
             
             projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(_spawnPoint, _dropPoint, 0.0f);
             projectile.ProjectileSpeed = bombFallSpeed;

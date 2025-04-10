@@ -49,14 +49,15 @@ namespace Unchord
                 {
                     return;
                 }
-
+                
                 float damage = _attributeSet[IcicleFallAttributeType.ShardDamage].CurrentValue;
                 float knockBackStrength = _attributeSet[IcicleFallAttributeType.ShardKnockbackStrength].CurrentValue;
+                Debug.Log($"Shard Attack To {enemy.name} about {damage}");
                 enemy.TakeDamage(damage, _transform.GetComponentInParent<Player>(), shardGameObject);
                 enemy.KnockBack(knockBackStrength);
 
                 GameObject projectileGameObject = args.eventSource;
-                LinearProjectile projectile = projectileGameObject.GetComponentInParent<LinearProjectile>();
+                LinearProjectile projectile = projectileGameObject.GetComponentInParent<LinearProjectile>(true);
                 if (projectile)
                 {
                     projectile.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;

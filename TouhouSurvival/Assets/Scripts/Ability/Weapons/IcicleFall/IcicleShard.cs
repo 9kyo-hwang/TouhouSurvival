@@ -5,8 +5,11 @@ namespace Unchord
 {
     public class IcicleShard : MonoBehaviour
     {
-        public void Launch(Vector3 spearPosition, float speed, Vector2 direction, float duration)
+        public void Launch(Transform spearTransform, Vector3 spearPosition, float speed, Vector2 direction, float duration)
         {
+            transform.parent = spearTransform;
+            transform.position = spearPosition;
+            
             LinearProjectile projectile = GetComponent<LinearProjectile>();
             projectile.transform.position = Vector3.zero;
             projectile.OriginPosition = spearPosition;

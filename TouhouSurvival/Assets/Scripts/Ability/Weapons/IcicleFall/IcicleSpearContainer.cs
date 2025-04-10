@@ -86,7 +86,7 @@ namespace Unchord
             enemy.KnockBack(knockBackStrength);
 
             GameObject projectileGameObject = args.eventSource;
-            LinearProjectile projectile = projectileGameObject.GetComponentInParent<LinearProjectile>();
+            LinearProjectile projectile = projectileGameObject.GetComponentInParent<LinearProjectile>(true);
             if (projectile)
             {
                 projectile.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
@@ -95,13 +95,13 @@ namespace Unchord
 
         private void ActionOnHit(FlagComponent flagTable)
         {
-            SpawnIcicleShard();
+            SpawnIcicleShard(flagTable);
             _pool.Release(flagTable.gameObject);
         }
 
-        private void SpawnIcicleShard()
+        private void SpawnIcicleShard(FlagComponent flagTable)
         {
-            Vector3 position = _transform.position;
+            Vector3 position = flagTable.transform.position;
             float duration = _attributeSet[IcicleFallAttributeType.ShardDuration].CurrentValue;
             float speed = _attributeSet[IcicleFallAttributeType.ShardSpeed].CurrentValue;
             
@@ -112,7 +112,7 @@ namespace Unchord
                 Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right;
                 
                 GameObject shardGameObject = _shardContainer.Get();
-                shardGameObject.GetComponent<IcicleShard>().Launch(position, speed, direction, duration);
+                shardGameObject.GetComponent<IcicleShard>().Launch(_transform, position, speed, direction, duration);
             }
         }
     }

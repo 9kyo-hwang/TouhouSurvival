@@ -7,8 +7,9 @@ namespace Unchord
 {
     public class IcicleFallController : WeaponComponent
     {
-        [Header("Prefab Settings")] public GameObject spearPrefab;   // 고드름 창
-        [Header("Prefab Settings")] public GameObject shardPrefab;    // 고드름 파편
+        [Header("Prefab Settings")] 
+        public GameObject spearPrefab;   // 고드름 창
+        public GameObject shardPrefab;    // 고드름 파편
         
         private IcicleSpearContainer _icicleSpearContainer;
         private IcicleShardContainer _icicleShardContainer;
@@ -40,8 +41,8 @@ namespace Unchord
                 float speed = Attributes[IcicleFallAttributeType.SpearSpeed].CurrentValue;
                 float duration = Attributes[IcicleFallAttributeType.SpearDuration].CurrentValue;
                 
-                GameObject icicleGameObject = _icicleSpearContainer.Get();
-                icicleGameObject.GetComponent<IcicleSpear>()
+                GameObject spearGameObject = _icicleSpearContainer.Get();
+                spearGameObject.GetComponent<IcicleSpear>()
                     .Launch(startPosition, endPosition, launchAngleOffset, speed, duration);
             }
         }

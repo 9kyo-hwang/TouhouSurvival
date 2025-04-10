@@ -15,11 +15,11 @@ namespace Unchord
         public const string SpearDuration = "SpearDuration";
         
         // Icicle Shard
-        public const string ShardSize = "IcicleShardSize";
-        public const string ShardCount = "IcicleShardCount";
-        public const string ShardSpeed = "IcicleShardSpeed";
-        public const string ShardDamage = "IcicleShardDamage";
-        public const string ShardKnockbackStrength = "IcicleShardKnockbackStrength";
-        public const string ShardDuration = "IcicleShardDuration";
+        public const string ShardSize = "ShardSize";
+        public const string ShardCount = "ShardCount";
+        public const string ShardSpeed = "ShardSpeed";
+        public const string ShardDamage = "ShardDamage";
+        public const string ShardKnockbackStrength = "ShardKnockbackStrength";
+        public const string ShardDuration = "ShardDuration";
     }
 }
