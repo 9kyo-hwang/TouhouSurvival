@@ -17,14 +17,14 @@ namespace Unchord
 
         public float AbsolutePlaytime { get; private set; }
         public float ElapsedPlaytime { get; private set; }
-        public bool ShouldUpdateElapsedPlaytime { get; set; }
+        public bool ShouldUpdateElapsedPlaytime { get; set; } = true;
 
         public int KillCount { get; set; }
         public int EarnedGold { get; set; }
+        
+        private IPhase _stageTree;
 
-        private PhaseRuntimeState _phaseExecutionResult;
-
-        private PhaseRuntime _phaseRuntimeTree;
+        private List<GameObject> _spawnedEnemies;
 
         private int _timeStopInterruptCounter = 0;
 
@@ -44,6 +44,8 @@ namespace Unchord
             BlockingEvent.onBlockingEventOccurred += OnBlockEventOccurred;
             BlockingEvent.onBlockingEventHandled += OnBlockEventHandled;
 
+            _spawnedEnemies = new List<GameObject>(1024);
+
             DontDestroyOnLoad(RuntimeContainer);
         }
 
@@ -54,10 +56,29 @@ namespace Unchord
 
         private void Update()
         {
-            if (IsGameStarted)
+            if (_stageTree == null)
+                return;
+
+            RuntimeState execResult = _stageTree.Update();
+
+            switch (execResult)
             {
-                UpdatePhaseRuntimeTree();
-                UpdatePlaytime();
+                case RuntimeState.Continue:
+                    UpdatePlaytime();
+                    break;
+
+                case RuntimeState.Pass:
+                case RuntimeState.Fail:
+                    EndGame(execResult);
+                    break;
+
+                case RuntimeState.Halt:
+                    _stageTree = null;
+                    break;
+
+                default:
+                    Debug.Assert(false, "Unknown case handling occured.");
+                    break;
             }
         }
 
@@ -117,9 +138,7 @@ namespace Unchord
 
         public void HaltGame()
         {
-            _phaseExecutionResult = PhaseRuntimeState.Fail;
-            _phaseRuntimeTree = null;
-            EndGame();
+            _stageTree.InterruptHalt();
         }
 
         public void CleanupGame()
@@ -133,10 +152,15 @@ namespace Unchord
             EarnedGold = 0;
             AbsolutePlaytime = 0.0f;
             ElapsedPlaytime = 0.0f;
+            _spawnedEnemies.Clear();
         }
 
-        private void EndGame()
+        private void EndGame(RuntimeState stageResult)
         {
+            UnityEngine.Debug.Assert(stageResult == RuntimeState.Pass || stageResult == RuntimeState.Fail);
+
+            UIManager.Instance.GameCanvas.Hide();
+
             IsGameStarted = false;
 
             GameData.Instance.totalAbsolutePlaytime += AbsolutePlaytime;
@@ -145,13 +169,12 @@ namespace Unchord
             GameData.Instance.totalKillCount += KillCount;
             GameData.Instance.gold += EarnedGold;
 
-            if (_phaseExecutionResult == PhaseRuntimeState.Pass)
+            if (stageResult == RuntimeState.Pass)
             {
                 GameData.Instance.totalGamePlaySuccessCount += 1;
             }
             else
             {
-                UnityEngine.Debug.Assert(_phaseExecutionResult == PhaseRuntimeState.Fail);
                 GameData.Instance.totalGamePlayFailureCount += 1;
             }
 
@@ -162,66 +185,21 @@ namespace Unchord
 
         private void OnBlockEventOccurred()
         {
-            _phaseRuntimeTree.Pause();
+            _stageTree.Pause();
         }
 
         private void OnBlockEventHandled()
         {
-            _phaseRuntimeTree.Resume();
+            _stageTree.Resume();
         }
 
         private void StartPhaseRuntimeTree(string phaseSoResourcePath)
         {
-            if (_phaseRuntimeTree != null)
+            if (_stageTree != null)
                 return;
 
-            PhaseSO phaseSO = Resources.Load(phaseSoResourcePath) as PhaseSO;
-
-            _phaseRuntimeTree = PhaseRuntimeFactory.CreateRuntime(phaseSO);
-            _phaseRuntimeTree.Start();
-        }
-
-        private void UpdatePhaseRuntimeTree()
-        {
-            if (_phaseRuntimeTree == null)
-                return;
-
-            _phaseRuntimeTree.Update();
-
-            PhaseRuntimeState phaseRuntimeState = _phaseRuntimeTree.CheckPhaseRuntimeState();
-
-            switch (phaseRuntimeState)
-            {
-                case PhaseRuntimeState.Continue:
-                    // NOTE: This case has intentionally no operation.
-                    break;
-
-                case PhaseRuntimeState.Pass:
-                    _phaseRuntimeTree.End();
-                    _phaseExecutionResult = phaseRuntimeState;
-
-                    if (_phaseRuntimeTree.TrySearchNextRuntime())
-                        _phaseRuntimeTree.Start();
-                    else
-                    {
-                        _phaseRuntimeTree = null;
-                        UIManager.Instance.GameCanvas.Hide();
-                        EndGame();
-                    }
-                    break;
-
-                case PhaseRuntimeState.Fail:
-                    _phaseRuntimeTree.End();
-                    _phaseRuntimeTree = null;
-                    _phaseExecutionResult = phaseRuntimeState;
-                    UIManager.Instance.GameCanvas.Hide();
-                    EndGame();
-                    break;
-
-                default:
-                    Debug.Assert(false, "Unknown case handling occured.");
-                    break;
-            }
+            StageDataSO stageSO = Resources.Load(phaseSoResourcePath) as StageDataSO;
+            _stageTree = stageSO.CreateRuntime() as IPhase;
         }
 
         private void UpdatePlaytime()
@@ -233,6 +211,42 @@ namespace Unchord
                 ElapsedPlaytime += Time.deltaTime;
                 UIManager.Instance.GameCanvas.SetTimer((int)ElapsedPlaytime);
             }
+        }
+
+        public void OnEnemySpawned(object sender, SpawnEventArgs args)
+        {
+            _spawnedEnemies.Add(args.spawnedInstance);
+        }
+
+        public GameObject GetNearestEnemyOrNull(Vector2 originPosition)
+        {
+            // Vector3 originPosition = transform.position;
+            GameObject selected = null;
+
+            for (int i = _spawnedEnemies.Count - 1; i >= 0; --i)
+            {
+                if (_spawnedEnemies[i] == null)
+                {
+                    _spawnedEnemies.RemoveAt(i);
+                    continue;
+                }
+                else if (selected == null)
+                {
+                    selected = _spawnedEnemies[i];
+                    continue;
+                }
+
+                Vector2 diffTarget = (Vector2)_spawnedEnemies[i].transform.position - originPosition;
+                Vector2 diffSelected = (Vector2)selected.transform.position - originPosition;
+
+                if (diffTarget.sqrMagnitude < diffSelected.sqrMagnitude)
+                {
+                    selected = _spawnedEnemies[i];
+                    continue;
+                }
+            }
+
+            return selected;
         }
     }
 }

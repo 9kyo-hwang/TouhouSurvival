@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be8516fff48b6d04b8f981953b65f773, type: 3}
+  m_Script: {fileID: 11500000, guid: c8f89657daf02b44badb372b89bf457d, type: 3}
   m_Name: Survival Phase
   m_EditorClassIdentifier: 
-  spawnerSoList:
-  - {fileID: 11400000, guid: a22f568f037f6104cbde746c69f3a2d4, type: 2}
-  - {fileID: 11400000, guid: efe0896378e3851498a7c8c3e305c97e, type: 2}
+  spawnerSO:
   - {fileID: 11400000, guid: 026485c74214fa54fb680361c6a3ce38, type: 2}
-  phaseDuration: 10
+  - {fileID: 11400000, guid: 5439f7e8ba7dc064187d405884341588, type: 2}
+  phaseDuration: 30
