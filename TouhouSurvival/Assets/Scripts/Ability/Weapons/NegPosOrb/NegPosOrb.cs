@@ -45,7 +45,7 @@ namespace Unchord
 
             for (int i = burstCount - 1; i >= 0; --i)
             {
-                GameObject nearestEnemy = Spawner.GetNearestEnemyOrNull(_player.transform.position);
+                GameObject nearestEnemy = GameManager.Instance.GetNearestEnemyOrNull(_player.transform.position);
 
                 if (nearestEnemy)
                     Shoot(nearestEnemy);

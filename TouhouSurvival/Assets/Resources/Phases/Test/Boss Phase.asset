@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45a57264aecd2204c886ad013bb8c988, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f8780c0e5aeab040a1369d5c49abfbb, type: 3}
   m_Name: Boss Phase
   m_EditorClassIdentifier: 
-  bossSpawnerSO: {fileID: 11400000, guid: a16b92cd62a2f804d8c9d065ec92a11b, type: 2}
-  miscellaneousSpawnerSoList: []
-  useTimerStop: 0
+  bossSpawnerSO:
+  - {fileID: 11400000, guid: efe0896378e3851498a7c8c3e305c97e, type: 2}
+  additionalSpawnerSO:
+  - {fileID: 11400000, guid: 23586de79048cd9448d23700d555316f, type: 2}
+  useTimerStop: 1
