@@ -18,12 +18,15 @@ namespace Unchord
 
         public void Publish(IEnumerator eventHandler)
         {
+            if (!_gameManager.IsGameStarted)
+                return;
+
             _eventHandlers.Enqueue(eventHandler);
-            _gameManager = GameManager.Instance;
         }
 
         private void Awake()
         {
+            _gameManager = GameManager.Instance;
             _eventHandlers = new Queue<IEnumerator>(16);
         }
 
