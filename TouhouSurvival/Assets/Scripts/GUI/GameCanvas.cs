@@ -87,6 +87,7 @@ namespace Unchord
             s_wuiManager.ShowPlayerHealth();
 
             s_uiManager.MainIllustCanvas.Hide();
+            //SoundManager.Instance.BGM.ChangeSoundEvent("event:/BGM/TestBGM");
         }
 
         public override void Hide()
