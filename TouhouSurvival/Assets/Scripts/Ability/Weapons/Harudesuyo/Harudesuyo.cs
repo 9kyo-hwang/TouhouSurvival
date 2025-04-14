@@ -43,6 +43,7 @@ namespace Unchord
             
             projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(_spawnPoint, _dropPoint, 0.0f);
             projectile.ProjectileSpeed = bombFallSpeed;
+            projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, projectile.ProjectileDirection);
 
             float journeyLength = (_spawnPoint - _dropPoint).sqrMagnitude;
             while (journeyLength > (projectile.transform.position - _spawnPoint).sqrMagnitude)

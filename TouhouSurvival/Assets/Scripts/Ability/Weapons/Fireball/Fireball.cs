@@ -58,6 +58,7 @@ namespace Unchord
             GameplayAttribute attrEulerAngleError = Attributes[FireballAttributeType.ShootingEulerAngleError];
 
             projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, attrEulerAngleError.CurrentValue);
+            projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, projectile.ProjectileDirection);
         }
 
         private GameObject OnCreateProjectile()
