@@ -14,6 +14,8 @@ namespace Unchord
             projectile.ProjectileSpeed = speed;
             projectile.ProjectileDirection =
                 Projectile.GetTargetDirectionVector(startPosition, endPosition, launchAngleOffset);
+            projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, projectile.ProjectileDirection) - 45.0f;
+            projectile.RotationSpeed = 0.0f;
 
             StartCoroutine(Timeout(duration));
         }
@@ -25,5 +27,5 @@ namespace Unchord
             GetComponentInParent<LinearProjectile>(includeInactive: true)
                 .FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
         }
-    }    
+    }
 }

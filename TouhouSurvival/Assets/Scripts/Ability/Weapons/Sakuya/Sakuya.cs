@@ -27,6 +27,8 @@ namespace Unchord
             projectile.OriginPosition = projectile.transform.position;
             projectile.ProjectileSpeed = _speed;
             projectile.ProjectileDirection = _direction;
+            projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, _direction);
+            projectile.RotationSpeed = 0.0f;
 
             StartCoroutine(Timeout());
         }
