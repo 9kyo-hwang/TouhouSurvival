@@ -90,6 +90,38 @@ namespace Unchord
             _movementVector = value.Get<Vector2>();
         }
 
+        public GameObject GetNearestEnemyOrNull()
+        {
+            Vector2 originPosition = this.transform.position;
+            GameObject selected = null;
+            List<GameObject> spawnedEnemies = GameManager.Instance.SpawnedEnemies;
+
+            for (int i = spawnedEnemies.Count - 1; i >= 0; --i)
+            {
+                if (spawnedEnemies[i] == null)
+                {
+                    spawnedEnemies.RemoveAt(i);
+                    continue;
+                }
+                else if (selected == null)
+                {
+                    selected = spawnedEnemies[i];
+                    continue;
+                }
+
+                Vector2 diffTarget = (Vector2)spawnedEnemies[i].transform.position - originPosition;
+                Vector2 diffSelected = (Vector2)selected.transform.position - originPosition;
+
+                if (diffTarget.sqrMagnitude < diffSelected.sqrMagnitude)
+                {
+                    selected = spawnedEnemies[i];
+                    continue;
+                }
+            }
+
+            return selected;
+        }
+
         public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
         {
             if (!AttributeSet)

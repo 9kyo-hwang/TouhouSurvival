@@ -33,7 +33,7 @@ namespace Unchord
         {
             base.UseWeapon();
 
-            GameObject nearestEnemy = GameManager.Instance.GetNearestEnemyOrNull(_player.transform.position);
+            GameObject nearestEnemy = _player.GetNearestEnemyOrNull();
 
             if (!nearestEnemy)
                 return;

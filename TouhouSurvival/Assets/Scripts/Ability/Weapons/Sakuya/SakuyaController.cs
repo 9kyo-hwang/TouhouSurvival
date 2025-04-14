@@ -99,7 +99,7 @@ namespace Unchord
         {
             _isCooltimePaused = true;
             
-            GameObject nearestGameObject = Spawner.GetNearestEnemyOrNull(_player.transform.position);
+            GameObject nearestGameObject = _player.GetNearestEnemyOrNull();
             if (nearestGameObject)
             {
                 int throwCount = (int)Attributes[SakuyaAttributeType.ThrowCount].CurrentValue;

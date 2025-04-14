@@ -32,7 +32,7 @@ namespace Unchord
 
         private void SpawnIcicleSpear()
         {
-            GameObject nearestGameObject = Spawner.GetNearestEnemyOrNull(_player.transform.position);
+            GameObject nearestGameObject = _player.GetNearestEnemyOrNull();
             if (nearestGameObject)
             {
                 Vector3 startPosition = _player.transform.position;

@@ -24,7 +24,7 @@ namespace Unchord
         
         private IPhase _stageTree;
 
-        private List<GameObject> _spawnedEnemies;
+        public List<GameObject> SpawnedEnemies { get; private set; }
 
         private int _timeStopInterruptCounter = 0;
 
@@ -44,7 +44,7 @@ namespace Unchord
             BlockingEvent.onBlockingEventOccurred += OnBlockEventOccurred;
             BlockingEvent.onBlockingEventHandled += OnBlockEventHandled;
 
-            _spawnedEnemies = new List<GameObject>(1024);
+            SpawnedEnemies = new List<GameObject>(1024);
 
             DontDestroyOnLoad(RuntimeContainer);
         }
@@ -152,7 +152,7 @@ namespace Unchord
             EarnedGold = 0;
             AbsolutePlaytime = 0.0f;
             ElapsedPlaytime = 0.0f;
-            _spawnedEnemies.Clear();
+            SpawnedEnemies.Clear();
         }
 
         private void EndGame(RuntimeState stageResult)
@@ -215,38 +215,7 @@ namespace Unchord
 
         public void OnEnemySpawned(object sender, SpawnEventArgs args)
         {
-            _spawnedEnemies.Add(args.spawnedInstance);
-        }
-
-        public GameObject GetNearestEnemyOrNull(Vector2 originPosition)
-        {
-            // Vector3 originPosition = transform.position;
-            GameObject selected = null;
-
-            for (int i = _spawnedEnemies.Count - 1; i >= 0; --i)
-            {
-                if (_spawnedEnemies[i] == null)
-                {
-                    _spawnedEnemies.RemoveAt(i);
-                    continue;
-                }
-                else if (selected == null)
-                {
-                    selected = _spawnedEnemies[i];
-                    continue;
-                }
-
-                Vector2 diffTarget = (Vector2)_spawnedEnemies[i].transform.position - originPosition;
-                Vector2 diffSelected = (Vector2)selected.transform.position - originPosition;
-
-                if (diffTarget.sqrMagnitude < diffSelected.sqrMagnitude)
-                {
-                    selected = _spawnedEnemies[i];
-                    continue;
-                }
-            }
-
-            return selected;
+            SpawnedEnemies.Add(args.spawnedInstance);
         }
     }
 }

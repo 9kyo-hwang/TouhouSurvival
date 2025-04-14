@@ -34,7 +34,7 @@ namespace Unchord
             GameObject effectObject = _effectPool.Get();
 
             Vector2 posPlayer = _player.transform.position;
-            GameObject nearestEnemy = GameManager.Instance.GetNearestEnemyOrNull(posPlayer);
+            GameObject nearestEnemy = _player.GetNearestEnemyOrNull();
 
             if (nearestEnemy == null)
             {
