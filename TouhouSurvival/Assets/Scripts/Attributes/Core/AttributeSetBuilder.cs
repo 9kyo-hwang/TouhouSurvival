@@ -1,23 +1,11 @@
-using System.Diagnostics;
 using System.IO;
-//using UnityEditor.Build;
-//using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 namespace Unchord
 {
-    public class AttributeSetBuilder // : IPreprocessBuildWithReport
+    // TODO: 이 클래스를 삭제하면서 내부에 포함하고 있는 함수를 적절한 위치로 이동시켜야 합니다.
+    public class AttributeSetBuilder
     {
-        //int IOrderedCallback.callbackOrder => 0;
-
-        //void IPreprocessBuildWithReport.OnPreprocessBuild(BuildReport report)
-        //{
-        //    _LoadAttributes("Prefabs/Abilities");
-        //    _LoadAttributes("Prefabs/Enemies");
-        //    _LoadAttributes("Prefabs/PlayableCharacters");
-        //}
-
-        //[Conditional("UNITY_EDITOR")]
         public static void LoadAttributes(AttributeSet attributeSet)
         {
             _LoadAttributes(attributeSet);
@@ -65,7 +53,7 @@ namespace Unchord
                     levelUpData.expRequirement = float.Parse(tokens[3]);
                     levelUpData.displayDescription = tokens[4];
 
-                    attribute.levelUpData.Add(levelUpData);
+                    attribute.LevelUpData.Add(levelUpData);
 
                     switch(tokens[2])
                     {
@@ -102,16 +90,6 @@ namespace Unchord
                             break;
                     }
                 }
-            }
-        }
-
-        private static void _LoadAttributes(string prefabDirectoryRoot)
-        {
-            AttributeSet[] attributes = Resources.LoadAll<AttributeSet>(prefabDirectoryRoot);
-
-            for (int i = 0; i < attributes.Length; ++i)
-            {
-                _LoadAttributes(attributes[i]);
             }
         }
     }

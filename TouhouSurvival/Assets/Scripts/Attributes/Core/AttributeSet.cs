@@ -30,14 +30,15 @@ namespace Unchord
             }
         }
 
-        public int MaxLevel => levelUpData.Count + 1;
+        public int MaxLevel => LevelUpData.Count + 1;
 
-        public bool IsReachedMaxLevel => (int)Level > levelUpData.Count;
+        public bool IsReachedMaxLevel => (int)Level > LevelUpData.Count;
 
         public string attributeAssetPath;
 
         public Dictionary<string, GameplayAttribute> Attributes { get; private set; }
-        public List<LevelUpData> levelUpData;// { get; private set; }
+        public List<LevelUpData> LevelUpData { get; private set; }
+
         private int _level;
 
         public GameplayAttribute this[string attributeType]
@@ -49,7 +50,7 @@ namespace Unchord
         protected virtual void Awake()
         {
             Attributes = new Dictionary<string, GameplayAttribute>();
-            levelUpData = new List<LevelUpData>();
+            LevelUpData = new List<LevelUpData>();
 
             AttributeSetBuilder.LoadAttributes(this);
         }
@@ -61,7 +62,7 @@ namespace Unchord
 
         private void AttachLevelUpData(int level)
         {
-            LevelUpData data = levelUpData[level - 1];
+            LevelUpData data = LevelUpData[level - 1];
             string type = data.attributeType;
             float deltaValue = data.deltaValue;
 
@@ -87,7 +88,7 @@ namespace Unchord
 
         private void DetachLevelUpData(int level)
         {
-            LevelUpData data = levelUpData[level - 1];
+            LevelUpData data = LevelUpData[level - 1];
             string type = data.attributeType;
             float deltaValue = data.deltaValue;
 
