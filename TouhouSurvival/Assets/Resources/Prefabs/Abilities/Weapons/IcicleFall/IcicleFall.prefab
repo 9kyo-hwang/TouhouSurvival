@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f510fb8bd9a0c47ad4847607aa2c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayIcon: {fileID: -806983304025367621, guid: 800a464113ddb7c4d91b27c475d57a19, type: 3}
+  displayIcon: {fileID: 21300000, guid: 800a464113ddb7c4d91b27c475d57a19, type: 3}
   displayName: "\uC544\uC774\uC2DC\uD074 \uD3F4"
   displayDescription: 
   weaponActivationMode: 1
