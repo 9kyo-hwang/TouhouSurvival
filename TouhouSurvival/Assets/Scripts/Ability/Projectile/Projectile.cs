@@ -8,6 +8,10 @@ namespace Unchord
     {
         public FlagComponent FlagTable { get; private set; }
         public Vector3 OriginPosition { get; set; }
+        public float OriginEulerAngle { get; set; }
+        public float RotationSpeed { get; set; } = 0.0f;
+
+        private float _deltaRotationEulerAngle = 0.0f;
 
         protected virtual void Awake()
         {
@@ -20,6 +24,13 @@ namespace Unchord
             // FlagTable.SetFlagFalseWithoutEvent(AbilityComponent.FLAG_SHOULD_DESTROY);
             transform.localPosition = Vector3.zero;
             transform.eulerAngles = Vector3.zero;
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            _deltaRotationEulerAngle += Time.deltaTime * RotationSpeed;
+            _deltaRotationEulerAngle %= 360.0f;
+            transform.eulerAngles = Vector3.forward * ((OriginEulerAngle + _deltaRotationEulerAngle) % 360.0f);
         }
 
         protected virtual void OnDisable()

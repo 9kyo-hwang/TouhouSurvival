@@ -71,6 +71,7 @@ namespace Unchord
             GameplayAttribute attrEulerAngleError = Attributes[NegPosOrbAttributeType.ShootingEulerAngleError];
 
             projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, attrEulerAngleError.CurrentValue);
+            projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, projectile.ProjectileDirection);
 
             StartCoroutine(ElapseProjectileTimeout(projectileObject));
         }
