@@ -35,7 +35,6 @@ namespace Unchord
         public bool IsReachedMaxLevel => (int)Level > levelUpData.Count;
 
         public string attributeAssetPath;
-        public string levelUpDataAssetPath;
 
         public Dictionary<string, GameplayAttribute> Attributes { get; private set; }
         public List<LevelUpData> levelUpData;// { get; private set; }

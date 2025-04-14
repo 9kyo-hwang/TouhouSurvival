@@ -119,7 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attributeAssetPath: \AttributeTables\Enemies\fairy_2.xlsx
-  levelUpDataAssetPath: 
   levelUpData: []
 --- !u!50 &7843518008944392187
 Rigidbody2D:

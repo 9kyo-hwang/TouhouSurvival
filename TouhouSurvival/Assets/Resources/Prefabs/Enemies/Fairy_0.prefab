@@ -146,7 +146,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attributeAssetPath: \AttributeTables\Enemies\fairy_0.xlsx
-  levelUpDataAssetPath: 
   levelUpData: []
 --- !u!1 &1779591075832894044
 GameObject:
