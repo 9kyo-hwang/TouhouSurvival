@@ -16,5 +16,8 @@ namespace Unchord
         public const string ProjectileDurationChange = "ProjectileDurationChange";  // 투사체 지속시간 변화율(기본 100%)
         public const string ProjectileIncreaseCount = "ProjectileIncreaseCount";    // 투사체 발사 개수 증가(기본 0개)
         public const string Lucky = "Lucky";                                        // 행운(기본값 10) = ""; 각종 확률에 보정
+        public const string MaxSpellCount = "MaxSpellCount";                        // 최대 스펠(필살기) 소지 갯수
+        public const string SpellCooldown = "SpellCooldown";                        // 스펠 재사용 대기시간
+        public const string SpellAutoRechargeTime = "SpellAutoRechargeTime";        // 스펠 1개가 충전되는 데 걸리는 시간
     }
 }

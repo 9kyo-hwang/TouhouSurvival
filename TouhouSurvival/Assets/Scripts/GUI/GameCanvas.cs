@@ -10,6 +10,8 @@ namespace Unchord
         private const int MAX_ABILITY_COUNT = 6;
 
         private Image _expGauge;
+        private Image _spellGauge;
+        private Image _spellCooldown;
         private IntegerCounter _playerLevel;
         private TextMeshProUGUI _timer;
         private TextMeshProUGUI _killCount;
@@ -53,6 +55,8 @@ namespace Unchord
             base.Awake();
 
             _expGauge = transform.Find("Exp/Gauge").GetComponent<Image>();
+            _spellGauge = transform.Find("Spell/Gauge").GetComponent<Image>();
+            _spellCooldown = transform.Find("Spell/Cooldown/Gauge").GetComponent<Image>();
             _playerLevel = transform.Find("Exp/Level").GetComponent<IntegerCounter>();
             _timer = transform.Find("TimerText").GetComponent<TextMeshProUGUI>();
             _killCount = transform.Find("KillCount/Value").GetComponent<TextMeshProUGUI>();
@@ -114,6 +118,20 @@ namespace Unchord
             UnityEngine.Debug.Assert(max > 0.0f);
 
             _expGauge.fillAmount = Mathf.Clamp01(value / max);
+        }
+
+        public void SetSpellGauge(float value, float max)
+        {
+            UnityEngine.Debug.Assert(max > 0.0f);
+
+            _spellGauge.fillAmount = Mathf.Clamp01(value / max);
+        }
+
+        public void SetSpellCooldown(float value, float max)
+        {
+            UnityEngine.Debug.Assert(max > 0.0f);
+
+            _spellCooldown.fillAmount = Mathf.Clamp01(value / max);
         }
 
         public void SetPlayerLevel(int level)

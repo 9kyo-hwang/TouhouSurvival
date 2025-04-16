@@ -12,6 +12,7 @@ namespace Unchord
         // TODO: EventHandler<> delegate 형식으로 전환합니다.
         public Action<int, float, float> OnExpChanged;
         public Action<int, float, float> OnLevelUp;
+        public Action<float> OnSpellGaugeChanged;
 
         protected float Experience { get; private set; }
         protected float ExperienceRequirement
@@ -27,6 +28,8 @@ namespace Unchord
             }
         }
 
+        public float SpellGaugeValue { get; private set; }
+
         protected override void Awake()
         {
             base.Awake();
@@ -35,6 +38,7 @@ namespace Unchord
 
             OnExpChanged += HandleExpChange;
             OnLevelUp += HandleLevelUp;
+            OnSpellGaugeChanged += HandleSpellGauge;
 
             base[PlayerAttributeType.Health].OnAttributeChanged += OnHealthChanged;
         }
@@ -60,6 +64,8 @@ namespace Unchord
 
             s_wuiManager.SetPlayerHealthPosition(transform.position + Vector3.up * 0.7f);
             s_wuiManager.SetPlayerHealthValue(base[PlayerAttributeType.Health].CurrentValue, 10.0f);
+
+            SpellGaugeValue = 0.0f;
         }
 
         private void Update()
@@ -96,6 +102,13 @@ namespace Unchord
             // 최대 레벨에 도달하면 경험치바를 항상 가득 채워놓음.
             if (IsReachedMaxLevel)
                 s_uiManager.GameCanvas.SetExpGauge(1.0f, 1.0f);
+        }
+
+        private void HandleSpellGauge(float currentSpellGaugeValue)
+        {
+            float max = this[PlayerAttributeType.MaxSpellCount].CurrentValue;
+
+            s_uiManager.GameCanvas.SetSpellGauge(currentSpellGaugeValue, max);
         }
 
         private void OnHealthChanged(object sender, AttributeChangedEventArgs e)
@@ -136,6 +149,15 @@ namespace Unchord
                 OnExpChanged?.Invoke(nextLevel, remainingExp, requiredExp);
                 OnLevelUp?.Invoke(nextLevel, remainingExp, requiredExp);
             }
+        }
+
+        public void AddSpellGauge(float amount)
+        {
+            float max = this[PlayerAttributeType.MaxSpellCount].CurrentValue;
+
+            SpellGaugeValue = Mathf.Clamp(SpellGaugeValue + amount, 0.0f, max);
+
+            OnSpellGaugeChanged?.Invoke(SpellGaugeValue);
         }
     }
 }

@@ -8,21 +8,27 @@ namespace Unchord
     public class Player : Pawn
     {
         private Vector2 _movementVector;
+        private float _lastSpellUsingTime;
+
         public PlayerAttributeSet AttributeSet { get; private set; }
         
         private const int INITIAL_SAMPLE_POOL_CAPACITY = 32;
 
         public List<string> weaponSet;
         public List<string> passiveSet;
+        public List<string> spellSet;
 
         public int maxWeaponCount = 6;
         public int maxPassiveCount = 6;
+        public int maxSpellCount = 1;
 
         private List<AbilityComponent> _samplePool;
         private Dictionary<Transform, AbilitySamplingOptions> _samplingOptions;
 
         public Transform WeaponTransform  { get; private set; }
-        public Transform PassiveTransform { get; private  set; }
+        public Transform PassiveTransform { get; private set; }
+        public Transform SpellTransform { get; private set; }
+
         public int EnabledWeaponCount => _samplingOptions[WeaponTransform].enabledCount;
         public int EnabledPassiveCount => _samplingOptions[PassiveTransform].enabledCount;
         
@@ -33,12 +39,14 @@ namespace Unchord
             AttributeSet = gameObject.GetComponent<PlayerAttributeSet>();
             WeaponTransform = transform.Find($"Abilities/Weapons");
             PassiveTransform = transform.Find($"Abilities/Passives");
+            SpellTransform = transform.Find($"Abilities/Spells");
             
             _samplePool = new List<AbilityComponent>(INITIAL_SAMPLE_POOL_CAPACITY);
-            _samplingOptions = new Dictionary<Transform, AbilitySamplingOptions>(2)
+            _samplingOptions = new Dictionary<Transform, AbilitySamplingOptions>(3)
             {
                 { WeaponTransform, new AbilitySamplingOptions(maxWeaponCount) },
-                { PassiveTransform, new AbilitySamplingOptions(maxPassiveCount) }
+                { PassiveTransform, new AbilitySamplingOptions(maxPassiveCount) },
+                { SpellTransform, new AbilitySamplingOptions(maxSpellCount) }
             };
 
             // AttributeSet.onLevelUp = OnLevelUp;
@@ -53,6 +61,8 @@ namespace Unchord
         {
             base.Start();
 
+            _lastSpellUsingTime = float.MinValue;
+
             AttributeSet.Level = 1;
             CreateAbilities();
         }
@@ -63,6 +73,8 @@ namespace Unchord
 
             Animator.SetFloat("Health", AttributeSet[PlayerAttributeType.Health].CurrentValue);
             Animator.SetBool("IsMove", _movementVector.magnitude > 0.0f);
+
+            ShowSpellCooldown();
         }
 
         private void FixedUpdate()
@@ -88,6 +100,41 @@ namespace Unchord
             // Input Setting에서 이미 값을 Normalized된 상태로 받도록 세팅됨
             Debug.Log("OnMove");
             _movementVector = value.Get<Vector2>();
+        }
+
+        private void OnSpell(InputValue value)
+        {
+            Debug.Log("OnSpell");
+            float currentTime = GameManager.Instance.ElapsedPlaytime;
+            float cooldown = this.AttributeSet[PlayerAttributeType.SpellCooldown].CurrentValue;
+
+            if (SpellTransform.childCount == 0 ||
+                _lastSpellUsingTime + cooldown > currentTime ||
+                this.AttributeSet.SpellGaugeValue < 1.0f
+            )
+            {
+                return;
+            }
+
+            _lastSpellUsingTime = currentTime;
+
+            SpellComponent spell = SpellTransform.GetChild(0).GetComponent<SpellComponent>();
+            this.AttributeSet.AddSpellGauge(-1.0f);
+            spell.UseSpell();
+        }
+
+        private void ShowSpellCooldown()
+        {
+            float currentTime = GameManager.Instance.ElapsedPlaytime;
+            float dTime = Mathf.Max(0.0f, currentTime - _lastSpellUsingTime);
+            float max = this.AttributeSet[PlayerAttributeType.SpellCooldown].CurrentValue;
+
+            float dCount = this.AttributeSet[PlayerAttributeType.SpellAutoRechargeTime].CurrentValue;
+
+            UIManager manager = UIManager.Instance;
+
+            this.AttributeSet.AddSpellGauge(Time.deltaTime / dCount);
+            manager.GameCanvas.SetSpellCooldown(max - dTime, max);
         }
 
         public GameObject GetNearestEnemyOrNull()
@@ -220,6 +267,7 @@ namespace Unchord
         private void CreateAbilities()
         {
             CreateAbility(AbilityType.Weapon, weaponSet[0], true, 1);
+            CreateAbility(AbilityType.Spell, spellSet[0], true, 1);
             UIManager.Instance.GameCanvas.EnableWeaponSlot(0);
 
             for (int i = 1; i < weaponSet.Count; ++i)

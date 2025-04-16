@@ -2,6 +2,6 @@ namespace Unchord
 {
     public enum AbilityType
     {
-        Weapon, Passive
+        Weapon, Passive, Spell
     }
 }
