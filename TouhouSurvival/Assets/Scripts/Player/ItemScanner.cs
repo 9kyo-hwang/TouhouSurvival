@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Unchord
@@ -16,20 +15,18 @@ namespace Unchord
 
         private void FixedUpdate()
         {
-            //float scanRangeMultiplier = _player.GetComponent<PlayerAttributeSet>().GetCurrentValue(PlayerAttributeType.ScanRangeMultiplier);
-            _hits = Physics2D.CircleCastAll(_player.transform.position, range, Vector2.zero);
-            AddExperiences();
-        }
+            float scanRangeMultiplier = _player.AttributeSet[PlayerAttributeType.ScanRangeMultiplier].CurrentValue;
+            float r = range * (1.0f + scanRangeMultiplier);
 
-        private void AddExperiences()
-        {
-            foreach (RaycastHit2D hit in _hits)
+            _hits = Physics2D.CircleCastAll(_player.transform.position, r, Vector2.zero);
+            
+            for (int i = 0; i < _hits.Length; ++i)
             {
-                ExperienceDropObject experience = hit.collider.GetComponent<ExperienceDropObject>();
-                if (experience)
+                Item scannedItem;
+
+                if (_hits[i].collider.TryGetComponent<Item>(out scannedItem))
                 {
-                    _player.GetComponent<PlayerAttributeSet>().AddExperience(experience.amount);
-                    Destroy(experience.gameObject);
+                    scannedItem.UseItem(_player);
                 }
             }
         }
