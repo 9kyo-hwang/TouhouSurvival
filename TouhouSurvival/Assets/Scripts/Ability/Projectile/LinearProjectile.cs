@@ -5,8 +5,16 @@ namespace Unchord
     public class LinearProjectile : Projectile
     {
         public float ProjectileSpeed { get; set; }
-        public Vector3 ProjectileDirection { get; set; }
+        public Vector3 ProjectileDirection
+        {
+            get => _projectileDirection;
+            set
+            {
+                _projectileDirection = value;
+            }
+        }
 
+        private Vector3 _projectileDirection;
         private Vector3 _deltaPosition;
 
         protected override void OnEnable()

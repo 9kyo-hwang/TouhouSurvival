@@ -7,10 +7,29 @@ namespace Unchord
     public abstract class Projectile : MonoBehaviour
     {
         public FlagComponent FlagTable { get; private set; }
-        public Vector3 OriginPosition { get; set; }
-        public float OriginEulerAngle { get; set; }
+        public Vector3 OriginPosition
+        {
+            get => _originPosition;
+            set
+            {
+                _originPosition = value;
+                transform.position = _originPosition;
+            }
+        }
+        public float OriginEulerAngle
+        {
+            get => _originEulerAngle;
+            set
+            {
+                _originEulerAngle = value % 360.0f;
+                _deltaRotationEulerAngle = 0.0f;
+                transform.eulerAngles = Vector3.forward * _originEulerAngle;
+            }
+        }
         public float RotationSpeed { get; set; } = 0.0f;
 
+        private Vector2 _originPosition;
+        private float _originEulerAngle;
         private float _deltaRotationEulerAngle = 0.0f;
 
         protected virtual void Awake()
