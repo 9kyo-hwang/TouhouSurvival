@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CirnoAnimator
+  m_Controller: {fileID: 9100000, guid: 24394616449571c4691d960d98dc02da, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 4fe782e94c303e3499dd7d928f41dcb4, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f51c0fefbfd0aa14cb3b0297a691ac56, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a1b7cd872a15f3d4fbd0b220a956335b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7292a6881822b834e92fc3fa3bab7f3a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2e7f1ddde77f0f84fbf97559c868d228, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8a3414e8906ea4c428e85bdf2ed6494d, type: 2}
