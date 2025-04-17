@@ -105,7 +105,7 @@ namespace Unchord
         private void OnSpell(InputValue value)
         {
             Debug.Log("OnSpell");
-            float currentTime = GameManager.Instance.ElapsedPlaytime;
+            float currentTime = GameManager.Instance.AbsolutePlaytime;
             float cooldown = this.AttributeSet[PlayerAttributeType.SpellCooldown].CurrentValue;
 
             if (SpellTransform.childCount == 0 ||
@@ -125,11 +125,12 @@ namespace Unchord
 
         private void ShowSpellCooldown()
         {
-            float currentTime = GameManager.Instance.ElapsedPlaytime;
             SpellComponent spell = SpellTransform.GetChild(0).GetComponent<SpellComponent>();
 
             if (spell.IsCooldownPaused)
                 _lastSpellUsingTime += Time.deltaTime;
+
+            float currentTime = GameManager.Instance.AbsolutePlaytime;
             float dTime = Mathf.Max(0.0f, currentTime - _lastSpellUsingTime);
             float max = this.AttributeSet[PlayerAttributeType.SpellCooldown].CurrentValue;
 
