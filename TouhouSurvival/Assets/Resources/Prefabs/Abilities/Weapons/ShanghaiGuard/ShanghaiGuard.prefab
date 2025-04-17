@@ -49,10 +49,11 @@ MonoBehaviour:
   displayName: Shanghai Guard
   displayDescription: 
   weaponActivationMode: 1
-  fixedCooltime: 7
+  fixedCooltime: 3
   variableCooltimeMin: 1
   variableCooltimeMax: 2
   shanghaiPrefab: {fileID: 8067668102894359120, guid: d292fb349d192b241a9ac6c80a9f8be5, type: 3}
+  _shanghaiEnabledList: []
   _leftDuration: 0
 --- !u!114 &5561079242372143258
 MonoBehaviour:
@@ -67,5 +68,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attributeAssetPath: \AttributeTables\Abilities\Weapons\shanghai_guard.xlsx
-  levelUpDataAssetPath: 
-  levelUpData: []
