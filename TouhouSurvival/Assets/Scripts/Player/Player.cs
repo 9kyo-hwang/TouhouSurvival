@@ -296,16 +296,34 @@ namespace Unchord
             abilityComponent.transform.SetParent(abilityContainer, true);
             abilityComponent.transform.localPosition = Vector3.zero;
             abilityComponent.Subscribe(this);
-            _samplePool.Add(abilityComponent);
-            _samplingOptions[abilityContainer].samplePool.Add(abilityComponent);
+
+            if (abilityType == AbilityType.Passive || abilityType == AbilityType.Weapon)
+            {
+                _samplePool.Add(abilityComponent);
+                _samplingOptions[abilityContainer].samplePool.Add(abilityComponent);
+            }
+            
             abilityComponent.Attributes.Level = initialLevel;
             
             if (initialActive)
             {
                 abilityComponent.SortSiblingIndex();
                 GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
-                gameCanvas.SetWeaponIcon(abilityComponent.transform.GetSiblingIndex(), abilityComponent.DisplayIcon);
-                gameCanvas.SetWeaponLevel(abilityComponent.transform.GetSiblingIndex(), abilityComponent.Attributes.Level);
+
+                switch (abilityType)
+                {
+                    case AbilityType.Passive:
+                        //gameCanvas.SetPassiveIcon(abilityComponent.transform.GetSiblingIndex(), abilityComponent.DisplayIcon);
+                        //gameCanvas.SetPassiveLevel(abilityComponent.transform.GetSiblingIndex(), abilityComponent.Attributes.Level);
+                        break;
+                    case AbilityType.Weapon:
+                        gameCanvas.SetWeaponIcon(abilityComponent.transform.GetSiblingIndex(), abilityComponent.DisplayIcon);
+                        gameCanvas.SetWeaponLevel(abilityComponent.transform.GetSiblingIndex(), abilityComponent.Attributes.Level);
+                        break;
+                    case AbilityType.Spell:
+                        // TODO: GUI 구현 후 코드 작성 필요.
+                        break;
+                }
             }
 
             abilityComponent.gameObject.SetActive(initialActive);
