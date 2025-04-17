@@ -126,6 +126,10 @@ namespace Unchord
         private void ShowSpellCooldown()
         {
             float currentTime = GameManager.Instance.ElapsedPlaytime;
+            SpellComponent spell = SpellTransform.GetChild(0).GetComponent<SpellComponent>();
+
+            if (spell.IsCooldownPaused)
+                _lastSpellUsingTime += Time.deltaTime;
             float dTime = Mathf.Max(0.0f, currentTime - _lastSpellUsingTime);
             float max = this.AttributeSet[PlayerAttributeType.SpellCooldown].CurrentValue;
 

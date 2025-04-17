@@ -1,5 +1,5 @@
 ﻿Attribute Type,Delta Value (float),Delta Mode (operator),Exp Requirement,Description,
-MovementSpeed,0.01,Add,5,이동속도 0.01 증가,
+MovementSpeed,0.05,Add,5,이동속도 0.01 증가,
 MovementSpeed,0.01,Add,10,이동속도 0.01 증가,
 MovementSpeed,0.01,Add,15,이동속도 0.01 증가,
 MovementSpeed,0.01,Add,20,이동속도 0.01 증가,
