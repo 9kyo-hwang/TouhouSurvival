@@ -18,7 +18,7 @@ namespace Unchord
         {
             base.Awake();
 
-            _leftCooltime = variableCooltimeMax;
+            // _leftCooltime = variableCooltimeMax;
         }
 
         protected override void Update()
@@ -49,10 +49,7 @@ namespace Unchord
             }
         }
 
-        protected virtual void UseWeapon()
-        {
-            // NOTE: This block is intentionally no operation.
-        }
+        public abstract void UseWeapon();
 
         private bool TryUpdateCooltime()
         {

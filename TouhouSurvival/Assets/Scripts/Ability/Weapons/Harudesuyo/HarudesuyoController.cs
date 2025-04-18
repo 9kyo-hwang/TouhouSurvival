@@ -134,10 +134,9 @@ namespace Unchord
             base.Update();
         }
 
-        protected override void UseWeapon()
+        public override void UseWeapon()
         {
-            base.UseWeapon();
-            
+            // 1. 스킬 쿨다운마다 자동 발동
             StartCoroutine(SpawnBombCoroutine());
         }
 
@@ -167,6 +166,7 @@ namespace Unchord
             
             foreach (Vector3 dropPoint in GetDropPoints())
             {
+                // 2. spawnDelay 간격으로 폭탄을 생성
                 SpawnBomb(dropPoint);
                 
                 float spawnDelay = Attributes[HarudesuyoAttributeType.BombSpawnDelay].CurrentValue;

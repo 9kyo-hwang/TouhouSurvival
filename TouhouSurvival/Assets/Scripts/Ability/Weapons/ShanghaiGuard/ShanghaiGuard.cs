@@ -70,10 +70,8 @@ namespace Unchord
             _currentShanghaiRadius = Mathf.Lerp(_currentShanghaiRadius, _targetShanghaiRadius, Time.deltaTime * 1.0f);
         }
 
-        protected override void UseWeapon()
+        public override void UseWeapon()
         {
-            base.UseWeapon();
-
             _targetShanghaiSize = Attributes[ShanghaiGuardAttributeType.ShanghaiSize].CurrentValue;
             _targetShanghaiRadius = Attributes[ShanghaiGuardAttributeType.ShanghaiRadius].CurrentValue;
             _leftDuration = Attributes[ShanghaiGuardAttributeType.ShanghaiDuration].CurrentValue;

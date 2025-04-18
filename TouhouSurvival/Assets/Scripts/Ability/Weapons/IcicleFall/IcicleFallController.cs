@@ -22,10 +22,8 @@ namespace Unchord
             _icicleSpearContainer = new IcicleSpearContainer(spearPrefab, transform, Attributes, _icicleShardContainer);
         }
 
-        protected override void UseWeapon()
+        public override void UseWeapon()
         {
-            base.UseWeapon();
-
             // Cooldown마다 호출
             SpawnIcicleSpear();
         }

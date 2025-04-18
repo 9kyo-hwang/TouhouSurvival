@@ -29,7 +29,6 @@ namespace Unchord
             StartCoroutine(FallBomb());
         }
 
-        // _delay 시간 후 dropPoint를 향해 폭탄 낙하
         private IEnumerator FallBomb()
         {
             LinearProjectile projectile = GetComponent<LinearProjectile>();
@@ -39,6 +38,7 @@ namespace Unchord
             projectile.ProjectileSpeed = 0.0f;
             projectile.ProjectileDirection = Vector2.zero;
             
+            // 3. fallDelay 대기 후 dropPoint를 향해 폭탄 낙하
             yield return new WaitForSeconds(/*_delay*/ 0.0f);
             
             projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(_spawnPoint, _dropPoint, 0.0f);

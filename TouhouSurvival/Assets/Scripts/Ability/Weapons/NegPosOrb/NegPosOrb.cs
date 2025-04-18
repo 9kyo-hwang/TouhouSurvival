@@ -29,10 +29,8 @@ namespace Unchord
                 100);
         }
 
-        protected override void UseWeapon()
+        public override void UseWeapon()
         {
-            base.UseWeapon();
-
             StartCoroutine(ShootCoroutine());
         }
 

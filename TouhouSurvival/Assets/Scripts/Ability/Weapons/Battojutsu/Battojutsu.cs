@@ -27,10 +27,8 @@ namespace Unchord
                 10);
         }
 
-        protected override void UseWeapon()
+        public override void UseWeapon()
         {
-            base.UseWeapon();
-
             GameObject effectObject = _effectPool.Get();
 
             Vector2 posPlayer = _player.transform.position;

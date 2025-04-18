@@ -86,11 +86,8 @@ namespace Unchord
                 collectionCheck: true, defaultCapacity: 4, maxSize: 10);
         }
 
-        protected override void UseWeapon()
+        public override void UseWeapon()
         {
-            // Cooldown마다 호출
-            base.UseWeapon();
-
             // 한 번 호출 시 throwDelay 간격으로 throwCount 생성
             StartCoroutine(ThrowCoroutine());
         }

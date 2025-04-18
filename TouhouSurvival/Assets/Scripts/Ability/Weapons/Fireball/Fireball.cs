@@ -37,10 +37,8 @@ namespace Unchord
                 100);
         }
 
-        protected override void UseWeapon()
+        public override void UseWeapon()
         {
-            base.UseWeapon();
-
             GameObject nearestEnemy = _player.GetNearestEnemyOrNull();
 
             if (!nearestEnemy)
