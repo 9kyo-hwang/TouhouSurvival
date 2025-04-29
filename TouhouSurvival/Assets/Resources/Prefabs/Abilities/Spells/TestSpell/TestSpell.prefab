@@ -60,4 +60,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e7272033e1b7b458fcccff8f9fc0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Spells\test_spell.xlsx
+  attributeAssetPath: \AttributeTables\Abilities\Spellss\test_spell.xlsx

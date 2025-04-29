@@ -9,6 +9,8 @@ namespace Unchord
 {
     public class XlsxToCsvConverter
     {
+        public string[] ConvertedCsvFiles { get; private set; }
+
         private string m_destDirectory;
         private string m_srcXlsxFilePath;
 
@@ -49,10 +51,13 @@ namespace Unchord
             m_ParseSharedString(converter, extractDirectory);
             m_ParseWorkbook(converter, extractDirectory, _csvAliasOrNull);
 
+            converter.ConvertedCsvFiles = new string[converter.m_sheetCount];
+
             for (int i = 0; i < converter.m_sheetCount; ++i)
             {
                 m_ConvertSheet(converter, converter.m_xmlSheetFilePaths[i]);
                 string csvPathCreated = m_WriteToCsv(converter, converter.m_sheetNames[i]);
+                converter.ConvertedCsvFiles[i] = csvPathCreated;
                 Console.WriteLine("[xlsx2csv] File Created. {0}", csvPathCreated);
             }
 

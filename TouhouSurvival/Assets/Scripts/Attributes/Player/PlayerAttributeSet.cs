@@ -24,7 +24,8 @@ namespace Unchord
                 if (IsReachedMaxLevel || this.Level == 0)
                     return 1.0f;
 
-                return LevelUpData[intLevel - 1].expRequirement;
+                //return LevelUpData[intLevel - 1].expRequirement;
+                return 5;
             }
         }
 
@@ -126,7 +127,8 @@ namespace Unchord
 
             LevelUpData data = LevelUpData[Level - 1];
             float remainingExp = Experience + amount * (1.0f + Attributes[PlayerAttributeType.ExpGainIncrease].CurrentValue);
-            float requiredExp = data.expRequirement;
+            //float requiredExp = data.expRequirement;
+            float requiredExp = 5;
 
             if (remainingExp < requiredExp)
             {

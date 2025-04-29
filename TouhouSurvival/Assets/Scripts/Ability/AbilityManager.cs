@@ -41,7 +41,7 @@ namespace Unchord
             _abilitySets[0][0].Attributes.Level = 1;
             _abilitySets[2][0].Attributes.Level = 1;
 
-            this.SortSelf();
+            this.SortUI();
         }
 
         private void Update()
@@ -87,11 +87,46 @@ namespace Unchord
             return _sampledPool;
         }
 
-        public void SortSelf()
+        public void SortUI()
+        {
+            SortSelf();
+            SortWeaponUI();
+            SortPassiveUI();
+        }
+
+        private void SortSelf()
         {
             for (int i = 0; i < _abilitySamples.Count; ++i)
             {
                 _abilitySamples[i].SortSelf();
+            }
+        }
+
+        private void SortWeaponUI()
+        {
+            GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
+            AbilitySet abilitySet = _abilitySamples[0];
+            int count = Mathf.Min(abilitySet.ValidAbilityCount, abilitySet.MaxValidAbilityCount);
+
+            for (int i = 0; i < count; ++i)
+            {
+                gameCanvas.EnableWeaponSlot(i);
+                gameCanvas.SetWeaponIcon(i, abilitySet[i].DisplayIcon);
+                gameCanvas.SetWeaponLevel(i, abilitySet[i].Attributes.Level);
+            }
+        }
+
+        private void SortPassiveUI()
+        {
+            GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
+            AbilitySet abilitySet = _abilitySamples[1];
+            int count = Mathf.Min(abilitySet.ValidAbilityCount, abilitySet.MaxValidAbilityCount);
+
+            for (int i = 0; i < count; ++i)
+            {
+                //gameCanvas.EnablePassiveSlot(i);
+                //gameCanvas.SetPassiveIcon(i, abilitySet[i].DisplayIcon);
+                //gameCanvas.SetPassiveLevel(i, abilitySet[i].Attributes.Level);
             }
         }
     }

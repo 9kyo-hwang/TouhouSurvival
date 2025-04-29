@@ -24,6 +24,7 @@ namespace Unchord
         protected override void Start()
         {
             base.Start();
+            _attributeSet.Level = 1;
         }
 
         protected override void Update()

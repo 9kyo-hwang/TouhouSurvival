@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364a92065d41b95469ab74666e14866c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Spells\moscow_spell.xlsx
+  attributeAssetPath: \AttributeTables\Abilities\Spellss\moscow_spell.xlsx
 --- !u!114 &7197898148767006592
 MonoBehaviour:
   m_ObjectHideFlags: 0

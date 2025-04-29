@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 5993739452696240177}
   - component: {fileID: 2175564194275827575}
   - component: {fileID: 8863588712717059164}
+  - component: {fileID: 83951396763324383}
   m_Layer: 7
   m_Name: Cirno
   m_TagString: Player
@@ -359,17 +360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa81ac904013a549972e820f2827861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSet:
-  - IcicleFall
-  - Fireball
-  - Battojutsu
-  - ShanghaiGuard
-  passiveSet: []
-  spellSet:
-  - TestSpell
-  maxWeaponCount: 6
-  maxPassiveCount: 6
-  maxSpellCount: 1
 --- !u!114 &2175564194275827575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,6 +386,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 2
+--- !u!114 &83951396763324383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831920981336867835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c6b6a4386172044dbf0cba4f252a50d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponSet:
+  - IcicleFall
+  - Fireball
+  - Battojutsu
+  - ShanghaiGuard
+  passiveSet: []
+  spellSet:
+  - TestSpell
 --- !u!1 &7941737267563311883
 GameObject:
   m_ObjectHideFlags: 0

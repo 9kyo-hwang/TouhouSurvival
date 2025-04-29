@@ -31,6 +31,7 @@ Transform:
   m_Children:
   - {fileID: 4266124368438773538}
   - {fileID: 7094096933244801477}
+  - {fileID: 8035023041562268610}
   m_Father: {fileID: 4159661281484201323}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1143051839526638026
@@ -165,6 +166,37 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 1}
   m_Direction: 0
+--- !u!1 &5887968688422525387
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8035023041562268610}
+  m_Layer: 7
+  m_Name: Spells
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8035023041562268610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5887968688422525387}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1288162056609272185}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6240987318503329002
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,6 +243,7 @@ GameObject:
   - component: {fileID: 5993739452696240177}
   - component: {fileID: 2175564194275827575}
   - component: {fileID: 8863588712717059164}
+  - component: {fileID: 6593427319810893992}
   m_Layer: 7
   m_Name: Player 0
   m_TagString: Player
@@ -327,13 +360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa81ac904013a549972e820f2827861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSet:
-  - Fireball
-  - Battojutsu
-  - ShanghaiGuard
-  passiveSet: []
-  maxWeaponCount: 6
-  maxPassiveCount: 6
 --- !u!114 &2175564194275827575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,7 +373,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attributeAssetPath: \AttributeTables\PlayableCharacters\player_0.xlsx
-  levelUpData: []
 --- !u!114 &8863588712717059164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +386,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 2
+--- !u!114 &6593427319810893992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831920981336867835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c6b6a4386172044dbf0cba4f252a50d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponSet:
+  - Fireball
+  - ShanghaiGuard
+  - Battojutsu
+  passiveSet: []
+  spellSet:
+  - MoscowSpell
 --- !u!1 &7941737267563311883
 GameObject:
   m_ObjectHideFlags: 0
