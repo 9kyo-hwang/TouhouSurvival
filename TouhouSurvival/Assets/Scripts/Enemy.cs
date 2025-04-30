@@ -77,7 +77,10 @@ namespace Unchord
 
             GameplayAttribute healthAttribute = _attributeSet[EnemyAttributeType.Health];
             float currentHealth = healthAttribute.CurrentValue;
-            healthAttribute.CurrentValue -= damageAmount;
+
+            // TODO: 런타임에 값이 바뀔 수 있는 Attribute 변수는 멤버 변수로 둡니다.
+            //healthAttribute.CurrentValue -= damageAmount;
+
             float newHealth = healthAttribute.CurrentValue;
 
             if (newHealth <= 0.0f)

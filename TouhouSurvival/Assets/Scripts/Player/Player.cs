@@ -11,24 +11,13 @@ namespace Unchord
         public PlayerAttributeSet AttributeSet { get; private set; }
         public PlayerLevelSystem LevelSystem { get; private set; }
         
-        private const int INITIAL_SAMPLE_POOL_CAPACITY = 32;
-
-        public List<string> weaponSet;
-        public List<string> passiveSet;
-
-        public int maxWeaponCount = 6;
-        public int maxPassiveCount = 6;
-
-        private List<AbilityComponent> _samplePool;
-        private Dictionary<Transform, AbilitySamplingOptions> _samplingOptions;
-        
         private AbilitySelectUIHandler _abilitySelectUI;
+        private AbilityManager _abilityManager;
 
         public Transform WeaponTransform  { get; private set; }
         public Transform PassiveTransform { get; private  set; }
-        public int EnabledWeaponCount => _samplingOptions[WeaponTransform].enabledCount;
-        public int EnabledPassiveCount => _samplingOptions[PassiveTransform].enabledCount;
-        
+        public Transform SpellTransform { get; private  set; }
+
         protected override void Awake()
         {
             base.Awake();
@@ -36,16 +25,11 @@ namespace Unchord
             AttributeSet = gameObject.GetComponent<PlayerAttributeSet>();
             LevelSystem = new PlayerLevelSystem();
             _abilitySelectUI = new AbilitySelectUIHandler();
+            _abilityManager = GetComponent<AbilityManager>();
             
             WeaponTransform = transform.Find($"Abilities/Weapons");
             PassiveTransform = transform.Find($"Abilities/Passives");
-            
-            _samplePool = new List<AbilityComponent>(INITIAL_SAMPLE_POOL_CAPACITY);
-            _samplingOptions = new Dictionary<Transform, AbilitySamplingOptions>(2)
-            {
-                { WeaponTransform, new AbilitySamplingOptions(maxWeaponCount) },
-                { PassiveTransform, new AbilitySamplingOptions(maxPassiveCount) }
-            };
+            SpellTransform = transform.Find($"Abilities/Spells");
         }
 
         protected override void Start()
@@ -57,11 +41,9 @@ namespace Unchord
             LevelSystem.OnLevelUp += (sender, args) =>
             {
                 GameManager.Instance.BlockingEvent.Publish(
-                    _abilitySelectUI.WaitForSelection(SampleAbility(3))
+                    _abilitySelectUI.WaitForSelection(_abilityManager.SampleAbilities(3))
                 );
             };
-            
-            CreateAbilities();
         }
 
         protected override void Update()
@@ -144,167 +126,12 @@ namespace Unchord
             float currentDefense = defense.CurrentValue;
             damageAmount -= currentDefense;
             
-            health.CurrentValue -= damageAmount;
+            // TODO: 런타임에 값이 바뀔 수 있는 Attribute 변수는 멤버 변수로 둡니다.
+            //health.CurrentValue -= damageAmount;
             float newHealth = health.CurrentValue;
             
             Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
         }
-        
-        #region Ability Pool Management
-        
-        private class AbilitySamplingOptions
-        {
-            public int enabledCount;
-            public int maxLevelReachedCount;
-            public int maxAbilityCount;
-            public List<AbilityComponent> samplePool;
-
-            public AbilitySamplingOptions(int maxAbilityCount)
-            {
-                enabledCount = 0;
-                maxLevelReachedCount = 0;
-                this.maxAbilityCount = maxAbilityCount;
-                samplePool = new List<AbilityComponent>(INITIAL_SAMPLE_POOL_CAPACITY / 2);
-            }
-
-            public void HideAllFrom(List<AbilityComponent> globalSamplePool)
-            {
-                for (int i = globalSamplePool.Count - 1; i >= 0; --i)
-                {
-                    if (!samplePool.Contains(globalSamplePool[i]))
-                        continue;
-
-                    globalSamplePool.RemoveAt(i);
-                }
-            }
-
-            public void RevokeAllAt(List<AbilityComponent> globalSamplePool)
-            {
-                for (int i = 0; i < samplePool.Count; ++i)
-                {
-                    if (globalSamplePool.Contains(samplePool[i]))
-                        continue;
-
-                    globalSamplePool.Add(samplePool[i]);
-                }
-            }
-        }
-
-        private void CreateAbilities()
-        {
-            foreach(string weaponName in weaponSet)
-            {
-                if (weaponName == weaponSet[0])
-                {
-                    CreateAbility(AbilityType.Weapon, weaponName, true, 1);
-                    UIManager.Instance.GameCanvas.EnableWeaponSlot(0);
-                    continue;
-                }
-                
-                CreateAbility(AbilityType.Weapon, weaponName);
-            }
-
-            foreach (string passiveName in passiveSet)
-            {
-                CreateAbility(AbilityType.Passive, passiveName);
-            }
-        }
-
-        private void CreateAbility(string abilityType, string abilityName, bool active = false, int level = 0)
-        {
-            string path = $"Prefabs/Abilities/{abilityType}s/{abilityName}/{abilityName}";
-            AbilityComponent ability = Resources.Load<AbilityComponent>(path);
-            if (!ability)
-            {
-                return;
-            }
-
-            Transform container = transform.Find($"Abilities/{abilityType}s");
-            ability = Instantiate(ability, container, true);
-            ability.gameObject.SetActive(true);
-
-            Debug.Assert(level >= 0);
-
-            ability.transform.localPosition = Vector3.zero;
-            ability.Subscribe(this);
-            _samplePool.Add(ability);
-            _samplingOptions[container].samplePool.Add(ability);
-            ability.Attributes.Level = level;
-            
-            if (active)
-            {
-                ability.SortSiblingIndex();
-                GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
-                gameCanvas.SetWeaponIcon(ability.transform.GetSiblingIndex(), ability.DisplayIcon);
-                gameCanvas.SetWeaponLevel(ability.transform.GetSiblingIndex(), ability.Attributes.Level);
-            }
-
-            ability.gameObject.SetActive(active);
-        }
-
-        public List<AbilityComponent> SampleAbility(int samplingCount)
-        {
-            UnityEngine.Debug.Assert(samplingCount > 0);
-
-            for (int i = _samplePool.Count - 1; i >= 0; --i)
-            {
-                int j = UnityEngine.Random.Range(0, i + 1);
-                (_samplePool[i], _samplePool[j]) = (_samplePool[j], _samplePool[i]);
-            }
-
-            return _samplePool.GetRange(0, samplingCount);
-        }
-
-        public void OnChangeAbilityLevel(AbilityComponent abilityComponent, int prevLevel, int nextLevel)
-        {
-            UnityEngine.Debug.Assert(prevLevel != nextLevel);
-            UnityEngine.Debug.Assert(prevLevel >= 0);
-            UnityEngine.Debug.Assert(nextLevel >= 0);
-
-            int maxLevel = abilityComponent.Attributes.MaxLevel;
-
-            AbilitySamplingOptions options = _samplingOptions[abilityComponent.transform.parent];
-
-            if (prevLevel < nextLevel)
-            {
-                if (prevLevel == 0)
-                {
-                    options.enabledCount++;
-                }
-                if (prevLevel < maxLevel && maxLevel <= nextLevel)
-                {
-                    ++options.maxLevelReachedCount;
-                    _samplePool.Remove(abilityComponent);
-
-                    if (options.maxLevelReachedCount == options.maxAbilityCount ||
-                        options.maxLevelReachedCount == options.samplePool.Count)
-                    {
-                        options.HideAllFrom(_samplePool);
-                    }
-                }
-            }
-            else
-            {
-                if (nextLevel == 0)
-                {
-                    options.enabledCount--;
-                }
-                if (nextLevel < maxLevel && maxLevel <= prevLevel)
-                {
-                    _samplePool.Add(abilityComponent);
-
-                    if (options.maxLevelReachedCount == options.maxAbilityCount ||
-                        options.maxLevelReachedCount == options.samplePool.Count)
-                    {
-                        options.RevokeAllAt(_samplePool);
-                    }
-
-                    --options.maxLevelReachedCount;
-                }
-            }
-        }
-        #endregion
     }
 }
-

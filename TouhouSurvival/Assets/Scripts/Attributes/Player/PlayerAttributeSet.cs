@@ -58,12 +58,12 @@ namespace Unchord
             if (Input.GetKeyDown(KeyCode.Y))
             {
                 Debug.Log("Get 1 Health.");
-                base[PlayerAttributeType.Health].CurrentValue += 1.0f;
+                //base[PlayerAttributeType.Health].CurrentValue += 1.0f;
             }
             if (Input.GetKeyDown(KeyCode.T))
             {
                 Debug.Log("Sub 1 Health.");
-                base[PlayerAttributeType.Health].CurrentValue -= 1.0f;
+                //base[PlayerAttributeType.Health].CurrentValue -= 1.0f;
             }
 
             s_wuiManager.SetPlayerHealthPosition(transform.position + Vector3.up * 0.7f);
@@ -79,8 +79,8 @@ namespace Unchord
             s_uiManager.GameCanvas.SetPlayerLevel(e.CurrentLevel);
 
             // 최대 레벨에 도달하면 경험치바를 항상 가득 채워놓음.
-            if (IsReachedMaxLevel)
-                s_uiManager.GameCanvas.SetExpGauge(1.0f, 1.0f);
+            //if (IsReachedMaxLevel)
+            //    s_uiManager.GameCanvas.SetExpGauge(1.0f, 1.0f);
         }
 
         private void OnHealthChanged(object sender, AttributeChangedEventArgs e)

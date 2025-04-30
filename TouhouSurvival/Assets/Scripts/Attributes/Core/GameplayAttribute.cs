@@ -1,52 +1,87 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Unchord
 {
-    [Serializable]
     public class GameplayAttribute
     {
-        [SerializeField] private float baseValue;
-        [SerializeField] private float currentValue;
-        [SerializeField] private float minValue;
-        [SerializeField] private float maxValue;
-
-        public event EventHandler<AttributeChangedEventArgs> OnAttributeChanged;
-
-        public float BaseValue
-        {
-            get => baseValue;
-            set
-            {
-                float oldValue = baseValue;
-                baseValue = value;
-                currentValue = Mathf.Clamp(baseValue, minValue, maxValue);
-                OnAttributeChanged?.Invoke(this, new AttributeChangedEventArgs(oldValue, currentValue));
-            }
-        }
+        public float BaseValue => _baseValue;
 
         public float CurrentValue
         {
-            get => currentValue;
-            set
+            get
             {
-                float oldValue = currentValue;
-                currentValue = Mathf.Clamp(value, minValue, maxValue);
-                OnAttributeChanged?.Invoke(this, new AttributeChangedEventArgs(oldValue, currentValue));
+                if (_shouldUpdate)
+                {
+                    _currentValue = CalculateFinalValue();
+                    _shouldUpdate = false;
+                }
+
+                return _currentValue;
             }
         }
 
-        public GameplayAttribute(float baseValue, float minValue = float.MinValue, float maxValue = float.MaxValue)
+        public float MinValue => _minValue;
+        public float MaxValue => _maxValue;
+
+        public event EventHandler<AttributeChangedEventArgs> OnAttributeChanged;
+
+        private float _baseValue;
+        private float _currentValue;
+        private float _minValue;
+        private float _maxValue;
+        
+        private bool _shouldUpdate;
+        private List<GameplayAttributeModifier> _modifiers;
+
+        public GameplayAttribute(float baseValue, float minValue = float.MinValue, float maxValue = float.MaxValue, string description = "")
         {
-            this.baseValue = baseValue;
-            this.currentValue = baseValue;
-            this.minValue = minValue;
-            this.maxValue = maxValue;
+            _baseValue = baseValue;
+            _minValue = minValue;
+            _maxValue = maxValue;
         }
 
-        public void ResetToBase()
+        public void AddModifier(GameplayAttributeModifier modifier)
         {
-            CurrentValue = BaseValue;
+            _modifiers.Add(modifier);
+            _modifiers.Sort();
+
+            _shouldUpdate = true;
+        }
+
+        private float CalculateFinalValue()
+        {
+            float finalValue = 0.0f;
+
+            float flatSum = 0.0f;
+            float percAdd = 1.0f;
+            float percMul = 1.0f;
+
+            for (int i = 0; i < _modifiers.Count; ++i)
+            {
+                switch(_modifiers[i].opcode)
+                {
+                    case GameplayAttributeOperator.Flat:
+                        flatSum += _modifiers[i].value;
+                        break;
+                    case GameplayAttributeOperator.PercentAdd:
+                        percAdd += _modifiers[i].value;
+                        break;
+                    case GameplayAttributeOperator.PercentMul:
+                        percMul *= (1.0f + _modifiers[i].value);
+                        break;
+                }
+            }
+
+            finalValue = flatSum * percAdd * percMul;
+
+            if (_minValue != float.MinValue && finalValue < _minValue)
+                return _minValue;
+            if (_maxValue != float.MaxValue && finalValue > _maxValue)
+                return _maxValue;
+
+            return finalValue;
         }
     }
 }
