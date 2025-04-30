@@ -1,7 +1,8 @@
 namespace Unchord
 {
-    public enum AbilityType
+    public class AbilityType
     {
-        Weapon, Passive
+        public const string Weapon = "Weapon";
+        public const string Passive = "Passive";
     }
 }

@@ -1,0 +1,135 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+
+namespace Unchord
+{
+    public class LevelUpEventArgs : EventArgs
+    {
+        public int PreviousLevel { get; private set; }
+        public int CurrentLevel { get; private set; }
+
+        public LevelUpEventArgs(int previousLevel, int currentLevel)
+        {
+            PreviousLevel = previousLevel;
+            CurrentLevel = currentLevel;
+        }
+    }
+
+    public class ExperienceChangedEventArgs : EventArgs
+    {
+        public float PreviousExperience { get; private set; }
+        public float CurrentExperience { get; private set; }
+        public float TotalExperience { get; private set; }
+
+        public ExperienceChangedEventArgs(float previousExperience, float currentExperience, float totalExperience)
+        {
+            PreviousExperience = previousExperience;
+            CurrentExperience = currentExperience;
+            TotalExperience = totalExperience;
+        }
+    }
+    
+    public class PlayerLevelSystem
+    {
+        private const string ExperienceTablePath = "/Players/ExperienceTable.CSV";
+        private Dictionary<int, float> _experienceTable;    // level -> level + 1 필요 경험치
+        private GameplayAttribute _expGainIncreaseAttribute;
+        
+        public event EventHandler<LevelUpEventArgs> OnLevelUp;
+        public event EventHandler<ExperienceChangedEventArgs> OnExperienceChanged;
+        
+        private int _level;
+        private bool IsMaxLevel => _level > _experienceTable.Count;
+        public int Level
+        {
+            get => _level;
+            private set
+            {
+                if (value > 0 && value != _level && !IsMaxLevel)
+                {
+                    int prevLevel = _level;
+                    _level = value;
+                    OnLevelUp?.Invoke(this, new LevelUpEventArgs(prevLevel, _level));
+                }
+            }
+        }
+        
+        private float _experience;
+
+        public float TotalExperienceForCurrentLevel
+        {
+            get
+            {
+                if (Level == 0 || IsMaxLevel)
+                {
+                    return 1.0f;
+                }
+
+                return _experienceTable[Level];
+            }
+        }
+        
+        public float Experience
+        {
+            get => _experience;
+            set
+            {
+                float remain = value * (1.0f + _expGainIncreaseAttribute.CurrentValue);
+                float prev = _experience;
+                while (!IsMaxLevel && remain >= 0)
+                {
+                    float required = _experienceTable[Level];
+                    if (remain < required)
+                    {
+                        _experience = remain;
+                        OnExperienceChanged?.Invoke(this, new ExperienceChangedEventArgs(prev, _experience, _experienceTable[Level]));
+                        break;
+                    }
+                    
+                    remain -= required;
+                    _experience = remain;
+                    OnExperienceChanged?.Invoke(this, new ExperienceChangedEventArgs(prev, _experience, _experienceTable[Level]));
+                    prev = _experience;
+                    
+                    Level += 1;
+                }
+            }
+        }
+
+        public void Initialize(PlayerAttributeSet attributeSet)
+        {
+            _expGainIncreaseAttribute = attributeSet[PlayerAttributeType.ExpGainIncrease];
+            LoadExperienceTable();
+        }
+
+        private void LoadExperienceTable()
+        {
+            _experienceTable = new Dictionary<int, float>();
+            
+            string path = Application.streamingAssetsPath + ExperienceTablePath;
+            if (!File.Exists(path))
+            {
+                Debug.LogError($"Could not load experience table csv file from {path}");
+                return;
+            }
+            
+            using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            using StreamReader reader = new StreamReader(stream);
+            while (reader.ReadLine() is { } line)
+            {
+                string[] tokens = line.Split(',');
+                if (!string.IsNullOrEmpty(tokens[0]))
+                {
+                    _experienceTable.Add(int.Parse(tokens[0]), float.Parse(tokens[1]));
+                }
+            }
+            reader.Close();
+            
+            // First Element: Level 1 / Experience 0
+            Level = 1;
+            Experience = 0;
+        }
+    }
+}

@@ -28,7 +28,8 @@ namespace Unchord
                 ExperienceDropObject experience = hit.collider.GetComponent<ExperienceDropObject>();
                 if (experience)
                 {
-                    _player.GetComponent<PlayerAttributeSet>().AddExperience(experience.amount);
+                    // _player.GetComponent<PlayerAttributeSet>().AddExperience(experience.amount);
+                    _player.LevelSystem.Experience += experience.amount;
                     Destroy(experience.gameObject);
                 }
             }

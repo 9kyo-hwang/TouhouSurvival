@@ -9,6 +9,7 @@ namespace Unchord
     {
         private Vector2 _movementVector;
         public PlayerAttributeSet AttributeSet { get; private set; }
+        public PlayerLevelSystem LevelSystem { get; private set; }
         
         private const int INITIAL_SAMPLE_POOL_CAPACITY = 32;
 
@@ -20,6 +21,8 @@ namespace Unchord
 
         private List<AbilityComponent> _samplePool;
         private Dictionary<Transform, AbilitySamplingOptions> _samplingOptions;
+        
+        private AbilitySelectUIHandler _abilitySelectUI;
 
         public Transform WeaponTransform  { get; private set; }
         public Transform PassiveTransform { get; private  set; }
@@ -31,6 +34,9 @@ namespace Unchord
             base.Awake();
             
             AttributeSet = gameObject.GetComponent<PlayerAttributeSet>();
+            LevelSystem = new PlayerLevelSystem();
+            _abilitySelectUI = new AbilitySelectUIHandler();
+            
             WeaponTransform = transform.Find($"Abilities/Weapons");
             PassiveTransform = transform.Find($"Abilities/Passives");
             
@@ -40,20 +46,21 @@ namespace Unchord
                 { WeaponTransform, new AbilitySamplingOptions(maxWeaponCount) },
                 { PassiveTransform, new AbilitySamplingOptions(maxPassiveCount) }
             };
-
-            // AttributeSet.onLevelUp = OnLevelUp;
-
-            AttributeSet.OnLevelUp += (level, remainingExp, requiredExp) =>
-            {
-                GameManager.Instance.BlockingEvent.Publish(OnLevelUp());
-            };
         }
 
         protected override void Start()
         {
             base.Start();
-
-            AttributeSet.Level = 1;
+            
+            AttributeSet.Initialize(LevelSystem);
+            LevelSystem.Initialize(AttributeSet);
+            LevelSystem.OnLevelUp += (sender, args) =>
+            {
+                GameManager.Instance.BlockingEvent.Publish(
+                    _abilitySelectUI.WaitForSelection(SampleAbility(3))
+                );
+            };
+            
             CreateAbilities();
         }
 
@@ -92,18 +99,19 @@ namespace Unchord
 
         public GameObject GetNearestEnemyOrNull()
         {
-            Vector2 originPosition = this.transform.position;
+            Vector2 originPosition = transform.position;
             GameObject selected = null;
             List<GameObject> spawnedEnemies = GameManager.Instance.SpawnedEnemies;
 
             for (int i = spawnedEnemies.Count - 1; i >= 0; --i)
             {
-                if (spawnedEnemies[i] == null)
+                if (!spawnedEnemies[i])
                 {
                     spawnedEnemies.RemoveAt(i);
                     continue;
                 }
-                else if (selected == null)
+
+                if (!selected)
                 {
                     selected = spawnedEnemies[i];
                     continue;
@@ -115,7 +123,6 @@ namespace Unchord
                 if (diffTarget.sqrMagnitude < diffSelected.sqrMagnitude)
                 {
                     selected = spawnedEnemies[i];
-                    continue;
                 }
             }
 
@@ -142,39 +149,6 @@ namespace Unchord
             
             Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
-        }
-
-        private IEnumerator OnLevelUp()
-        {
-            LevelUpCanvas levelUpCanvas = UIManager.Instance.LevelUpCanvas;
-            levelUpCanvas.Clear();
-
-            List<AbilityComponent> sampledAbilities = SampleAbility(3);
-            foreach (AbilityComponent sampledAbility in sampledAbilities)
-            {
-                levelUpCanvas.Add(sampledAbility);
-            }
-
-            levelUpCanvas.Show();
-            yield return new WaitWhile(() => levelUpCanvas.SelectedIndex < 0);
-            levelUpCanvas.Hide();
-
-            if (sampledAbilities.Count == 0)
-                yield break;
-
-            int selectedIndex = levelUpCanvas.SelectedIndex;
-            AbilityComponent selectedAbility = sampledAbilities[selectedIndex];
-
-            selectedAbility.Attributes.Level += 1;
-            selectedAbility.SortSiblingIndex();
-            selectedAbility.gameObject.SetActive(true);
-
-            int siblingIndex = selectedAbility.transform.GetSiblingIndex();
-
-            GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
-            gameCanvas.EnableWeaponSlot(siblingIndex);
-            gameCanvas.SetWeaponIcon(siblingIndex, selectedAbility.DisplayIcon);
-            gameCanvas.SetWeaponLevel(siblingIndex, selectedAbility.Attributes.Level);
         }
         
         #region Ability Pool Management
@@ -219,70 +193,67 @@ namespace Unchord
 
         private void CreateAbilities()
         {
-            CreateAbility(AbilityType.Weapon, weaponSet[0], true, 1);
-            UIManager.Instance.GameCanvas.EnableWeaponSlot(0);
-
-            for (int i = 1; i < weaponSet.Count; ++i)
-                CreateAbility(AbilityType.Weapon, weaponSet[i], false, 0);
-
-            for (int i = 0; i < passiveSet.Count; ++i)
-                CreateAbility(AbilityType.Passive, passiveSet[i], false, 0);
-        }
-
-        private void CreateAbility(AbilityType abilityType, string abilityName, bool initialActive = false, int initialLevel = 0)
-        {
-            string strAbilityType = abilityType.ToString();
-            string resourcePath = $"Prefabs/Abilities/{strAbilityType}s/{abilityName}/{abilityName}";
-            AbilityComponent abilityComponent = Resources.Load<AbilityComponent>(resourcePath);
-
-            if (!abilityComponent)
-                return;
-
-            abilityComponent = Instantiate(abilityComponent);
-            abilityComponent.gameObject.SetActive(true);
-
-            Debug.Assert(initialLevel >= 0);
-
-            Transform abilityContainer = transform.Find($"Abilities/{strAbilityType}s");
-
-            abilityComponent.transform.SetParent(abilityContainer, true);
-            abilityComponent.transform.localPosition = Vector3.zero;
-            abilityComponent.Subscribe(this);
-            _samplePool.Add(abilityComponent);
-            _samplingOptions[abilityContainer].samplePool.Add(abilityComponent);
-            abilityComponent.Attributes.Level = initialLevel;
-            
-            if (initialActive)
+            foreach(string weaponName in weaponSet)
             {
-                abilityComponent.SortSiblingIndex();
-                GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
-                gameCanvas.SetWeaponIcon(abilityComponent.transform.GetSiblingIndex(), abilityComponent.DisplayIcon);
-                gameCanvas.SetWeaponLevel(abilityComponent.transform.GetSiblingIndex(), abilityComponent.Attributes.Level);
+                if (weaponName == weaponSet[0])
+                {
+                    CreateAbility(AbilityType.Weapon, weaponName, true, 1);
+                    UIManager.Instance.GameCanvas.EnableWeaponSlot(0);
+                    continue;
+                }
+                
+                CreateAbility(AbilityType.Weapon, weaponName);
             }
 
-            abilityComponent.gameObject.SetActive(initialActive);
+            foreach (string passiveName in passiveSet)
+            {
+                CreateAbility(AbilityType.Passive, passiveName);
+            }
+        }
+
+        private void CreateAbility(string abilityType, string abilityName, bool active = false, int level = 0)
+        {
+            string path = $"Prefabs/Abilities/{abilityType}s/{abilityName}/{abilityName}";
+            AbilityComponent ability = Resources.Load<AbilityComponent>(path);
+            if (!ability)
+            {
+                return;
+            }
+
+            Transform container = transform.Find($"Abilities/{abilityType}s");
+            ability = Instantiate(ability, container, true);
+            ability.gameObject.SetActive(true);
+
+            Debug.Assert(level >= 0);
+
+            ability.transform.localPosition = Vector3.zero;
+            ability.Subscribe(this);
+            _samplePool.Add(ability);
+            _samplingOptions[container].samplePool.Add(ability);
+            ability.Attributes.Level = level;
+            
+            if (active)
+            {
+                ability.SortSiblingIndex();
+                GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
+                gameCanvas.SetWeaponIcon(ability.transform.GetSiblingIndex(), ability.DisplayIcon);
+                gameCanvas.SetWeaponLevel(ability.transform.GetSiblingIndex(), ability.Attributes.Level);
+            }
+
+            ability.gameObject.SetActive(active);
         }
 
         public List<AbilityComponent> SampleAbility(int samplingCount)
         {
             UnityEngine.Debug.Assert(samplingCount > 0);
 
-            List<AbilityComponent> sampleAbilities = new List<AbilityComponent>(samplingCount);
-
             for (int i = _samplePool.Count - 1; i >= 0; --i)
             {
                 int j = UnityEngine.Random.Range(0, i + 1);
-
                 (_samplePool[i], _samplePool[j]) = (_samplePool[j], _samplePool[i]);
-
-                if (i < samplingCount)
-                {
-                    sampleAbilities.Add(_samplePool[i]);
-                }
             }
 
-            UnityEngine.Debug.Assert(sampleAbilities != null && sampleAbilities.Capacity == samplingCount);
-            return sampleAbilities;
+            return _samplePool.GetRange(0, samplingCount);
         }
 
         public void OnChangeAbilityLevel(AbilityComponent abilityComponent, int prevLevel, int nextLevel)
