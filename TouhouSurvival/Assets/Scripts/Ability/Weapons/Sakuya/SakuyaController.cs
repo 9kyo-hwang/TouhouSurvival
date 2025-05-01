@@ -35,7 +35,7 @@ namespace Unchord
 
         private GameObject CreateFunc()
         {
-            GameObject sakuyaGameObject = Instantiate(sakuyaPrefab.gameObject, transform, true);
+            GameObject sakuyaGameObject = Instantiate(sakuyaPrefab.gameObject, GameManager.Instance.ProjectileContainer, true);
 
             sakuyaGameObject.transform.Find("Colliders/Circle Collider 2D")
                 .GetComponent<CollisionEventEmitter>()

@@ -34,7 +34,7 @@ namespace Unchord
         private GameObject CreateFunc()
         {
             // 캐릭터 위치에 생성
-            GameObject spearGameObject = Object.Instantiate(_prefab.gameObject, _transform);
+            GameObject spearGameObject = Object.Instantiate(_prefab.gameObject, GameManager.Instance.ProjectileContainer);
 
             // 충돌 이벤트 탐지기 획득
             spearGameObject.transform.Find("Colliders/Circle Collider 2D")

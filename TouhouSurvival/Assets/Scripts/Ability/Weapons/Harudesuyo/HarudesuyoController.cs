@@ -39,7 +39,7 @@ namespace Unchord
 
         private Harudesuyo ProjectileCreateFunc()
         {
-            return Instantiate(harudesuyoPrefab, transform);
+            return Instantiate(harudesuyoPrefab, GameManager.Instance.ProjectileContainer);
         }
         #endregion
         
@@ -70,7 +70,7 @@ namespace Unchord
 
         private GameObject ExplosionCreateFunc()
         {
-            GameObject explosion = Instantiate(explosionPrefab.gameObject, transform);
+            GameObject explosion = Instantiate(explosionPrefab.gameObject, GameManager.Instance.ProjectileContainer);
             
             CollisionEventEmitter emitter = explosion.transform.Find("Colliders/Circle Collider 2D")
                 .GetComponent<CollisionEventEmitter>();

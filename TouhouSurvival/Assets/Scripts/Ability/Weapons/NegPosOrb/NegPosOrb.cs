@@ -89,7 +89,7 @@ namespace Unchord
 
         private GameObject OnCreateProjectile()
         {
-            GameObject projectile = GameObject.Instantiate(projectilePrefab.gameObject, transform, true);
+            GameObject projectile = GameObject.Instantiate(projectilePrefab.gameObject, GameManager.Instance.ProjectileContainer, true);
 
             CollisionEventEmitter emitter = projectile.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
             emitter.onTriggerStay2D += OnProjectileStay;

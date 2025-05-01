@@ -65,7 +65,7 @@ namespace Unchord
 
         private GameObject OnCreateSpark()
         {
-            GameObject spark = GameObject.Instantiate(sparkPrefab.gameObject, transform, true);
+            GameObject spark = GameObject.Instantiate(sparkPrefab.gameObject, GameManager.Instance.ProjectileContainer, true);
 
             CollisionEventEmitter emitter = spark.transform.Find("Colliders/Box Collider 2D").GetComponent<CollisionEventEmitter>();
             emitter.onTriggerStay2D += OnSparkStay;

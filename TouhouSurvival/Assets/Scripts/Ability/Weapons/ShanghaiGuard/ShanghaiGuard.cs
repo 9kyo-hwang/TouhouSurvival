@@ -131,7 +131,7 @@ namespace Unchord
 
         private DotProjectile OnCreateShanghai()
         {
-            GameObject shanghai = GameObject.Instantiate(shanghaiPrefab, transform, true);
+            GameObject shanghai = GameObject.Instantiate(shanghaiPrefab, GameManager.Instance.ProjectileContainer, true);
 
             CollisionEventEmitter emitter = shanghai.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
             emitter.onTriggerStay2D += OnShanghaiDollStay;

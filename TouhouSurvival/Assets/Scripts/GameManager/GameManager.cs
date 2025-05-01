@@ -33,6 +33,7 @@ namespace Unchord
         public Player Player { get; private set; }
 
         public Transform RuntimeContainer { get; private set; }
+        public Transform ProjectileContainer { get; private set; }
         
         private void Awake()
         {
@@ -40,6 +41,9 @@ namespace Unchord
             MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
 
             RuntimeContainer = new GameObject("@Runtime Container").transform;
+            ProjectileContainer = new GameObject("@Projectile Container").transform;
+
+            ProjectileContainer.SetParent(RuntimeContainer);
 
             BlockingEvent.onBlockingEventOccurred += OnBlockEventOccurred;
             BlockingEvent.onBlockingEventHandled += OnBlockEventHandled;

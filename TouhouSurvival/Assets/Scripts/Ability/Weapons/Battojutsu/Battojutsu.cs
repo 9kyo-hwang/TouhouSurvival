@@ -49,7 +49,7 @@ namespace Unchord
         private GameObject OnCreateEffect()
         {
             GameObject effect = GameObject.Instantiate(effectPrefab.gameObject);
-            effect.transform.parent = transform;
+            effect.transform.parent = GameManager.Instance.ProjectileContainer;
             effect.transform.localPosition = Vector2.zero;
 
             CollisionEventEmitter emitter = effect.transform.Find("Colliders/Damaging Collider").GetComponent<CollisionEventEmitter>();
