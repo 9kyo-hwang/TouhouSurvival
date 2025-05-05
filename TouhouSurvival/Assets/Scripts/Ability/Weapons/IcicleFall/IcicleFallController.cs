@@ -30,10 +30,10 @@ namespace Unchord
 
         private void SpawnIcicleSpear()
         {
-            GameObject nearestGameObject = _player.GetNearestEnemyOrNull();
+            GameObject nearestGameObject = Player.GetNearestEnemyOrNull();
             if (nearestGameObject)
             {
-                Vector3 startPosition = _player.transform.position;
+                Vector3 startPosition = Player.transform.position;
                 Vector3 endPosition = nearestGameObject.transform.position;
                 float launchAngleOffset = Attributes[IcicleFallAttributeType.LaunchAngleOffset].CurrentValue;
                 float speed = Attributes[IcicleFallAttributeType.SpearSpeed].CurrentValue;

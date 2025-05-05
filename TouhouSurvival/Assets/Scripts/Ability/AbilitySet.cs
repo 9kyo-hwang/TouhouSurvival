@@ -12,18 +12,17 @@ namespace Unchord
         public AbilitySet(Player player, Transform container, string prefabDirectory, List<string> abilitySet, int maxValidAbilityCount)
         : base(16)
         {
-            for (int i = 0; i < abilitySet.Count; ++i)
+            foreach (string abilityName in abilitySet)
             {
-                string path = prefabDirectory + $"/{abilitySet[i]}/{abilitySet[i]}";
+                string path = prefabDirectory + $"/{abilityName}/{abilityName}";
 
                 AbilityComponent ability = Resources.Load<AbilityComponent>(path);
 
                 UnityEngine.Debug.Assert(ability != null);
 
-                ability = GameObject.Instantiate(ability);
+                ability = Object.Instantiate(ability, container, true);
                 ability.gameObject.SetActive(false);
 
-                ability.transform.SetParent(container, true);
                 ability.transform.localPosition = Vector3.zero;
                 ability.Subscribe(player);
 
@@ -40,7 +39,7 @@ namespace Unchord
 
             while (j < base.Count)
             {
-                if (base[j].Attributes.Level == 0)
+                if (base[j].CurrentLevel == 0)
                     break;
                 else
                     ++j;
@@ -48,12 +47,10 @@ namespace Unchord
 
             for (i = j; i < base.Count; ++i)
             {
-                if (base[i].Attributes.Level == 0)
+                if (base[i].CurrentLevel == 0)
                     continue;
 
-                AbilityComponent temp = base[i];
-                base[i] = base[j];
-                base[j] = temp;
+                (base[i], base[j]) = (base[j], base[i]);
 
                 ++j;
             }

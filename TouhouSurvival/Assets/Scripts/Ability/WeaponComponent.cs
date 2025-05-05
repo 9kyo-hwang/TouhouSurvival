@@ -17,8 +17,6 @@ namespace Unchord
         protected override void Awake()
         {
             base.Awake();
-
-            // _leftCooltime = variableCooltimeMax;
         }
 
         protected override void Update()

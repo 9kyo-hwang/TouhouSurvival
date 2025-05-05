@@ -96,12 +96,12 @@ namespace Unchord
         {
             _isCooltimePaused = true;
             
-            GameObject nearestGameObject = _player.GetNearestEnemyOrNull();
+            GameObject nearestGameObject = Player.GetNearestEnemyOrNull();
             if (nearestGameObject)
             {
                 int throwCount = (int)Attributes[SakuyaAttributeType.ThrowCount].CurrentValue;
                 Vector3 targetPosition = nearestGameObject.transform.position;
-                Vector3 playerPosition = _player.transform.position;
+                Vector3 playerPosition = Player.transform.position;
                 for (int i = 0; i < throwCount; i++)
                 {
                     Throw(targetPosition, playerPosition);

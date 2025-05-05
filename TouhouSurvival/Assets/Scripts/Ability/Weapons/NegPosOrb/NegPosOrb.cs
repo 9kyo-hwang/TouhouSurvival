@@ -43,7 +43,7 @@ namespace Unchord
 
             for (int i = burstCount - 1; i >= 0; --i)
             {
-                GameObject nearestEnemy = _player.GetNearestEnemyOrNull();
+                GameObject nearestEnemy = Player.GetNearestEnemyOrNull();
 
                 if (nearestEnemy)
                     Shoot(nearestEnemy);
@@ -64,7 +64,7 @@ namespace Unchord
             projectile.OriginPosition = projectile.transform.position;
             projectile.ProjectileSpeed = 3.0f;
 
-            Vector3 playerPosition = _player.transform.position;
+            Vector3 playerPosition = Player.transform.position;
             Vector3 enemyPosition = nearestEnemyObject.transform.position;
             GameplayAttribute attrEulerAngleError = Attributes[NegPosOrbAttributeType.ShootingEulerAngleError];
 

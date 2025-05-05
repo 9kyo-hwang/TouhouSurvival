@@ -104,7 +104,7 @@ namespace Unchord
             return explosion;
         }
         #endregion
-
+        
         protected override void Awake()
         {
             base.Awake();
@@ -149,9 +149,9 @@ namespace Unchord
             for (int i = 0; i < numDropPoint; ++i)
             {
                 points[i] = new Vector3(
-                    _player.transform.position.x + Random.Range(-bombingRange, bombingRange),
-                    _player.transform.position.y + Random.Range(-bombingRange, bombingRange),
-                    _player.transform.position.z
+                    Player.transform.position.x + Random.Range(-bombingRange, bombingRange),
+                    Player.transform.position.y + Random.Range(-bombingRange, bombingRange),
+                    Player.transform.position.z
                 );
                 
                 Debug.Log($"Drop Point: {points[i].x}, {points[i].y}, {points[i].z}");

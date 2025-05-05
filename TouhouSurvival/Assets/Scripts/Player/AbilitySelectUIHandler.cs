@@ -29,7 +29,7 @@ namespace Unchord
             int selectedIndex = canvas.SelectedIndex;
             AbilityComponent selectedAbility = sampledAbilities[selectedIndex];
 
-            selectedAbility.Attributes.Level += 1;
+            selectedAbility.LevelUp();
             selectedAbility.SortSiblingIndex();
             selectedAbility.gameObject.SetActive(true);
 
@@ -38,7 +38,7 @@ namespace Unchord
             GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
             gameCanvas.EnableWeaponSlot(siblingIndex);
             gameCanvas.SetWeaponIcon(siblingIndex, selectedAbility.DisplayIcon);
-            gameCanvas.SetWeaponLevel(siblingIndex, selectedAbility.Attributes.Level);
+            gameCanvas.SetWeaponLevel(siblingIndex, selectedAbility.CurrentLevel);
         }
     }
 }

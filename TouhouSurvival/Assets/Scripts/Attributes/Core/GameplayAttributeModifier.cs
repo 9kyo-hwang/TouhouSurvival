@@ -23,7 +23,7 @@ namespace Unchord
 
             SortedList<int, GameplayAttributeModifier> modifiers = new SortedList<int, GameplayAttributeModifier>(16);
 
-            using (FileStream fs = new FileStream(xlsxDir + $"\\{xlsxName}+attributes_growth.csv", FileMode.Open, FileAccess.Read))
+            using FileStream fs = new FileStream(xlsxDir + $"\\{xlsxName}+attributes_growth.csv", FileMode.Open, FileAccess.Read);
             using (StreamReader rd = new StreamReader(fs))
             {
                 rd.ReadLine(); // NOTE: Ignore header line.
@@ -54,14 +54,14 @@ namespace Unchord
                     }
 
                     int level = int.Parse(tokens[0]);
-
-                    if (!modifiers.ContainsKey(level))
-                        modifiers.Add(level, null);
+                    modifiers.TryAdd(level, null);
 
                     string attributeType = tokens[1];
-                    GameplayAttributeModifier modifier = new GameplayAttributeModifier(float.Parse(tokens[2]), opcode, tokens[4]);
+                    GameplayAttributeModifier modifier = new GameplayAttributeModifier(float.Parse(tokens[2]), opcode, tokens[4])
+                    {
+                        next = modifiers[level]
+                    };
 
-                    modifier.next = modifiers[level];
                     modifiers[level] = modifier;
                 }
             }

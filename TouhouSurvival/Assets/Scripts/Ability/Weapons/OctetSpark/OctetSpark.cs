@@ -31,7 +31,7 @@ namespace Unchord
 
         public override void UseWeapon()
         {
-            GameObject nearestEnemy = _player.GetNearestEnemyOrNull();
+            GameObject nearestEnemy = Player.GetNearestEnemyOrNull();
 
             if (!nearestEnemy)
                 return;
@@ -40,7 +40,7 @@ namespace Unchord
 
             sparkObject.transform.localPosition = Vector3.zero;
 
-            Vector3 playerPosition = _player.transform.position;
+            Vector3 playerPosition = Player.transform.position;
             Vector3 enemyPosition = nearestEnemy.transform.position;
             Vector3 projectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, 0.0f);
 

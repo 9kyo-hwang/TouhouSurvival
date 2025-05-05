@@ -38,8 +38,8 @@ namespace Unchord
 
         private void Start()
         {
-            _abilitySets[0][0].Attributes.Level = 1;
-            _abilitySets[2][0].Attributes.Level = 1;
+            _abilitySets[0][0].Enable();    // 현재는 Ability의 레벨을 1로 세팅하는 것밖에 없음
+            _abilitySets[2][0].Enable();
 
             this.SortSelf();
         }
@@ -57,10 +57,8 @@ namespace Unchord
 
             _sampledPool.Clear();
 
-            for (int i = 0; i < _abilitySamples.Count; ++i)
+            foreach (AbilitySet abilitySet in _abilitySamples)
             {
-                AbilitySet abilitySet = _abilitySamples[i];
-
                 int validAbilityCount = abilitySet.Count;
 
                 if (abilitySet.ValidAbilityCount >= abilitySet.MaxValidAbilityCount)
@@ -70,7 +68,7 @@ namespace Unchord
                 {
                     AbilityComponent ability = abilitySet[j];
 
-                    if (ability.Attributes.Level >= ability.Attributes.MaxLevel)
+                    if (ability.CurrentLevel >= ability.MaxLevel)
                         continue;
 
                     int k = UnityEngine.Random.Range(0, ++validSampleCount);
@@ -87,11 +85,11 @@ namespace Unchord
             return _sampledPool;
         }
 
-        public void SortSelf()
+        private void SortSelf()
         {
-            for (int i = 0; i < _abilitySamples.Count; ++i)
+            foreach (AbilitySet abilitySet in _abilitySamples)
             {
-                _abilitySamples[i].SortSelf();
+                abilitySet.SortSelf();
             }
         }
     }

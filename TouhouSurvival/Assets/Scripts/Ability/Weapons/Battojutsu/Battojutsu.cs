@@ -12,7 +12,7 @@ namespace Unchord
         public GameObject effectPrefab;
 
         private ObjectPool<GameObject> _effectPool;
-
+        
         protected override void Awake()
         {
             base.Awake();
@@ -31,8 +31,8 @@ namespace Unchord
         {
             GameObject effectObject = _effectPool.Get();
 
-            Vector2 posPlayer = _player.transform.position;
-            GameObject nearestEnemy = _player.GetNearestEnemyOrNull();
+            Vector2 posPlayer = Player.transform.position;
+            GameObject nearestEnemy = Player.GetNearestEnemyOrNull();
 
             if (nearestEnemy == null)
             {

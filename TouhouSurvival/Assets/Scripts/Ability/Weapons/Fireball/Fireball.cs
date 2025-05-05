@@ -39,7 +39,7 @@ namespace Unchord
 
         public override void UseWeapon()
         {
-            GameObject nearestEnemy = _player.GetNearestEnemyOrNull();
+            GameObject nearestEnemy = Player.GetNearestEnemyOrNull();
 
             if (!nearestEnemy)
                 return;
@@ -51,7 +51,7 @@ namespace Unchord
             projectile.OriginPosition = projectile.transform.position;
             projectile.ProjectileSpeed = 3.0f;
 
-            Vector3 playerPosition = _player.transform.position;
+            Vector3 playerPosition = Player.transform.position;
             Vector3 enemyPosition = nearestEnemy.transform.position;
             GameplayAttribute attrEulerAngleError = Attributes[FireballAttributeType.ShootingEulerAngleError];
 

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Unchord
@@ -10,7 +11,7 @@ namespace Unchord
         public string DisplayName => displayName;
         public string DisplayDescription => displayDescription;
 
-        public AttributeSet Attributes { get; private set; }
+        protected AttributeSet Attributes { get; private set; }
 
         [Header("Displays on GUI")]
         [SerializeField]
@@ -22,11 +23,30 @@ namespace Unchord
         [SerializeField]
         private string displayDescription;
 
-        protected Player _player { get; private set; }
+        protected Player Player { get; private set; }
+        private int _level;
+        public int CurrentLevel
+        {
+            get => _level;
+            private set
+            {
+                value = Mathf.Clamp(value, 0, MaxLevel);
+                if (value != _level)
+                {
+                    int prevLevel = _level;
+                    _level = value;
+                    OnLevelUp?.Invoke(this, new LevelUpEventArgs(prevLevel, _level));
+                }
+            }
+        }
+        public int MaxLevel { get; private set; }
+        public event EventHandler<LevelUpEventArgs> OnLevelUp;
 
         protected virtual void Awake()
         {
             Attributes = GetComponent<AttributeSet>();
+            Attributes.Initialize(OnLevelUp);
+            MaxLevel = Attributes.MaxLevel;
         }
 
         protected virtual void FixedUpdate()
@@ -41,7 +61,7 @@ namespace Unchord
 
         public void Subscribe(Player player)
         {
-            _player = player;
+            Player = player;
         }
 
         public int SortSiblingIndex()
@@ -63,6 +83,16 @@ namespace Unchord
 
             transform.SetSiblingIndex(i);
             return i;
+        }
+
+        public void Enable()
+        {
+            _level = 1; // OnLevelUp이 발동되지 않도록. 필요 시 CurrentLevel로 변경
+        }
+
+        public void LevelUp()
+        {
+            CurrentLevel++;
         }
     }
 }
