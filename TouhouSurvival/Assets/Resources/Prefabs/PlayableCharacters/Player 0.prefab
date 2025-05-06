@@ -368,9 +368,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponSet:
-  - Battojutsu
-  - Fireball
-  - Harudesuyo
+  - OctetSpark
+  - IcicleFall
+  - ShanghaiGuard
+  - Sakuya
   passiveSet: []
   spellSet:
   - MoscowSpell
