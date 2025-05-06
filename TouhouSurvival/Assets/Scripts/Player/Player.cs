@@ -20,6 +20,9 @@ namespace Unchord
 
         private float _currentHealth;
 
+        private float _lastSpellUsingTime;
+        private float _currentSpellGauge;
+
         protected override void Awake()
         {
             base.Awake();
@@ -48,6 +51,9 @@ namespace Unchord
             };
 
             _currentHealth = AttributeSet[PlayerAttributeType.Health].CurrentValue;
+
+            _lastSpellUsingTime = float.MinValue;
+            _currentSpellGauge = 0.0f;
         }
 
         protected override void Update()
@@ -56,6 +62,8 @@ namespace Unchord
 
             Animator.SetFloat("Health", AttributeSet[PlayerAttributeType.Health].CurrentValue);
             Animator.SetBool("IsMove", _movementVector.magnitude > 0.0f);
+
+            UpdateCurrentSpellGauge();
 
             if (Input.GetKeyDown(KeyCode.F4))
             {
@@ -87,6 +95,36 @@ namespace Unchord
             // Input Setting에서 이미 값을 Normalized된 상태로 받도록 세팅됨
             Debug.Log("OnMove");
             _movementVector = value.Get<Vector2>();
+        }
+
+        private void OnSpell(InputValue value)
+        {
+            Debug.Log("OnSpell");
+            float currentTime = GameManager.Instance.AbsolutePlaytime;
+            float cooldown = this.AttributeSet[PlayerAttributeType.SpellCooldown].CurrentValue;
+
+            if (SpellTransform.childCount == 0 ||
+                _lastSpellUsingTime + cooldown > currentTime ||
+                _currentSpellGauge < 1.0f
+            )
+            {
+                return;
+            }
+
+            _lastSpellUsingTime = currentTime;
+
+            SpellComponent spell = SpellTransform.GetChild(0).GetComponent<SpellComponent>();
+            _currentSpellGauge -= 1.0f;
+            spell.UseSpell();
+        }
+
+        private void UpdateCurrentSpellGauge()
+        {
+            float delta = 1 / AttributeSet[PlayerAttributeType.SpellAutoRechargeTime].CurrentValue;
+            float dt = Time.deltaTime;
+            float max = (int)AttributeSet[PlayerAttributeType.MaxSpellCount].CurrentValue;
+
+            _currentSpellGauge = Mathf.Clamp(_currentSpellGauge + delta * dt, 0.0f, max);
         }
 
         public GameObject GetNearestEnemyOrNull()

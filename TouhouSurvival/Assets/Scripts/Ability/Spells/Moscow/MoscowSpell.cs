@@ -97,7 +97,7 @@ namespace Unchord
 
         private GameObject OnCreateProjectile()
         {
-            GameObject projectile = GameObject.Instantiate(projectilePrefab.gameObject, transform, true);
+            GameObject projectile = GameObject.Instantiate(projectilePrefab.gameObject, GameManager.Instance.ProjectileContainer, true);
 
             CollisionEventEmitter emitter = projectile.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
             emitter.onTriggerEnter2D += OnProjectileEnter;
@@ -137,7 +137,6 @@ namespace Unchord
             UnityEngine.Debug.Assert(flagTable.GetComponent<Projectile>() != null);
 
             GameObject explosionObject = _explosionPool.Get();
-            explosionObject.transform.parent = transform;
             explosionObject.transform.position = flagTable.transform.position;
 
             DotProjectile explosion = explosionObject.GetComponent<DotProjectile>();
@@ -148,7 +147,7 @@ namespace Unchord
 
         private GameObject OnCreateExplosion()
         {
-            GameObject explosion = GameObject.Instantiate(explosionPrefab.gameObject, transform, true);
+            GameObject explosion = GameObject.Instantiate(explosionPrefab.gameObject, GameManager.Instance.ProjectileContainer, true);
 
             CollisionEventEmitter emitter = explosion.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
             emitter.onTriggerEnter2D += OnExplosionEnter;
