@@ -39,7 +39,7 @@ namespace Unchord
                 }
             }
         }
-        public int MaxLevel { get; private set; }
+        public int MaxLevel => Attributes.MaxLevel;
         public event EventHandler<LevelUpEventArgs> OnLevelUp;
 
         protected virtual void Awake()
@@ -50,8 +50,7 @@ namespace Unchord
 
         protected virtual void Start()
         {
-            // Modifiers가 Awake Time에 로드된 이후 실행되어야 하므로 Start()에 존재해야 함.
-            MaxLevel = Attributes.MaxLevel;
+
         }
 
         protected virtual void FixedUpdate()
