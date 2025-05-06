@@ -48,24 +48,6 @@ namespace Unchord
 
         private void Update()
         {
-            // TEMP
-            if (Input.GetKeyDown(KeyCode.F4))
-            {
-                Debug.Log("Get 1 Exp.");
-                // AddExperience(1.0f);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                Debug.Log("Get 1 Health.");
-                //base[PlayerAttributeType.Health].CurrentValue += 1.0f;
-            }
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                Debug.Log("Sub 1 Health.");
-                //base[PlayerAttributeType.Health].CurrentValue -= 1.0f;
-            }
-
             s_wuiManager.SetPlayerHealthPosition(transform.position + Vector3.up * 0.7f);
         }
 

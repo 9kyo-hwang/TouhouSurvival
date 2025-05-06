@@ -56,6 +56,12 @@ namespace Unchord
 
             Animator.SetFloat("Health", AttributeSet[PlayerAttributeType.Health].CurrentValue);
             Animator.SetBool("IsMove", _movementVector.magnitude > 0.0f);
+
+            if (Input.GetKeyDown(KeyCode.F4))
+            {
+                Debug.Log("Get 1 Exp.");
+                LevelSystem.Experience += 1;
+            }
         }
 
         private void FixedUpdate()
