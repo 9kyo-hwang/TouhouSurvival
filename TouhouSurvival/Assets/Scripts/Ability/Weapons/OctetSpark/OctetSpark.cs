@@ -38,14 +38,13 @@ namespace Unchord
 
             GameObject sparkObject = _sparkPool.Get();
 
-            sparkObject.transform.localPosition = Vector3.zero;
-
             Vector3 playerPosition = Player.transform.position;
             Vector3 enemyPosition = nearestEnemy.transform.position;
             Vector3 projectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, 0.0f);
 
-            float eulerAngle = Vector2.SignedAngle(Vector2.right, projectileDirection);
-            sparkObject.transform.eulerAngles = Vector3.forward * eulerAngle;
+            PlayerTrackingProjectile projectile = sparkObject.GetComponent<PlayerTrackingProjectile>();
+            projectile.DeltaPosition = Vector2.zero;
+            projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, projectileDirection);
 
             StartCoroutine(EmitCoroutine(sparkObject));
         }

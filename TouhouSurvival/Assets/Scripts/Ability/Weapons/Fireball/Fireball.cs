@@ -100,7 +100,6 @@ namespace Unchord
             UnityEngine.Debug.Assert(flagTable.GetComponent<Projectile>() != null);
 
             GameObject explosionObject = _explosionPool.Get();
-            explosionObject.transform.parent = transform;
             explosionObject.transform.position = flagTable.transform.position;
 
             DotProjectile explosion = explosionObject.GetComponent<DotProjectile>();

@@ -7,7 +7,6 @@ namespace Unchord
     {
         public void Launch(Transform spearTransform, Vector3 spearPosition, float speed, Vector2 direction, float duration)
         {
-            transform.parent = spearTransform;
             transform.position = spearPosition;
             
             LinearProjectile projectile = GetComponent<LinearProjectile>();
