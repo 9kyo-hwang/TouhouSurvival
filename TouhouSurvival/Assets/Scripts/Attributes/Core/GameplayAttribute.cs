@@ -38,6 +38,7 @@ namespace Unchord
         public GameplayAttribute(float baseValue, float minValue = float.MinValue, float maxValue = float.MaxValue, string description = "")
         {
             _baseValue = baseValue;
+            _currentValue = baseValue;
             _minValue = minValue;
             _maxValue = maxValue;
         }
