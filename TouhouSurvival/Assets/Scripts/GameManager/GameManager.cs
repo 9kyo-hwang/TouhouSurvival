@@ -14,6 +14,7 @@ namespace Unchord
         public int PlayerPrefabIndex { get; set; } = -1;
 
         public bool IsGameStarted { get; private set; }
+        public bool IsGamePaused { get; private set; }
 
         public float AbsolutePlaytime { get; private set; }
         public float ElapsedPlaytime { get; private set; }
@@ -208,6 +209,9 @@ namespace Unchord
 
         private void UpdatePlaytime()
         {
+            if (IsGamePaused)
+                return;
+
             AbsolutePlaytime += Time.deltaTime;
 
             if (ShouldUpdateElapsedPlaytime)
