@@ -7,7 +7,6 @@ namespace Unchord
     public abstract class Projectile : MonoBehaviour
     {
         public FlagComponent FlagTable { get; private set; }
-        public Vector3 OriginPosition { get; set; }
         public float OriginEulerAngle { get; set; }
         public float RotationSpeed { get; set; } = 0.0f;
 

@@ -21,7 +21,7 @@ namespace Unchord
             base.FixedUpdate();
 
             _deltaPosition += ProjectileSpeed * Time.fixedDeltaTime * ProjectileDirection;
-            transform.position = base.OriginPosition + _deltaPosition;
+            transform.position += _deltaPosition;
 
             base.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] |= ScreenBounds.EvalScreenZone(transform.position) == ScreenZone.Dead;
         }
