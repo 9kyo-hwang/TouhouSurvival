@@ -6,9 +6,11 @@ namespace Unchord
 {
     public class AbilitySelectUIHandler
     {
-        public IEnumerator WaitForSelection(List<AbilityComponent> sampledAbilities)
+        public IEnumerator WaitForSelection(AbilityManager abilityManager)
         {
             LevelUpCanvas canvas = UIManager.Instance.LevelUpCanvas;
+            List<AbilityComponent> sampledAbilities = abilityManager.SampleAbilities(3);
+
             canvas.Clear();
 
             foreach (AbilityComponent ability in sampledAbilities)
@@ -30,15 +32,8 @@ namespace Unchord
             AbilityComponent selectedAbility = sampledAbilities[selectedIndex];
 
             selectedAbility.LevelUp();
-            selectedAbility.SortSiblingIndex();
             selectedAbility.gameObject.SetActive(true);
-
-            int siblingIndex = selectedAbility.transform.GetSiblingIndex();
-
-            GameCanvas gameCanvas = UIManager.Instance.GameCanvas;
-            gameCanvas.EnableWeaponSlot(siblingIndex);
-            gameCanvas.SetWeaponIcon(siblingIndex, selectedAbility.DisplayIcon);
-            gameCanvas.SetWeaponLevel(siblingIndex, selectedAbility.CurrentLevel);
+            abilityManager.UpdateAbilitySlot();
         }
     }
 }

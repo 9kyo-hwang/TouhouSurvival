@@ -41,7 +41,7 @@ namespace Unchord
             _abilitySets[0][0].Enable();    // 현재는 Ability의 레벨을 1로 세팅하는 것밖에 없음
             _abilitySets[2][0]?.Enable();   // TODO: 패시브 구현 후 ?. 연산자를 . 기호로 바꿔야 합니다.
 
-            this.SortSelf();
+            UpdateAbilitySlot();
         }
 
         private void Update()
@@ -91,6 +91,31 @@ namespace Unchord
             {
                 abilitySet.SortSelf();
             }
+        }
+
+        public void UpdateAbilitySlot()
+        {
+            this.SortSelf();
+
+            GameCanvas canvas = UIManager.Instance.GameCanvas;
+
+            AbilitySet wSet = _abilitySets[0];
+            AbilitySet pSet = _abilitySets[2];
+
+            for (int i = 0; i < wSet.ValidAbilityCount; ++i)
+            {
+                canvas.EnableWeaponSlot(i);
+                canvas.SetWeaponIcon(i, wSet[i].DisplayIcon);
+                canvas.SetWeaponLevel(i, wSet[i].CurrentLevel);
+            }
+
+            // TODO: 패시브 구현 이후 아래 코드를 주석 해제합니다.
+            //for (int i = 0; i < pSet.ValidAbilityCount; ++i)
+            //{
+            //    canvas.EnablePassiveSlot(i);
+            //    canvas.SetPassiveIcon(i, pSet[i].DisplayIcon);
+            //    canvas.SetPassiveLevel(i, pSet[i].CurrentLevel);
+            //}
         }
     }
 }

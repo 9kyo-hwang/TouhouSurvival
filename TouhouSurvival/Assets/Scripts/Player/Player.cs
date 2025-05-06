@@ -43,7 +43,7 @@ namespace Unchord
             LevelSystem.OnLevelUp += (sender, args) =>
             {
                 GameManager.Instance.BlockingEvent.Publish(
-                    _abilitySelectUI.WaitForSelection(_abilityManager.SampleAbilities(3))
+                    _abilitySelectUI.WaitForSelection(_abilityManager)
                 );
             };
 

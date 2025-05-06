@@ -69,27 +69,6 @@ namespace Unchord
             Player = player;
         }
 
-        public int SortSiblingIndex()
-        {
-            Transform parent = transform.parent;
-            int i = transform.GetSiblingIndex();
-
-            while (i > 0)
-            {
-                --i;
-                AbilityComponent temp = parent.GetChild(i).GetComponent<AbilityComponent>();
-
-                if (temp.gameObject.activeSelf == true)
-                {
-                    i++;
-                    break;
-                }
-            }
-
-            transform.SetSiblingIndex(i);
-            return i;
-        }
-
         public void Enable()
         {
             _level = 1; // OnLevelUp이 발동되지 않도록. 필요 시 CurrentLevel로 변경
