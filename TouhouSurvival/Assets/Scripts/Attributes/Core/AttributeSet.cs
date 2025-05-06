@@ -49,7 +49,7 @@ namespace Unchord
 
             XlsxToCsvConverter.Convert(xlsxDir, xlsxPath, xlsxName);
 
-            using FileStream fs = new FileStream(xlsxDir + $"\\{xlsxName}+attributes_base.csv", FileMode.Open, FileAccess.Read);
+            using FileStream fs = new FileStream(xlsxDir + $"\\{xlsxName}+base.csv", FileMode.Open, FileAccess.Read);
             using (StreamReader rd = new StreamReader(fs))
             {
                 rd.ReadLine(); // NOTE: Ignore header line.

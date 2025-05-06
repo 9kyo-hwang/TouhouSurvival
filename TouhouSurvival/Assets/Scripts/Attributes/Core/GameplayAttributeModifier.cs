@@ -23,7 +23,7 @@ namespace Unchord
 
             SortedList<int, GameplayAttributeModifier> modifiers = new SortedList<int, GameplayAttributeModifier>(16);
 
-            using FileStream fs = new FileStream(xlsxDir + $"\\{xlsxName}+attributes_growth.csv", FileMode.Open, FileAccess.Read);
+            using FileStream fs = new FileStream(xlsxDir + $"\\{xlsxName}+modifiers.csv", FileMode.Open, FileAccess.Read);
             using (StreamReader rd = new StreamReader(fs))
             {
                 rd.ReadLine(); // NOTE: Ignore header line.
