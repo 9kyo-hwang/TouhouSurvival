@@ -78,6 +78,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074d0dfdd8199674fbae39acf07a28c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Weapons\sakuya.xlsx
-  levelUpDataAssetPath: 
-  levelUpData: []
+  attributeAssetPath: \AttributeTables\Abilities\Weapons\sakuya_base.xlsx
+  attributeModifierPath: \AttributeTables\Abilities\Weapons\sakuya_modifiers.xlsx

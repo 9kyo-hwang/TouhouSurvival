@@ -67,9 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2923781929feed0418cbf215ce46df22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Weapons\harudesuyo.xlsx
-  levelUpDataAssetPath: 
-  levelUpData: []
+  attributeAssetPath: \AttributeTables\Abilities\Weapons\harudesuyo_base.xlsx
+  attributeModifierPath: \AttributeTables\Abilities\Weapons\harudesuyo_modifiers.xlsx
 --- !u!114 &4006998538697097703
 MonoBehaviour:
   m_ObjectHideFlags: 0

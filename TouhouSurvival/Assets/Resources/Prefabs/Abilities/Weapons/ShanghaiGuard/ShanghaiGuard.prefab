@@ -66,6 +66,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c58908fc8f08d874b968e94eec4c7f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Weapons\shanghai_guard.xlsx
-  levelUpDataAssetPath: 
-  levelUpData: []
+  attributeAssetPath: \AttributeTables\Abilities\Weapons\shanghai_guard_base.xlsx
+  attributeModifierPath: \AttributeTables\Abilities\Weapons\shanghai_guard_modifiers.xlsx

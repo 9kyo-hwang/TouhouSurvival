@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1086699960635583879}
   - component: {fileID: 8229696045389773415}
   - component: {fileID: 4696247373361858836}
+  - component: {fileID: 6351342027503260446}
   m_Layer: 9
   m_Name: OctetSparkSpark
   m_TagString: Untagged
@@ -125,6 +126,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6351342027503260446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181846298143227872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99be64cae012ae34e80283264f2d44dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1620175565159475754
 GameObject:
   m_ObjectHideFlags: 0

@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 5993739452696240177}
   - component: {fileID: 2175564194275827575}
   - component: {fileID: 8863588712717059164}
+  - component: {fileID: -1628125831766901487}
   m_Layer: 7
   m_Name: Player 0
   m_TagString: Player
@@ -327,13 +328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa81ac904013a549972e820f2827861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSet:
-  - Fireball
-  - Battojutsu
-  - ShanghaiGuard
-  passiveSet: []
-  maxWeaponCount: 6
-  maxPassiveCount: 6
 --- !u!114 &2175564194275827575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,8 +340,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 393f0e62dc6bb374190ca6dca6cbb366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\PlayableCharacters\player_0.xlsx
-  levelUpData: []
+  attributeAssetPath: \AttributeTables\PlayableCharacters\cirno_base.xlsx
+  attributeModifierPath: \AttributeTables\PlayableCharacters\cirno_modifiers.xlsx
 --- !u!114 &8863588712717059164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +355,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 2
+--- !u!114 &-1628125831766901487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831920981336867835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c6b6a4386172044dbf0cba4f252a50d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponSet:
+  - Battojutsu
+  - Fireball
+  - Harudesuyo
+  passiveSet: []
+  spellSet:
+  - MoscowSpell
 --- !u!1 &7941737267563311883
 GameObject:
   m_ObjectHideFlags: 0

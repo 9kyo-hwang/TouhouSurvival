@@ -78,6 +78,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5bcf62180331984d8b2f7b41fd1c84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Weapons\neg_pos_orb.xlsx
-  levelUpDataAssetPath: 
-  levelUpData: []
+  attributeAssetPath: \AttributeTables\Abilities\Weapons\neg_pos_orb_base.xlsx
+  attributeModifierPath: \AttributeTables\Abilities\Weapons\neg_pos_orb_modifiers.xlsx

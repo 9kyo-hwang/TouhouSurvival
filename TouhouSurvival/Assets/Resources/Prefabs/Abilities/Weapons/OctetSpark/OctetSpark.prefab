@@ -78,6 +78,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38479ba19f2dbe7498bc977c77b6c8fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Weapons\octet_spark.xlsx
-  levelUpDataAssetPath: 
-  levelUpData: []
+  attributeAssetPath: \AttributeTables\Abilities\Weapons\octet_spark_base.xlsx
+  attributeModifierPath: \AttributeTables\Abilities\Weapons\octet_spark_modifiers.xlsx

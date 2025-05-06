@@ -79,6 +79,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8ebb5a7284a1a439d6224d676086ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Weapons\fireball.xlsx
-  levelUpDataAssetPath: 
-  levelUpData: []
+  attributeAssetPath: \AttributeTables\Abilities\Weapons\fireball_base.xlsx
+  attributeModifierPath: \AttributeTables\Abilities\Weapons\fireball_modifiers.xlsx

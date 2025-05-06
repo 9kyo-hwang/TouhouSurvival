@@ -145,8 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e969a355b91d926479eefbcc0a33f767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Enemies\fairy_0.xlsx
-  levelUpData: []
+  attributeAssetPath: \AttributeTables\Enemies\fairy_0_base.xlsx
+  attributeModifierPath: 
 --- !u!1 &1779591075832894044
 GameObject:
   m_ObjectHideFlags: 0
