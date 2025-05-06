@@ -39,7 +39,7 @@ namespace Unchord
         private void Start()
         {
             _abilitySets[0][0].Enable();    // 현재는 Ability의 레벨을 1로 세팅하는 것밖에 없음
-            _abilitySets[2][0].Enable();
+            _abilitySets[2][0]?.Enable();   // TODO: 패시브 구현 후 ?. 연산자를 . 기호로 바꿔야 합니다.
 
             this.SortSelf();
         }
