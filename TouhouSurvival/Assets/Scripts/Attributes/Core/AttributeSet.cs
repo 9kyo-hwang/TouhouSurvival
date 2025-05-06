@@ -23,15 +23,25 @@ namespace Unchord
         
         public void Initialize(EventHandler<LevelUpEventArgs> onLevelUp)
         {
-            Attributes = LoadAttributes(attributeAssetPath);
-            Modifiers = GameplayAttributeModifier.LoadAttributeModifiers(attributeModifierPath);
-
             onLevelUp += HandleLevelUp;
         }
 
         protected virtual void Awake()
         {
-            
+            if (!attributeAssetPath.Equals(string.Empty))
+                Attributes = LoadAttributes(attributeAssetPath);
+            else
+            {
+                Attributes = new Dictionary<string, GameplayAttribute>(8);
+            }
+
+            if (!attributeModifierPath.Equals(string.Empty))
+                Modifiers = GameplayAttributeModifier.LoadAttributeModifiers(attributeModifierPath);
+            else
+            {
+                Modifiers = new SortedList<int, GameplayAttributeModifier>();
+                Modifiers.Add(0, null);
+            }
         }
 
         protected virtual void Start()
