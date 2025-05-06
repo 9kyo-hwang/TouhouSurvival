@@ -23,8 +23,7 @@ namespace Unchord
         private void Move()
         {
             LinearProjectile projectile = GetComponent<LinearProjectile>();
-            projectile.transform.localPosition = Vector3.zero;
-            projectile.OriginPosition = projectile.transform.position;
+            projectile.transform.position = GameManager.Instance.Player.transform.position;
             projectile.ProjectileSpeed = _speed;
             projectile.ProjectileDirection = _direction;
             projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, _direction);

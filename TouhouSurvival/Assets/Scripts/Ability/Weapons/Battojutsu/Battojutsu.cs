@@ -42,8 +42,11 @@ namespace Unchord
 
             Vector2 posEnemy = nearestEnemy.transform.position;
 
-            float eulerAngleZ = Vector2.SignedAngle(Vector2.right, posEnemy - posPlayer);
-            effectObject.transform.eulerAngles = Vector3.forward * eulerAngleZ;
+            PlayerTrackingProjectile projectile = effectObject.GetComponent<PlayerTrackingProjectile>();
+            projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, posEnemy - posPlayer);
+
+            //float eulerAngleZ = Vector2.SignedAngle(Vector2.right, posEnemy - posPlayer);
+            //effectObject.transform.eulerAngles = Vector3.forward * eulerAngleZ;
         }
 
         private GameObject OnCreateEffect()
@@ -57,6 +60,9 @@ namespace Unchord
 
             FlagComponent flagTable = effect.GetComponent<FlagComponent>();
             flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnEffectDestroyFlagSetTrue);
+
+            PlayerTrackingProjectile projectile = effect.GetComponent<PlayerTrackingProjectile>();
+            projectile.DeltaPosition = Vector2.zero;
 
             return effect;
         }

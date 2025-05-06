@@ -47,8 +47,7 @@ namespace Unchord
             GameObject projectileObject = _projectilePool.Get();
 
             LinearProjectile projectile = projectileObject.GetComponent<LinearProjectile>();
-            projectile.transform.localPosition = Vector3.zero;
-            projectile.OriginPosition = projectile.transform.position;
+            projectile.transform.position = GameManager.Instance.Player.transform.position;
             projectile.ProjectileSpeed = 3.0f;
 
             Vector3 playerPosition = Player.transform.position;
@@ -105,7 +104,7 @@ namespace Unchord
             explosionObject.transform.position = flagTable.transform.position;
 
             DotProjectile explosion = explosionObject.GetComponent<DotProjectile>();
-            explosion.OriginPosition = explosionObject.transform.position;
+            explosion.transform.position = explosionObject.transform.position;
 
             _projectilePool.Release(flagTable.gameObject);
         }

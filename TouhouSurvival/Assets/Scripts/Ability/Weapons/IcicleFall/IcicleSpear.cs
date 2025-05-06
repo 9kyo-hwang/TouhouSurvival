@@ -9,8 +9,7 @@ namespace Unchord
             float duration)
         {
             LinearProjectile projectile = GetComponent<LinearProjectile>();
-            projectile.transform.localPosition = Vector3.zero;
-            projectile.OriginPosition = transform.position;
+            projectile.transform.position = GameManager.Instance.Player.transform.position;
             projectile.ProjectileSpeed = speed;
             projectile.ProjectileDirection =
                 Projectile.GetTargetDirectionVector(startPosition, endPosition, launchAngleOffset);

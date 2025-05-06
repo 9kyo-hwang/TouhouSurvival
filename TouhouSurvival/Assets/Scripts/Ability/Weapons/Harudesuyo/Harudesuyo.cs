@@ -34,7 +34,6 @@ namespace Unchord
             LinearProjectile projectile = GetComponent<LinearProjectile>();
             projectile.transform.position = _spawnPoint;
             projectile.transform.rotation = Quaternion.Euler(_rotation + new Vector3(0f, 0f, 90f));
-            projectile.OriginPosition = _spawnPoint;
             projectile.ProjectileSpeed = 0.0f;
             projectile.ProjectileDirection = Vector2.zero;
             
@@ -61,7 +60,6 @@ namespace Unchord
             
             GameObject effect = _explosionPool.Get();   // Animation Play
             effect.transform.position = _dropPoint;
-            effect.GetComponent<DotProjectile>().OriginPosition = _dropPoint;
         }
     }
 }

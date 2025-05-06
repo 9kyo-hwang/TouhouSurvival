@@ -60,8 +60,7 @@ namespace Unchord
             GameObject projectileObject = _projectilePool.Get();
 
             LinearProjectile projectile = projectileObject.GetComponent<LinearProjectile>();
-            projectile.transform.localPosition = Vector3.zero;
-            projectile.OriginPosition = projectile.transform.position;
+            projectile.transform.position = GameManager.Instance.Player.transform.position;
             projectile.ProjectileSpeed = 3.0f;
 
             Vector3 playerPosition = Player.transform.position;

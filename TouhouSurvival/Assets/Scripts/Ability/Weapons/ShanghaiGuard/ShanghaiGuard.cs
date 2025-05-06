@@ -11,8 +11,8 @@ namespace Unchord
         [Header("Prefab Settings")]
         public GameObject shanghaiPrefab;
 
-        private ObjectPool<DotProjectile> _shanghaiPool;
-        private List<DotProjectile> _shanghaiEnabledList;
+        private ObjectPool<PlayerTrackingProjectile> _shanghaiPool;
+        private List<PlayerTrackingProjectile> _shanghaiEnabledList;
 
         private float _targetShanghaiSize = 0.0f;
         private float _currentShanghaiSize = 0.0f;
@@ -27,7 +27,7 @@ namespace Unchord
         {
             base.Awake();
 
-            _shanghaiPool = new ObjectPool<DotProjectile>(
+            _shanghaiPool = new ObjectPool<PlayerTrackingProjectile>(
                 OnCreateShanghai,
                 OnGetShanghai,
                 OnReleaseShanghai,
@@ -37,7 +37,7 @@ namespace Unchord
                 20
                 );
 
-            _shanghaiEnabledList = new List<DotProjectile>(6);
+            _shanghaiEnabledList = new List<PlayerTrackingProjectile>(6);
         }
 
         protected override void Update()
@@ -78,7 +78,7 @@ namespace Unchord
 
             for (int i = 0; i < Attributes[ShanghaiGuardAttributeType.ShanghaiCount].CurrentValue; ++i)
             {
-                DotProjectile shanghai = _shanghaiPool.Get();
+                PlayerTrackingProjectile shanghai = _shanghaiPool.Get();
             }
         }
 
@@ -115,7 +115,7 @@ namespace Unchord
                 axisBuffer = axis;
                 axis.x = axisBuffer.x * dCos - axisBuffer.y * dSin;
                 axis.y = axisBuffer.y * dCos + axisBuffer.x * dSin;
-                _shanghaiEnabledList[i].OriginPosition = origin + axis * _currentShanghaiRadius;
+                _shanghaiEnabledList[i].DeltaPosition = axis * _currentShanghaiRadius;
                 _shanghaiEnabledList[i].transform.localScale = new Vector3(_currentShanghaiSize, _currentShanghaiSize, 1.0f);
             }
         }
@@ -129,17 +129,17 @@ namespace Unchord
             }
         }
 
-        private DotProjectile OnCreateShanghai()
+        private PlayerTrackingProjectile OnCreateShanghai()
         {
             GameObject shanghai = GameObject.Instantiate(shanghaiPrefab, GameManager.Instance.ProjectileContainer, true);
 
             CollisionEventEmitter emitter = shanghai.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
             emitter.onTriggerStay2D += OnShanghaiDollStay;
 
-            return shanghai.GetComponent<DotProjectile>();
+            return shanghai.GetComponent<PlayerTrackingProjectile>();
         }
 
-        private void OnGetShanghai(DotProjectile shanghai)
+        private void OnGetShanghai(PlayerTrackingProjectile shanghai)
         {
             shanghai.gameObject.SetActive(true);
             shanghai.transform.localPosition = Vector3.forward * shanghai.transform.localPosition.z;
@@ -151,12 +151,12 @@ namespace Unchord
             _shanghaiEnabledList.Add(shanghai);
         }
 
-        private void OnReleaseShanghai(DotProjectile shanghai)
+        private void OnReleaseShanghai(PlayerTrackingProjectile shanghai)
         {
             shanghai.gameObject.SetActive(false);
         }
 
-        private void OnDestroyShanghai(DotProjectile shanghai)
+        private void OnDestroyShanghai(PlayerTrackingProjectile shanghai)
         {
             // NOTE: This block is intentionally no operation.
         }

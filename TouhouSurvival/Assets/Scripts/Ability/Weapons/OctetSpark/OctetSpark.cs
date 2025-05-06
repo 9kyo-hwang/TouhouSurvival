@@ -75,6 +75,9 @@ namespace Unchord
             flagTable.AddEventTrue(OctetSpark.FLAG_END_OF_SPARK_EMIT, OnSparkEmitAnimationEnd);
             flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnSparkAnimationEnd);
 
+            PlayerTrackingProjectile projectile = spark.GetComponent<PlayerTrackingProjectile>();
+            projectile.DeltaPosition = Vector2.zero;
+
             return spark;
         }
 

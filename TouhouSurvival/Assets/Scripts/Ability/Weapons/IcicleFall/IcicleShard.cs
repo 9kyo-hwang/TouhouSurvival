@@ -11,8 +11,7 @@ namespace Unchord
             transform.position = spearPosition;
             
             LinearProjectile projectile = GetComponent<LinearProjectile>();
-            projectile.transform.position = Vector3.zero;
-            projectile.OriginPosition = spearPosition;
+            projectile.transform.position = GameManager.Instance.Player.transform.position;
             projectile.ProjectileSpeed = speed;
             projectile.ProjectileDirection = direction;
 
