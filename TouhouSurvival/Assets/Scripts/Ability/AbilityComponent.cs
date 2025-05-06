@@ -46,6 +46,11 @@ namespace Unchord
         {
             Attributes = GetComponent<AttributeSet>();
             Attributes.Initialize(OnLevelUp);
+        }
+
+        protected virtual void Start()
+        {
+            // Modifiers가 Awake Time에 로드된 이후 실행되어야 하므로 Start()에 존재해야 함.
             MaxLevel = Attributes.MaxLevel;
         }
 
