@@ -15,6 +15,8 @@ namespace Unchord
         private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
         [SerializeField] private GameObject dropExperiencePrefab;
 
+        private float _currentHealth;
+
         protected override void Awake()
         {
             base.Awake();
@@ -24,6 +26,8 @@ namespace Unchord
         protected override void Start()
         {
             base.Start();
+
+            _currentHealth = _attributeSet[EnemyAttributeType.Health].CurrentValue;
         }
 
         protected override void Update()
@@ -75,13 +79,13 @@ namespace Unchord
                 return 0f;
             }
 
-            GameplayAttribute healthAttribute = _attributeSet[EnemyAttributeType.Health];
-            float currentHealth = healthAttribute.CurrentValue;
+            GameplayAttribute maxHealth = _attributeSet[EnemyAttributeType.Health];
 
-            // TODO: 런타임에 값이 바뀔 수 있는 Attribute 변수는 멤버 변수로 둡니다.
-            //healthAttribute.CurrentValue -= damageAmount;
+            float currentHealth = _currentHealth;
 
-            float newHealth = healthAttribute.CurrentValue;
+            _currentHealth = Mathf.Clamp(_currentHealth - damageAmount, 0.0f, maxHealth.CurrentValue);
+
+            float newHealth = _currentHealth;
 
             if (newHealth <= 0.0f)
             {

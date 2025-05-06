@@ -18,6 +18,8 @@ namespace Unchord
         public Transform PassiveTransform { get; private  set; }
         public Transform SpellTransform { get; private  set; }
 
+        private float _currentHealth;
+
         protected override void Awake()
         {
             base.Awake();
@@ -44,6 +46,8 @@ namespace Unchord
                     _abilitySelectUI.WaitForSelection(_abilityManager.SampleAbilities(3))
                 );
             };
+
+            _currentHealth = AttributeSet[PlayerAttributeType.Health].CurrentValue;
         }
 
         protected override void Update()
@@ -119,16 +123,15 @@ namespace Unchord
                 return 0f;
             }
 
-            GameplayAttribute health = AttributeSet[PlayerAttributeType.Health];
+            GameplayAttribute maxHealth = AttributeSet[PlayerAttributeType.Health];
             GameplayAttribute defense = AttributeSet[PlayerAttributeType.Defense];
-            
-            float currentHealth = health.CurrentValue;
+
+            float currentHealth = _currentHealth;
             float currentDefense = defense.CurrentValue;
             damageAmount -= currentDefense;
-            
-            // TODO: 런타임에 값이 바뀔 수 있는 Attribute 변수는 멤버 변수로 둡니다.
-            //health.CurrentValue -= damageAmount;
-            float newHealth = health.CurrentValue;
+
+            _currentHealth = Mathf.Clamp(_currentHealth - damageAmount, 0.0f, maxHealth.CurrentValue);
+            float newHealth = _currentHealth;
             
             Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
