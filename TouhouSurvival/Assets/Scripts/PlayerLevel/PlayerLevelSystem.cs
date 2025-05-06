@@ -5,32 +5,6 @@ using UnityEngine;
 
 namespace Unchord
 {
-    public class LevelUpEventArgs : EventArgs
-    {
-        public int PreviousLevel { get; private set; }
-        public int CurrentLevel { get; private set; }
-
-        public LevelUpEventArgs(int previousLevel, int currentLevel)
-        {
-            PreviousLevel = previousLevel;
-            CurrentLevel = currentLevel;
-        }
-    }
-
-    public class ExperienceChangedEventArgs : EventArgs
-    {
-        public float PreviousExperience { get; private set; }
-        public float CurrentExperience { get; private set; }
-        public float TotalExperience { get; private set; }
-
-        public ExperienceChangedEventArgs(float previousExperience, float currentExperience, float totalExperience)
-        {
-            PreviousExperience = previousExperience;
-            CurrentExperience = currentExperience;
-            TotalExperience = totalExperience;
-        }
-    }
-    
     public class PlayerLevelSystem
     {
         private const string ExperienceTablePath = "/Players/ExperienceTable.CSV";
