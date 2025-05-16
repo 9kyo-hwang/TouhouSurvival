@@ -112,7 +112,7 @@ namespace Unchord
                 Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right;
                 
                 GameObject shardGameObject = _shardContainer.Get();
-                shardGameObject.GetComponent<IcicleShard>().Launch(_transform, position, speed, direction, duration);
+                shardGameObject.GetComponent<IcicleShard>().Launch(position, speed, direction, duration);
             }
         }
     }
