@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 1517310466649633221}
   - component: {fileID: 5575469263436400175}
   - component: {fileID: 2764646315650637370}
-  - component: {fileID: 7530554343215978823}
+  - component: {fileID: 3657619120516208123}
   m_Layer: 9
   m_Name: ShanghaiDoll
   m_TagString: Untagged
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9dd9d5954a55db4fa04786e7b8b2a53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7530554343215978823
+--- !u!114 &3657619120516208123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8067668102894359120}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 108ceae855a383643a6e0f0287440093, type: 3}
+  m_Script: {fileID: 11500000, guid: 99be64cae012ae34e80283264f2d44dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8085644867589814422

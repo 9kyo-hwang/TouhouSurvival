@@ -12,15 +12,17 @@ namespace Unchord
         public GameObject shanghaiPrefab;
 
         private ObjectPool<PlayerTrackingProjectile> _shanghaiPool;
-        private List<PlayerTrackingProjectile> _shanghaiEnabledList;
+        private List<PlayerTrackingProjectile> _enabledDolls;
 
-        private float _targetShanghaiSize = 0.0f;
-        private float _currentShanghaiSize = 0.0f;
+        private float _targetSize = 0.0f;
+        private float _targetRadius = 0.0f;
 
-        private float _targetShanghaiRadius = 0.0f;
-        private float _currentShanghaiRadius = 0.0f;
+        private float _wTarget = 0.0f;
+        private float _w = 0.0f;
+        private float _direction;
 
-        public float _leftDuration;
+        private float _leftDuration;
+
         private float _rotationPhaseAngle;
 
         protected override void Awake()
@@ -37,95 +39,129 @@ namespace Unchord
                 20
                 );
 
-            _shanghaiEnabledList = new List<PlayerTrackingProjectile>(6);
+            _enabledDolls = new List<PlayerTrackingProjectile>(6);
         }
 
         protected override void Update()
         {
             base.Update();
 
-            if (_leftDuration > 0.0f && (_leftDuration -= Time.deltaTime) <= 0.0f)
-            {
-                _targetShanghaiSize = -0.1f;
-                _targetShanghaiRadius = 0.0f;
+            if (!base._isCooltimePaused)
+                return;
 
-                StartHideDolls();
-            }
-
-            if (_targetShanghaiSize > 0.0f || _currentShanghaiSize > 0.0f)
-            {
-                _currentShanghaiSize = Mathf.Lerp(_currentShanghaiSize, _targetShanghaiSize, Time.deltaTime * 1.0f);
-
-                RotateShanghaiDolls();
-            }
-            else
-            {
-                for (int i = _shanghaiEnabledList.Count - 1; i >= 0; --i)
-                {
-                    _shanghaiPool.Release(_shanghaiEnabledList[i]);
-                    _shanghaiEnabledList.RemoveAt(i);
-                }
-            }
-
-            _currentShanghaiRadius = Mathf.Lerp(_currentShanghaiRadius, _targetShanghaiRadius, Time.deltaTime * 1.0f);
+            UpdateDolls();
+            UpdateDuration();
+            UpdateWeight();
         }
 
         public override void UseWeapon()
         {
-            _targetShanghaiSize = Attributes[ShanghaiGuardAttributeType.ShanghaiSize].CurrentValue;
-            _targetShanghaiRadius = Attributes[ShanghaiGuardAttributeType.ShanghaiRadius].CurrentValue;
-            _leftDuration = Attributes[ShanghaiGuardAttributeType.ShanghaiDuration].CurrentValue;
+            _targetSize = Attributes[ShanghaiGuardAttributeType.ShanghaiSize].CurrentValue;
+            _targetRadius = Attributes[ShanghaiGuardAttributeType.ShanghaiRadius].CurrentValue;
 
-            for (int i = 0; i < Attributes[ShanghaiGuardAttributeType.ShanghaiCount].CurrentValue; ++i)
-            {
-                PlayerTrackingProjectile shanghai = _shanghaiPool.Get();
-            }
+            _wTarget = 1.0f;
+            
+            _leftDuration = base.Attributes[ShanghaiGuardAttributeType.ShanghaiDuration].CurrentValue;
+
+            base._isCooltimePaused = true;
+
+            GetDolls();
         }
 
-        //protected override void OnChangeAbilityLevel(int prevLevel, int nextLevel)
-        //{
-        //    if (prevLevel == 0)
-        //        return;
-
-        //    base.OnChangeAbilityLevel(prevLevel, nextLevel);
-
-        //    Attributes.ApplyLevelUpData(prevLevel);
-        //}
-
-        private void RotateShanghaiDolls()
+        private void UpdateDolls()
         {
             _rotationPhaseAngle += Time.deltaTime * Attributes[ShanghaiGuardAttributeType.ShanghaiAngularSpeed].CurrentValue;
             _rotationPhaseAngle %= 360.0f;
 
-            UnityEngine.Debug.Assert(_shanghaiEnabledList.Count > 0);
+            UnityEngine.Debug.Assert(_enabledDolls.Count > 0);
 
             float phaseRadianAngle = Mathf.Deg2Rad * _rotationPhaseAngle;
             float pCos = Mathf.Cos(phaseRadianAngle);
             float pSin = Mathf.Sin(phaseRadianAngle);
 
-            float deltaRadianAngle = 2.0f * Mathf.PI / _shanghaiEnabledList.Count;
+            float deltaRadianAngle = 2.0f * Mathf.PI / _enabledDolls.Count;
             float dCos = Mathf.Cos(deltaRadianAngle);
             float dSin = Mathf.Sin(deltaRadianAngle);
             Vector2 axis = new Vector2(pCos, pSin);
             Vector2 axisBuffer = axis;
             Vector2 origin = transform.position;
 
-            for (int i = 0; i < _shanghaiEnabledList.Count; ++i)
+            float radius = _targetRadius * _w;
+            float size = _targetSize * _w;
+
+            for (int i = 0; i < _enabledDolls.Count; ++i)
             {
                 axisBuffer = axis;
                 axis.x = axisBuffer.x * dCos - axisBuffer.y * dSin;
                 axis.y = axisBuffer.y * dCos + axisBuffer.x * dSin;
-                _shanghaiEnabledList[i].DeltaPosition = axis * _currentShanghaiRadius;
-                _shanghaiEnabledList[i].transform.localScale = new Vector3(_currentShanghaiSize, _currentShanghaiSize, 1.0f);
+                _enabledDolls[i].DeltaPosition = axis * radius;
+                _enabledDolls[i].transform.localScale = new Vector3(size, size, 1.0f);
             }
         }
 
-        private void StartHideDolls()
+        private void UpdateDuration()
         {
-            for (int i = 0; i < _shanghaiEnabledList.Count; ++i)
+            if (_w != 1.0f)
+                return;
+
+            _leftDuration = Mathf.Max(0.0f, _leftDuration - Time.deltaTime);
+
+            if (_leftDuration == 0.0f)
+                _wTarget = 0.0f;
+        }
+
+        private void UpdateWeight()
+        {
+            if (_w != _wTarget)
             {
-                Animator animator = _shanghaiEnabledList[i].GetComponent<Animator>();
-                animator.SetBool("IsShow", false);
+                float wSpeed = 0.5f;
+                float direction = (_wTarget - _w) / Mathf.Abs(_wTarget - _w);
+
+                if (_direction > 0.0f && direction < 0.0f)
+                    HideDolls();
+
+                _direction = direction;
+                _w = Mathf.Clamp01(_w + Time.deltaTime * wSpeed * direction);
+            }
+
+            if (_w != _wTarget)
+                return;
+
+            if (_wTarget == 0.0f)
+            {
+                base._isCooltimePaused = false;
+                ReleaseDolls();
+            }
+        }
+
+        private void GetDolls()
+        {
+            int dollCount = (int)base.Attributes[ShanghaiGuardAttributeType.ShanghaiCount].CurrentValue;
+
+            for (int i = 0; i < dollCount; ++i)
+            {
+                _shanghaiPool.Get();
+            }
+        }
+
+        private void HideDolls()
+        {
+            for (int i = _enabledDolls.Count - 1; i >= 0; --i)
+            {
+                PlayerTrackingProjectile shanghai = _enabledDolls[i];
+                Animator animator = shanghai.GetComponent<Animator>();
+                animator.SetBool("IsShow", true);
+                animator.Play(s_shanghaiShowHash);
+
+            }
+        }
+
+        private void ReleaseDolls()
+        {
+            for (int i = _enabledDolls.Count - 1; i >= 0; --i)
+            {
+                _shanghaiPool.Release(_enabledDolls[i]);
+                _enabledDolls.RemoveAt(i);
             }
         }
 
@@ -142,13 +178,12 @@ namespace Unchord
         private void OnGetShanghai(PlayerTrackingProjectile shanghai)
         {
             shanghai.gameObject.SetActive(true);
-            shanghai.transform.localPosition = Vector3.forward * shanghai.transform.localPosition.z;
 
             Animator animator = shanghai.GetComponent<Animator>();
             animator.SetBool("IsShow", true);
             animator.Play(s_shanghaiShowHash);
 
-            _shanghaiEnabledList.Add(shanghai);
+            _enabledDolls.Add(shanghai);
         }
 
         private void OnReleaseShanghai(PlayerTrackingProjectile shanghai)
