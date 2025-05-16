@@ -13,7 +13,7 @@ namespace Unchord
 
         protected Dictionary<string, GameplayAttribute> Attributes { get; private set; }
         protected SortedList<int, GameplayAttributeModifier> Modifiers { get; set; }
-        public int MaxLevel => Modifiers.Last().Key + 1;
+        public int MaxLevel => Modifiers.Last().Key;
         
         public GameplayAttribute this[string attributeType]
         {
@@ -24,6 +24,20 @@ namespace Unchord
         public void Initialize(EventHandler<LevelUpEventArgs> onLevelUp)
         {
             onLevelUp += HandleLevelUp;
+        }
+
+        public void ApplyModifiers(SortedList<int, GameplayAttributeModifier> modifiers, int reachedLevel, string tag = null)
+        {
+            GameplayAttributeModifier modifier = modifiers[reachedLevel];
+
+            while (modifier != null)
+            {
+                if (modifier.tag != null && !modifier.tag.Equals(tag))
+                    continue;
+
+                Attributes[modifier.key].AddModifier(modifier);
+                modifier = modifier.next;
+            }
         }
 
         protected virtual void Awake()
@@ -80,7 +94,9 @@ namespace Unchord
 
         private void HandleLevelUp(object sender, LevelUpEventArgs e)
         {
-            
+            int level = e.CurrentLevel;
+
+            this.ApplyModifiers(this.Modifiers, level);
         }
     }
 }

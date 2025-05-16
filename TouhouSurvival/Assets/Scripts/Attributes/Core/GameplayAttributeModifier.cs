@@ -1,15 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 
 namespace Unchord
 {
     public class GameplayAttributeModifier : IComparable<GameplayAttributeModifier>
     {
+        public readonly string key;
         public readonly float value;
         public readonly GameplayAttributeOperator opcode;
         public readonly string description;
+
+        #region Optional Properties
+        public string tag = null;
+        #endregion
 
         public GameplayAttributeModifier next;
 
@@ -56,8 +62,10 @@ namespace Unchord
                     int level = int.Parse(tokens[0]);
                     modifiers.TryAdd(level, null);
 
+                    float value = float.Parse(tokens[2]);
                     string attributeType = tokens[1];
-                    GameplayAttributeModifier modifier = new GameplayAttributeModifier(float.Parse(tokens[2]), opcode, tokens[4])
+                    string desc = tokens[4];
+                    GameplayAttributeModifier modifier = new GameplayAttributeModifier(attributeType, value, opcode, desc)
                     {
                         next = modifiers[level]
                     };
@@ -69,8 +77,9 @@ namespace Unchord
             return modifiers;
         }
 
-        public GameplayAttributeModifier(float value, GameplayAttributeOperator opcode, string description = "")
+        public GameplayAttributeModifier(string key, float value, GameplayAttributeOperator opcode, string description = "")
         {
+            this.key = key;
             this.value = value;
             this.opcode = opcode;
             this.description = description;
@@ -84,6 +93,27 @@ namespace Unchord
                 return 1;
             else
                 return 0;
+        }
+
+        public string GetDescription()
+        {
+            StringBuilder descBuilder = new StringBuilder();
+            GameplayAttributeModifier modifier = this;
+
+            while (modifier != null)
+            {
+                GameplayAttributeModifier mod = modifier;
+                modifier = modifier.next;
+
+                if (mod.description == null)
+                    continue;
+                else if (descBuilder.Length > 0)
+                    descBuilder.Append("\n");
+
+                descBuilder.Append(mod.description);
+            }
+
+            return descBuilder.ToString();
         }
     }
 }

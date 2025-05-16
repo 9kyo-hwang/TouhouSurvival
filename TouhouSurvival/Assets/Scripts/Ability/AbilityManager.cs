@@ -9,6 +9,9 @@ namespace Unchord
         public const int MAX_PASSIVE_COUNT = 6;
         public const int MAX_SPELL_COUNT = 1;
 
+        public AbilityComponent MainWeapon => _abilitySets[0][0];
+        public AbilityComponent MainSpell => _abilitySets[2][0];
+
         public List<string> weaponSet;
         public List<string> passiveSet;
         public List<string> spellSet;

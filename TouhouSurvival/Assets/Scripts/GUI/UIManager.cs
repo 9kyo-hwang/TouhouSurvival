@@ -15,6 +15,7 @@ namespace Unchord
         public LevelUpCanvas LevelUpCanvas => this.GetCanvas<LevelUpCanvas>("GUIs/Canvas/LevelUp");
         public PauseCanvas PauseCanvas => this.GetCanvas<PauseCanvas>("GUIs/Canvas/Pause");
         public SelectCharacterCanvas SelectCharacterCanvas => this.GetCanvas<SelectCharacterCanvas>("GUIs/Canvas/SelectCharacter");
+        public SpecialAbilityCanvas SpecialAbilityCanvas => this.GetCanvas<SpecialAbilityCanvas>("GUIs/Canvas/SpecialAbility");
         #endregion
 
         protected override void Start()

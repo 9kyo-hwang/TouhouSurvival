@@ -11,7 +11,7 @@ namespace Unchord
         public string DisplayName => displayName;
         public string DisplayDescription => displayDescription;
 
-        protected AttributeSet Attributes { get; private set; }
+        public AttributeSet Attributes { get; private set; }
 
         [Header("Displays on GUI")]
         [SerializeField]

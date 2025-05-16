@@ -10,6 +10,7 @@ namespace Unchord
         private Vector2 _movementVector;
         public PlayerAttributeSet AttributeSet { get; private set; }
         public PlayerLevelSystem LevelSystem { get; private set; }
+        public SpecialAbilityComponent SpecialAbility { get; private set; }
         
         private AbilitySelectUIHandler _abilitySelectUI;
         private AbilityManager _abilityManager;
@@ -29,6 +30,8 @@ namespace Unchord
             
             AttributeSet = gameObject.GetComponent<PlayerAttributeSet>();
             LevelSystem = new PlayerLevelSystem();
+            SpecialAbility = GetComponent<SpecialAbilityComponent>();
+
             _abilitySelectUI = new AbilitySelectUIHandler();
             _abilityManager = GetComponent<AbilityManager>();
             
@@ -46,9 +49,14 @@ namespace Unchord
             LevelSystem.OnLevelUp += (sender, args) =>
             {
                 GameManager.Instance.BlockingEvent.Publish(
-                    _abilitySelectUI.WaitForSelection(_abilityManager)
+                    _abilitySelectUI.WaitForSelection(_abilityManager, SpecialAbility, args.CurrentLevel)
                 );
             };
+
+            SpecialAbility.Subscribe(
+                this.AttributeSet,
+                _abilityManager.MainWeapon.Attributes,
+                _abilityManager.MainSpell.Attributes);
 
             _currentHealth = AttributeSet[PlayerAttributeType.Health].CurrentValue;
 
