@@ -75,7 +75,7 @@ namespace Unchord
                 }
             }
 
-            finalValue = flatSum * percAdd * percMul;
+            finalValue = (_baseValue + flatSum) * percAdd * percMul;
 
             if (_minValue != float.MinValue && finalValue < _minValue)
                 return _minValue;
