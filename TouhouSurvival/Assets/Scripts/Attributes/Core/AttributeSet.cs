@@ -25,17 +25,26 @@ namespace Unchord
         //{
         //    onLevelUp += HandleLevelUp;
         //}
+
+        public void ApplyModifiersSelf(int reachedLevel)
         {
+            this.ApplyModifiers(this.Modifiers, reachedLevel);
         }
 
         public void ApplyModifiers(SortedList<int, GameplayAttributeModifier> modifiers, int reachedLevel, string tag = null)
         {
+            if (!modifiers.ContainsKey(reachedLevel))
+                return;
+
             GameplayAttributeModifier modifier = modifiers[reachedLevel];
 
             while (modifier != null)
             {
                 if (modifier.tag != null && !modifier.tag.Equals(tag))
+                {
+                    modifier = modifier.next;
                     continue;
+                }
 
                 Attributes[modifier.key].AddModifier(modifier);
                 modifier = modifier.next;
