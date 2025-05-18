@@ -21,9 +21,11 @@ namespace Unchord
             set => Attributes[attributeType] = value;
         }
         
-        public void Initialize(EventHandler<LevelUpEventArgs> onLevelUp)
+        //public void Initialize(EventHandler<LevelUpEventArgs> onLevelUp)
+        //{
+        //    onLevelUp += HandleLevelUp;
+        //}
         {
-            onLevelUp += HandleLevelUp;
         }
 
         public void ApplyModifiers(SortedList<int, GameplayAttributeModifier> modifiers, int reachedLevel, string tag = null)
@@ -92,11 +94,11 @@ namespace Unchord
             return attributes;
         }
 
-        private void HandleLevelUp(object sender, LevelUpEventArgs e)
-        {
-            int level = e.CurrentLevel;
+        //private void HandleLevelUp(object sender, LevelUpEventArgs e)
+        //{
+        //    int level = e.CurrentLevel;
 
-            this.ApplyModifiers(this.Modifiers, level);
-        }
+        //    this.ApplyModifiers(this.Modifiers, level);
+        //}
     }
 }

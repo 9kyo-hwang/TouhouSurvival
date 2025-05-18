@@ -35,17 +35,17 @@ namespace Unchord
                 {
                     int prevLevel = _level;
                     _level = value;
-                    OnLevelUp?.Invoke(this, new LevelUpEventArgs(prevLevel, _level));
+                    //OnLevelUp?.Invoke(this, new LevelUpEventArgs(prevLevel, _level));
                 }
             }
         }
         public int MaxLevel => Attributes.MaxLevel;
-        public event EventHandler<LevelUpEventArgs> OnLevelUp;
+        //public event EventHandler<LevelUpEventArgs> OnLevelUp;
 
         protected virtual void Awake()
         {
             Attributes = GetComponent<AttributeSet>();
-            Attributes.Initialize(OnLevelUp);
+            //Attributes.Initialize(OnLevelUp);
         }
 
         protected virtual void Start()
