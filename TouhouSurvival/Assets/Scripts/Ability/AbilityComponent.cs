@@ -77,6 +77,7 @@ namespace Unchord
         public void LevelUp()
         {
             CurrentLevel++;
+            Attributes.ApplyModifiersSelf(CurrentLevel);
             this.gameObject.SetActive(true);
         }
     }
