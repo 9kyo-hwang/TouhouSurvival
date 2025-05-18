@@ -83,8 +83,8 @@ namespace Unchord
                     }
 
                     int level = int.Parse(tokens[0]);
-                    int tree = int.Parse(tokens[1]);
-                    _modifiers[tree].TryAdd(level, null);
+                    int treeIndex = int.Parse(tokens[1]) - 1;
+                    _modifiers[treeIndex].TryAdd(level, null);
 
                     float value = float.Parse(tokens[4]);
                     string desc = tokens[6];
@@ -92,10 +92,10 @@ namespace Unchord
                     GameplayAttributeModifier modifier = new GameplayAttributeModifier(attributeType, value, opcode, desc)
                     {
                         tag = tokens[2].ToLower(),
-                        next = _modifiers[tree][level]
+                        next = _modifiers[treeIndex][level]
                     };
 
-                    _modifiers[tree][level] = modifier;
+                    _modifiers[treeIndex][level] = modifier;
                 }
             }
         }

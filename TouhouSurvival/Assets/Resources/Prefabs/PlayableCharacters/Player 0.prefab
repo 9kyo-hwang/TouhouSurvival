@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 2175564194275827575}
   - component: {fileID: 8863588712717059164}
   - component: {fileID: -1628125831766901487}
+  - component: {fileID: 1008750308216404020}
   m_Layer: 7
   m_Name: Player 0
   m_TagString: Player
@@ -400,6 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponSet:
+  - Fireball
   - OctetSpark
   - IcicleFall
   - ShanghaiGuard
@@ -407,6 +409,19 @@ MonoBehaviour:
   passiveSet: []
   spellSet:
   - MoscowSpell
+--- !u!114 &1008750308216404020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831920981336867835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a25cf61b1a23f9a42b91a145fbe5c591, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attributeModifierPath: \AttributeTables\Abilities\Specials\moscow_special_modifiers.xlsx
 --- !u!1 &7941737267563311883
 GameObject:
   m_ObjectHideFlags: 0

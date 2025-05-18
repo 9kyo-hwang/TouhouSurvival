@@ -23,7 +23,7 @@ namespace Unchord
 
         private IEnumerator WaitForSpecialAbility(SpecialAbilityComponent specialAbility, int currentLevel)
         {
-            SpecialAbilityCanvas canvas = null;
+            SpecialAbilityCanvas canvas = UIManager.Instance.SpecialAbilityCanvas;
 
             canvas.Clear();
 
@@ -32,7 +32,7 @@ namespace Unchord
                 for (int j = 1; j <= specialAbility.GetMaxLevel(i); ++j)
                 {
                     canvas.SetDescription(i, j, specialAbility.GetDescription(i, j));
-                    canvas.SetButtonMode(i, j, currentLevel);
+                    canvas.InitButton(i, j, specialAbility.GetLevel(i));
                 }
             }
 
