@@ -41,6 +41,7 @@ namespace Unchord
             _currentValue = baseValue;
             _minValue = minValue;
             _maxValue = maxValue;
+            _modifiers = new List<GameplayAttributeModifier>(8);
         }
 
         public void AddModifier(GameplayAttributeModifier modifier)
