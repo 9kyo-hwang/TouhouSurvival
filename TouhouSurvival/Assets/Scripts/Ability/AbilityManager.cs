@@ -8,6 +8,7 @@ namespace Unchord
         public const int MAX_WEAPON_COUNT = 6;
         public const int MAX_PASSIVE_COUNT = 6;
         public const int MAX_SPELL_COUNT = 1;
+        public const int MAX_SPECIAL_ABILITY_COUNT = 3;
 
         public AbilityComponent MainWeapon => _abilitySets[0][0];
         public AbilityComponent MainSpell => _abilitySets[2][0];
@@ -15,6 +16,8 @@ namespace Unchord
         public List<string> weaponSet;
         public List<string> passiveSet;
         public List<string> spellSet;
+        public List<string> specialAbilitySet0;
+        public List<string> specialAbilitySet1;
 
         private List<AbilitySet> _abilitySets;
         private List<AbilitySet> _abilitySamples;
@@ -34,6 +37,8 @@ namespace Unchord
             _abilitySets.Add(new AbilitySet(player, containerWeapons, "Prefabs/Abilities/Weapons", weaponSet, MAX_WEAPON_COUNT));
             _abilitySets.Add(new AbilitySet(player, containerPassives, "Prefabs/Abilities/Passives", passiveSet, MAX_PASSIVE_COUNT));
             _abilitySets.Add(new AbilitySet(player, containerSpells, "Prefabs/Abilities/Spells", spellSet, MAX_SPELL_COUNT));
+            _abilitySets.Add(new AbilitySet(player, containerSpells, "Prefabs/Abilities/Specials", specialAbilitySet0, MAX_SPECIAL_ABILITY_COUNT));
+            _abilitySets.Add(new AbilitySet(player, containerSpells, "Prefabs/Abilities/Specials", specialAbilitySet1, MAX_SPECIAL_ABILITY_COUNT));
 
             _abilitySamples.Add(_abilitySets[0]);
             _abilitySamples.Add(_abilitySets[1]);
@@ -119,6 +124,47 @@ namespace Unchord
             //    canvas.SetPassiveIcon(i, pSet[i].DisplayIcon);
             //    canvas.SetPassiveLevel(i, pSet[i].CurrentLevel);
             //}
+        }
+
+        public void UpdateSpecialAbilitySlot()
+        {
+            SpecialAbilityCanvas canvas = UIManager.Instance.SpecialAbilityCanvas;
+
+            AbilitySet tree0 = _abilitySets[3];
+            AbilitySet tree1 = _abilitySets[4];
+
+            int flag0 = 1;
+            int flag1 = 1;
+
+            for (int i = 0; i < MAX_SPECIAL_ABILITY_COUNT; ++i)
+            {
+                flag0 = ((flag0 << 1) | (tree0[i].CurrentLevel > 0 ? 1 : 0)) & 3;
+                flag1 = ((flag1 << 1) | (tree1[i].CurrentLevel > 0 ? 1 : 0)) & 3;
+
+                canvas.SetDescription(0, i, tree0[i].DisplayDescription);
+                canvas.InitButton(0, i + 1, (SpecialAbilityCanvas.SelectionState)flag0);
+
+                canvas.SetDescription(1, i, tree1[i].DisplayDescription);
+                canvas.InitButton(1, i + 1, (SpecialAbilityCanvas.SelectionState)flag1);
+            }
+        }
+
+        public void AddSpecialAbilityLevel(int treeIndex)
+        {
+            AbilitySet tree = _abilitySets[treeIndex + 3];
+
+            int flag = 1;
+
+            for (int i = 0; i < MAX_SPECIAL_ABILITY_COUNT; ++i)
+            {
+                flag = ((flag << 1) | (tree[i].CurrentLevel > 0 ? 1 : 0)) & 3;
+
+                if (flag == (int)SpecialAbilityCanvas.SelectionState.Selectable)
+                {
+                    tree[i].LevelUp();
+                    break;
+                }
+            }
         }
     }
 }

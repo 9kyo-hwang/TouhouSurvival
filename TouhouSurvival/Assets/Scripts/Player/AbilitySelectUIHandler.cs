@@ -14,34 +14,26 @@ namespace Unchord
                 case 10:
                 case 15:
                 case 20:
-                    yield return WaitForSpecialAbility(specialAbility, currentLevel);
+                    yield return WaitForSpecialAbility(abilityManager, currentLevel);
                     break;
             }
 
             yield return WaitForGeneralAbility(abilityManager);
         }
 
-        private IEnumerator WaitForSpecialAbility(SpecialAbilityComponent specialAbility, int currentLevel)
+        private IEnumerator WaitForSpecialAbility(AbilityManager abilityManager, int currentLevel)
         {
             SpecialAbilityCanvas canvas = UIManager.Instance.SpecialAbilityCanvas;
 
             canvas.Clear();
-
-            for (int i = 0; i < SpecialAbilityComponent.c_TREE_COUNT; ++i)
-            {
-                for (int j = 1; j <= specialAbility.GetMaxLevel(i); ++j)
-                {
-                    canvas.SetDescription(i, j, specialAbility.GetDescription(i, j));
-                    canvas.InitButton(i, j, specialAbility.GetLevel(i));
-                }
-            }
+            abilityManager.UpdateSpecialAbilitySlot();
 
             canvas.Show();
             yield return new WaitWhile(() => canvas.SelectedIndex < 0);
             canvas.Hide();
 
             int treeIndex = canvas.SelectedIndex;
-            specialAbility.AddLevel(treeIndex);
+            abilityManager.AddSpecialAbilityLevel(treeIndex);
         }
 
         private IEnumerator WaitForGeneralAbility(AbilityManager abilityManager)

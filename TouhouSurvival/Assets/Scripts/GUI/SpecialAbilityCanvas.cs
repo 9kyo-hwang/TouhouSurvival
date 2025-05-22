@@ -9,6 +9,13 @@ namespace Unchord
         public int SelectedIndex { get; private set; }
 
         private Transform _treeRoot;
+        
+        public enum SelectionState : int
+        {
+            FutureSelection = 0b00,
+            Selectable = 0b10,
+            Selected = 0b11,
+        }
 
         public void Clear()
         {
@@ -33,7 +40,7 @@ namespace Unchord
             desc.text = description;
         }
 
-        public void InitButton(int treeIndex, int level, int currentLevel)
+        public void InitButton(int treeIndex, int level, SelectionState selectionMode)
         {
             UnityEngine.Debug.Assert(treeIndex >= 0);
             UnityEngine.Debug.Assert(level > 0);
@@ -41,23 +48,26 @@ namespace Unchord
             Transform btnObject = _treeRoot.GetChild(treeIndex).GetChild(level - 1);
             Button button = btnObject.GetComponent<Button>();
 
+            button.interactable = false;
             button.onClick.RemoveAllListeners();
 
-            ++currentLevel;
+            switch (selectionMode)
+            {
+                case SelectionState.FutureSelection:
+                    // TODO: 현재는 선택 불가능하지만 미래에 선택 가능할 수도 있는 버튼 구현
+                    break;
 
-            if (button.interactable = (level == currentLevel))
-            {
-                button.onClick.AddListener(() => OnSelectionButtonClick(button));
-                return;
-            }
-            
-            if (level < currentLevel)
-            {
-                // TODO: 이미 선택된 버튼 구현
-            }
-            else
-            {
-                // TODO: 현재는 선택 불가능하지만 미래에 선택 가능할 수도 있는 버튼 구현
+                case SelectionState.Selectable:
+                    button.onClick.AddListener(() => OnSelectionButtonClick(button));
+                    button.interactable = true;
+                    break;
+
+                case SelectionState.Selected:
+                    // TODO: 이미 선택된 버튼 구현
+                    break;
+
+                default:
+                    break;
             }
         }
 
