@@ -10,7 +10,6 @@ namespace Unchord
         private Vector2 _movementVector;
         public PlayerAttributeSet AttributeSet { get; private set; }
         public PlayerLevelSystem LevelSystem { get; private set; }
-        public SpecialAbilityComponent SpecialAbility { get; private set; }
         
         private AbilitySelectUIHandler _abilitySelectUI;
         private AbilityManager _abilityManager;
@@ -18,6 +17,8 @@ namespace Unchord
         public Transform WeaponTransform  { get; private set; }
         public Transform PassiveTransform { get; private  set; }
         public Transform SpellTransform { get; private  set; }
+        public Transform SpecialTransform0 { get; private set; }
+        public Transform SpecialTransform1 { get; private set; }
 
         private float _currentHealth;
 
@@ -30,14 +31,15 @@ namespace Unchord
             
             AttributeSet = gameObject.GetComponent<PlayerAttributeSet>();
             LevelSystem = new PlayerLevelSystem();
-            SpecialAbility = GetComponent<SpecialAbilityComponent>();
-
+            
             _abilitySelectUI = new AbilitySelectUIHandler();
             _abilityManager = GetComponent<AbilityManager>();
             
             WeaponTransform = transform.Find($"Abilities/Weapons");
             PassiveTransform = transform.Find($"Abilities/Passives");
             SpellTransform = transform.Find($"Abilities/Spells");
+            SpecialTransform0 = transform.Find($"Abilities/Specials0");
+            SpecialTransform1 = transform.Find($"Abilities/Specials1");
         }
 
         protected override void Start()
@@ -49,14 +51,9 @@ namespace Unchord
             LevelSystem.OnLevelUp += (sender, args) =>
             {
                 GameManager.Instance.BlockingEvent.Publish(
-                    _abilitySelectUI.WaitForSelection(_abilityManager, SpecialAbility, args.CurrentLevel)
+                    _abilitySelectUI.WaitForSelection(_abilityManager, args.CurrentLevel)
                 );
             };
-
-            SpecialAbility.Subscribe(
-                this.AttributeSet,
-                _abilityManager.MainWeapon.Attributes,
-                _abilityManager.MainSpell.Attributes);
 
             _currentHealth = AttributeSet[PlayerAttributeType.Health].CurrentValue;
 

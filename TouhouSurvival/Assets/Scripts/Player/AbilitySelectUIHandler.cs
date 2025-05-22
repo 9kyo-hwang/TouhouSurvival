@@ -6,7 +6,7 @@ namespace Unchord
 {
     public class AbilitySelectUIHandler
     {
-        public IEnumerator WaitForSelection(AbilityManager abilityManager, SpecialAbilityComponent specialAbility, int currentLevel)
+        public IEnumerator WaitForSelection(AbilityManager abilityManager, int currentLevel)
         {
             switch (currentLevel)
             {

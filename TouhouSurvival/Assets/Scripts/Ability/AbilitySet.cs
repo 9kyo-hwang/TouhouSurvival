@@ -14,7 +14,10 @@ namespace Unchord
         {
             foreach (string abilityName in abilitySet)
             {
-                string path = prefabDirectory + $"/{abilityName}/{abilityName}";
+                string[] pathTokens = abilityName.Split("/");
+                string finalAbilityName = pathTokens[pathTokens.Length - 1];
+
+                string path = prefabDirectory + "/" + abilityName + $"/{finalAbilityName}";
 
                 AbilityComponent ability = Resources.Load<AbilityComponent>(path);
 

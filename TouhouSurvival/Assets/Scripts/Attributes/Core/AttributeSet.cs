@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Unchord
 {
-    public abstract class AttributeSet : MonoBehaviour
+    public class AttributeSet : MonoBehaviour
     {
         public string attributeAssetPath;
         public string attributeModifierPath;

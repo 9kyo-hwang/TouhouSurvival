@@ -28,24 +28,21 @@ namespace Unchord
             _abilitySets = new List<AbilitySet>(3);
             _abilitySamples = new List<AbilitySet>(2);
             _sampledPool = new List<AbilityComponent>(4);
-
-            Player player = GetComponent<Player>();
-            Transform containerWeapons = player.transform.Find("Abilities/Weapons");
-            Transform containerPassives = player.transform.Find("Abilities/Passives");
-            Transform containerSpells = player.transform.Find("Abilities/Spells");
-
-            _abilitySets.Add(new AbilitySet(player, containerWeapons, "Prefabs/Abilities/Weapons", weaponSet, MAX_WEAPON_COUNT));
-            _abilitySets.Add(new AbilitySet(player, containerPassives, "Prefabs/Abilities/Passives", passiveSet, MAX_PASSIVE_COUNT));
-            _abilitySets.Add(new AbilitySet(player, containerSpells, "Prefabs/Abilities/Spells", spellSet, MAX_SPELL_COUNT));
-            _abilitySets.Add(new AbilitySet(player, containerSpells, "Prefabs/Abilities/Specials", specialAbilitySet0, MAX_SPECIAL_ABILITY_COUNT));
-            _abilitySets.Add(new AbilitySet(player, containerSpells, "Prefabs/Abilities/Specials", specialAbilitySet1, MAX_SPECIAL_ABILITY_COUNT));
-
-            _abilitySamples.Add(_abilitySets[0]);
-            _abilitySamples.Add(_abilitySets[1]);
         }
 
         private void Start()
         {
+            Player player = GetComponent<Player>();
+
+            _abilitySets.Add(new AbilitySet(player, player.WeaponTransform, "Prefabs/Abilities/Weapons", weaponSet, MAX_WEAPON_COUNT));
+            _abilitySets.Add(new AbilitySet(player, player.PassiveTransform, "Prefabs/Abilities/Passives", passiveSet, MAX_PASSIVE_COUNT));
+            _abilitySets.Add(new AbilitySet(player, player.SpellTransform, "Prefabs/Abilities/Spells", spellSet, MAX_SPELL_COUNT));
+            _abilitySets.Add(new AbilitySet(player, player.SpecialTransform0, "Prefabs/Abilities/Specials", specialAbilitySet0, MAX_SPECIAL_ABILITY_COUNT));
+            _abilitySets.Add(new AbilitySet(player, player.SpecialTransform1, "Prefabs/Abilities/Specials", specialAbilitySet1, MAX_SPECIAL_ABILITY_COUNT));
+
+            _abilitySamples.Add(_abilitySets[0]);
+            _abilitySamples.Add(_abilitySets[1]);
+
             _abilitySets[0][0].Enable();    // 현재는 Ability의 레벨을 1로 세팅하는 것밖에 없음
             _abilitySets[2][0].Enable();
 
@@ -138,14 +135,16 @@ namespace Unchord
 
             for (int i = 0; i < MAX_SPECIAL_ABILITY_COUNT; ++i)
             {
+                int level = i + 1;
+
                 flag0 = ((flag0 << 1) | (tree0[i].CurrentLevel > 0 ? 1 : 0)) & 3;
                 flag1 = ((flag1 << 1) | (tree1[i].CurrentLevel > 0 ? 1 : 0)) & 3;
 
-                canvas.SetDescription(0, i, tree0[i].DisplayDescription);
-                canvas.InitButton(0, i + 1, (SpecialAbilityCanvas.SelectionState)flag0);
+                canvas.SetDescription(0, level, tree0[i].DisplayDescription);
+                canvas.InitButton(0, level, (SpecialAbilityCanvas.SelectionState)flag0);
 
-                canvas.SetDescription(1, i, tree1[i].DisplayDescription);
-                canvas.InitButton(1, i + 1, (SpecialAbilityCanvas.SelectionState)flag1);
+                canvas.SetDescription(1, level, tree1[i].DisplayDescription);
+                canvas.InitButton(1, level, (SpecialAbilityCanvas.SelectionState)flag1);
             }
         }
 

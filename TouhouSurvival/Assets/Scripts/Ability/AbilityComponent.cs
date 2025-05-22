@@ -30,7 +30,8 @@ namespace Unchord
             get => _level;
             private set
             {
-                value = Mathf.Clamp(value, 0, MaxLevel);
+                //value = Mathf.Clamp(value, 0, MaxLevel);
+
                 if (value != _level)
                 {
                     int prevLevel = _level;
