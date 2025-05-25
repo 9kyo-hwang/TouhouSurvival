@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5657141071354316402}
   - component: {fileID: 4188220007335813393}
-  - component: {fileID: 5561079242372143258}
   m_Layer: 0
   m_Name: ShanghaiGuard
   m_TagString: Untagged
@@ -48,23 +47,9 @@ MonoBehaviour:
   displayIcon: {fileID: 21300000, guid: 70170fab5e8fac247acb15eb473eeced, type: 3}
   displayName: Shanghai Guard
   displayDescription: 
+  attributeXlsxPathRelative: \AttributeTables\Abilities\Weapons\shanghai_guard.xlsx
   weaponActivationMode: 1
   fixedCooltime: 7
   variableCooltimeMin: 1
   variableCooltimeMax: 2
   shanghaiPrefab: {fileID: 8067668102894359120, guid: d292fb349d192b241a9ac6c80a9f8be5, type: 3}
-  _leftDuration: 0
---- !u!114 &5561079242372143258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 408620985461562783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c58908fc8f08d874b968e94eec4c7f8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Weapons\shanghai_guard_base.xlsx
-  attributeModifierPath: \AttributeTables\Abilities\Weapons\shanghai_guard_modifiers.xlsx

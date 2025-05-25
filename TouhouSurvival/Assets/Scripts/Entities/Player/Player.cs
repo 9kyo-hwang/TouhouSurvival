@@ -7,20 +7,30 @@ namespace Unchord
 {
     public class Player : Pawn
     {
-        private Vector2 _movementVector;
-        public PlayerAttributeSet AttributeSet { get; private set; }
         public PlayerLevelSystem LevelSystem { get; private set; }
+
+        public AttributeBaseSet AttributeBase { get; private set; }
+        private AttributeModifierSet _attributeModifier;
         
         private AbilitySelectUIHandler _abilitySelectUI;
         private AbilityManager _abilityManager;
 
+        #region Ability Component Containers
         public Transform WeaponTransform  { get; private set; }
         public Transform PassiveTransform { get; private  set; }
         public Transform SpellTransform { get; private  set; }
         public Transform SpecialTransform0 { get; private set; }
         public Transform SpecialTransform1 { get; private set; }
+        #endregion
+
+        #region Xlsx File Path (relative path from 'StreamingAssets')
+        public string attributeXlsxPathRelative;
+        public string expXlsxPathRelative; // TODO: 아직 미구현, 추후 사용 예정.
+        #endregion
 
         private float _currentHealth;
+
+        private Vector2 _movementVector;
 
         private float _lastSpellUsingTime;
         private float _currentSpellGauge;
@@ -28,9 +38,12 @@ namespace Unchord
         protected override void Awake()
         {
             base.Awake();
-            
-            AttributeSet = gameObject.GetComponent<PlayerAttributeSet>();
+
             LevelSystem = new PlayerLevelSystem();
+
+            string[] attrCsvPaths = AttributeUtility.ConvertXlsxToCsv(attributeXlsxPathRelative);
+            this.AttributeBase = AttributeBaseSet.LoadFromFile(attrCsvPaths[0]);
+            this._attributeModifier = AttributeModifierSet.LoadFromFile(attrCsvPaths[1]);
             
             _abilitySelectUI = new AbilitySelectUIHandler();
             _abilityManager = GetComponent<AbilityManager>();
@@ -45,41 +58,83 @@ namespace Unchord
         protected override void Start()
         {
             base.Start();
-            
-            AttributeSet.Initialize(LevelSystem);
-            LevelSystem.Initialize(AttributeSet);
-            LevelSystem.OnLevelUp += (sender, args) =>
-            {
-                GameManager.Instance.BlockingEvent.Publish(
-                    _abilitySelectUI.WaitForSelection(_abilityManager, args.CurrentLevel)
-                );
-            };
 
-            _currentHealth = AttributeSet[PlayerAttributeType.Health].CurrentValue;
+            LevelSystem.ExpGainIncreaseAttribute = AttributeBase[PlayerAttributeType.ExpGainIncrease];
+            LevelSystem.OnLevelUp += this.OnLevelUp;
+            LevelSystem.OnExperienceChanged += this.OnExpChanged;
+
+            AttributeBase[PlayerAttributeType.Health].OnAttributeChanged += this.OnHealthChanged;
+
+            _currentHealth = AttributeBase[PlayerAttributeType.Health].CurrentValue;
 
             _lastSpellUsingTime = float.MinValue;
             _currentSpellGauge = 0.0f;
+
+            UIManager uiManager = UIManager.Instance;
+            uiManager.GameCanvas.SetPlayerLevel(LevelSystem.Level);
+            uiManager.GameCanvas.SetExpGauge(LevelSystem.Experience, LevelSystem.TotalExperienceForCurrentLevel);
+
+            WorldUIManager wuiManager = WorldUIManager.Instance;
+            wuiManager.SetPlayerHealthPosition(transform.position + Vector3.up * 0.7f);
+            wuiManager.SetPlayerHealthValue(AttributeBase[PlayerAttributeType.Health].CurrentValue, 10.0f);
+        }
+
+        private void OnLevelUp(object sender, LevelUpEventArgs args)
+        {
+            UIManager um = UIManager.Instance;
+            GameManager gm = GameManager.Instance;
+
+            AttributeBase.ApplyModifiers(_attributeModifier[args.CurrentLevel]);
+
+            um.GameCanvas.SetPlayerLevel(args.CurrentLevel);
+            gm.BlockingEvent.Publish(_abilitySelectUI.WaitForSelection(_abilityManager, args.CurrentLevel));
+        }
+
+        private void OnExpChanged(object sender, ExperienceChangedEventArgs args)
+        {
+            UIManager um = UIManager.Instance;
+
+            um.GameCanvas.SetExpGauge(args.CurrentExperience, args.TotalExperience);
+        }
+
+        private void OnHealthChanged(object sender, AttributeChangedEventArgs args)
+        {
+            WorldUIManager wum = WorldUIManager.Instance;
+
+            wum.SetPlayerHealthValue(AttributeBase[PlayerAttributeType.Health].CurrentValue, 10.0f);
         }
 
         protected override void Update()
         {
             base.Update();
 
-            Animator.SetFloat("Health", AttributeSet[PlayerAttributeType.Health].CurrentValue);
+            Animator.SetFloat("Health", AttributeBase[PlayerAttributeType.Health].CurrentValue);
             Animator.SetBool("IsMove", _movementVector.magnitude > 0.0f);
 
             UpdateCurrentSpellGauge();
+
+            WorldUIManager wuiManager = WorldUIManager.Instance;
+            wuiManager.SetPlayerHealthPosition(transform.position + Vector3.up * 0.7f);
 
             if (Input.GetKeyDown(KeyCode.F4))
             {
                 Debug.Log("Get 1 Exp.");
                 LevelSystem.Experience += 1;
             }
+
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                float xp = AttributeBase[PlayerAttributeType.ExpGainIncrease].CurrentValue;
+                float mh = AttributeBase[PlayerAttributeType.Health].CurrentValue;
+                float sp = AttributeBase[PlayerAttributeType.MovementSpeed].CurrentValue;
+
+                Debug.Log($"ExpGainIncrease == {xp}, Health == {mh}, MovementSpeed == {sp}");
+            }
         }
 
         private void FixedUpdate()
         {
-            float movementSpeed = AttributeSet[PlayerAttributeType.MovementSpeed].CurrentValue;
+            float movementSpeed = AttributeBase[PlayerAttributeType.MovementSpeed].CurrentValue;
             Vector2 next = _movementVector * (movementSpeed * Time.fixedDeltaTime);
             Rigidbody.MovePosition(Rigidbody.position + next);
         }
@@ -106,7 +161,7 @@ namespace Unchord
         {
             Debug.Log("OnSpell");
             float currentTime = GameManager.Instance.AbsolutePlaytime;
-            float cooldown = this.AttributeSet[PlayerAttributeType.SpellCooldown].CurrentValue;
+            float cooldown = this.AttributeBase[PlayerAttributeType.SpellCooldown].CurrentValue;
 
             if (SpellTransform.childCount == 0 ||
                 _lastSpellUsingTime + cooldown > currentTime ||
@@ -125,9 +180,9 @@ namespace Unchord
 
         private void UpdateCurrentSpellGauge()
         {
-            float delta = 1 / AttributeSet[PlayerAttributeType.SpellAutoRechargeTime].CurrentValue;
+            float delta = 1 / AttributeBase[PlayerAttributeType.SpellAutoRechargeTime].CurrentValue;
             float dt = Time.deltaTime;
-            float max = (int)AttributeSet[PlayerAttributeType.MaxSpellCount].CurrentValue;
+            float max = (int)AttributeBase[PlayerAttributeType.MaxSpellCount].CurrentValue;
 
             _currentSpellGauge = Mathf.Clamp(_currentSpellGauge + delta * dt, 0.0f, max);
         }
@@ -166,14 +221,14 @@ namespace Unchord
 
         public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
         {
-            if (!AttributeSet)
+            if (AttributeBase == null)
             {
                 Debug.Assert(false, "Player has no attribute set");
                 return 0f;
             }
 
-            GameplayAttribute maxHealth = AttributeSet[PlayerAttributeType.Health];
-            GameplayAttribute defense = AttributeSet[PlayerAttributeType.Defense];
+            GameplayAttribute maxHealth = AttributeBase[PlayerAttributeType.Health];
+            GameplayAttribute defense = AttributeBase[PlayerAttributeType.Defense];
 
             float currentHealth = _currentHealth;
             float currentDefense = defense.CurrentValue;

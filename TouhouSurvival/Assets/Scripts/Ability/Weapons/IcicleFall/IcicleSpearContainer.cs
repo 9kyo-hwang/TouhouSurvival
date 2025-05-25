@@ -7,16 +7,16 @@ namespace Unchord
     {
         private readonly GameObject _prefab;
         private readonly Transform _transform;
-        private readonly AttributeSet _attributeSet;
+        private readonly AttributeBaseSet _attributeBase;
         private readonly ObjectPool<GameObject> _pool;
         private readonly IcicleShardContainer _shardContainer;
         
-        public IcicleSpearContainer(GameObject prefab, Transform transform, AttributeSet attributeSet, 
+        public IcicleSpearContainer(GameObject prefab, Transform transform, AttributeBaseSet attributeSet, 
             IcicleShardContainer shardContainer)
         {
             _prefab = prefab;
             _transform = transform;
-            _attributeSet = attributeSet;
+            _attributeBase = attributeSet;
             _shardContainer = shardContainer;
             
             _pool = new ObjectPool<GameObject>(
@@ -52,7 +52,7 @@ namespace Unchord
             obj.GetComponent<FlagComponent>().SetFlagFalseWithoutEvent(AbilityComponent.FLAG_SHOULD_DESTROY);
             obj.SetActive(true);
             
-            float size = _attributeSet[IcicleFallAttributeType.SpearSize].CurrentValue;
+            float size = _attributeBase[IcicleFallAttributeType.SpearSize].CurrentValue;
             obj.transform.localScale = new Vector3(size, size, 1.0f);
         }
 
@@ -80,8 +80,8 @@ namespace Unchord
                 return;
             }
 
-            float damage = _attributeSet[IcicleFallAttributeType.SpearDamage].CurrentValue;
-            float knockBackStrength = _attributeSet[IcicleFallAttributeType.SpearKnockbackStrength].CurrentValue;
+            float damage = _attributeBase[IcicleFallAttributeType.SpearDamage].CurrentValue;
+            float knockBackStrength = _attributeBase[IcicleFallAttributeType.SpearKnockbackStrength].CurrentValue;
             enemy.TakeDamage(damage, _transform.GetComponentInParent<Player>(), args.eventSource);
             enemy.KnockBack(knockBackStrength);
 
@@ -102,10 +102,10 @@ namespace Unchord
         private void SpawnIcicleShard(FlagComponent flagTable)
         {
             Vector3 position = flagTable.transform.position;
-            float duration = _attributeSet[IcicleFallAttributeType.ShardDuration].CurrentValue;
-            float speed = _attributeSet[IcicleFallAttributeType.ShardSpeed].CurrentValue;
+            float duration = _attributeBase[IcicleFallAttributeType.ShardDuration].CurrentValue;
+            float speed = _attributeBase[IcicleFallAttributeType.ShardSpeed].CurrentValue;
             
-            int shardCount = (int)_attributeSet[IcicleFallAttributeType.ShardCount].CurrentValue;
+            int shardCount = (int)_attributeBase[IcicleFallAttributeType.ShardCount].CurrentValue;
             for (int i = 0; i < shardCount; ++i)
             {
                 float angle = 360f / shardCount * i;

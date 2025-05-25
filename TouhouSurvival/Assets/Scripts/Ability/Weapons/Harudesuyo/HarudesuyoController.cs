@@ -60,7 +60,7 @@ namespace Unchord
             FlagComponent flagTable = obj.GetComponent<FlagComponent>();
             flagTable.SetFlagFalseWithoutEvent(FLAG_SHOULD_DESTROY);
 
-            float explosionScale = Attributes[HarudesuyoAttributeType.BombExplosionRadius].CurrentValue;
+            float explosionScale = AttributeBase[HarudesuyoAttributeType.BombExplosionRadius].CurrentValue;
             obj.transform.localScale = new Vector3(explosionScale, explosionScale, 1);
             obj.gameObject.SetActive(true);
             
@@ -89,7 +89,7 @@ namespace Unchord
                 }
 
                 enemy.TakeDamage(
-                    Attributes[HarudesuyoAttributeType.BombExplosionDamage].CurrentValue,
+                    AttributeBase[HarudesuyoAttributeType.BombExplosionDamage].CurrentValue,
                     GetComponentInParent<Player>(),
                     explosion
                 );
@@ -142,9 +142,9 @@ namespace Unchord
 
         private Vector3[] GetDropPoints()
         {
-            int numDropPoint = (int)Attributes[HarudesuyoAttributeType.NumDropPoints].CurrentValue;
+            int numDropPoint = (int)AttributeBase[HarudesuyoAttributeType.NumDropPoints].CurrentValue;
             Vector3[] points = new Vector3[numDropPoint];
-            float bombingRange = Attributes[HarudesuyoAttributeType.BombingRange].CurrentValue;
+            float bombingRange = AttributeBase[HarudesuyoAttributeType.BombingRange].CurrentValue;
 
             for (int i = 0; i < numDropPoint; ++i)
             {
@@ -169,7 +169,7 @@ namespace Unchord
                 // 2. spawnDelay 간격으로 폭탄을 생성
                 SpawnBomb(dropPoint);
                 
-                float spawnDelay = Attributes[HarudesuyoAttributeType.BombSpawnDelay].CurrentValue;
+                float spawnDelay = AttributeBase[HarudesuyoAttributeType.BombSpawnDelay].CurrentValue;
                 float randomFactor = Random.Range(1f - SpawnDelayVariationRatio, 1f + SpawnDelayVariationRatio);
                 yield return new WaitForSeconds(spawnDelay * randomFactor);
             }
@@ -183,7 +183,7 @@ namespace Unchord
             Vector3 spawnPoint = bombSpawnOffset + dropPoint;
             float angle = Vector2.SignedAngle(Vector2.right, -bombSpawnOffset);
             Vector3 rotation = Vector3.forward * angle;  // TODO: 각도 수정
-            float fallDelay = Attributes[HarudesuyoAttributeType.BombFallDelay].CurrentValue;
+            float fallDelay = AttributeBase[HarudesuyoAttributeType.BombFallDelay].CurrentValue;
             
             Harudesuyo bomb = _bombPool.Get();
             bomb.Initialize(fallDelay, rotation, spawnPoint, dropPoint, _bombPool, _explosionPool);

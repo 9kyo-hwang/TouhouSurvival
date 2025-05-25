@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 312154056427807567}
   - component: {fileID: 4732517122214026114}
-  - component: {fileID: 299580882928432561}
   m_Layer: 0
   m_Name: IcicleFall
   m_TagString: Untagged
@@ -48,23 +47,10 @@ MonoBehaviour:
   displayIcon: {fileID: 21300000, guid: 800a464113ddb7c4d91b27c475d57a19, type: 3}
   displayName: "\uC544\uC774\uC2DC\uD074 \uD3F4"
   displayDescription: 
+  attributeXlsxPathRelative: \AttributeTables\Abilities\Weapons\icicle_fall.xlsx
   weaponActivationMode: 1
   fixedCooltime: 5
   variableCooltimeMin: 1
   variableCooltimeMax: 2
   spearPrefab: {fileID: 2218898559698996222, guid: 716ee7b9a47c73d40b0c80cc27e15a3a, type: 3}
   shardPrefab: {fileID: 6794464452983017579, guid: 03cda86898e154c4c8e620160eb4e793, type: 3}
---- !u!114 &299580882928432561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4567722621238556238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c5743007088af94e9dfbf50d8e9b228, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Weapons\icicle_fall_base.xlsx
-  attributeModifierPath: \AttributeTables\Abilities\Weapons\icicle_fall_modifiers.xlsx

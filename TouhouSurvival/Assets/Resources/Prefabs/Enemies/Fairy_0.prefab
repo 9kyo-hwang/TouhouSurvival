@@ -45,7 +45,6 @@ GameObject:
   - component: {fileID: 6820256368915522761}
   - component: {fileID: 3973276599897718334}
   - component: {fileID: 4702386692299432747}
-  - component: {fileID: 8962500484372243985}
   m_Layer: 6
   m_Name: Fairy_0
   m_TagString: Untagged
@@ -104,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97650032187836449a626e11a235b786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attributeXlsxPathRelative: \AttributeTables\Enemies\fairy_0.xlsx
   target: {fileID: 0}
   dropExperiencePrefab: {fileID: 7779634252459525370, guid: 8f702a556e1b88a4d8a888be48d21a25, type: 3}
 --- !u!50 &4702386692299432747
@@ -133,20 +133,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &8962500484372243985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044509956880046245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e969a355b91d926479eefbcc0a33f767, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Enemies\fairy_0_base.xlsx
-  attributeModifierPath: 
 --- !u!1 &1779591075832894044
 GameObject:
   m_ObjectHideFlags: 0

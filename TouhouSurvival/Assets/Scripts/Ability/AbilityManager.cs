@@ -43,8 +43,8 @@ namespace Unchord
             _abilitySamples.Add(_abilitySets[0]);
             _abilitySamples.Add(_abilitySets[1]);
 
-            _abilitySets[0][0].Enable();    // 현재는 Ability의 레벨을 1로 세팅하는 것밖에 없음
-            _abilitySets[2][0].Enable();
+            _abilitySets[0][0].LevelUp();
+            _abilitySets[2][0].LevelUp();
 
             UpdateAbilitySlot();
         }

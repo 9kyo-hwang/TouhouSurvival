@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7869390806408818565}
   - component: {fileID: 3778388676639731557}
   - component: {fileID: 5621833554856626519}
-  - component: {fileID: 6880857632919365634}
   m_Layer: 0
   m_Name: MoscowSpell
   m_TagString: Untagged
@@ -61,19 +60,6 @@ MonoBehaviour:
   displayIcon: {fileID: 21300000, guid: 110c8d3f8954b3444b7261d5423d02dd, type: 3}
   displayName: Moscow Spell
   displayDescription: 
+  attributeXlsxPathRelative: \AttributeTables\Abilities\Spells\moscow_spell.xlsx
   projectilePrefab: {fileID: 7389579929433498551, guid: 040917b989cffd64cbd276e44b67a014, type: 3}
   explosionPrefab: {fileID: 7389579929433498551, guid: 8109957d4d5bd6d4db110f341238dd4f, type: 3}
---- !u!114 &6880857632919365634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3364340243360506895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89afaa7bfce51c64f99a0c33bb205476, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Spells\moscow_spell_base.xlsx
-  attributeModifierPath: \AttributeTables\Abilities\Spells\moscow_spell_modifiers.xlsx

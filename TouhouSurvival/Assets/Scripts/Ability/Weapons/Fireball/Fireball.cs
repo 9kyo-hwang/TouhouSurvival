@@ -52,7 +52,7 @@ namespace Unchord
 
             Vector3 playerPosition = Player.transform.position;
             Vector3 enemyPosition = nearestEnemy.transform.position;
-            GameplayAttribute attrEulerAngleError = Attributes[FireballAttributeType.ShootingEulerAngleError];
+            GameplayAttribute attrEulerAngleError = AttributeBase[FireballAttributeType.ShootingEulerAngleError];
 
             projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, attrEulerAngleError.CurrentValue);
             projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, projectile.ProjectileDirection);
@@ -78,7 +78,7 @@ namespace Unchord
 
             projectile.gameObject.SetActive(true);
 
-            float scale = Attributes[FireballAttributeType.ProjectileSize].CurrentValue;
+            float scale = AttributeBase[FireballAttributeType.ProjectileSize].CurrentValue;
             projectile.transform.localScale = new Vector3(scale, scale, 1.0f);
 
             Animator animator = projectile.GetComponent<Animator>();
@@ -149,9 +149,9 @@ namespace Unchord
 
             UnityEngine.Debug.Assert(enemy != null);
 
-            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
             {
-                float damage = this.Attributes[FireballAttributeType.ProjectileDamage].CurrentValue;
+                float damage = this.AttributeBase[FireballAttributeType.ProjectileDamage].CurrentValue;
                 enemy.TakeDamage(damage, null, null);
             }
 
@@ -170,9 +170,9 @@ namespace Unchord
 
             UnityEngine.Debug.Assert(enemy != null);
 
-            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
             {
-                float damage = this.Attributes[FireballAttributeType.ExplosionDamage].CurrentValue;
+                float damage = this.AttributeBase[FireballAttributeType.ExplosionDamage].CurrentValue;
                 enemy.TakeDamage(damage, null, null);
             }
         }

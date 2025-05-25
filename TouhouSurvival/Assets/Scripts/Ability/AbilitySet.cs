@@ -9,7 +9,7 @@ namespace Unchord
         public int ValidAbilityCount { get; private set; }
         public int MaxValidAbilityCount { get; private set; }
 
-        public AbilitySet(Player player, Transform container, string prefabDirectory, List<string> abilitySet, int maxValidAbilityCount)
+        public AbilitySet(Transform container, string prefabDirectory, List<string> abilitySet, int maxValidAbilityCount)
         : base(16)
         {
             foreach (string abilityName in abilitySet)
@@ -27,7 +27,6 @@ namespace Unchord
                 ability.gameObject.SetActive(false);
 
                 ability.transform.localPosition = Vector3.zero;
-                ability.Subscribe(player);
 
                 base.Add(ability);
             }

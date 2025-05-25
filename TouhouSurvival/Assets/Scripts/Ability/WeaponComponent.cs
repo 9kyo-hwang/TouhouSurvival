@@ -4,7 +4,12 @@ namespace Unchord
 {
     public abstract class WeaponComponent : AbilityComponent
     {
+        public AttributeBaseSet AttributeBase { get; private set; }
+
+        public sealed override int MaxLevel => _attributeModifier.MaxLevel;
+
         [Header("Weapon Basic Settings")]
+        public string attributeXlsxPathRelative;
         public WeaponActivationMode weaponActivationMode = WeaponActivationMode.FixedCooltime;
         public float fixedCooltime = 1.0f;
         public float variableCooltimeMin = 1.0f;
@@ -12,11 +17,17 @@ namespace Unchord
 
         protected bool _isCooltimePaused;
 
+        private AttributeModifierSet _attributeModifier;
         private float _leftCooltime;
 
         protected override void Awake()
         {
             base.Awake();
+
+            string[] csvPaths = AttributeUtility.ConvertXlsxToCsv(attributeXlsxPathRelative);
+
+            AttributeBase = AttributeBaseSet.LoadFromFile(csvPaths[0]);
+            _attributeModifier = AttributeModifierSet.LoadFromFile(csvPaths[1]);
         }
 
         protected override void Update()
@@ -48,6 +59,13 @@ namespace Unchord
         }
 
         public abstract void UseWeapon();
+
+        public sealed override void LevelUp()
+        {
+            base.LevelUp();
+
+            AttributeBase.ApplyModifiers(_attributeModifier[CurrentLevel]);
+        }
 
         private bool TryUpdateCooltime()
         {

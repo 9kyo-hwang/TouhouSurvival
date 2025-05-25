@@ -13,10 +13,6 @@ namespace Unchord
         public readonly GameplayAttributeOperator opcode;
         public readonly string description;
 
-        #region Optional Properties
-        public string tag = null;
-        #endregion
-
         public GameplayAttributeModifier next;
 
         public static SortedList<int, GameplayAttributeModifier> LoadAttributeModifiers(string xlsxFilePath)

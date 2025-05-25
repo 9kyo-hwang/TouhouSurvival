@@ -56,12 +56,12 @@ namespace Unchord
 
         public override void UseWeapon()
         {
-            _targetSize = Attributes[ShanghaiGuardAttributeType.ShanghaiSize].CurrentValue;
-            _targetRadius = Attributes[ShanghaiGuardAttributeType.ShanghaiRadius].CurrentValue;
+            _targetSize = AttributeBase[ShanghaiGuardAttributeType.ShanghaiSize].CurrentValue;
+            _targetRadius = AttributeBase[ShanghaiGuardAttributeType.ShanghaiRadius].CurrentValue;
 
             _wTarget = 1.0f;
             
-            _leftDuration = base.Attributes[ShanghaiGuardAttributeType.ShanghaiDuration].CurrentValue;
+            _leftDuration = base.AttributeBase[ShanghaiGuardAttributeType.ShanghaiDuration].CurrentValue;
 
             base._isCooltimePaused = true;
 
@@ -70,7 +70,7 @@ namespace Unchord
 
         private void UpdateDolls()
         {
-            _rotationPhaseAngle += Time.deltaTime * Attributes[ShanghaiGuardAttributeType.ShanghaiAngularSpeed].CurrentValue;
+            _rotationPhaseAngle += Time.deltaTime * AttributeBase[ShanghaiGuardAttributeType.ShanghaiAngularSpeed].CurrentValue;
             _rotationPhaseAngle %= 360.0f;
 
             UnityEngine.Debug.Assert(_enabledDolls.Count > 0);
@@ -136,7 +136,7 @@ namespace Unchord
 
         private void GetDolls()
         {
-            int dollCount = (int)base.Attributes[ShanghaiGuardAttributeType.ShanghaiCount].CurrentValue;
+            int dollCount = (int)base.AttributeBase[ShanghaiGuardAttributeType.ShanghaiCount].CurrentValue;
 
             for (int i = 0; i < dollCount; ++i)
             {
@@ -203,9 +203,9 @@ namespace Unchord
 
             UnityEngine.Debug.Assert(enemy != null);
 
-            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
             {
-                float damage = Attributes[ShanghaiGuardAttributeType.ShanghaiDamage].CurrentValue;
+                float damage = AttributeBase[ShanghaiGuardAttributeType.ShanghaiDamage].CurrentValue;
                 enemy.TakeDamage(damage, null, null);
             }
         }

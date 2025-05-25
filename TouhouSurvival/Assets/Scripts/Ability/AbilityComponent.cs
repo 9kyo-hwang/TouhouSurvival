@@ -11,8 +11,6 @@ namespace Unchord
         public string DisplayName => displayName;
         public string DisplayDescription => displayDescription;
 
-        public AttributeSet Attributes { get; private set; }
-
         [Header("Displays on GUI")]
         [SerializeField]
         private Sprite displayIcon;
@@ -24,34 +22,18 @@ namespace Unchord
         private string displayDescription;
 
         protected Player Player { get; private set; }
-        private int _level;
-        public int CurrentLevel
-        {
-            get => _level;
-            private set
-            {
-                //value = Mathf.Clamp(value, 0, MaxLevel);
+        public int CurrentLevel { get; private set; } = 0;
 
-                if (value != _level)
-                {
-                    int prevLevel = _level;
-                    _level = value;
-                    //OnLevelUp?.Invoke(this, new LevelUpEventArgs(prevLevel, _level));
-                }
-            }
-        }
-        public int MaxLevel => Attributes.MaxLevel;
-        //public event EventHandler<LevelUpEventArgs> OnLevelUp;
-
+        public virtual int MaxLevel { get; } = 1;
+        
         protected virtual void Awake()
         {
-            Attributes = GetComponent<AttributeSet>();
-            //Attributes.Initialize(OnLevelUp);
+            Player = GetComponentInParent<Player>();
         }
 
         protected virtual void Start()
         {
-
+            
         }
 
         protected virtual void FixedUpdate()
@@ -64,21 +46,9 @@ namespace Unchord
 
         }
 
-        public void Subscribe(Player player)
-        {
-            Player = player;
-        }
-
-        public void Enable()
-        {
-            _level = 1; // OnLevelUp이 발동되지 않도록. 필요 시 CurrentLevel로 변경
-            this.gameObject.SetActive(true);
-        }
-
-        public void LevelUp()
+        public virtual void LevelUp()
         {
             CurrentLevel++;
-            Attributes.ApplyModifiersSelf(CurrentLevel);
             this.gameObject.SetActive(true);
         }
     }

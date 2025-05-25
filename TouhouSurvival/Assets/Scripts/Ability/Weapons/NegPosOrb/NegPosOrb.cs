@@ -38,8 +38,8 @@ namespace Unchord
         {
             _isCooltimePaused = true;
 
-            int burstCount = (int)Attributes[NegPosOrbAttributeType.ShootingBurstCount].CurrentValue;
-            float burstDelay = Attributes[NegPosOrbAttributeType.ShootingBurstDelay].CurrentValue;
+            int burstCount = (int)AttributeBase[NegPosOrbAttributeType.ShootingBurstCount].CurrentValue;
+            float burstDelay = AttributeBase[NegPosOrbAttributeType.ShootingBurstDelay].CurrentValue;
 
             for (int i = burstCount - 1; i >= 0; --i)
             {
@@ -65,7 +65,7 @@ namespace Unchord
 
             Vector3 playerPosition = Player.transform.position;
             Vector3 enemyPosition = nearestEnemyObject.transform.position;
-            GameplayAttribute attrEulerAngleError = Attributes[NegPosOrbAttributeType.ShootingEulerAngleError];
+            GameplayAttribute attrEulerAngleError = AttributeBase[NegPosOrbAttributeType.ShootingEulerAngleError];
 
             projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, attrEulerAngleError.CurrentValue);
             projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, projectile.ProjectileDirection);
@@ -75,7 +75,7 @@ namespace Unchord
 
         private IEnumerator ElapseProjectileTimeout(GameObject projectileObject)
         {
-            float duration = Attributes[NegPosOrbAttributeType.ProjectileDuration].CurrentValue;
+            float duration = AttributeBase[NegPosOrbAttributeType.ProjectileDuration].CurrentValue;
 
             yield return new WaitForSeconds(duration);
 
@@ -106,7 +106,7 @@ namespace Unchord
 
             projectile.gameObject.SetActive(true);
 
-            float scale = Attributes[NegPosOrbAttributeType.ProjectileSize].CurrentValue;
+            float scale = AttributeBase[NegPosOrbAttributeType.ProjectileSize].CurrentValue;
             projectile.transform.localScale = new Vector3(scale, scale, 1.0f);
 
             Animator animator = projectile.GetComponent<Animator>();
@@ -130,9 +130,9 @@ namespace Unchord
 
             UnityEngine.Debug.Assert(enemy != null);
 
-            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
             {
-                float damage = this.Attributes[NegPosOrbAttributeType.ProjectileDamage].CurrentValue;
+                float damage = this.AttributeBase[NegPosOrbAttributeType.ProjectileDamage].CurrentValue;
                 enemy.TakeDamage(damage, null, null);
             }
         }

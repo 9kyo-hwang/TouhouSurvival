@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 5499114322139423601}
   - component: {fileID: 6820256368915522761}
   - component: {fileID: 3973276599897718334}
-  - component: {fileID: 8226576738396443539}
   - component: {fileID: 7843518008944392187}
   m_Layer: 6
   m_Name: Fairy_2
@@ -104,22 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97650032187836449a626e11a235b786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attributeXlsxPathRelative: \AttributeTables\Enemies\fairy_2.xlsx
   target: {fileID: 0}
   dropExperiencePrefab: {fileID: 7779634252459525370, guid: 8f702a556e1b88a4d8a888be48d21a25, type: 3}
---- !u!114 &8226576738396443539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044509956880046245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e969a355b91d926479eefbcc0a33f767, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Enemies\fairy_2_base.xlsx
-  attributeModifierPath: 
 --- !u!50 &7843518008944392187
 Rigidbody2D:
   serializedVersion: 5

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7376760699097865426}
   - component: {fileID: 7871210333720805974}
-  - component: {fileID: 5743177516272268397}
   - component: {fileID: 4006998538697097703}
   m_Layer: 0
   m_Name: Harudesuyo
@@ -49,26 +48,13 @@ MonoBehaviour:
   displayIcon: {fileID: 21300000, guid: bce4bd4525621d14780a5dd49580ad2a, type: 3}
   displayName: "\uBD04\uC774\uC5D0\uC694"
   displayDescription: "\uC0AC\uC2E4\uC740 \uD3ED\uD0C4\uC785\uB2C8\uB2E4,"
+  attributeXlsxPathRelative: \AttributeTables\Abilities\Weapons\harudesuyo.xlsx
   weaponActivationMode: 1
   fixedCooltime: 5
   variableCooltimeMin: 10
   variableCooltimeMax: 20
   harudesuyoPrefab: {fileID: 1343935588900269220, guid: 26d938f000a54104696662d54924e786, type: 3}
   explosionPrefab: {fileID: 6291589043752310054, guid: cc12db9895f2c784aa14d9b1c6ae3b1c, type: 3}
---- !u!114 &5743177516272268397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8239103857834861338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2923781929feed0418cbf215ce46df22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Weapons\harudesuyo_base.xlsx
-  attributeModifierPath: \AttributeTables\Abilities\Weapons\harudesuyo_modifiers.xlsx
 --- !u!114 &4006998538697097703
 MonoBehaviour:
   m_ObjectHideFlags: 0

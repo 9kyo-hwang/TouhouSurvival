@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4571882359626428984}
   - component: {fileID: 2181489405743645354}
-  - component: {fileID: 6759866070124039763}
   m_Layer: 0
   m_Name: Moscow_1_0
   m_TagString: Untagged
@@ -48,17 +47,4 @@ MonoBehaviour:
   displayIcon: {fileID: 0}
   displayName: special_name_1_0
   displayDescription: special_desc_1_0
---- !u!114 &6759866070124039763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5335225538835044998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca839b1533f5f1f4e9186519dfb66f70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Specials\Moscow\moscow_special_base_1_0.xlsx
-  attributeModifierPath: 
+  attributeXlsxPathRelative: \AttributeTables\Abilities\Specials\Moscow\moscow_special_1_0.xlsx

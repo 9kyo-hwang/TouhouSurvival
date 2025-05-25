@@ -100,9 +100,9 @@ namespace Unchord
 
             UnityEngine.Debug.Assert(enemy != null);
 
-            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
             {
-                float damage = this.Attributes[BattojutsuAttributeType.EffectDamage].CurrentValue;
+                float damage = this.AttributeBase[BattojutsuAttributeType.EffectDamage].CurrentValue;
                 enemy.TakeDamage(damage, null, null);
             }
         }

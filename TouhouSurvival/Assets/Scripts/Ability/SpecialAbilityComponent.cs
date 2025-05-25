@@ -1,22 +1,27 @@
-using UnityEngine;
-
 namespace Unchord
 {
     public abstract class SpecialAbilityComponent : AbilityComponent
     {
-        public virtual void TestLog()
-        {
+        public AttributeBaseSet AttributeBase { get; private set; }
 
+        public sealed override int MaxLevel => 1;
+
+        public string attributeXlsxPathRelative;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            string[] csvPaths = AttributeUtility.ConvertXlsxToCsv(attributeXlsxPathRelative);
+
+            AttributeBase = AttributeBaseSet.LoadFromFile(csvPaths[0]);
         }
 
-        protected override void Update()
+        public sealed override void LevelUp()
         {
-            base.Update();
+            base.LevelUp();
 
-            if (Input.GetKeyDown(KeyCode.F5))
-            {
-                TestLog();
-            }
+            // this block is intentionally left blank.
         }
     }
 }

@@ -305,7 +305,6 @@ GameObject:
   - component: {fileID: 6953679403157487291}
   - component: {fileID: 1687368410410601425}
   - component: {fileID: 5993739452696240177}
-  - component: {fileID: 2175564194275827575}
   - component: {fileID: 8863588712717059164}
   - component: {fileID: -1628125831766901487}
   m_Layer: 7
@@ -424,20 +423,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa81ac904013a549972e820f2827861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2175564194275827575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6831920981336867835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 393f0e62dc6bb374190ca6dca6cbb366, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\PlayableCharacters\cirno_base.xlsx
-  attributeModifierPath: \AttributeTables\PlayableCharacters\cirno_modifiers.xlsx
+  attributeXlsxPathRelative: \AttributeTables\PlayableCharacters\cirno.xlsx
+  expXlsxPathRelative: 
 --- !u!114 &8863588712717059164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,7 +456,10 @@ MonoBehaviour:
   - IcicleFall
   - ShanghaiGuard
   - Sakuya
-  passiveSet: []
+  passiveSet:
+  - Moscow/Speed
+  - Moscow/Health
+  - Moscow/Exp
   spellSet:
   - MoscowSpell
   specialAbilitySet0:

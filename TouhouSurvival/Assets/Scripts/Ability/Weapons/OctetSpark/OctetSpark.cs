@@ -53,7 +53,7 @@ namespace Unchord
         {
             _isCooltimePaused = true;
 
-            float duration = Attributes[OctetSparkAttributeType.SparkDuration].CurrentValue;
+            float duration = AttributeBase[OctetSparkAttributeType.SparkDuration].CurrentValue;
             yield return new WaitForSeconds(duration);
 
             FlagComponent flagTable = sparkObject.GetComponent<FlagComponent>();
@@ -88,7 +88,7 @@ namespace Unchord
 
             spark.gameObject.SetActive(true);
 
-            float scale = Attributes[OctetSparkAttributeType.SparkWidth].CurrentValue;
+            float scale = AttributeBase[OctetSparkAttributeType.SparkWidth].CurrentValue;
             spark.transform.localScale = new Vector3(1.0f, scale, 1.0f);
 
             Animator animator = spark.GetComponent<Animator>();
@@ -113,9 +113,9 @@ namespace Unchord
 
             UnityEngine.Debug.Assert(enemy != null);
 
-            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
             {
-                float damage = this.Attributes[OctetSparkAttributeType.SparkDamage].CurrentValue;
+                float damage = this.AttributeBase[OctetSparkAttributeType.SparkDamage].CurrentValue;
                 enemy.TakeDamage(damage, null, null);
             }
         }

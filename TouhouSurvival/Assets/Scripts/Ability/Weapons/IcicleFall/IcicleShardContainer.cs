@@ -7,16 +7,16 @@ namespace Unchord
     {
         private readonly GameObject _prefab;
         private readonly Transform _transform;
-        private readonly AttributeSet _attributeSet;
+        private readonly AttributeBaseSet _attributeBase;
         private readonly ObjectPool<GameObject> _pool;
 
         public GameObject Get() => _pool.Get();
         
-        public IcicleShardContainer(GameObject prefab, Transform transform, AttributeSet attributeSet)
+        public IcicleShardContainer(GameObject prefab, Transform transform, AttributeBaseSet attributeSet)
         {
             _prefab = prefab;
             _transform = transform;
-            _attributeSet = attributeSet;
+            _attributeBase = attributeSet;
             
             _pool = new ObjectPool<GameObject>(
                 CreateFunc, 
@@ -50,8 +50,8 @@ namespace Unchord
                     return;
                 }
                 
-                float damage = _attributeSet[IcicleFallAttributeType.ShardDamage].CurrentValue;
-                float knockBackStrength = _attributeSet[IcicleFallAttributeType.ShardKnockbackStrength].CurrentValue;
+                float damage = _attributeBase[IcicleFallAttributeType.ShardDamage].CurrentValue;
+                float knockBackStrength = _attributeBase[IcicleFallAttributeType.ShardKnockbackStrength].CurrentValue;
                 Debug.Log($"Shard Attack To {enemy.name} about {damage}");
                 enemy.TakeDamage(damage, _transform.GetComponentInParent<Player>(), shardGameObject);
                 enemy.KnockBack(knockBackStrength);
@@ -78,7 +78,7 @@ namespace Unchord
             obj.GetComponent<FlagComponent>().SetFlagFalseWithoutEvent(AbilityComponent.FLAG_SHOULD_DESTROY);
             obj.SetActive(true);
             
-            float size = _attributeSet[IcicleFallAttributeType.ShardSize].CurrentValue;
+            float size = _attributeBase[IcicleFallAttributeType.ShardSize].CurrentValue;
             obj.transform.localScale = new Vector3(size, size, 1.0f);
         }
 

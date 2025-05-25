@@ -29,7 +29,7 @@ namespace Unchord
             
             obj.SetActive(true);
 
-            float size = Attributes[SakuyaAttributeType.Size].CurrentValue;
+            float size = AttributeBase[SakuyaAttributeType.Size].CurrentValue;
             obj.transform.localScale = new Vector3(size, size, 1.0f);
         }
 
@@ -53,8 +53,8 @@ namespace Unchord
                     return;
                 }
                 
-                float damage = Attributes[SakuyaAttributeType.Damage].CurrentValue;
-                float knockBackStrength = Attributes[SakuyaAttributeType.KnockbackStrength].CurrentValue;
+                float damage = AttributeBase[SakuyaAttributeType.Damage].CurrentValue;
+                float knockBackStrength = AttributeBase[SakuyaAttributeType.KnockbackStrength].CurrentValue;
                 enemy.TakeDamage(damage, GetComponentInParent<Player>(), gameObject);
                 enemy.KnockBack(knockBackStrength);
 
@@ -99,13 +99,13 @@ namespace Unchord
             GameObject nearestGameObject = Player.GetNearestEnemyOrNull();
             if (nearestGameObject)
             {
-                int throwCount = (int)Attributes[SakuyaAttributeType.ThrowCount].CurrentValue;
+                int throwCount = (int)AttributeBase[SakuyaAttributeType.ThrowCount].CurrentValue;
                 Vector3 targetPosition = nearestGameObject.transform.position;
                 Vector3 playerPosition = Player.transform.position;
                 for (int i = 0; i < throwCount; i++)
                 {
                     Throw(targetPosition, playerPosition);
-                    float throwDelay = Attributes[SakuyaAttributeType.ThrowDelay].CurrentValue;
+                    float throwDelay = AttributeBase[SakuyaAttributeType.ThrowDelay].CurrentValue;
                     yield return new WaitForSeconds(throwDelay);
                 }
             }
@@ -115,9 +115,9 @@ namespace Unchord
 
         private void Throw(Vector3 targetPosition, Vector3 playerPosition)
         {
-            float throwAngleOffset = Attributes[SakuyaAttributeType.ThrowAngleOffset].CurrentValue;
-            float speed = Attributes[SakuyaAttributeType.ThrowSpeed].CurrentValue;
-            float duration = Attributes[SakuyaAttributeType.Duration].CurrentValue;
+            float throwAngleOffset = AttributeBase[SakuyaAttributeType.ThrowAngleOffset].CurrentValue;
+            float speed = AttributeBase[SakuyaAttributeType.ThrowSpeed].CurrentValue;
+            float duration = AttributeBase[SakuyaAttributeType.Duration].CurrentValue;
 
             GameObject sakuyaObject = _sakuyaPool.Get();
             sakuyaObject.GetComponent<Sakuya>().Initialize(

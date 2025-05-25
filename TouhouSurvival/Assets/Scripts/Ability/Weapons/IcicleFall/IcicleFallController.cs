@@ -18,8 +18,8 @@ namespace Unchord
         {
             base.Awake();
 
-            _icicleShardContainer = new IcicleShardContainer(shardPrefab, transform, Attributes);
-            _icicleSpearContainer = new IcicleSpearContainer(spearPrefab, transform, Attributes, _icicleShardContainer);
+            _icicleShardContainer = new IcicleShardContainer(shardPrefab, transform, AttributeBase);
+            _icicleSpearContainer = new IcicleSpearContainer(spearPrefab, transform, AttributeBase, _icicleShardContainer);
         }
 
         public override void UseWeapon()
@@ -35,9 +35,9 @@ namespace Unchord
             {
                 Vector3 startPosition = Player.transform.position;
                 Vector3 endPosition = nearestGameObject.transform.position;
-                float launchAngleOffset = Attributes[IcicleFallAttributeType.LaunchAngleOffset].CurrentValue;
-                float speed = Attributes[IcicleFallAttributeType.SpearSpeed].CurrentValue;
-                float duration = Attributes[IcicleFallAttributeType.SpearDuration].CurrentValue;
+                float launchAngleOffset = AttributeBase[IcicleFallAttributeType.LaunchAngleOffset].CurrentValue;
+                float speed = AttributeBase[IcicleFallAttributeType.SpearSpeed].CurrentValue;
+                float duration = AttributeBase[IcicleFallAttributeType.SpearDuration].CurrentValue;
                 
                 GameObject spearGameObject = _icicleSpearContainer.Get();
                 spearGameObject.GetComponent<IcicleSpear>()

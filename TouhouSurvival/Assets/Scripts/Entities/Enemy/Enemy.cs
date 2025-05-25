@@ -8,10 +8,12 @@ namespace Unchord
     public class Enemy : Pawn
     {
         // TODO: 추후 Attributes 속성을 Pawn에 배치해야 합니다. (AbilityComponent에 선언한 Attributes 속성과 같은 형태로 코드를 작성할 수 있도록 합니다.)
-        public AttributeSet Attributes => _attributeSet;
+        public AttributeBaseSet AttributeBase { get; private set; }
+        private AttributeModifierSet _attributeModifier;
+
+        public string attributeXlsxPathRelative;
 
         [SerializeField] private Rigidbody2D target;
-        private EnemyAttributeSet _attributeSet; // TODO: Pawn에 Attributes 속성을 배치한 후 이 속성 선언을 삭제하세요.
         private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
         [SerializeField] private GameObject dropExperiencePrefab;
 
@@ -20,14 +22,26 @@ namespace Unchord
         protected override void Awake()
         {
             base.Awake();
-            _attributeSet = gameObject.GetComponent<EnemyAttributeSet>();
+            
+            string[] attrCsvPaths = AttributeUtility.ConvertXlsxToCsv(attributeXlsxPathRelative);
+            this.AttributeBase = AttributeBaseSet.LoadFromFile(attrCsvPaths[0]);
+
+            // TODO: 사용할 일이 있을까?
+            //this._attributeModifier = AttributeModifierSet.LoadFromFile(attrCsvPaths[1]);
         }
 
         protected override void Start()
         {
             base.Start();
 
-            _currentHealth = _attributeSet[EnemyAttributeType.Health].CurrentValue;
+            AttributeBase[EnemyAttributeType.Health].OnAttributeChanged += this.OnHealthChanged;
+
+            _currentHealth = AttributeBase[EnemyAttributeType.Health].CurrentValue;
+        }
+
+        private void OnHealthChanged(object sender, AttributeChangedEventArgs args)
+        {
+            //Debug.Log($"Health changed from {e.OldValue} to {e.NewValue}");
         }
 
         protected override void Update()
@@ -52,7 +66,7 @@ namespace Unchord
                 return;
             }
 
-            float speed = _attributeSet[EnemyAttributeType.Speed].CurrentValue;
+            float speed = AttributeBase[EnemyAttributeType.Speed].CurrentValue;
             Vector2 toTargetDirection = (target.position - Rigidbody.position).normalized;
             Vector2 nextPosition = toTargetDirection * (speed * Time.fixedDeltaTime);
             Rigidbody.MovePosition(Rigidbody.position + nextPosition);
@@ -73,13 +87,13 @@ namespace Unchord
 
         public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
         {
-            if (!_attributeSet)
+            if (AttributeBase == null)
             {
                 Debug.Assert(false, "Enemy has no attribute set");
                 return 0f;
             }
 
-            GameplayAttribute maxHealth = _attributeSet[EnemyAttributeType.Health];
+            GameplayAttribute maxHealth = AttributeBase[EnemyAttributeType.Health];
 
             float currentHealth = _currentHealth;
 
@@ -159,7 +173,7 @@ namespace Unchord
             }
 
             // TODO: 드랍 확률 적용 & 해당 맵 섹션(청크)에 정보를 넘겨줘야 함
-            float dropRate = _attributeSet[EnemyAttributeType.DropRate].CurrentValue;
+            float dropRate = AttributeBase[EnemyAttributeType.DropRate].CurrentValue;
             if (Random.value >= dropRate)    // [0.0f, 1.0f] 사이 랜덤값이 dropRate(0.0 ~ 1.0) 사이보다 크거나 같으면 Drop
             {
                 GameObject experience = Instantiate(dropExperiencePrefab, transform.position, Quaternion.identity);

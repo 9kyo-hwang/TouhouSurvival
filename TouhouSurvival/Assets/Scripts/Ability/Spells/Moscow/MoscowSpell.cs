@@ -61,11 +61,11 @@ namespace Unchord
             }
 
             _count--;
-            _cooldown += base.Attributes[MoscowSpellAttributeType.BurstDelay].CurrentValue;
+            _cooldown += base.AttributeBase[MoscowSpellAttributeType.BurstDelay].CurrentValue;
 
-            int directionCount = (int)base.Attributes[MoscowSpellAttributeType.DirectionCount].CurrentValue;
+            int directionCount = (int)base.AttributeBase[MoscowSpellAttributeType.DirectionCount].CurrentValue;
             float dAngle = 2 * Mathf.PI / (float)directionCount;
-            float rAngle = Mathf.Deg2Rad * base.Attributes[MoscowSpellAttributeType.RotationAnglePerTick].CurrentValue;
+            float rAngle = Mathf.Deg2Rad * base.AttributeBase[MoscowSpellAttributeType.RotationAnglePerTick].CurrentValue;
 
             _angle = (_angle + rAngle) % (2 * Mathf.PI);
 
@@ -81,7 +81,7 @@ namespace Unchord
 
                 LinearProjectile projectile = projectileObject.GetComponent<LinearProjectile>();
                 projectile.transform.position = GameManager.Instance.Player.transform.position;
-                projectile.ProjectileSpeed = base.Attributes[MoscowSpellAttributeType.ProjectileSpeed].CurrentValue;
+                projectile.ProjectileSpeed = base.AttributeBase[MoscowSpellAttributeType.ProjectileSpeed].CurrentValue;
                 projectile.ProjectileDirection = direction;
                 projectile.OriginEulerAngle = angle * Mathf.Rad2Deg;
             }
@@ -92,7 +92,7 @@ namespace Unchord
             base.IsCooldownPaused = true;
 
             _cooldown = 0.0f;
-            _count = (int)base.Attributes[MoscowSpellAttributeType.BurstCount].CurrentValue - 1;
+            _count = (int)base.AttributeBase[MoscowSpellAttributeType.BurstCount].CurrentValue - 1;
         }
 
         private GameObject OnCreateProjectile()
@@ -115,7 +115,7 @@ namespace Unchord
 
             projectile.gameObject.SetActive(true);
 
-            float scale = Attributes[MoscowSpellAttributeType.ProjectileSize].CurrentValue;
+            float scale = AttributeBase[MoscowSpellAttributeType.ProjectileSize].CurrentValue;
             projectile.transform.localScale = new Vector3(scale, scale, 1.0f);
 
             Animator animator = projectile.GetComponent<Animator>();
@@ -186,9 +186,9 @@ namespace Unchord
 
             UnityEngine.Debug.Assert(enemy != null);
 
-            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
             {
-                float damage = this.Attributes[MoscowSpellAttributeType.ProjectileDamage].CurrentValue;
+                float damage = this.AttributeBase[MoscowSpellAttributeType.ProjectileDamage].CurrentValue;
                 enemy.TakeDamage(damage, null, null);
             }
 
@@ -207,9 +207,9 @@ namespace Unchord
 
             UnityEngine.Debug.Assert(enemy != null);
 
-            if (enemy.Attributes[EnemyAttributeType.Health].CurrentValue > 0.0f)
+            if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
             {
-                float damage = this.Attributes[MoscowSpellAttributeType.ExplosionDamage].CurrentValue;
+                float damage = this.AttributeBase[MoscowSpellAttributeType.ExplosionDamage].CurrentValue;
                 enemy.TakeDamage(damage, null, null);
             }
         }

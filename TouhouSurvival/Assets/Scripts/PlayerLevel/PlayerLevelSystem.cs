@@ -8,8 +8,12 @@ namespace Unchord
     public class PlayerLevelSystem
     {
         private const string ExperienceTablePath = "/Players/ExperienceTable.CSV";
+
+        public GameplayAttribute ExpGainIncreaseAttribute { get; set; }
+
+        private float ExpIncrement => ExpGainIncreaseAttribute?.CurrentValue ?? 0.0f;
+        
         private Dictionary<int, float> _experienceTable;    // level -> level + 1 필요 경험치
-        private GameplayAttribute _expGainIncreaseAttribute;
         
         public event EventHandler<LevelUpEventArgs> OnLevelUp;
         public event EventHandler<ExperienceChangedEventArgs> OnExperienceChanged;
@@ -50,7 +54,7 @@ namespace Unchord
             get => _experience;
             set
             {
-                float remain = value * (1.0f + _expGainIncreaseAttribute.CurrentValue);
+                float remain = value * (1.0f + ExpIncrement);
                 float prev = _experience;
                 while (!IsMaxLevel && remain >= 0)
                 {
@@ -72,11 +76,13 @@ namespace Unchord
             }
         }
 
-        public void Initialize(PlayerAttributeSet attributeSet)
+        public PlayerLevelSystem()
         {
-            _expGainIncreaseAttribute = attributeSet[PlayerAttributeType.ExpGainIncrease];
             LoadExperienceTable();
         }
+
+        // TODO: 이 곳에 Xlsx 파일을 Csv로 Convert하고 경험치 테이블을 얻는 코드를 작성합니다.
+        //public static PlayerLevelSystem LoadFromFile(string xlsxAssetPathRelative) { }
 
         private void LoadExperienceTable()
         {

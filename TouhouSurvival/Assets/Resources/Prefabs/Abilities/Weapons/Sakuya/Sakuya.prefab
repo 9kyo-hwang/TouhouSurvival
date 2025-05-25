@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8458071718375686359}
   - component: {fileID: 3068515973782912836}
   - component: {fileID: 4735194142378909730}
-  - component: {fileID: 8748863915990199830}
   m_Layer: 0
   m_Name: Sakuya
   m_TagString: Untagged
@@ -61,22 +60,9 @@ MonoBehaviour:
   displayIcon: {fileID: 21300000, guid: 26421d4023394ec46bb67d93b0d0aaf8, type: 3}
   displayName: "\uC0AC\uCFE0\uC57C"
   displayDescription: 
+  attributeXlsxPathRelative: \AttributeTables\Abilities\Weapons\sakuya.xlsx
   weaponActivationMode: 1
   fixedCooltime: 5
   variableCooltimeMin: 1
   variableCooltimeMax: 2
   sakuyaPrefab: {fileID: 7440575811571424432, guid: ac8723d954b01564d9601330a5e21ba9, type: 3}
---- !u!114 &8748863915990199830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 458740399382226900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 074d0dfdd8199674fbae39acf07a28c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributeAssetPath: \AttributeTables\Abilities\Weapons\sakuya_base.xlsx
-  attributeModifierPath: \AttributeTables\Abilities\Weapons\sakuya_modifiers.xlsx
