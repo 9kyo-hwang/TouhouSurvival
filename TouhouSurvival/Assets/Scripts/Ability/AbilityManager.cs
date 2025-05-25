@@ -34,11 +34,11 @@ namespace Unchord
         {
             Player player = GetComponent<Player>();
 
-            _abilitySets.Add(new AbilitySet(player, player.WeaponTransform, "Prefabs/Abilities/Weapons", weaponSet, MAX_WEAPON_COUNT));
-            _abilitySets.Add(new AbilitySet(player, player.PassiveTransform, "Prefabs/Abilities/Passives", passiveSet, MAX_PASSIVE_COUNT));
-            _abilitySets.Add(new AbilitySet(player, player.SpellTransform, "Prefabs/Abilities/Spells", spellSet, MAX_SPELL_COUNT));
-            _abilitySets.Add(new AbilitySet(player, player.SpecialTransform0, "Prefabs/Abilities/Specials", specialAbilitySet0, MAX_SPECIAL_ABILITY_COUNT));
-            _abilitySets.Add(new AbilitySet(player, player.SpecialTransform1, "Prefabs/Abilities/Specials", specialAbilitySet1, MAX_SPECIAL_ABILITY_COUNT));
+            _abilitySets.Add(new AbilitySet(player.WeaponTransform, "Prefabs/Abilities/Weapons", weaponSet, MAX_WEAPON_COUNT));
+            _abilitySets.Add(new AbilitySet(player.PassiveTransform, "Prefabs/Abilities/Passives", passiveSet, MAX_PASSIVE_COUNT));
+            _abilitySets.Add(new AbilitySet(player.SpellTransform, "Prefabs/Abilities/Spells", spellSet, MAX_SPELL_COUNT));
+            _abilitySets.Add(new AbilitySet(player.SpecialTransform0, "Prefabs/Abilities/Specials", specialAbilitySet0, MAX_SPECIAL_ABILITY_COUNT));
+            _abilitySets.Add(new AbilitySet(player.SpecialTransform1, "Prefabs/Abilities/Specials", specialAbilitySet1, MAX_SPECIAL_ABILITY_COUNT));
 
             _abilitySamples.Add(_abilitySets[0]);
             _abilitySamples.Add(_abilitySets[1]);
@@ -105,7 +105,7 @@ namespace Unchord
             GameCanvas canvas = UIManager.Instance.GameCanvas;
 
             AbilitySet wSet = _abilitySets[0];
-            AbilitySet pSet = _abilitySets[2];
+            AbilitySet pSet = _abilitySets[1];
 
             for (int i = 0; i < wSet.ValidAbilityCount; ++i)
             {
@@ -114,13 +114,12 @@ namespace Unchord
                 canvas.SetWeaponLevel(i, wSet[i].CurrentLevel);
             }
 
-            // TODO: 패시브 구현 이후 아래 코드를 주석 해제합니다.
-            //for (int i = 0; i < pSet.ValidAbilityCount; ++i)
-            //{
-            //    canvas.EnablePassiveSlot(i);
-            //    canvas.SetPassiveIcon(i, pSet[i].DisplayIcon);
-            //    canvas.SetPassiveLevel(i, pSet[i].CurrentLevel);
-            //}
+            for (int i = 0; i < pSet.ValidAbilityCount; ++i)
+            {
+                canvas.EnablePassiveSlot(i);
+                canvas.SetPassiveIcon(i, pSet[i].DisplayIcon);
+                canvas.SetPassiveLevel(i, pSet[i].CurrentLevel);
+            }
         }
 
         public void UpdateSpecialAbilitySlot()

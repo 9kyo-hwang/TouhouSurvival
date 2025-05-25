@@ -18,7 +18,7 @@ namespace Unchord
         private Button _pauseButton;
 
         private AbilitySlot[] _weaponSlots;
-        //private AbilitySlot[] _passiveSlots;
+        private AbilitySlot[] _passiveSlots;
 
         private class AbilitySlot
         {
@@ -61,18 +61,18 @@ namespace Unchord
             _pauseButton = transform.Find("PauseButton").GetComponent<Button>();
 
             _weaponSlots = new AbilitySlot[MAX_ABILITY_COUNT];
-            //_passiveSlots = new AbilitySlot[MAX_ABILITY_COUNT];
+            _passiveSlots = new AbilitySlot[MAX_ABILITY_COUNT];
 
             Transform weaponIconParent = transform.Find("WeaponSlot/Icons");
             Transform weaponLevelParent = transform.Find("WeaponSlot/Levels");
             
-            //Transform passiveIconParent = transform.Find("PassiveSlot/Icons");
-            //Transform passiveLevelParent = transform.Find("PassiveSlot/Levels");
+            Transform passiveIconParent = transform.Find("PassiveSlot/Icons");
+            Transform passiveLevelParent = transform.Find("PassiveSlot/Levels");
 
             for (int i = 0; i < MAX_ABILITY_COUNT; ++i)
             {
                 _weaponSlots[i] = new AbilitySlot(weaponIconParent, weaponLevelParent, i);
-                //_passiveSlots[i] = new AbilitySlot(passiveIconParent, passiveLevelParent, i);
+                _passiveSlots[i] = new AbilitySlot(passiveIconParent, passiveLevelParent, i);
             }
 
             _pauseButton.onClick.AddListener(OnPauseButtonClick);
@@ -105,7 +105,7 @@ namespace Unchord
             for (int i = 0; i < MAX_ABILITY_COUNT; ++i)
             {
                 DisableWeaponSlot(i);
-                //DisablePassiveSlot(i);
+                DisablePassiveSlot(i);
             }
         }
 
@@ -173,26 +173,33 @@ namespace Unchord
             _weaponSlots[index].level.SetValue(level);
         }
 
-        //public void EnablePassiveSlot(int index)
-        //{
-        //    UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
+        public void EnablePassiveSlot(int index)
+        {
+            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
 
-        //    _passiveSlots[index].Enable();
-        //}
+            _passiveSlots[index].Enable();
+        }
 
-        //public void SetPassiveIcon(int index, Sprite passiveIcon)
-        //{
-        //    UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
+        public void DisablePassiveSlot(int index)
+        {
+            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
 
-        //    _passiveSlots[index].icon.sprite = passiveIcon;
-        //}
+            _passiveSlots[index].Disable();
+        }
 
-        //public void SetPassiveLevel(int index, int level)
-        //{
-        //    UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
+        public void SetPassiveIcon(int index, Sprite passiveIcon)
+        {
+            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
 
-        //    _passiveSlots[index].level.SetValue(level);
-        //}
+            _passiveSlots[index].icon.sprite = passiveIcon;
+        }
+
+        public void SetPassiveLevel(int index, int level)
+        {
+            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
+
+            _passiveSlots[index].level.SetValue(level);
+        }
 
         private void OnPauseButtonClick()
         {
