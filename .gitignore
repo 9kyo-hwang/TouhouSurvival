@@ -92,3 +92,4 @@ crashlytics-build.properties
 
 # Ignore attribute csv files
 **/[Aa]ssets/StreamingAssets/AttributeTables/**/*.csv
+**/[Aa]ssets/StreamingAssets/AttributeTables/**/*.csv.meta
