@@ -1,16 +1,25 @@
 fileFormatVersion: 2
-guid: c0f5f3576d625104999d3fc8b1f829fb
+guid: 06a6375f9bdc88f4d991cbcc7744af2b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8122256234953540473
-    second: EXP_0
+      213: 2208703988740019828
+    second: Bullet_0
   - first:
-      213: 2518656005481763112
-    second: EXP_1
+      213: 4385501425044414559
+    second: Bullet_1
   - first:
-      213: 8802214299836519180
-    second: EXP_2
+      213: 3029603797402824116
+    second: Bullet_2
+  - first:
+      213: -3300396339194205850
+    second: Bullet_3
+  - first:
+      213: 1595849069685491311
+    second: Bullet_4
+  - first:
+      213: 2281616994717487372
+    second: Bullet_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,7 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -119,35 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: EXP_0
+      name: Bullet_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 0
-        width: 11
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 78c74e4ecf2f74f80800000000000000
-      internalID: -8122256234953540473
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: EXP_1
-      rect:
-        serializedVersion: 2
-        x: 7
+        x: 2
         y: 11
-        width: 36
-        height: 39
+        width: 29
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,19 +143,107 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8211526ea4014f220800000000000000
-      internalID: 2518656005481763112
+      spriteID: 47656d65394e6ae10800000000000000
+      internalID: 2208703988740019828
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: EXP_2
+      name: Bullet_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
-        width: 32
+        x: 22
+        y: 50
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f50edb98f4e6cdc30800000000000000
+      internalID: 4385501425044414559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bullet_2
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 11
+        width: 28
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bdae5a2a905b0a20800000000000000
+      internalID: 3029603797402824116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bullet_3
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 48
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66964580403a232d0800000000000000
+      internalID: -3300396339194205850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bullet_4
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 11
+        width: 10
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f66cdb11648952610800000000000000
+      internalID: 1595849069685491311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bullet_5
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 1
+        width: 52
         height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -178,8 +253,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c039e92054fb72a70800000000000000
-      internalID: 8802214299836519180
+      spriteID: c0151a3719ee9af10800000000000000
+      internalID: 2281616994717487372
       vertices: []
       indices: 
       edges: []
@@ -198,9 +273,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      EXP_0: -8122256234953540473
-      EXP_1: 2518656005481763112
-      EXP_2: 8802214299836519180
+      Bullet_0: 2208703988740019828
+      Bullet_1: 4385501425044414559
+      Bullet_2: 3029603797402824116
+      Bullet_3: -3300396339194205850
+      Bullet_4: 1595849069685491311
+      Bullet_5: 2281616994717487372
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: dcd2c46a94265bb4f8fd3350c31fa0e7
+guid: 454964562040f5245b78fabab60cfbbb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2208703988740019828
-    second: Bullet_0
+      213: 1535325516486818496
+    second: Magnet_0
   - first:
-      213: 4385501425044414559
-    second: Bullet_1
+      213: 5056887281317641957
+    second: Magnet_1
   - first:
-      213: 3029603797402824116
-    second: Bullet_2
+      213: 8236921800692627709
+    second: Magnet_2
   - first:
-      213: -3300396339194205850
-    second: Bullet_3
+      213: 4891576996777596727
+    second: Magnet_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -60,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -122,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bullet_0
+      name: Magnet_0
       rect:
         serializedVersion: 2
         x: 1
         y: 6
-        width: 10
-        height: 17
+        width: 56
+        height: 47
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 47656d65394e6ae10800000000000000
-      internalID: 2208703988740019828
+      spriteID: 0ca3ac83c629e4510800000000000000
+      internalID: 1535325516486818496
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bullet_1
+      name: Magnet_1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 0
-        width: 48
-        height: 7
+        x: 7
+        y: 47
+        width: 6
+        height: 6
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +159,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f50edb98f4e6cdc30800000000000000
-      internalID: 4385501425044414559
+      spriteID: 5eef028903cad2640800000000000000
+      internalID: 5056887281317641957
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bullet_2
+      name: Magnet_2
       rect:
         serializedVersion: 2
-        x: 10
-        y: 6
-        width: 16
-        height: 27
+        x: 43
+        y: 53
+        width: 6
+        height: 6
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +181,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4bdae5a2a905b0a20800000000000000
-      internalID: 3029603797402824116
+      spriteID: df874f49cbc6f4270800000000000000
+      internalID: 8236921800692627709
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bullet_3
+      name: Magnet_3
       rect:
         serializedVersion: 2
-        x: 25
-        y: 6
-        width: 24
-        height: 43
+        x: 45
+        y: 2
+        width: 6
+        height: 6
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,8 +203,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 66964580403a232d0800000000000000
-      internalID: -3300396339194205850
+      spriteID: 7379664ac5f52e340800000000000000
+      internalID: 4891576996777596727
       vertices: []
       indices: 
       edges: []
@@ -223,10 +223,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Bullet_0: 2208703988740019828
-      Bullet_1: 4385501425044414559
-      Bullet_2: 3029603797402824116
-      Bullet_3: -3300396339194205850
+      Magnet_0: 1535325516486818496
+      Magnet_1: 5056887281317641957
+      Magnet_2: 8236921800692627709
+      Magnet_3: 4891576996777596727
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

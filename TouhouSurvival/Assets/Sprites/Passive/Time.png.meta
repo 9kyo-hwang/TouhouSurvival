@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 00cff08486144d145a3b43983c139f59
+guid: 90628eaf357940b48b664f4ecc6872ce
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4335222134116007343
-    second: Punch_0
+      213: -3092223754324887936
+    second: Time_0
+  - first:
+      213: -760114947846703349
+    second: Time_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +54,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Punch_0
+      name: Time_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 1
+        x: 4
+        y: 0
         width: 47
-        height: 46
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +131,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 152ca91207236d3c0800000000000000
-      internalID: -4335222134116007343
+      spriteID: 086b075f0e63615d0800000000000000
+      internalID: -3092223754324887936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Time_1
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 43
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b07f1217b778375f0800000000000000
+      internalID: -760114947846703349
       vertices: []
       indices: 
       edges: []
@@ -148,7 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Punch_0: -4335222134116007343
+      Time_0: -3092223754324887936
+      Time_1: -760114947846703349
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: f82cc790a9abc6249b1c52fa45835eb0
+guid: f83e3d1b12c4c694fadd903565ec6267
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6850067910205024016
-    second: Luck_0
-  - first:
-      213: -8365616224504427482
-    second: Luck_1
-  - first:
-      213: 84808254972373353
-    second: Luck_2
+      213: -1483665779731714255
+    second: Bomb_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -119,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Luck_0
+      name: Bomb_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 37
-        width: 6
-        height: 6
+        x: 8
+        y: 5
+        width: 46
+        height: 47
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,52 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0f85de4678bafe0a0800000000000000
-      internalID: -6850067910205024016
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Luck_1
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 2
-        width: 44
-        height: 45
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 62c4b23ed5c57eb80800000000000000
-      internalID: -8365616224504427482
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Luck_2
-      rect:
-        serializedVersion: 2
-        x: 43
-        y: 25
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 96926a798ac4d2100800000000000000
-      internalID: 84808254972373353
+      spriteID: 13f20b985d5f86be0800000000000000
+      internalID: -1483665779731714255
       vertices: []
       indices: 
       edges: []
@@ -198,9 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Luck_0: -6850067910205024016
-      Luck_1: -8365616224504427482
-      Luck_2: 84808254972373353
+      Bomb_0: -1483665779731714255
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ff332dc929e50d54cbe6b0a5d5548bf1
+guid: 5f0de89c4e292b84e8929047d2cdc6dc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1535325516486818496
-    second: Magnet_0
+      213: -1344053862893166480
+    second: Power_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Magnet_0
+      name: Power_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 3
-        width: 41
-        height: 42
+        x: 8
+        y: 5
+        width: 46
+        height: 47
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0ca3ac83c629e4510800000000000000
-      internalID: 1535325516486818496
+      spriteID: 070e24ff126f85de0800000000000000
+      internalID: -1344053862893166480
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Magnet_0: 1535325516486818496
+      Power_0: -1344053862893166480
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

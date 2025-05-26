@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: a86e25c327db8f6469bdff325034a477
+guid: e5d97ad23a09e444ab9533a160484881
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8630923909508717717
-    second: Health_0
+      213: -8122256234953540473
+    second: EXP_0
+  - first:
+      213: 2518656005481763112
+    second: EXP_1
+  - first:
+      213: 8802214299836519180
+    second: EXP_2
+  - first:
+      213: 8297063182405138237
+    second: EXP_3
+  - first:
+      213: -6175428850302046880
+    second: EXP_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +63,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Health_0
+      name: EXP_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 50
-        height: 50
+        x: 10
+        y: 16
+        width: 45
+        height: 39
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +140,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b63ae42de6cc83880800000000000000
-      internalID: -8630923909508717717
+      spriteID: 78c74e4ecf2f74f80800000000000000
+      internalID: -8122256234953540473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EXP_1
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 47
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8211526ea4014f220800000000000000
+      internalID: 2518656005481763112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EXP_2
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 29
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c039e92054fb72a70800000000000000
+      internalID: 8802214299836519180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EXP_3
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 5
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d37fa323107152370800000000000000
+      internalID: 8297063182405138237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EXP_4
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 1
+        width: 34
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06d2c02fd287c4aa0800000000000000
+      internalID: -6175428850302046880
       vertices: []
       indices: 
       edges: []
@@ -148,7 +248,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Health_0: -8630923909508717717
+      EXP_0: -8122256234953540473
+      EXP_1: 2518656005481763112
+      EXP_2: 8802214299836519180
+      EXP_3: 8297063182405138237
+      EXP_4: -6175428850302046880
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
