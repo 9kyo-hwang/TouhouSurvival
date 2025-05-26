@@ -97,6 +97,14 @@ namespace Unchord
             s_wuiManager.HidePlayerHealth();
         }
 
+        public override void UpdateKeyboardInput()
+        {
+            base.UpdateKeyboardInput();
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+                OnPauseButtonClick();
+        }
+
         public void Clear()
         {
             SetKillCount(0);

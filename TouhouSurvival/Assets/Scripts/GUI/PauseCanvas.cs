@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Unchord
@@ -32,6 +33,14 @@ namespace Unchord
             base.Show();
 
             s_uiManager.SettingsCanvas.ReserveReturnCanvas(this);
+        }
+
+        public override void UpdateKeyboardInput()
+        {
+            base.UpdateKeyboardInput();
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+                OnResumeButtonClick();
         }
 
         private void OnResumeButtonClick()
