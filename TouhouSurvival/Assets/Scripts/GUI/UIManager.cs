@@ -18,11 +18,53 @@ namespace Unchord
         public SpecialAbilityCanvas SpecialAbilityCanvas => this.GetCanvas<SpecialAbilityCanvas>("GUIs/Canvas/SpecialAbility");
         #endregion
 
+        private int _topOfCanvas;
+        private UnchordCanvas _topCanvas;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _topOfCanvas = -1;
+            _topCanvas = null;
+        }
+
         protected override void Start()
         {
             base.Start();
 
             this.LobbyCanvas.Show();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            UpdateTopOfCanvas();
+            _topCanvas?.UpdateKeyboardInput();
+        }
+
+        private void UpdateTopOfCanvas()
+        {
+            int i = transform.childCount - 1;
+
+            for (; i >= 0; --i)
+            {
+                if (transform.GetChild(i).gameObject.activeSelf)
+                    break;
+            }
+
+            if (_topOfCanvas == i)
+                return;
+
+            if (i < 0)
+            {
+                _topCanvas = null;
+                return;
+            }
+
+            _topOfCanvas = i;
+            _topCanvas = transform.GetChild(i).GetComponent<UnchordCanvas>();
         }
 
         private T_Canvas GetCanvas<T_Canvas>(string resourcePath, bool showOnInitialLoad = false)

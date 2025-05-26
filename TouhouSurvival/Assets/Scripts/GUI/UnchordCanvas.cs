@@ -39,5 +39,10 @@ namespace Unchord
         {
             gameObject.SetActive(true);
         }
+
+        public virtual void UpdateKeyboardInput()
+        {
+
+        }
     }
 }

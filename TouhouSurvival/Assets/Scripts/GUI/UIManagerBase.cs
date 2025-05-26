@@ -18,6 +18,11 @@ namespace Unchord
 
         }
 
+        protected virtual void Update()
+        {
+
+        }
+
         protected Component GetComponentFromTable(string resourcePath, Transform parentOrNull, bool showOnInitialLoad)
         {
             return GetComponentFromTable<Component>(resourcePath, parentOrNull, showOnInitialLoad);
