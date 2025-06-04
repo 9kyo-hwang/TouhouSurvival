@@ -8,6 +8,7 @@ namespace Unchord
     {
         private Button _btnSettings;
         private Button _btnSelectCharacters;
+        private Button _btnShop;
         private Button _btnQuit;
 
         protected override void Awake()
@@ -16,10 +17,12 @@ namespace Unchord
 
             _btnSettings = transform.Find("Navigator/SettingsButton").GetComponent<Button>();
             _btnSelectCharacters = transform.Find("Navigator/SelectCharacterButton").GetComponent<Button>();
+            _btnShop = transform.Find("Navigator/ShopButton").GetComponent<Button>();
             _btnQuit = transform.Find("Navigator/QuitButton").GetComponent<Button>();
 
             _btnSettings.onClick.AddListener(OnSettingsButtonClick);
             _btnSelectCharacters.onClick.AddListener(OnSelectCharactersButtonClick);
+            _btnShop.onClick.AddListener(OnClick_ShopButton);
             _btnQuit.onClick.AddListener(OnQuitButtonClick);
         }
 
@@ -28,6 +31,7 @@ namespace Unchord
             base.Show();
 
             s_uiManager.SettingsCanvas.ReserveReturnCanvas(this);
+            s_uiManager.ShopCanvas.ReserveReturnCanvas(this);
             s_uiManager.MainIllustCanvas.Show();
         }
 
@@ -41,6 +45,12 @@ namespace Unchord
         {
             this.Hide();
             UIManager.Instance.SelectCharacterCanvas.Show();
+        }
+
+        private void OnClick_ShopButton()
+        {
+            this.Hide();
+            UIManager.Instance.ShopCanvas.Show();
         }
 
         private void OnQuitButtonClick()
