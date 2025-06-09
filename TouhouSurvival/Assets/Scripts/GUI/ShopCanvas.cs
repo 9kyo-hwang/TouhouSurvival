@@ -106,8 +106,7 @@ namespace Unchord
                     itemView = child.gameObject.AddComponent<ShopItemView>();
                 }
 
-                var itemData = new ShopItemData("Name");
-                itemView.Initialize(itemData, _shopData);
+                itemView.Initialize(_shopData);
                 _itemViews.Add(itemView);
             }
         }

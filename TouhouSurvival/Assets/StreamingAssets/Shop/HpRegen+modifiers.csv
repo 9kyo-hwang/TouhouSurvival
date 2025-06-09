@@ -1,0 +1,6 @@
+﻿Level,Attribute Type,Value,Flat/PercentAdd/PercentMul,Description
+1,HpRegen,10,Flat,초당 체력 재생 증가
+2,HpRegen,20,Flat,초당 체력 재생 증가
+3,HpRegen,30,Flat,초당 체력 재생 증가
+4,HpRegen,50,Flat,초당 체력 재생 증가
+5,HpRegen,80,Flat,초당 체력 재생 증가

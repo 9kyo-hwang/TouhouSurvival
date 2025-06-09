@@ -1,0 +1,6 @@
+﻿Level,Attribute Type,Value,Flat/PercentAdd/PercentMul,Description
+1,KnockBack,5,PercentAdd,넉백률 증가
+2,KnockBack,10,PercentAdd,넉백률 증가
+3,KnockBack,15,PercentAdd,넉백률 증가
+4,KnockBack,20,PercentAdd,넉백률 증가
+5,KnockBack,25,PercentAdd,넉백률 증가

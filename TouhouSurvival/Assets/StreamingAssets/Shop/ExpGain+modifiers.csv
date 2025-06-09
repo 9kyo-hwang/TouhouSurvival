@@ -1,0 +1,6 @@
+﻿Level,Attribute Type,Value,Flat/PercentAdd/PercentMul,Description
+1,ExpGain,5,PercentAdd,경험치 획득량 증가
+2,ExpGain,10,PercentAdd,경험치 획득량 증가
+3,ExpGain,15,PercentAdd,경험치 획득량 증가
+4,ExpGain,20,PercentAdd,경험치 획득량 증가
+5,ExpGain,25,PercentAdd,경험치 획득량 증가

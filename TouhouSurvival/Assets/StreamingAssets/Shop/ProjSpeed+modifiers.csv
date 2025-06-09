@@ -1,0 +1,6 @@
+﻿Level,Attribute Type,Value,Flat/PercentAdd/PercentMul,Description
+1,ProjSpeed,5,PercentAdd,투사체 이동속도 증가
+2,ProjSpeed,10,PercentAdd,투사체 이동속도 증가
+3,ProjSpeed,15,PercentAdd,투사체 이동속도 증가
+4,ProjSpeed,20,PercentAdd,투사체 이동속도 증가
+5,ProjSpeed,25,PercentAdd,투사체 이동속도 증가

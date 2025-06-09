@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 namespace Unchord
 {
@@ -10,14 +11,15 @@ namespace Unchord
         [SerializeField] private Text levelText;
         [SerializeField] private Button upgradeButton;
         [SerializeField] private Button downgradeButton;
+        [SerializeField] private string xlsxPath;
 
         private ShopItemData _itemData;
         private ShopData _shopData;
 
-        public void Initialize(ShopItemData itemData, ShopData shopData)
+        public void Initialize(ShopData shopData)
         {
-            _itemData = itemData;
             _shopData = shopData;
+            _itemData = new ShopItemData(xlsxPath);
 
             _itemData.LevelChanged += UpdateDisplay;
             _shopData.PointsChanged += OnPointsChanged;
@@ -34,7 +36,7 @@ namespace Unchord
         
         private void UpdateDisplay()
         {
-            titleText.text = _itemData.Title;
+            titleText.text = _itemData.AttributeType;
             levelText.text = $"{_itemData.CurrentLevel}/{_itemData.MaxLevel}";
 
             upgradeButton.interactable = _shopData.InvestablePoints > 0 && _itemData.CurrentLevel < _itemData.MaxLevel;
@@ -87,14 +89,20 @@ namespace Unchord
 
     public class ShopItemData
     {
-        public string Title { get; }
+        public string AttributeType { get; private set; } 
         public int CurrentLevel { get; private set; } = 0;
-        public int MaxLevel { get; } = 5;        
+        public int MaxLevel => _attributeModifier.MaxLevel;
         public event System.Action LevelChanged;
+        private AttributeModifierSet _attributeModifier;
 
-        public ShopItemData(string title)
+        public ShopItemData(string xlsxPath)
         {
-            Title = title;
+            string[] csvPaths = AttributeUtility.ConvertXlsxToCsv(xlsxPath);
+            _attributeModifier = AttributeModifierSet.LoadFromFile(csvPaths[1]);
+            
+            Debug.Assert(_attributeModifier != null, "AttributeModifierSet is null");
+            string fileName = Path.GetFileNameWithoutExtension(csvPaths[1]);
+            AttributeType = fileName.Split('+')[0];
         }
         
         public bool TryUpgrade()
@@ -103,6 +111,7 @@ namespace Unchord
             
             CurrentLevel++;
             LevelChanged?.Invoke();
+
             return true;
         }
         

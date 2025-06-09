@@ -1,0 +1,6 @@
+﻿Level,Attribute Type,Value,Flat/PercentAdd/PercentMul,Description
+1,Cooldown,-5,PercentAdd,무기 쿨타임 감소
+2,Cooldown,-10,PercentAdd,무기 쿨타임 감소
+3,Cooldown,-15,PercentAdd,무기 쿨타임 감소
+4,Cooldown,-20,PercentAdd,무기 쿨타임 감소
+5,Cooldown,-25,PercentAdd,무기 쿨타임 감소

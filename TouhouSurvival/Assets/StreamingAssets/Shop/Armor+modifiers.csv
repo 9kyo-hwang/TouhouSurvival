@@ -1,0 +1,6 @@
+﻿Level,Attribute Type,Value,Flat/PercentAdd/PercentMul,Description
+1,Armor,10,Flat,방어력 증가
+2,Armor,20,Flat,방어력 증가
+3,Armor,30,Flat,방어력 증가
+4,Armor,50,Flat,방어력 증가
+5,Armor,80,Flat,방어력 증가

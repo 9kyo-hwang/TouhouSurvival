@@ -1,0 +1,6 @@
+﻿Level,Attribute Type,Value,Flat/PercentAdd/PercentMul,Description
+1,HpMax,10,Flat,최대 HP 증가
+2,HpMax,20,Flat,최대 HP 증가
+3,HpMax,30,Flat,최대 HP 증가
+4,HpMax,50,Flat,최대 HP 증가
+5,HpMax,80,Flat,최대 HP 증가

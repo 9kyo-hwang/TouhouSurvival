@@ -1,0 +1,6 @@
+﻿Level,Attribute Type,Value,Flat/PercentAdd/PercentMul,Description
+1,ProjLifetime,5,PercentAdd,투사체 지속시간 증가
+2,ProjLifetime,10,PercentAdd,투사체 지속시간 증가
+3,ProjLifetime,15,PercentAdd,투사체 지속시간 증가
+4,ProjLifetime,20,PercentAdd,투사체 지속시간 증가
+5,ProjLifetime,25,PercentAdd,투사체 지속시간 증가
