@@ -35,6 +35,9 @@ namespace Unchord
 
         public Transform RuntimeContainer { get; private set; }
         public Transform ProjectileContainer { get; private set; }
+
+        public System.Action<Player> PlayerLoaded;
+        public System.Action<Player> PlayerUnloaded;
         
         private void Awake()
         {
@@ -139,6 +142,7 @@ namespace Unchord
             instance.transform.position = Vector3.zero;
 
             Player = instance;
+            PlayerLoaded?.Invoke(Player);
         }
 
         public void HaltGame()
@@ -158,6 +162,11 @@ namespace Unchord
             AbsolutePlaytime = 0.0f;
             ElapsedPlaytime = 0.0f;
             SpawnedEnemies.Clear();
+
+            if(Player != null)
+            {
+                // TODO: 플레이어 언로드 로직 추가
+            }
         }
 
         private void EndGame(RuntimeState stageResult)
@@ -167,6 +176,11 @@ namespace Unchord
             UIManager.Instance.GameCanvas.Hide();
 
             IsGameStarted = false;
+
+            if(Player != null)
+            {
+                // TODO: 플레이어 언로드 로직 추가
+            }
 
             GameData.Instance.totalAbsolutePlaytime += AbsolutePlaytime;
             GameData.Instance.totalElapsedPlaytime += ElapsedPlaytime;

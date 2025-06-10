@@ -13,17 +13,17 @@ namespace Unchord
         [SerializeField] private Button downgradeButton;
         [SerializeField] private string xlsxPath;
 
-        private ShopItemData _itemData;
+        public ShopItemData ItemData { get; private set;}
         private ShopData _shopData;
 
         public void Initialize(ShopData shopData)
         {
             _shopData = shopData;
-            _itemData = new ShopItemData(xlsxPath);
+            ItemData = new ShopItemData(xlsxPath);
 
-            _itemData.LevelChanged += UpdateDisplay;
+            ItemData.LevelChanged += UpdateDisplay;
             _shopData.PointsChanged += OnPointsChanged;
-
+ 
             UpdateDisplay();
             BindEvents();
         }
@@ -36,16 +36,16 @@ namespace Unchord
         
         private void UpdateDisplay()
         {
-            titleText.text = _itemData.AttributeType;
-            levelText.text = $"{_itemData.CurrentLevel}/{_itemData.MaxLevel}";
+            titleText.text = ItemData.AttributeType;
+            levelText.text = $"{ItemData.CurrentLevel}/{ItemData.MaxLevel}";
 
-            upgradeButton.interactable = _shopData.InvestablePoints > 0 && _itemData.CurrentLevel < _itemData.MaxLevel;
-            downgradeButton.interactable = _itemData.CurrentLevel > 0;
+            upgradeButton.interactable = _shopData.InvestablePoints > 0 && ItemData.CurrentLevel < ItemData.MaxLevel;
+            downgradeButton.interactable = ItemData.CurrentLevel > 0;
         }
 
         private void OnUpgradeClicked()
         {
-            if(_shopData.InvestablePoints > 0 && _itemData.TryUpgrade())
+            if(_shopData.InvestablePoints > 0 && ItemData.TryUpgrade())
             {
                 _shopData.InvestPoint();
             }
@@ -53,7 +53,7 @@ namespace Unchord
 
         private void OnDowngradeClicked()
         {
-            if(_itemData.TryDowngrade())
+            if(ItemData.TryDowngrade())
             {
                 _shopData.RefundPoint();
             }
@@ -61,7 +61,7 @@ namespace Unchord
 
         public int ResetLevel()
         {
-            int refund = _itemData.CurrentLevel;
+            int refund = ItemData.CurrentLevel;
             if(refund > 0)
             {
                 for(int i=0; i<refund; ++i)
@@ -69,7 +69,7 @@ namespace Unchord
                     _shopData.RefundPoint();
                 }
 
-                _itemData.ForceSetLevel(0);
+                ItemData.ForceSetLevel(0);
                 UpdateDisplay();
             }
             return refund;
@@ -82,7 +82,7 @@ namespace Unchord
 
         private void OnDestroy()
         {
-            if(_itemData != null) _itemData.LevelChanged -= UpdateDisplay;
+            if(ItemData != null) ItemData.LevelChanged -= UpdateDisplay;
             if(_shopData != null) _shopData.PointsChanged -= OnPointsChanged;
         }
     }
@@ -90,28 +90,44 @@ namespace Unchord
     public class ShopItemData
     {
         public string AttributeType { get; private set; } 
+        private AttributeModifierSet _modifierSet;
+        public GameplayAttributeModifier Modifier
+        {
+            get
+            {
+                if(_modifierSet != null && CurrentLevel >= 1 && CurrentLevel <= _modifierSet.MaxLevel)
+                {
+                    return _modifierSet[CurrentLevel];
+                }
+                
+                return null;
+            }
+        }
+
         public int CurrentLevel { get; private set; } = 0;
-        public int MaxLevel => _attributeModifier.MaxLevel;
+        public int MaxLevel => _modifierSet.MaxLevel;
         public event System.Action LevelChanged;
-        private AttributeModifierSet _attributeModifier;
 
         public ShopItemData(string xlsxPath)
         {
             string[] csvPaths = AttributeUtility.ConvertXlsxToCsv(xlsxPath);
-            _attributeModifier = AttributeModifierSet.LoadFromFile(csvPaths[1]);
+            _modifierSet = AttributeModifierSet.LoadFromFile(csvPaths[1]);
             
-            Debug.Assert(_attributeModifier != null, "AttributeModifierSet is null");
+            Debug.Assert(_modifierSet != null, "AttributeModifierSet is null");
             string fileName = Path.GetFileNameWithoutExtension(csvPaths[1]);
             AttributeType = fileName.Split('+')[0];
         }
         
         public bool TryUpgrade()
         {
-            if (CurrentLevel >= MaxLevel) return false;
+            if (CurrentLevel >= MaxLevel)
+            {
+                Debug.LogError($"Max level reached for {AttributeType}");
+                return false;
+            }
             
             CurrentLevel++;
             LevelChanged?.Invoke();
-
             return true;
         }
         

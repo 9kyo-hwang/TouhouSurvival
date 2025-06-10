@@ -83,6 +83,40 @@ namespace Unchord
             UpdatePointsDisplay(_shopData.InvestablePoints, _shopData.ExchangedPoints);
         }
 
+        private void Start()
+        {
+            s_gameManager.PlayerLoaded += OnPlayerLoaded;
+            s_gameManager.PlayerUnloaded += OnPlayerUnloaded;
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+        }
+
+        private void OnPlayerLoaded(Player player)
+        {
+            foreach(var itemView in _itemViews)
+            {
+                // TODO: itemView-itemData의 Modifiers를 들고 와서 player.ApplyModifiers() 호출
+                var modifier = itemView.ItemData.Modifier;
+                if(modifier != null)
+                {
+                    player.AttributeBase.ApplyModifiers(modifier);
+                }
+            }
+        }
+
+        private void OnPlayerUnloaded(Player player)
+        {
+
+        }
+
         private void BindButtonEvents()
         {
             backButton.onClick.AddListener(OnBackClicked);
@@ -152,11 +186,6 @@ namespace Unchord
         public void ReserveReturnCanvas(UnchordCanvas returnCanvas)
         {
             _previousCanvas = returnCanvas;
-        }
-
-        public override void Hide()
-        {
-            base.Hide();
         }
     }
 }
