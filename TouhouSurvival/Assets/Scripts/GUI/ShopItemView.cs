@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.EventSystems;
 
 namespace Unchord
 {
-    public class ShopItemView : MonoBehaviour
+    public class ShopItemView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private Image icon;
         [SerializeField] private Text titleText;
@@ -12,20 +13,36 @@ namespace Unchord
         [SerializeField] private Button upgradeButton;
         [SerializeField] private Button downgradeButton;
         [SerializeField] private string xlsxPath;
+        [SerializeField] private Tooltip tooltip;
 
-        public ShopItemData ItemData { get; private set;}
+        public ShopItemData ItemData { get; private set; }
         private ShopData _shopData;
+
+        private void Awake()
+        {
+            tooltip = GetComponentInChildren<Tooltip>();
+        }
 
         public void Initialize(ShopData shopData)
         {
             _shopData = shopData;
-            ItemData = new ShopItemData(xlsxPath);
 
+            ItemData = new ShopItemData(xlsxPath);
             ItemData.LevelChanged += UpdateDisplay;
             _shopData.PointsChanged += OnPointsChanged;
- 
+
             UpdateDisplay();
             BindEvents();
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            tooltip.Show("Test", Input.mousePosition);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            tooltip.Hide();
         }
         
         private void BindEvents()
@@ -89,7 +106,7 @@ namespace Unchord
 
     public class ShopItemData
     {
-        public string AttributeType { get; private set; } 
+        public string AttributeType { get; private set; }
         private AttributeModifierSet _modifierSet;
         public GameplayAttributeModifier Modifier
         {

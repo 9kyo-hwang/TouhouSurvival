@@ -103,7 +103,6 @@ namespace Unchord
         {
             foreach(var itemView in _itemViews)
             {
-                // TODO: itemView-itemData의 Modifiers를 들고 와서 player.ApplyModifiers() 호출
                 var modifier = itemView.ItemData.Modifier;
                 if(modifier != null)
                 {
