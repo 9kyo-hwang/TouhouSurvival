@@ -1,8 +1,66 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 namespace Unchord
 {
+    [System.Serializable]
+    public class ShopSaveData
+    {
+        public int gold;
+        public int investedPoints;
+        public int exchangedPoints;
+
+        [System.Serializable]
+        public class ItemLevelData
+        {
+            public string attributeType;
+            public int level;
+
+            public ItemLevelData(string attributeType, int level)
+            {
+                this.attributeType = attributeType;
+                this.level = level;
+            }
+        }
+
+        public List<ItemLevelData> itemLevels = new List<ItemLevelData>();
+
+        public void Update(string attributeType, int level)
+        {
+            foreach(ItemLevelData itemLevel in itemLevels)
+            {
+                if(itemLevel.attributeType == attributeType)
+                {
+                    itemLevel.level = level;
+                    return;
+                }
+            }
+
+            itemLevels.Add(new ItemLevelData(attributeType, level));
+        }
+
+        public bool TryGetItemLevel(string attributeType, out int level)
+        {
+            foreach(ItemLevelData itemLevel in itemLevels)
+            {
+                if(itemLevel.attributeType == attributeType)
+                {
+                    level = itemLevel.level;
+                    return true;
+                }
+            }
+
+            level = 0;
+            return false;
+        }
+
+        public void ClearItemLevels()
+        {
+            itemLevels.Clear();
+        }
+    }
+
     public class GameData
     {
         private const int GAME_DATA_FILE_VERSION = 0;
@@ -39,7 +97,13 @@ namespace Unchord
 
         public int totalKillCount;
 
-        public int gold;
+        public ShopSaveData shopSaveData = new ShopSaveData();
+        public int Gold
+        {
+            get => shopSaveData.gold;
+            set => shopSaveData.gold = value;
+        }
+
         #endregion
 
         public static string GetPersistentDataFilePath()

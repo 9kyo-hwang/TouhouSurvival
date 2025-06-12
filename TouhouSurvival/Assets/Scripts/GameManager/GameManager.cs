@@ -186,7 +186,7 @@ namespace Unchord
             GameData.Instance.totalElapsedPlaytime += ElapsedPlaytime;
             GameData.Instance.totalGamePlayCount += 1;
             GameData.Instance.totalKillCount += KillCount;
-            GameData.Instance.gold += EarnedGold;
+            GameData.Instance.Gold += EarnedGold;
 
             if (stageResult == RuntimeState.Pass)
             {

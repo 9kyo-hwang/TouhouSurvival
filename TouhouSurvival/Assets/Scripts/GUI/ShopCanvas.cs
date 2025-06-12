@@ -8,10 +8,18 @@ namespace Unchord
 {
     public class ShopData
     {
-        public int Gold {get; private set;} = 999999;   // 현재 플레이어가 보유한 골드량
-        public int InvestedPoints {get; private set;} = 0; // 플레이어가 지금까지 투자한 포인트량
-        public int ExchangedPoints {get; private set;} = 0; // 현재 플레이어가 교환한 총 포인트량
-        public int InvestablePoints => ExchangedPoints - InvestedPoints;   // 플레이어가 투자할 수 있는 남은 포인트량
+        public int Gold // 현재 플레이어가 보유한 골드량
+        {
+            get => GameData.Instance.Gold;
+            private set => GameData.Instance.Gold = value;
+        }
+
+        // 플레이어가 지금까지 투자한 포인트량
+        public int InvestedPoints {get; private set;} = 0; 
+        // 현재 플레이어가 교환한 총 포인트량
+        public int ExchangedPoints {get; private set;} = 0; 
+        // 플레이어가 투자할 수 있는 남은 포인트량
+        public int InvestablePoints => ExchangedPoints - InvestedPoints; 
 
         public event System.Action<int> GoldChanged;
         public event System.Action<int, int> PointsChanged;
@@ -19,6 +27,13 @@ namespace Unchord
         private const int BASE_EXCHANGE_RATE = 100;
         private const float EXCHANGE_RATE_INCREASE = 0.1f;
         private int ExcahngeRate => Mathf.RoundToInt(BASE_EXCHANGE_RATE * (1 + (ExchangedPoints * EXCHANGE_RATE_INCREASE)));    // 지금까지 교환한 포인트량에 비례해 증가하는 골드 환전량
+
+        public void Load(ShopSaveData shopSaveData)
+        {
+            Gold = shopSaveData.gold;
+            InvestedPoints = shopSaveData.investedPoints;
+            ExchangedPoints = shopSaveData.exchangedPoints;
+        }
 
         public bool TryExchangePoints(int points = 1)
         {
@@ -51,8 +66,7 @@ namespace Unchord
 
         public void ResetInvestedPoints(int totalRefund)
         {
-            InvestedPoints -= totalRefund;
-            if(InvestedPoints < 0) InvestedPoints = 0;
+            InvestedPoints = Mathf.Max(InvestedPoints - totalRefund, 0);
             PointsChanged?.Invoke(InvestablePoints, ExchangedPoints);
         }
     }
@@ -67,20 +81,16 @@ namespace Unchord
         [SerializeField] private Transform itemContainer;
 
         private UnchordCanvas _previousCanvas;
-        private ShopData _shopData;
+        private ShopData _shopData = new ShopData();
         private List<ShopItemView> _itemViews = new List<ShopItemView>();
 
         protected override void Awake()
         {
             base.Awake();
 
-            _shopData = new ShopData();
-
             BindButtonEvents();
             BindShopDataEvents();
             InitializeItemViews();
-            UpdateGoldDisplay(_shopData.Gold);
-            UpdatePointsDisplay(_shopData.InvestablePoints, _shopData.ExchangedPoints);
         }
 
         private void Start()
@@ -91,12 +101,37 @@ namespace Unchord
 
         protected override void OnEnable()
         {
-            base.OnEnable();
+            // TODO: Load Gold, Stat Points and Invested Points from GameData 
+            ShopSaveData shopSaveData = GameData.Instance.shopSaveData;
+
+            _shopData.Load(shopSaveData);
+            foreach(var itemView in _itemViews)
+            {
+                if(shopSaveData.TryGetItemLevel(itemView.ItemData.AttributeType, out int level))
+                {
+                    itemView.ItemData.ForceSetLevel(level);
+                }
+            }
+
+            UpdateGoldDisplay(shopSaveData.gold);
+            UpdatePointsDisplay(shopSaveData.investedPoints, shopSaveData.exchangedPoints);
         }
 
         protected override void OnDisable()
         {
-            base.OnDisable();
+            // TODO: Save Gold, Stat Points and Invested Points to GameData
+            ShopSaveData shopSaveData = GameData.Instance.shopSaveData;
+
+            shopSaveData.investedPoints = _shopData.InvestedPoints;
+            shopSaveData.exchangedPoints = _shopData.ExchangedPoints;
+
+            shopSaveData.ClearItemLevels();
+            foreach(ShopItemView itemView in _itemViews)
+            {
+                shopSaveData.Update(itemView.ItemData.AttributeType, itemView.ItemData.CurrentLevel);
+            }
+
+            GameData.Instance.Save();
         }
 
         private void OnPlayerLoaded(Player player)
