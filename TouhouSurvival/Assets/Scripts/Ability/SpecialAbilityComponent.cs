@@ -21,7 +21,15 @@ namespace Unchord
         {
             base.LevelUp();
 
-            // this block is intentionally left blank.
+            if (base.CurrentLevel != 1)
+                return;
+
+            OnEnableSpecial();
+        }
+
+        protected virtual void OnEnableSpecial()
+        {
+
         }
     }
 }
