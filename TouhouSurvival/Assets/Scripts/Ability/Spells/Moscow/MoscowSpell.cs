@@ -3,7 +3,7 @@ using UnityEngine.Pool;
 
 namespace Unchord
 {
-    public class MoscosSpell : SpellComponent
+    public class MoscowSpell : SpellComponent
     {
         private static int s_fireballProjectileFlyingHash = Animator.StringToHash("FireballProjectileFlying");
         private static int s_fireballExplosionHash = Animator.StringToHash("FireballExplosion");
