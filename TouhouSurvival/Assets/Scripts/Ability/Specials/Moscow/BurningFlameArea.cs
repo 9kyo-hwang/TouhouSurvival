@@ -1,40 +1,40 @@
 using System;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace Unchord
 {
     public class BurningFlameArea
     {
-        public float getTime;
-        public float duration;
+        public AttributeBaseSet attributeBase;
 
-        public float lastTickedTime;
+        public ObjectPool<BurningFlameArea> pool;
+
+        public float duration;
         public float tickPeriod;
 
+        public float flameTimeout;
+        public float flameTickTime;
+
         public GameObject source;
+        public CircleCollider2D collider;
         public CollisionEventEmitter emitter;
 
-        public bool ShouldRelease(float currentTime)
+        public virtual void OnHit(object sender, CollisionEventArgs args)
         {
-            return currentTime - getTime >= duration;
+            collider.enabled = false;
+
+            Enemy enemy = args.targetObject.GetComponentInParent<Enemy>();
+
+            UnityEngine.Debug.Assert(enemy != null);
+
+            float damage = attributeBase["FlameDamage"].CurrentValue;
+            enemy.TakeDamage(damage, null, null);
         }
 
-        public bool ShouldTick(float currentTime)
+        public void OnTimeout()
         {
-            return currentTime - lastTickedTime >= tickPeriod;
-        }
-
-        public void PublishEvent(EventHandler<CollisionEventArgs> handler, float currentTime)
-        {
-            lastTickedTime = currentTime;
-
-            emitter.onTriggerEnter2D += handler;
-            emitter.onTriggerEnter2D += OnTriggerEnter2D;
-        }
-
-        private void OnTriggerEnter2D(object sender, CollisionEventArgs args)
-        {
-            emitter = null;
+            pool.Release(this);
         }
     }
 }

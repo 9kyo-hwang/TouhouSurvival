@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Unchord
@@ -5,32 +6,53 @@ namespace Unchord
     // 1-2
     public class BurningBlood : SpecialAbilityComponent
     {
-        public float CurrentHealthRegeneration { get; set; } = 0.0f;
-
         private CircleCollider2D _collider;
         private CollisionEventEmitter _collisionEvent;
-        private bool _isEventRegistered;
-
-        private float _lastBleedTime;
         
+        private float _bleedTime;
+        private bool _shouldBleed;
+        private List<Enemy> _enteredEnemies;
+
         protected override void Awake()
         {
             base.Awake();
 
             _collider = GetComponent<CircleCollider2D>();
             _collisionEvent = GetComponent<CollisionEventEmitter>();
+
+            _enteredEnemies = new List<Enemy>(16);
         }
 
         protected override void Start()
         {
             base.Start();
 
-            _lastBleedTime = 0.0f;
+            _collisionEvent.onTriggerEnter2D += OnEnterArea;
+            _collisionEvent.onTriggerExit2D += OnExitArea;
+            
+            _collider.radius = base.AttributeBase["BloodAreaSize"].CurrentValue;
+        }
 
-            _collisionEvent.onTriggerStay2D += OnBlood;
-            _isEventRegistered = true;
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            if (!_shouldBleed)
+                return;
+
+            _shouldBleed = false;
 
             _collider.radius = base.AttributeBase["BloodAreaSize"].CurrentValue;
+
+            for (int i = _enteredEnemies.Count - 1; i >= 0; --i)
+            {
+                Enemy enemy = _enteredEnemies[i];
+
+                float healthRegen = base.Player.AttributeBase[PlayerAttributeType.HealthRegeneration].CurrentValue;
+                float damage = healthRegen * base.AttributeBase["BloodDamage"].CurrentValue;
+
+                enemy.TakeDamage(damage, null, null);
+            }
         }
 
         protected override void Update()
@@ -38,35 +60,31 @@ namespace Unchord
             base.Update();
 
             float currentTime = GameManager.Instance.AbsolutePlaytime;
-            float cooldown = base.AttributeBase["BloodCooldown"].CurrentValue;
 
-            if (currentTime - _lastBleedTime < cooldown)
+            if (currentTime < _bleedTime)
                 return;
 
-            _lastBleedTime = currentTime;
+            _bleedTime += base.AttributeBase["BloodCooldown"].CurrentValue;
 
-            if (!_isEventRegistered)
-            {
-                _collisionEvent.onTriggerStay2D += OnBlood;
-                _isEventRegistered = true;
-            }
+            _shouldBleed = true;
         }
 
-        private void OnBlood(object sender, CollisionEventArgs args)
+        private void OnEnterArea(object sender, CollisionEventArgs args)
         {
-            if (_isEventRegistered)
-            {
-                _isEventRegistered = false;
-                _collisionEvent.onTriggerStay2D -= OnBlood;
-            }
-
             Enemy enemy = args.targetObject.GetComponentInParent<Enemy>();
 
             UnityEngine.Debug.Assert(enemy != null);
 
-            float damage = CurrentHealthRegeneration * base.AttributeBase["BloodDamage"].CurrentValue;
+            _enteredEnemies.Add(enemy);
+        }
 
-            enemy.TakeDamage(damage, null, null);
+        private void OnExitArea(object sender, CollisionEventArgs args)
+        {
+            Enemy enemy = args.targetObject.GetComponentInParent<Enemy>();
+
+            UnityEngine.Debug.Assert(enemy != null);
+
+            _enteredEnemies.Remove(enemy);
         }
     }
 }

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -11,70 +11,60 @@ namespace Unchord
     {
         public GameObject flamePrefab;
 
-        private List<BurningFlameArea> _nodes;
         private ObjectPool<BurningFlameArea> _flamePool;
-        private Queue<BurningFlameArea> _eventQueue;
-        private Queue<BurningFlameArea> _readyQueue;
+        private List<BurningFlameArea> _flameEnabled;
         
         protected override void Awake()
         {
             base.Awake();
 
-            _nodes = new List<BurningFlameArea>(16);
             _flamePool = new ObjectPool<BurningFlameArea>(
-                OnCreateFlame
-                );
+                OnCreateFlame,
+                OnGetFlame,
+                OnReleaseFlame,
+                null,
+                true,
+                16,
+                128);
+
+            _flameEnabled = new List<BurningFlameArea>(16);
         }
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
+        protected override void Update()
         {
             float currentTime = GameManager.Instance.AbsolutePlaytime;
-
-            int n = 0;
-
-            n = _readyQueue.Count;
-
-            for (int i = 0; i < n; ++i)
+            
+            for (int i = _flameEnabled.Count - 1; i >= 0; --i)
             {
-                BurningFlameArea flame = _readyQueue.Dequeue();
+                BurningFlameArea flame = _flameEnabled[i];
 
-                if (flame.ShouldRelease(currentTime))
-                    _flamePool.Release(flame);
-                else if (flame.ShouldTick(currentTime))
-                    _eventQueue.Enqueue(flame);
-                else
-                    _readyQueue.Enqueue(flame);
-            }
-
-            n = _eventQueue.Count;
-
-            for (int i = 0; i < n; ++i)
-            {
-                BurningFlameArea flame = _eventQueue.Dequeue();
-
-                if (flame.ShouldRelease(currentTime))
+                if (currentTime >= flame.flameTimeout)
                 {
-                    _flamePool.Release(flame);
+                    flame.OnTimeout();
                     continue;
                 }
-
-                flame.PublishEvent(OnFlameEnter, currentTime);
-                _readyQueue.Enqueue(flame);
+                else if (currentTime >= flame.flameTickTime)
+                {
+                    flame.flameTickTime += flame.tickPeriod;
+                    flame.collider.enabled = true;
+                }
             }
         }
 
-        public void GenerateFlame()
+        protected override void OnEnableSpecial()
+        {
+            Fireball weapon = base.Player.WeaponTransform.GetComponentInChildren<Fireball>();
+            MoscowSpell spell = base.Player.SpellTransform.GetComponentInChildren<MoscowSpell>();
+
+            weapon.explHandler += UseFlame;
+            spell.explHandler += UseFlame;
+        }
+
+        private void UseFlame(FireballExplosion expl)
         {
             BurningFlameArea flame = _flamePool.Get();
 
-            _eventQueue.Enqueue(flame);
+            flame.source.transform.position = expl.source.transform.position;
         }
 
         private BurningFlameArea OnCreateFlame()
@@ -83,24 +73,41 @@ namespace Unchord
 
             BurningFlameArea flame = new BurningFlameArea();
 
-            flame.getTime = GameManager.Instance.AbsolutePlaytime;
-            flame.duration = base.AttributeBase["FlameDuration"].CurrentValue;
-            flame.lastTickedTime = -base.AttributeBase["FlameTickTime"].CurrentValue;
-            flame.tickPeriod = base.AttributeBase["FlameTickTime"].CurrentValue;
+            flame.attributeBase = base.AttributeBase;
+
+            flame.pool = _flamePool;
+
             flame.source = flameObject;
+            flame.collider = flameObject.transform.Find("Colliders/Circle Collider 2D").GetComponent<CircleCollider2D>();
             flame.emitter = flameObject.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
+            flame.emitter.onTriggerEnter2D += flame.OnHit;
+
+            flame.collider.enabled = false;
+
+            flame.source.gameObject.SetActive(false);
 
             return flame;
         }
 
-        private void OnFlameEnter(object sender, CollisionEventArgs args)
+        private void OnGetFlame(BurningFlameArea flame)
         {
-            Enemy enemy = args.targetObject.GetComponent<Enemy>();
+            flame.duration = base.AttributeBase["FlameDuration"].CurrentValue;
+            flame.tickPeriod = base.AttributeBase["FlameTickTime"].CurrentValue;
 
-            UnityEngine.Debug.Assert(enemy != null);
+            flame.source.gameObject.SetActive(true);
 
-            float damage = base.AttributeBase["FlameDamage"].CurrentValue;
-            enemy.TakeDamage(damage, null, null);
+            float currentTime = GameManager.Instance.AbsolutePlaytime;
+            flame.flameTimeout = currentTime + flame.duration;
+            flame.flameTickTime = currentTime;
+
+            _flameEnabled.Add(flame);
+        }
+
+        private void OnReleaseFlame(BurningFlameArea flame)
+        {
+            _flameEnabled.Remove(flame);
+
+            flame.source.gameObject.SetActive(false);
         }
     }
 }

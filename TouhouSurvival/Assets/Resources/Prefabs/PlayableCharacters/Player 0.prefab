@@ -425,6 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributeXlsxPathRelative: \AttributeTables\PlayableCharacters\cirno.xlsx
   expXlsxPathRelative: 
+  _currentHealth: 0
 --- !u!114 &8863588712717059164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,13 +464,13 @@ MonoBehaviour:
   spellSet:
   - MoscowSpell
   specialAbilitySet0:
-  - Moscow/Moscow_0_0
-  - Moscow/Moscow_0_1
-  - Moscow/Moscow_0_2
+  - Moscow/ImmortalWill
+  - Moscow/BurningBlood
+  - Moscow/KillingPain
   specialAbilitySet1:
-  - Moscow/Moscow_1_0
-  - Moscow/Moscow_1_1
-  - Moscow/Moscow_1_2
+  - Moscow/MoscowFlame
+  - Moscow/PenetrativeFlame
+  - Moscow/BurningFlame
 --- !u!1 &7941737267563311883
 GameObject:
   m_ObjectHideFlags: 0
