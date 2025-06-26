@@ -6,7 +6,7 @@ namespace Unchord
         protected override void OnEnableSpecial()
         {
             string key = FireballAttributeType.ExplosionSize;
-            float dSize = base.AttributeBase[FireballAttributeType.ExplosionSize].CurrentValue;
+            float dSize = base.AttributeBase[key].CurrentValue;
             GameplayAttributeOperator opcode = GameplayAttributeOperator.PercentMul;
 
             Fireball weapon = base.Player.WeaponTransform.GetComponentInChildren<Fireball>();
