@@ -52,6 +52,14 @@ namespace Unchord
             _shouldUpdate = true;
         }
 
+        public void RemoveModifier(GameplayAttributeModifier modifier)
+        {
+            _modifiers.Remove(modifier);
+            _modifiers.Sort();
+
+            _shouldUpdate = true;
+        }
+
         private float CalculateFinalValue()
         {
             float finalValue = 0.0f;
