@@ -8,10 +8,10 @@ namespace Unchord
 {
     public class GameplayAttributeModifier : IComparable<GameplayAttributeModifier>
     {
-        public readonly string key;
-        public readonly float value;
-        public readonly GameplayAttributeOperator opcode;
-        public readonly string description;
+        public string key;
+        public float value;
+        public GameplayAttributeOperator opcode;
+        public string description;
 
         public GameplayAttributeModifier next;
 
