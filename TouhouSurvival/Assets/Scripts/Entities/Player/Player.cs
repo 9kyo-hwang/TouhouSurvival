@@ -28,7 +28,8 @@ namespace Unchord
         public string expXlsxPathRelative; // TODO: 아직 미구현, 추후 사용 예정.
         #endregion
 
-        private float _currentHealth;
+        public float CurrentHealth => _currentHealth;
+        public float _currentHealth;
 
         private Vector2 _movementVector;
 
