@@ -125,11 +125,12 @@ namespace Unchord
 
             if (Input.GetKeyDown(KeyCode.F5))
             {
-                float xp = AttributeBase[PlayerAttributeType.ExpGain].CurrentValue;
-                float mh = AttributeBase[PlayerAttributeType.HpMax].CurrentValue;
-                float sp = AttributeBase[PlayerAttributeType.Speed].CurrentValue;
+                _currentHealth -= 1.0f;
+            }
 
-                Debug.Log($"ExpGainIncrease == {xp}, Health == {mh}, MovementSpeed == {sp}");
+            if (Input.GetKeyDown(KeyCode.F6))
+            {
+                _currentHealth += 1.0f;
             }
         }
 
