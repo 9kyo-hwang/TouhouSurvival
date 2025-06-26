@@ -50,6 +50,16 @@ namespace Unchord
         {
             base.Update();
 
+            UpdateTimeout();
+        }
+
+        public override void UseWeapon()
+        {
+            UseProjectile();
+        }
+
+        private void UpdateTimeout()
+        {
             for (int i = _projTimeoutController.Count - 1; i >= 0; --i)
             {
                 FireballProjectile proj = _projTimeoutController[i];
@@ -59,11 +69,6 @@ namespace Unchord
                     proj.OnTimeout();
                 }
             }
-        }
-
-        public override void UseWeapon()
-        {
-            UseProjectile();
         }
 
         private void UseProjectile()
