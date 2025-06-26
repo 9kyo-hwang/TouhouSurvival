@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -8,178 +10,179 @@ namespace Unchord
         private static int s_fireballProjectileFlyingHash = Animator.StringToHash("FireballProjectileFlying");
         private static int s_fireballExplosionHash = Animator.StringToHash("FireballExplosion");
 
+        public event Action<FireballExplosion> explHandler;
+
         [Header("Prefab Settings")]
         public GameObject projectilePrefab;
         public GameObject explosionPrefab;
 
-        private ObjectPool<GameObject> _projectilePool;
-        private ObjectPool<GameObject> _explosionPool;
+        private ObjectPool<FireballProjectile> _projPool;
+        private ObjectPool<FireballExplosion> _explPool;
+
+        private List<FireballProjectile> _projTimeoutController;
 
         protected override void Awake()
         {
             base.Awake();
 
-            _projectilePool = new ObjectPool<GameObject>(
+            _projPool = new ObjectPool<FireballProjectile>(
                 OnCreateProjectile,
                 OnGetProjectile,
                 OnReleaseProjectile,
-                OnDestroyProjectile,
+                null,
                 true,
-                4,
-                100);
-            _explosionPool = new ObjectPool<GameObject>(
+                16,
+                128);
+
+            _explPool = new ObjectPool<FireballExplosion>(
                 OnCreateExplosion,
                 OnGetExplosion,
                 OnReleaseExplosion,
-                OnDestroyExplosion,
+                null,
                 true,
-                4,
-                100);
+                16,
+                128);
+
+            _projTimeoutController = new List<FireballProjectile>(16);
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            for (int i = _projTimeoutController.Count - 1; i >= 0; --i)
+            {
+                FireballProjectile proj = _projTimeoutController[i];
+
+                if (proj.absoluteTimeout <= GameManager.Instance.AbsolutePlaytime)
+                {
+                    proj.OnTimeout();
+                }
+            }
         }
 
         public override void UseWeapon()
+        {
+            UseProjectile();
+        }
+
+        private void UseProjectile()
         {
             GameObject nearestEnemy = Player.GetNearestEnemyOrNull();
 
             if (!nearestEnemy)
                 return;
 
-            GameObject projectileObject = _projectilePool.Get();
-
-            LinearProjectile projectile = projectileObject.GetComponent<LinearProjectile>();
-            projectile.transform.position = GameManager.Instance.Player.transform.position;
-            projectile.ProjectileSpeed = 3.0f;
+            FireballProjectile proj = _projPool.Get();
+            LinearProjectile lproj = proj.projectile;
 
             Vector3 playerPosition = Player.transform.position;
             Vector3 enemyPosition = nearestEnemy.transform.position;
-            GameplayAttribute attrEulerAngleError = AttributeBase[FireballAttributeType.ShootingEulerAngleError];
 
-            projectile.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, attrEulerAngleError.CurrentValue);
-            projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, projectile.ProjectileDirection);
+            lproj.transform.position = playerPosition;
+            lproj.ProjectileSpeed = 3.0f;
+
+            float angleError = base.AttributeBase[FireballAttributeType.ShootingEulerAngleError].CurrentValue;
+
+            lproj.ProjectileDirection = Projectile.GetTargetDirectionVector(playerPosition, enemyPosition, angleError);
+            lproj.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, lproj.ProjectileDirection);
         }
 
-        private GameObject OnCreateProjectile()
+        private void UseExplosion(FireballProjectile proj)
         {
-            GameObject projectile = GameObject.Instantiate(projectilePrefab.gameObject, GameManager.Instance.ProjectileContainer, true);
+            FireballExplosion expl = _explPool.Get();
 
-            CollisionEventEmitter emitter = projectile.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
-            emitter.onTriggerEnter2D += OnProjectileEnter;
+            expl.source.transform.position = proj.source.transform.position;
 
-            FlagComponent flagTable = projectile.GetComponent<FlagComponent>();
-            flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnProjectileDestroyFlagSetTrue);
-
-            return projectile;
+            explHandler?.Invoke(expl); // 반드시 UseExplosion 함수의 마지막에서 호출되어야 함.
         }
 
-        private void OnGetProjectile(GameObject projectile)
+        private FireballProjectile OnCreateProjectile()
         {
-            FlagComponent flagTable = projectile.GetComponent<FlagComponent>();
-            flagTable.SetFlagFalseWithoutEvent(AbilityComponent.FLAG_SHOULD_DESTROY);
+            GameObject projObject = GameObject.Instantiate(projectilePrefab.gameObject, GameManager.Instance.ProjectileContainer, true);
 
-            projectile.gameObject.SetActive(true);
+            FireballProjectile proj = new FireballProjectile();
 
-            float scale = AttributeBase[FireballAttributeType.ProjectileSize].CurrentValue;
-            projectile.transform.localScale = new Vector3(scale, scale, 1.0f);
+            proj.explHandler += UseExplosion;
 
-            Animator animator = projectile.GetComponent<Animator>();
-            animator.Play(s_fireballProjectileFlyingHash, -1, 0.0f);
+            proj.attributeBase = base.AttributeBase;
+
+            proj.pool = _projPool;
+
+            proj.source = projObject;
+            proj.source.gameObject.SetActive(false);
+            proj.projectile = projObject.GetComponent<LinearProjectile>();
+            proj.emitter = projObject.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
+            proj.emitter.onTriggerEnter2D += proj.OnHit;
+            proj.animator = projObject.GetComponent<Animator>();
+            proj.flag = projObject.GetComponent<FlagComponent>();
+
+            proj.leftPenetrationCount = 0;
+            proj.penetratedEnemies = new List<Enemy>(16);
+
+            return proj;
         }
 
-        private void OnReleaseProjectile(GameObject projectile)
+        private void OnGetProjectile(FireballProjectile proj)
         {
-            projectile.SetActive(false);
+            proj.leftPenetrationCount = (int)base.AttributeBase[FireballAttributeType.ProjectilePenetrationCount].CurrentValue;
+            proj.penetratedEnemies.Clear();
+
+            float scale = base.AttributeBase[FireballAttributeType.ProjectileSize].CurrentValue;
+            proj.source.transform.localScale = new Vector3(scale, scale, 1.0f);
+
+            proj.source.gameObject.SetActive(true);
+
+            proj.absoluteTimeout = GameManager.Instance.AbsolutePlaytime + 30.0f;
+            _projTimeoutController.Add(proj);
+
+            proj.animator.Play(s_fireballProjectileFlyingHash, -1, 0.0f);
         }
 
-        private void OnDestroyProjectile(GameObject projectile)
+        private void OnReleaseProjectile(FireballProjectile proj)
         {
-            // NOTE: This block is intentionally no operation.
+            _projTimeoutController.Remove(proj);
+
+            proj.source.gameObject.SetActive(false);
         }
 
-        private void OnProjectileDestroyFlagSetTrue(FlagComponent flagTable)
+        private FireballExplosion OnCreateExplosion()
         {
-            UnityEngine.Debug.Assert(flagTable.GetComponent<Projectile>() != null);
+            GameObject explObject = GameObject.Instantiate(explosionPrefab.gameObject, GameManager.Instance.ProjectileContainer, true);
 
-            GameObject explosionObject = _explosionPool.Get();
-            explosionObject.transform.position = flagTable.transform.position;
+            FireballExplosion expl = new FireballExplosion();
 
-            DotProjectile explosion = explosionObject.GetComponent<DotProjectile>();
-            explosion.transform.position = explosionObject.transform.position;
+            expl.attributeBase = base.AttributeBase;
 
-            _projectilePool.Release(flagTable.gameObject);
+            expl.pool = _explPool;
+
+            expl.source = explObject;
+            expl.source.gameObject.SetActive(false);
+            expl.projectile = explObject.GetComponent<DotProjectile>();
+            expl.emitter = explObject.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
+            expl.emitter.onTriggerEnter2D += expl.OnHit;
+            expl.animator = explObject.GetComponent<Animator>();
+            expl.flag = explObject.GetComponent<FlagComponent>();
+            expl.flag.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, expl.OnAnimationEnd);
+
+            return expl;
         }
 
-        private GameObject OnCreateExplosion()
+        private void OnGetExplosion(FireballExplosion expl)
         {
-            GameObject explosion = GameObject.Instantiate(explosionPrefab.gameObject, GameManager.Instance.ProjectileContainer, true);
+            expl.flag.SetFlagFalseWithoutEvent(AbilityComponent.FLAG_SHOULD_DESTROY);
 
-            CollisionEventEmitter emitter = explosion.transform.Find("Colliders/Circle Collider 2D").GetComponent<CollisionEventEmitter>();
-            emitter.onTriggerEnter2D += OnExplosionEnter;
+            expl.source.gameObject.SetActive(true);
 
-            FlagComponent flagTable = explosion.GetComponent<FlagComponent>();
-            flagTable.AddEventTrue(AbilityComponent.FLAG_SHOULD_DESTROY, OnExplosionHit);
+            float scale = base.AttributeBase[FireballAttributeType.ExplosionSize].CurrentValue;
+            expl.source.transform.localScale = new Vector3(scale, scale, 1.0f);
 
-            return explosion;
+            expl.animator.Play(s_fireballExplosionHash, -1, 0.0f);
         }
 
-        private void OnGetExplosion(GameObject explosion)
+        private void OnReleaseExplosion(FireballExplosion expl)
         {
-            FlagComponent flagTable = explosion.GetComponent<FlagComponent>();
-            flagTable.SetFlagFalseWithoutEvent(AbilityComponent.FLAG_SHOULD_DESTROY);
-
-            explosion.gameObject.SetActive(true);
-
-            Animator animator = explosion.GetComponent<Animator>();
-            animator.Play(s_fireballExplosionHash, -1, 0.0f);
-        }
-
-        private void OnReleaseExplosion(GameObject explosion)
-        {
-            explosion.gameObject.SetActive(false);
-        }
-
-        private void OnDestroyExplosion(GameObject explosion)
-        {
-            // NOTE: This block is intentionally no operation.
-        }
-
-        private void OnProjectileEnter(object collisionEventEmitter, CollisionEventArgs args)
-        {
-            GameObject enemyObject = args.targetObject;
-            Enemy enemy = enemyObject.GetComponentInParent<Enemy>(true);
-
-            UnityEngine.Debug.Assert(enemy != null);
-
-            if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
-            {
-                float damage = this.AttributeBase[FireballAttributeType.ProjectileDamage].CurrentValue;
-                enemy.TakeDamage(damage, null, null);
-            }
-
-            GameObject projectileObject = args.eventSource;
-            LinearProjectile projectile = projectileObject.GetComponentInParent<LinearProjectile>(true);
-
-            UnityEngine.Debug.Assert(projectile != null);
-
-            projectile.FlagTable[AbilityComponent.FLAG_SHOULD_DESTROY] = true;
-        }
-
-        private void OnExplosionEnter(object collisionEventEmitter, CollisionEventArgs args)
-        {
-            GameObject enemyObject = args.targetObject;
-            Enemy enemy = enemyObject.GetComponentInParent<Enemy>();
-
-            UnityEngine.Debug.Assert(enemy != null);
-
-            if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
-            {
-                float damage = this.AttributeBase[FireballAttributeType.ExplosionDamage].CurrentValue;
-                enemy.TakeDamage(damage, null, null);
-            }
-        }
-
-        private void OnExplosionHit(FlagComponent flagTable)
-        {
-            _explosionPool.Release(flagTable.gameObject);
+            expl.source.gameObject.SetActive(false);
         }
     }
 }
