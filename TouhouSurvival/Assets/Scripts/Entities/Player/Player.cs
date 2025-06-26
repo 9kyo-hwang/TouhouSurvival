@@ -59,13 +59,13 @@ namespace Unchord
         {
             base.Start();
 
-            LevelSystem.ExpGainIncreaseAttribute = AttributeBase[PlayerAttributeType.ExpGainIncrease];
+            LevelSystem.ExpGainIncreaseAttribute = AttributeBase[PlayerAttributeType.ExpGain];
             LevelSystem.OnLevelUp += this.OnLevelUp;
             LevelSystem.OnExperienceChanged += this.OnExpChanged;
 
-            AttributeBase[PlayerAttributeType.Health].OnAttributeChanged += this.OnHealthChanged;
+            AttributeBase[PlayerAttributeType.HpMax].OnAttributeChanged += this.OnHealthChanged;
 
-            _currentHealth = AttributeBase[PlayerAttributeType.Health].CurrentValue;
+            _currentHealth = AttributeBase[PlayerAttributeType.HpMax].CurrentValue;
 
             _lastSpellUsingTime = float.MinValue;
             _currentSpellGauge = 0.0f;
@@ -76,7 +76,7 @@ namespace Unchord
 
             WorldUIManager wuiManager = WorldUIManager.Instance;
             wuiManager.SetPlayerHealthPosition(transform.position + Vector3.up * 0.7f);
-            wuiManager.SetPlayerHealthValue(AttributeBase[PlayerAttributeType.Health].CurrentValue, 10.0f);
+            wuiManager.SetPlayerHealthValue(AttributeBase[PlayerAttributeType.HpMax].CurrentValue, 10.0f);
         }
 
         private void OnLevelUp(object sender, LevelUpEventArgs args)
@@ -101,14 +101,14 @@ namespace Unchord
         {
             WorldUIManager wum = WorldUIManager.Instance;
 
-            wum.SetPlayerHealthValue(AttributeBase[PlayerAttributeType.Health].CurrentValue, 10.0f);
+            wum.SetPlayerHealthValue(AttributeBase[PlayerAttributeType.HpMax].CurrentValue, 10.0f);
         }
 
         protected override void Update()
         {
             base.Update();
 
-            Animator.SetFloat("Health", AttributeBase[PlayerAttributeType.Health].CurrentValue);
+            Animator.SetFloat("Health", AttributeBase[PlayerAttributeType.HpMax].CurrentValue);
             Animator.SetBool("IsMove", _movementVector.magnitude > 0.0f);
 
             UpdateCurrentSpellGauge();
@@ -124,9 +124,9 @@ namespace Unchord
 
             if (Input.GetKeyDown(KeyCode.F5))
             {
-                float xp = AttributeBase[PlayerAttributeType.ExpGainIncrease].CurrentValue;
-                float mh = AttributeBase[PlayerAttributeType.Health].CurrentValue;
-                float sp = AttributeBase[PlayerAttributeType.MovementSpeed].CurrentValue;
+                float xp = AttributeBase[PlayerAttributeType.ExpGain].CurrentValue;
+                float mh = AttributeBase[PlayerAttributeType.HpMax].CurrentValue;
+                float sp = AttributeBase[PlayerAttributeType.Speed].CurrentValue;
 
                 Debug.Log($"ExpGainIncrease == {xp}, Health == {mh}, MovementSpeed == {sp}");
             }
@@ -134,7 +134,7 @@ namespace Unchord
 
         private void FixedUpdate()
         {
-            float movementSpeed = AttributeBase[PlayerAttributeType.MovementSpeed].CurrentValue;
+            float movementSpeed = AttributeBase[PlayerAttributeType.Speed].CurrentValue;
             Vector2 next = _movementVector * (movementSpeed * Time.fixedDeltaTime);
             Rigidbody.MovePosition(Rigidbody.position + next);
         }
@@ -227,8 +227,8 @@ namespace Unchord
                 return 0f;
             }
 
-            GameplayAttribute maxHealth = AttributeBase[PlayerAttributeType.Health];
-            GameplayAttribute defense = AttributeBase[PlayerAttributeType.Defense];
+            GameplayAttribute maxHealth = AttributeBase[PlayerAttributeType.HpMax];
+            GameplayAttribute defense = AttributeBase[PlayerAttributeType.Armor];
 
             float currentHealth = _currentHealth;
             float currentDefense = defense.CurrentValue;
