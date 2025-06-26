@@ -12,6 +12,7 @@ namespace Unchord
         public const string ProjectileSpeed = "ProjectileSpeed";
         public const string ProjectileDamage = "ProjectileDamage";
         public const string ProjectileKnockbackForce = "ProjectileKnockbackForce";
+        public const string ProjectilePenetrationCount = "ProjectilePenetrationCount";
 
         // NOTE: Options for Explosion Area.
         public const string ExplosionSize = "ExplosionSize";
