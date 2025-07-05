@@ -17,6 +17,7 @@ namespace Unchord
         public SelectCharacterCanvas SelectCharacterCanvas => this.GetCanvas<SelectCharacterCanvas>("GUIs/Canvas/SelectCharacter");
         public SpecialAbilityCanvas SpecialAbilityCanvas => this.GetCanvas<SpecialAbilityCanvas>("GUIs/Canvas/SpecialAbility");
         public ShopCanvas ShopCanvas => GetCanvas<ShopCanvas>("GUIs/Canvas/Shop");
+        public SingleColorCanvas SingleColorCanvas0 => GetCanvas<SingleColorCanvas>("GUIs/Canvas/SingleColorCanvas0");
         #endregion
 
         private int _topOfCanvas;

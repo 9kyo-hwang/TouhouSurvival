@@ -5,34 +5,32 @@ namespace Unchord
 {
     public class PauseCanvas : UnchordCanvas
     {
+        private Button _mainButton;
         private Button _resumeButton;
-        private Button _settingsButtons;
-        private Button _menuButton;
 
+        private VolumeSlider _bgmSlider;
+        private VolumeSlider _sfxSlider;
+        
         protected override void Awake()
         {
             base.Awake();
 
-            // TODO: 캔버스 구현 후 상대 경로를 문자열로 삽입합니다.
-            _resumeButton = transform.Find("ResumeButton").GetComponent<Button>();
-            _settingsButtons = transform.Find("SettingsButton").GetComponent<Button>();
-            _menuButton = transform.Find("MenuButton").GetComponent<Button>();
+            _mainButton = transform.Find("Navigators/MainButton").GetComponent<Button>();
+            _resumeButton = transform.Find("Navigators/ResumeButton").GetComponent<Button>();
 
             _resumeButton.onClick.AddListener(OnResumeButtonClick);
-            _settingsButtons.onClick.AddListener(OnSettingsButtonClick);
-            _menuButton.onClick.AddListener(OnMenuButtonClick);
-        }
+            _mainButton.onClick.AddListener(OnMainButtonClick);
 
-        void Update()
-        {
-
+            _bgmSlider = new VolumeSlider(transform.Find("Setting/BgmSlider"), SoundManager.Instance.BGM);
+            _sfxSlider = new VolumeSlider(transform.Find("Setting/SfxSlider"), SoundManager.Instance.SFX);
         }
 
         public override void Show()
         {
             base.Show();
 
-            s_uiManager.SettingsCanvas.ReserveReturnCanvas(this);
+            s_uiManager.SingleColorCanvas0.LayerBackOf(s_uiManager.GameCanvas);
+            s_uiManager.SingleColorCanvas0.Show();
         }
 
         public override void UpdateKeyboardInput()
@@ -43,24 +41,22 @@ namespace Unchord
                 OnResumeButtonClick();
         }
 
-        private void OnResumeButtonClick()
+        private void OnMainButtonClick()
         {
+            s_uiManager.SingleColorCanvas0.Hide();
             this.Hide();
-            s_uiManager.GameCanvas.Show();
-            s_gameManager.ResumeGame();
+
+            s_gameManager.HaltGame();
             s_gameManager.ReleaseTimeStopInterrupt();
         }
 
-        private void OnSettingsButtonClick()
+        private void OnResumeButtonClick()
         {
+            s_uiManager.SingleColorCanvas0.Hide();
             this.Hide();
-            s_uiManager.SettingsCanvas.Show();
-        }
-
-        private void OnMenuButtonClick()
-        {
-            this.Hide();
-            s_gameManager.HaltGame();
+            
+            s_uiManager.GameCanvas.Show();
+            s_gameManager.ResumeGame();
             s_gameManager.ReleaseTimeStopInterrupt();
         }
     }
