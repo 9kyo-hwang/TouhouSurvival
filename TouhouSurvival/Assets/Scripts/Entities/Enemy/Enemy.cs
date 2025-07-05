@@ -166,10 +166,10 @@ namespace Unchord
 
         private void OnHit()
         {
-            Animator.SetTrigger("Hit");
+            //Animator.SetTrigger("Hit");
         }
 
-        private void OnDead()
+        public override void Die()
         {
             Rigidbody.simulated = false;
             // Renderer.sortingOrder--;
