@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +8,14 @@ namespace Unchord
 {
     public class Player : Pawn
     {
+        private static int s_playerDeadHash = Animator.StringToHash("PlayerDead");
+
         public PlayerLevelSystem LevelSystem { get; private set; }
 
         public AttributeBaseSet AttributeBase { get; private set; }
         private AttributeModifierSet _attributeModifier;
+
+        public bool IsStarted { get; private set; } = false;
         
         private AbilitySelectUIHandler _abilitySelectUI;
         private AbilityManager _abilityManager;
@@ -19,6 +24,7 @@ namespace Unchord
         public Sprite iconCharacter;
         public Sprite iconMainWeapon;
         public Sprite iconSpell;
+        public Sprite iconSpecial;
         public Sprite iconPreview;
         #endregion
 
@@ -85,6 +91,8 @@ namespace Unchord
             WorldUIManager wuiManager = WorldUIManager.Instance;
             wuiManager.SetPlayerHealthPosition(transform.position + Vector3.up * 0.7f);
             wuiManager.SetPlayerHealthValue(AttributeBase[PlayerAttributeType.HpMax].CurrentValue, 10.0f);
+
+            IsStarted = true;
         }
 
         private void OnLevelUp(object sender, LevelUpEventArgs args)
@@ -121,7 +129,7 @@ namespace Unchord
         {
             base.Update();
 
-            Animator.SetFloat("Health", AttributeBase[PlayerAttributeType.HpMax].CurrentValue);
+            Animator.SetBool("IsDead", _currentHealth <= 0.0f);
             Animator.SetBool("IsMove", _movementVector.magnitude > 0.0f);
 
             UpdateCurrentSpellGauge();
@@ -137,12 +145,12 @@ namespace Unchord
 
             if (Input.GetKeyDown(KeyCode.F5))
             {
-                _currentHealth -= 1.0f;
+                TakeTrueDamage(1.0f);
             }
 
             if (Input.GetKeyDown(KeyCode.F6))
             {
-                _currentHealth += 1.0f;
+                TakeTrueDamage(-1.0f);
             }
         }
 
@@ -202,6 +210,18 @@ namespace Unchord
             _currentSpellGauge = Mathf.Clamp(_currentSpellGauge + delta * dt, 0.0f, max);
         }
 
+        public bool IsDeadAnimationEnd()
+        {
+            AnimatorStateInfo state = base.Animator.GetCurrentAnimatorStateInfo(0);
+
+            return (state.shortNameHash == s_playerDeadHash && state.normalizedTime >= 1.0f);
+        }
+
+        public void Resurrect()
+        {
+            _currentHealth = AttributeBase[PlayerAttributeType.HpMax].CurrentValue;
+        }
+
         public GameObject GetNearestEnemyOrNull()
         {
             Vector2 originPosition = transform.position;
@@ -256,6 +276,20 @@ namespace Unchord
             OnHealthChanged(this, null);
             
             Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
+            return damageAmount;
+        }
+
+        public override float TakeTrueDamage(float damageAmount)
+        {
+            GameplayAttribute maxHealth = AttributeBase[PlayerAttributeType.HpMax];
+
+            float currentHealth = _currentHealth;
+            _currentHealth = Mathf.Clamp(_currentHealth - damageAmount, 0.0f, maxHealth.CurrentValue);
+
+            // TODO: 이벤트 변수로 빼는 방안을 고려함.
+            OnHealthChanged(this, null);
+
+            Debug.Log($"플레이어가 {damageAmount} 고정 피해를 입었습니다. 체력: {currentHealth} -> {_currentHealth}");
             return damageAmount;
         }
     }

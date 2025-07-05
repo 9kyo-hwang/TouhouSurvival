@@ -77,5 +77,14 @@ namespace Unchord
         {
             _runtimes[_ptrRuntime].InterruptHalt();
         }
+
+        // Post-Order DFS 수행해야 함.
+        public override void InterruptResurrect()
+        {
+            for (int i = 0; i <= _ptrRuntime; ++i)
+            {
+                _runtimes[i].InterruptResurrect();
+            }
+        }
     }
 }

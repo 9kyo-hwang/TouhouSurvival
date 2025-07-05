@@ -39,5 +39,11 @@ namespace Unchord
 
         // Apply damage to this game object. The amount of damage actually applied.
         public abstract float TakeDamage(float damageAmount);
+        public abstract float TakeTrueDamage(float damageAmount);
+
+        public virtual void Die()
+        {
+
+        }
     }
 }

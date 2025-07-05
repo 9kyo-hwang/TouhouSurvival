@@ -78,7 +78,9 @@ namespace Unchord
             Debug.Log("Boss Phase End");
         }
 
+        public override void InterruptResurrect()
         {
+            base.InterruptResurrect();
         }
 
         private void OnBossSpawned(object sender, SpawnEventArgs args)

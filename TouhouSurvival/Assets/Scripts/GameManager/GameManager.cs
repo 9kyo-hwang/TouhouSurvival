@@ -34,7 +34,12 @@ namespace Unchord
 
         public int KillCount { get; set; }
         public int EarnedGold { get; set; }
-        
+
+        public int ResurrectedCount { get; set; }
+        public int ResurrectCountMax { get; set; }
+
+        public bool IsPlayerDead => (this.Player.CurrentHealth <= 0.0f);
+        public bool IsRuntimeBlocked => (_execBlockingCounter > 0);
         public PhaseRuntimeCommons PhaseRuntimeCommonData { get; private set; }
 
         private bool _isGameStarted;
@@ -44,6 +49,7 @@ namespace Unchord
         public List<GameObject> SpawnedEnemies { get; private set; }
 
         private int _timeStopInterruptCounter = 0;
+        private int _execBlockingCounter = 0;
 
         public BlockingEventHandler BlockingEvent { get; private set; }
         public Camera MainCamera { get; private set; }
@@ -80,12 +86,19 @@ namespace Unchord
             if (_stageTree == null)
                 return;
 
+            if (_execBlockingCounter > 0)
+                return;
+
             RuntimeState execResult = _stageTree.Update();
 
             switch (execResult)
             {
                 case RuntimeState.Continue:
                     UpdatePlaytime();
+                    break;
+
+                case RuntimeState.Resurrect:
+                    this.BlockingEvent.Publish(OnResurrectCoroutine());
                     break;
 
                 case RuntimeState.Pass:
@@ -108,6 +121,8 @@ namespace Unchord
             if (_isGameStarted)
                 return;
 
+            ResurrectedCount = 0;
+            ResurrectCountMax = 0;
 
             // TODO: 이름 수정
             CreatePlayer();
@@ -244,6 +259,21 @@ namespace Unchord
             }
         }
 
+        private IEnumerator OnResurrectCoroutine()
+        {
+            ++_execBlockingCounter;
+            this.Player.Animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+
+            yield return new WaitUntil(this.Player.IsDeadAnimationEnd);
+            yield return new WaitForSecondsRealtime(1.0f);
+
+            --_execBlockingCounter;
+            ++ResurrectedCount;
+
+            _stageTree.InterruptResurrect();
+            this.Player.Animator.updateMode = AnimatorUpdateMode.Normal;
+            this.Player.Resurrect();
+        }
 
         private IEnumerator OnGameEndCoroutine(RuntimeState result)
         {

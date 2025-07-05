@@ -111,7 +111,7 @@ namespace Unchord
 
             if (newHealth <= 0.0f)
             {
-                OnDead();
+                Die();
             }
             else
             {
@@ -121,6 +121,21 @@ namespace Unchord
             Debug.Log($"적이 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
         }
+
+        public override float TakeTrueDamage(float damageAmount)
+        {
+            GameplayAttribute maxHealth = AttributeBase[EnemyAttributeType.Health];
+
+            float currentHealth = _currentHealth;
+            _currentHealth = Mathf.Clamp(_currentHealth - damageAmount, 0.0f, maxHealth.CurrentValue);
+
+            // TODO: 이벤트 변수로 빼는 방안을 고려함.
+            OnHealthChanged(this, null);
+
+            Debug.Log($"적이 {damageAmount} 고정 피해를 입었습니다. 체력: {currentHealth} -> {_currentHealth}");
+            return damageAmount;
+        }
+
         public void KnockBack(float knockBackStrength)
         {
             StartCoroutine(KnockBackCoroutine(knockBackStrength));

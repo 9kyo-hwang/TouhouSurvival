@@ -43,6 +43,10 @@ namespace Unchord
             {
                 return _compositeRuntime.Update();
             }
+            else if (_gm.ResurrectedCount < _gm.ResurrectCountMax)
+            {
+                return RuntimeState.Resurrect;
+            }
             else
             {
                 return RuntimeState.Fail;
@@ -70,6 +74,11 @@ namespace Unchord
 
             _interruptedHalt = true;
         }
+
+        // Post-Order DFS 수행해야 함.
+        public override void InterruptResurrect()
+        {
+            _compositeRuntime.InterruptResurrect();
         }
     }
 }

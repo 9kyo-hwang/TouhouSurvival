@@ -53,8 +53,14 @@ namespace Unchord
             Debug.Log("Survival Phase End");
         }
 
+        public override void InterruptResurrect()
         {
+            base.InterruptResurrect();
 
+            for (int i = 0; i < _spawners.Length; ++i)
+            {
+                _spawners[i].InterruptResurrect();
+            }
         }
 
         private void OnEnemySpawned(object sender, SpawnEventArgs args)

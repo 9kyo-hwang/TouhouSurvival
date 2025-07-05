@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Unchord
 {
     public class SpawnerRuntime : Runtime<SpawnerSO>
+        , IInterruptableResurrect
     {
         public float LeftCooldown { get; private set; }
         public int SpawnedCount { get; private set; }
@@ -214,5 +215,18 @@ namespace Unchord
             _spawnedObjects = newArray;
         }
         #endregion
+
+        public void InterruptResurrect()
+        {
+            for (int i = _spawnedObjectCount - 1; i >= 0; --i)
+            {
+                if (_spawnedObjects[i] != null)
+                {
+                    _spawnedObjects[i].GetComponent<Pawn>()?.Die();
+                }
+            }
+
+            _spawnedObjectCount = 0;
+        }
     }
 }

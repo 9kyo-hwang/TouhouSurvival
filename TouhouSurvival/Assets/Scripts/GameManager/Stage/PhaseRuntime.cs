@@ -2,10 +2,12 @@ namespace Unchord
 {
     public abstract class PhaseRuntime<T_Data> : Runtime<T_Data>, IPhase
     {
-        public PhaseRuntime(T_Data data)
+        protected PhaseRuntimeCommons CommonData { get; private set; }
+
+        public PhaseRuntime(T_Data data, PhaseRuntimeCommons commonData)
         : base(data)
         {
-
+            CommonData = commonData;
         }
 
         public virtual void Start() { }
@@ -14,5 +16,6 @@ namespace Unchord
         public virtual void Resume() { }
         public virtual void End() { }
         public virtual void InterruptHalt() { }
+        public virtual void InterruptResurrect() { }
     }
 }
