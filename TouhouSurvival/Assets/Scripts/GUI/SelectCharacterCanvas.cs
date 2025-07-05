@@ -51,6 +51,9 @@ namespace Unchord
 
             s_gameManager.LoadPlayerPrefabs();
 
+            s_uiManager.SingleColorCanvas0.LayerBackOf(this);
+            s_uiManager.SingleColorCanvas0.Show();
+
             int pCount = s_gameManager.PlayerPrefabs.Length;
 
             UnityEngine.Debug.Assert(pCount > 0);
@@ -66,6 +69,13 @@ namespace Unchord
             SetIcons(1, idxCurrent);
             SetIcons(2, idxNext);
             SetPreview(idxCurrent);
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+
+            s_uiManager.SingleColorCanvas0.Hide();
         }
 
         public override void UpdateKeyboardInput()
