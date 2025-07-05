@@ -43,22 +43,41 @@ namespace Unchord
 
             lCanvas.Clear();
 
-            foreach (AbilityComponent ability in sampledAbilities)
+            int aCount = sampledAbilities.Count;
+
+            if (aCount == 0)
             {
-                lCanvas.Add(ability);
+                yield return WaitForSelectionEmpty(lCanvas);
+            }
+            else
+            {
+                yield return WaitForSelection(lCanvas, sampledAbilities, abilityManager);
             }
 
-            lCanvas.Show();
-            yield return new WaitWhile(() => lCanvas.SelectedIndex < 0);
-            lCanvas.Hide();
+        }
 
-            if (sampledAbilities.Count == 0)
+        private IEnumerator WaitForSelectionEmpty(LevelUpCanvas canvas)
+        {
+            canvas.AddNoEntry();
+
+            canvas.Show();
+            yield return new WaitWhile(() => canvas.SelectedIndex < 0);
+            canvas.Hide();
+        }
+
+        private IEnumerator WaitForSelection(LevelUpCanvas canvas, List<AbilityComponent> abilities, AbilityManager abilityManager)
+        {
+            for (int i = 0; i < abilities.Count; ++i)
             {
-                yield break;
+                canvas.AddAbility(abilities[i]);
             }
 
-            int selectedIndex = lCanvas.SelectedIndex;
-            AbilityComponent selectedAbility = sampledAbilities[selectedIndex];
+            canvas.Show();
+            yield return new WaitWhile(() => canvas.SelectedIndex < 0);
+            canvas.Hide();
+
+            int idxSelected = canvas.SelectedIndex;
+            AbilityComponent selectedAbility = abilities[idxSelected];
 
             selectedAbility.LevelUp();
             selectedAbility.gameObject.SetActive(true);
@@ -67,7 +86,9 @@ namespace Unchord
 
             GameCanvas gCanvas = UIManager.Instance.GameCanvas;
 
-            if (selectedAbility is WeaponComponent)
+            if (selectedAbility.CurrentLevel != 1)
+                yield break;
+            else if (selectedAbility is WeaponComponent)
                 gCanvas.AddWeaponIcon(selectedAbility.DisplayIcon);
             else if (selectedAbility is PassiveComponent)
                 gCanvas.AddPassiveIcon(selectedAbility.DisplayIcon);
