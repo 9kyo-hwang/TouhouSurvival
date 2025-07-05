@@ -48,7 +48,7 @@ namespace Unchord
             {
                 Enemy enemy = _enteredEnemies[i];
 
-                float healthRegen = base.Player.AttributeBase[PlayerAttributeType.HealthRegeneration].CurrentValue;
+                float healthRegen = base.Player.AttributeBase[PlayerAttributeType.HpRegen].CurrentValue;
                 float damage = healthRegen * base.AttributeBase["BloodDamage"].CurrentValue;
 
                 enemy.TakeDamage(damage);

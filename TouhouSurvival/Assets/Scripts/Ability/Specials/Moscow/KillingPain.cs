@@ -14,8 +14,10 @@ namespace Unchord
         {
             base.Awake();
 
+            _gm = GameManager.Instance;
+
             _modifier = new GameplayAttributeModifier(
-                PlayerAttributeType.HealthRegeneration,
+                PlayerAttributeType.HpRegen,
                 0.0f,
                 GameplayAttributeOperator.PercentAdd);
         }
@@ -24,9 +26,7 @@ namespace Unchord
         {
             base.Start();
 
-            _gm = GameManager.Instance;
-
-            _attrHealthRegen = base.Player.AttributeBase[PlayerAttributeType.HealthRegeneration];
+            _attrHealthRegen = base.Player.AttributeBase[PlayerAttributeType.HpRegen];
 
             _attrHealthRegen.AddModifier(_modifier);
         }
