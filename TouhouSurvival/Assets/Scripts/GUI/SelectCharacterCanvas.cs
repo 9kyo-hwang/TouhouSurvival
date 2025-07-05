@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,60 +7,73 @@ namespace Unchord
 {
     public class SelectCharacterCanvas : UnchordCanvas
     {
+        private const int MAX_CHARACTER_SLOT_COUNT = 3;
+
         private Button _btnBack;
         private Button _btnStart;
-        private Transform _characterButtonContainer;
+        private Button _btnLeft;
+        private Button _btnRight;
+        private CharacterSlot[] _characterSlots;
+        private Image _imgPreview;
+
+        private int _idxSelected;
 
         protected override void Awake()
         {
             base.Awake();
 
-            _btnBack = transform.Find("DescriptionPanel/Navigators/BackButton").GetComponent<Button>();
-            _btnStart = transform.Find("DescriptionPanel/Navigators/StartButton").GetComponent<Button>();
-            _characterButtonContainer = transform.Find("CharacterPanel/CharacterButtons");
+            _btnBack = transform.Find("BackButton").GetComponent<Button>();
+            _btnStart = transform.Find("StartButton").GetComponent<Button>();
+            _btnLeft = transform.Find("CharacterSlots/LeftButton").GetComponent<Button>();
+            _btnRight = transform.Find("CharacterSlots/RightButton").GetComponent<Button>();
+            _imgPreview = transform.Find("CharacterPreview").GetComponent<Image>();
 
+            _characterSlots = new CharacterSlot[MAX_CHARACTER_SLOT_COUNT];
+
+            for (int i = 0; i < MAX_CHARACTER_SLOT_COUNT; ++i)
+            {
+                _characterSlots[i] = new CharacterSlot(transform.Find($"CharacterSlots/Slot ({i})"));
+            }
+            
             _btnBack.onClick.AddListener(OnBackButtonClick);
             _btnStart.onClick.AddListener(OnStartButtonClick);
+            _btnLeft.onClick.AddListener(OnLeftButtonClick);
+            _btnRight.onClick.AddListener(OnRightButtonClick);
+            
+            _idxSelected = 0;
         }
 
-        protected override void OnEnable()
+        public override void Show()
         {
-            base.OnEnable();
+            base.Show();
 
-            _btnStart.interactable = false;
+            _idxSelected = 0;
 
             s_gameManager.LoadPlayerPrefabs();
 
             int pCount = s_gameManager.PlayerPrefabs.Length;
-            int bCount = _characterButtonContainer.childCount;
-            GameObject buttonPrefab = _characterButtonContainer.GetChild(0).gameObject;
 
-            for (int i = 0; i < pCount; ++i)
-            {
-                if (bCount - 1 <= i)
-                {
-                    GameObject newButton = GameObject.Instantiate(buttonPrefab, _characterButtonContainer, false);
-                    newButton.name = $"CharacterButtonBase ({i + 1})";
-                }
+            UnityEngine.Debug.Assert(pCount > 0);
 
-                Transform child = _characterButtonContainer.GetChild(i + 1);
-                Button button = child.Find("Button").GetComponent<Button>();
-                TextMeshProUGUI textComponent = child.Find("Text").GetComponent<TextMeshProUGUI>();
+            int idxCurrent = _idxSelected;
+            int idxPrev = (idxCurrent + pCount - 1) % pCount;
+            int idxNext = (idxCurrent + 1) % pCount;
 
-                int playerIndex = i;
+            _idxSelected = idxCurrent;
+            s_gameManager.PlayerPrefabIndex = _idxSelected;
 
-                button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(() => OnCharacterButtonClick(button, playerIndex));
+            SetIcons(0, idxPrev);
+            SetIcons(1, idxCurrent);
+            SetIcons(2, idxNext);
+            SetPreview(idxCurrent);
+        }
 
-                // button.image = playableCharacterResources[i].icon;
-                textComponent.text = s_gameManager.PlayerPrefabs[i].name;
-                child.gameObject.SetActive(true);
-            }
+        public override void UpdateKeyboardInput()
+        {
+            base.UpdateKeyboardInput();
 
-            for (int i = pCount + 1; i < bCount; ++i)
-            {
-                _characterButtonContainer.GetChild(i).gameObject.SetActive(false);
-            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+                OnBackButtonClick();
         }
 
         private void OnBackButtonClick()
@@ -76,18 +88,57 @@ namespace Unchord
             s_gameManager.StartGame();
         }
 
-        private void OnCharacterButtonClick(Button button, int playerIndex)
+        private void OnLeftButtonClick()
         {
-            if (s_gameManager.PlayerPrefabIndex == playerIndex)
-            {
-                s_gameManager.PlayerPrefabIndex = -1;
-                _btnStart.interactable = false;
-            }
-            else
-            {
-                s_gameManager.PlayerPrefabIndex = playerIndex;
-                _btnStart.interactable = true;
-            }
+            int pCount = s_gameManager.PlayerPrefabs.Length;
+
+            UnityEngine.Debug.Assert(pCount > 0);
+
+            int idxNext = _idxSelected;
+            int idxCurrent = (idxNext + pCount - 1) % pCount;
+            int idxPrev = (idxCurrent + pCount - 1) % pCount;
+
+            _idxSelected = idxCurrent;
+            s_gameManager.PlayerPrefabIndex = _idxSelected;
+
+            SetIcons(0, idxPrev);
+            SetIcons(1, idxCurrent);
+            SetIcons(2, idxNext);
+            SetPreview(idxCurrent);
+        }
+
+        private void OnRightButtonClick()
+        {
+            int pCount = s_gameManager.PlayerPrefabs.Length;
+
+            UnityEngine.Debug.Assert(pCount > 0);
+
+            int idxPrev = _idxSelected;
+            int idxCurrent = (idxPrev + 1) % pCount;
+            int idxNext = (idxCurrent + 1) % pCount;
+
+            _idxSelected = idxCurrent;
+            s_gameManager.PlayerPrefabIndex = _idxSelected;
+
+            SetIcons(0, idxPrev);
+            SetIcons(1, idxCurrent);
+            SetIcons(2, idxNext);
+            SetPreview(idxCurrent);
+        }
+
+        private void SetIcons(int idxSlot, int idxPrefab)
+        {
+            CharacterSlot slot = _characterSlots[idxSlot];
+            Player prefab = s_gameManager.PlayerPrefabs[idxPrefab];
+
+            slot.SetIcons(prefab.iconCharacter, prefab.iconMainWeapon, prefab.iconSpell);
+        }
+
+        private void SetPreview(int idxPrefab)
+        {
+            Player prefab = s_gameManager.PlayerPrefabs[idxPrefab];
+
+            _imgPreview.sprite = prefab.iconPreview;
         }
     }
 }

@@ -15,6 +15,13 @@ namespace Unchord
         private AbilitySelectUIHandler _abilitySelectUI;
         private AbilityManager _abilityManager;
 
+        #region Player's Icon for SelectCharacterCanvas GUI
+        public Sprite iconCharacter;
+        public Sprite iconMainWeapon;
+        public Sprite iconSpell;
+        public Sprite iconPreview;
+        #endregion
+
         #region Ability Component Containers
         public Transform WeaponTransform  { get; private set; }
         public Transform PassiveTransform { get; private  set; }
