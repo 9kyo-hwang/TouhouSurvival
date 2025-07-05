@@ -25,7 +25,7 @@ namespace Unchord
         public float MinValue => _minValue;
         public float MaxValue => _maxValue;
 
-        public event EventHandler<AttributeChangedEventArgs> OnAttributeChanged;
+        public event EventHandler<AttributeChangedEventArgs> onAttributeChanged;
 
         private float _baseValue;
         private float _currentValue;
@@ -49,7 +49,13 @@ namespace Unchord
             _modifiers.Add(modifier);
             _modifiers.Sort();
 
+            float oldValue = CurrentValue;
             _shouldUpdate = true;
+            float newValue = CurrentValue;
+
+            AttributeChangedEventArgs args = new AttributeChangedEventArgs(oldValue, newValue);
+
+            onAttributeChanged?.Invoke(this, args);
         }
 
         public void RemoveModifier(GameplayAttributeModifier modifier)
@@ -57,7 +63,13 @@ namespace Unchord
             _modifiers.Remove(modifier);
             _modifiers.Sort();
 
+            float oldValue = CurrentValue;
             _shouldUpdate = true;
+            float newValue = CurrentValue;
+
+            AttributeChangedEventArgs args = new AttributeChangedEventArgs(oldValue, newValue);
+
+            onAttributeChanged?.Invoke(this, args);
         }
 
         private float CalculateFinalValue()

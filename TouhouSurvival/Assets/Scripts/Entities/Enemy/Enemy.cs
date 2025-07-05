@@ -34,7 +34,7 @@ namespace Unchord
         {
             base.Start();
 
-            AttributeBase[EnemyAttributeType.Health].OnAttributeChanged += this.OnHealthChanged;
+            AttributeBase[EnemyAttributeType.Health].onAttributeChanged += this.OnHealthChanged;
 
             _currentHealth = AttributeBase[EnemyAttributeType.Health].CurrentValue;
         }

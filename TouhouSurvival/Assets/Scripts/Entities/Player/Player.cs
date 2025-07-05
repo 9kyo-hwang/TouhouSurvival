@@ -77,7 +77,7 @@ namespace Unchord
             LevelSystem.OnLevelUp += this.OnLevelUp;
             LevelSystem.OnExperienceChanged += this.OnExpChanged;
 
-            AttributeBase[PlayerAttributeType.HpMax].OnAttributeChanged += this.OnHealthChanged;
+            AttributeBase[PlayerAttributeType.HpMax].onAttributeChanged += this.OnMaxHealthChanged;
 
             _currentHealth = AttributeBase[PlayerAttributeType.HpMax].CurrentValue;
 
@@ -111,6 +111,16 @@ namespace Unchord
             UIManager um = UIManager.Instance;
 
             um.GameCanvas.SetExpGauge(args.CurrentExperience, args.TotalExperience);
+        }
+
+        private void OnMaxHealthChanged(object sender, AttributeChangedEventArgs args)
+        {
+            WorldUIManager wum = WorldUIManager.Instance;
+
+            float h = _currentHealth;
+            float hmax = args.NewValue;
+
+            wum.SetPlayerHealthValue(h, hmax);
         }
 
         private void OnHealthChanged(object sender, EventArgs args)
