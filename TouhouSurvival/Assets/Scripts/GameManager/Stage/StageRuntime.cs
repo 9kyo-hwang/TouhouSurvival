@@ -7,13 +7,15 @@ namespace Unchord
         private Map _map;
         private IPhase _compositeRuntime;
 
-        public StageRuntime(StageDataSO phase)
-        : base(phase)
+        private bool _interruptedHalt;
+
+        public StageRuntime(StageDataSO phase, PhaseRuntimeCommons commonData)
+        : base(phase, commonData)
         {
             _gm = GameManager.Instance;
 
             _map = Map.Create(RuntimeData.mapSO);
-            _compositeRuntime = new CompositePhaseRuntime(RuntimeData.phaseList);
+            _compositeRuntime = new CompositePhaseRuntime(RuntimeData.phaseList, commonData);
 
             _map.transform.parent = _gm.RuntimeContainer;
 

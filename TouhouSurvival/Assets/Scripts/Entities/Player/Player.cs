@@ -156,6 +156,7 @@ namespace Unchord
         protected override void LateUpdate()
         {
             Animator.SetFloat("Speed", _movementVector.magnitude);
+
             if (_movementVector.x != 0)
             {
                 float angle = _movementVector.x < 0 ? 0.0f : 180.0f;
@@ -205,7 +206,7 @@ namespace Unchord
         {
             Vector2 originPosition = transform.position;
             GameObject selected = null;
-            List<GameObject> spawnedEnemies = GameManager.Instance.SpawnedEnemies;
+            List<GameObject> spawnedEnemies = GameManager.Instance.PhaseRuntimeCommonData.spawnedObjects;
 
             for (int i = spawnedEnemies.Count - 1; i >= 0; --i)
             {

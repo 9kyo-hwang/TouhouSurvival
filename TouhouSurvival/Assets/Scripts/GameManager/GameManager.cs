@@ -35,6 +35,8 @@ namespace Unchord
         public int KillCount { get; set; }
         public int EarnedGold { get; set; }
         
+        public PhaseRuntimeCommons PhaseRuntimeCommonData { get; private set; }
+
         private bool _isGameStarted;
 
         private IPhase _stageTree;
@@ -222,8 +224,10 @@ namespace Unchord
             if (_stageTree != null)
                 return;
 
+            PhaseRuntimeCommonData = new PhaseRuntimeCommons(this);
+
             StageDataSO stageSO = Resources.Load(phaseSoResourcePath) as StageDataSO;
-            _stageTree = stageSO.CreateRuntime() as IPhase;
+            _stageTree = stageSO.CreateRuntime(PhaseRuntimeCommonData) as IPhase;
         }
 
         private void UpdatePlaytime()

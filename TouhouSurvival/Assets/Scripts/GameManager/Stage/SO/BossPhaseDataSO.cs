@@ -11,6 +11,6 @@ namespace Unchord
 
         public bool useTimerStop = true;
 
-        public override IRuntime CreateRuntime() => new BossPhaseRuntime(this);
+        public override IRuntime CreateRuntime(PhaseRuntimeCommons commonData) => new BossPhaseRuntime(this, commonData);
     }
 }

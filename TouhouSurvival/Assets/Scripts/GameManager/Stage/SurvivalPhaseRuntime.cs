@@ -9,16 +9,15 @@ namespace Unchord
 
         private float _startTime;
 
-
-        public SurvivalPhaseRuntime(SurvivalPhaseDataSO phase)
-        : base(phase)
+        public SurvivalPhaseRuntime(SurvivalPhaseDataSO phase, PhaseRuntimeCommons commonData)
+        : base(phase, commonData)
         {
             _gm = GameManager.Instance;
             _spawners = new SpawnerRuntime[RuntimeData.spawnerSO.Count];
 
             for (int i = 0; i < _spawners.Length; ++i)
             {
-                _spawners[i] = RuntimeData.spawnerSO[i].CreateRuntime() as SpawnerRuntime;
+                _spawners[i] = RuntimeData.spawnerSO[i].CreateRuntime(commonData) as SpawnerRuntime;
                 _spawners[i].onSpawnSuccess += OnEnemySpawned;
                 _spawners[i].onSpawnSuccess += _gm.OnEnemySpawned;
             }

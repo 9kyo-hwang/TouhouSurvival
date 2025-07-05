@@ -18,6 +18,6 @@ namespace Unchord
         public bool mixEntityAtOnce = false;
         public SpawnShape spawnShape = SpawnShape.Single;
 
-        public override IRuntime CreateRuntime() => new SpawnerRuntime(this);
+        public IRuntime CreateRuntime(PhaseRuntimeCommons commonData) => new SpawnerRuntime(this, commonData);
     }
 }
