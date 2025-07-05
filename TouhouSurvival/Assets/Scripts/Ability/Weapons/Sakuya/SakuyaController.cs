@@ -55,7 +55,7 @@ namespace Unchord
                 
                 float damage = AttributeBase[SakuyaAttributeType.Damage].CurrentValue;
                 float knockBackStrength = AttributeBase[SakuyaAttributeType.KnockbackStrength].CurrentValue;
-                enemy.TakeDamage(damage, GetComponentInParent<Player>(), gameObject);
+                enemy.TakeDamage(damage);
                 enemy.KnockBack(knockBackStrength);
 
                 GameObject projectileGameObject = args.eventSource;

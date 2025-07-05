@@ -24,7 +24,7 @@ namespace Unchord
             if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
             {
                 float damage = attributeBase[FireballAttributeType.ExplosionDamage].CurrentValue;
-                enemy.TakeDamage(damage, null, null);
+                enemy.TakeDamage(damage);
             }
         }
 

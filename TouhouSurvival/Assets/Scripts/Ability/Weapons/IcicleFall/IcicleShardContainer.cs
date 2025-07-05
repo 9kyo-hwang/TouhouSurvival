@@ -53,7 +53,7 @@ namespace Unchord
                 float damage = _attributeBase[IcicleFallAttributeType.ShardDamage].CurrentValue;
                 float knockBackStrength = _attributeBase[IcicleFallAttributeType.ShardKnockbackStrength].CurrentValue;
                 Debug.Log($"Shard Attack To {enemy.name} about {damage}");
-                enemy.TakeDamage(damage, _transform.GetComponentInParent<Player>(), shardGameObject);
+                enemy.TakeDamage(damage);
                 enemy.KnockBack(knockBackStrength);
 
                 GameObject projectileGameObject = args.eventSource;

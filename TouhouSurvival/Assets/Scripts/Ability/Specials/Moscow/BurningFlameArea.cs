@@ -29,7 +29,7 @@ namespace Unchord
             UnityEngine.Debug.Assert(enemy != null);
 
             float damage = attributeBase["FlameDamage"].CurrentValue;
-            enemy.TakeDamage(damage, null, null);
+            enemy.TakeDamage(damage);
         }
 
         public void OnTimeout()

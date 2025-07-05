@@ -36,7 +36,7 @@ namespace Unchord
         #endregion
 
         public float CurrentHealth => _currentHealth;
-        public float _currentHealth;
+        private float _currentHealth;
 
         private Vector2 _movementVector;
 
@@ -105,11 +105,16 @@ namespace Unchord
             um.GameCanvas.SetExpGauge(args.CurrentExperience, args.TotalExperience);
         }
 
-        private void OnHealthChanged(object sender, AttributeChangedEventArgs args)
+        private void OnHealthChanged(object sender, EventArgs args)
         {
+            // NOTE: args 파라미터는 현재 사용하지 않음.
+
             WorldUIManager wum = WorldUIManager.Instance;
 
-            wum.SetPlayerHealthValue(AttributeBase[PlayerAttributeType.HpMax].CurrentValue, 10.0f);
+            float h = _currentHealth;
+            float hmax = AttributeBase[PlayerAttributeType.HpMax].CurrentValue;
+
+            wum.SetPlayerHealthValue(h, hmax);
         }
 
         protected override void Update()
@@ -228,7 +233,7 @@ namespace Unchord
             return selected;
         }
 
-        public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
+        public override float TakeDamage(float damageAmount)
         {
             if (AttributeBase == null)
             {
@@ -245,6 +250,9 @@ namespace Unchord
 
             _currentHealth = Mathf.Clamp(_currentHealth - damageAmount, 0.0f, maxHealth.CurrentValue);
             float newHealth = _currentHealth;
+
+            // TODO: 이벤트 변수로 빼는 방안을 고려함.
+            OnHealthChanged(this, null);
             
             Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;

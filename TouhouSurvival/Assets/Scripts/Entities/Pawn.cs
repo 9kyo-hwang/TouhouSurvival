@@ -38,8 +38,6 @@ namespace Unchord
         }
 
         // Apply damage to this game object. The amount of damage actually applied.
-        // instigator: 공격한 폰 계열(플레이어 or 몬스터 등)
-        // damageCauser: 데미지를 입힌 오브젝트(무기, 총알 등)
-        public abstract float TakeDamage(float damageAmount, Pawn eventInstigator = null, GameObject damageCauser = null);
+        public abstract float TakeDamage(float damageAmount);
     }
 }

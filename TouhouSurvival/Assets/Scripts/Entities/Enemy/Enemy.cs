@@ -85,7 +85,12 @@ namespace Unchord
             Colliders.eulerAngles = Vector3.up * angle;
         }
 
-        public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
+        private void OnHealthChange(object sender, EventArgs args)
+        {
+            // NOTE: this block intentionally no operation.
+        }
+
+        public override float TakeDamage(float damageAmount)
         {
             if (AttributeBase == null)
             {
@@ -101,6 +106,9 @@ namespace Unchord
 
             float newHealth = _currentHealth;
 
+            // TODO: 이벤트 변수로 빼는 방안을 고려함.
+            OnHealthChanged(this, null);
+
             if (newHealth <= 0.0f)
             {
                 OnDead();
@@ -113,7 +121,6 @@ namespace Unchord
             Debug.Log($"적이 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
         }
-        
         public void KnockBack(float knockBackStrength)
         {
             StartCoroutine(KnockBackCoroutine(knockBackStrength));

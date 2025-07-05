@@ -88,11 +88,7 @@ namespace Unchord
                     return;
                 }
 
-                enemy.TakeDamage(
-                    AttributeBase[HarudesuyoAttributeType.BombExplosionDamage].CurrentValue,
-                    GetComponentInParent<Player>(),
-                    explosion
-                );
+                enemy.TakeDamage(AttributeBase[HarudesuyoAttributeType.BombExplosionDamage].CurrentValue);
             };
 
             FlagComponent flagTable = explosion.GetComponent<FlagComponent>();

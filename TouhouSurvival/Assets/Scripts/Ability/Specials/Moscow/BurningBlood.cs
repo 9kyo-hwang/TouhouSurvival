@@ -51,7 +51,7 @@ namespace Unchord
                 float healthRegen = base.Player.AttributeBase[PlayerAttributeType.HealthRegeneration].CurrentValue;
                 float damage = healthRegen * base.AttributeBase["BloodDamage"].CurrentValue;
 
-                enemy.TakeDamage(damage, null, null);
+                enemy.TakeDamage(damage);
             }
         }
 
