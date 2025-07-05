@@ -40,6 +40,32 @@ namespace Unchord
             gameObject.SetActive(true);
         }
 
+        public void LayerBackOf(UnchordCanvas canvas)
+        {
+            UnityEngine.Debug.Assert(this.transform.parent == canvas.transform.parent);
+
+            int i = this.transform.GetSiblingIndex();
+            int j = canvas.transform.GetSiblingIndex();
+
+            if (j <= i)
+                transform.SetSiblingIndex(j);
+            else
+                transform.SetSiblingIndex(j - 1);
+        }
+
+        public void LayerFrontOf(UnchordCanvas canvas)
+        {
+            UnityEngine.Debug.Assert(this.transform.parent == canvas.transform.parent);
+
+            int i = this.transform.GetSiblingIndex();
+            int j = canvas.transform.GetSiblingIndex();
+
+            if (j < i)
+                transform.SetSiblingIndex(j + 1);
+            else
+                transform.SetSiblingIndex(j);
+        }
+
         public virtual void UpdateKeyboardInput()
         {
 
