@@ -1,40 +1,37 @@
 fileFormatVersion: 2
-guid: f5eee8f8f1007954e94f995792ef56ee
+guid: 559d6349de9e01d46848ec9a70599b84
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5663663806158557085
-    second: in_lv_number_0
+      213: -1546667181152239243
+    second: item_select_number_0
   - first:
-      213: 5627555111907983189
-    second: in_lv_number_1
+      213: 6656797971186752648
+    second: item_select_number_1
   - first:
-      213: -4735102334518847311
-    second: in_lv_number_2
+      213: 1000828221715230208
+    second: item_select_number_2
   - first:
-      213: -2701780876984775330
-    second: in_lv_number_3
+      213: 3764897193604927966
+    second: item_select_number_3
   - first:
-      213: 3097479537910210728
-    second: in_lv_number_4
+      213: -8878847558558694114
+    second: item_select_number_4
   - first:
-      213: -4654572144061462860
-    second: in_lv_number_5
+      213: 3879690586400122850
+    second: item_select_number_5
   - first:
-      213: -1014397676880782594
-    second: in_lv_number_6
+      213: 8129591337094859637
+    second: item_select_number_6
   - first:
-      213: -7102473566074583023
-    second: in_lv_number_7
+      213: -4638981214878545882
+    second: item_select_number_7
   - first:
-      213: -6890329602345321163
-    second: in_lv_number_8
+      213: 3825661063685916079
+    second: item_select_number_8
   - first:
-      213: -110353003346739773
-    second: in_lv_number_9
-  - first:
-      213: 9091854597354534349
-    second: in_lv_number_10
+      213: -5382733509502466620
+    second: item_select_number_9
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -130,7 +127,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -143,243 +140,221 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: in_lv_number_0
+      name: item_select_number_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 14
+        width: 10
         height: 13
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 360bea296cf9661b0800000000000000
-      internalID: -5663663806158557085
+      spriteID: 5718aa1b462298ae0800000000000000
+      internalID: -1546667181152239243
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_lv_number_1
+      name: item_select_number_1
       rect:
         serializedVersion: 2
-        x: 15
+        x: 11
         y: 0
         width: 10
         height: 13
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 55f7537ee87191e40800000000000000
-      internalID: 5627555111907983189
+      spriteID: 88c902e4c72b16c50800000000000000
+      internalID: 6656797971186752648
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_lv_number_2
+      name: item_select_number_2
       rect:
         serializedVersion: 2
-        x: 25
+        x: 22
         y: 0
         width: 10
         height: 13
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1b891efa389894eb0800000000000000
-      internalID: -4735102334518847311
+      spriteID: 00ea58c07f7a3ed00800000000000000
+      internalID: 1000828221715230208
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_lv_number_3
+      name: item_select_number_3
       rect:
         serializedVersion: 2
-        x: 34
+        x: 33
         y: 0
         width: 10
         height: 13
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e5d01666b98518ad0800000000000000
-      internalID: -2701780876984775330
+      spriteID: ed1dfa0ec0a9f3430800000000000000
+      internalID: 3764897193604927966
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_lv_number_4
+      name: item_select_number_4
       rect:
         serializedVersion: 2
-        x: 45
+        x: 44
         y: 0
         width: 10
         height: 13
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8a0ed248a357cfa20800000000000000
-      internalID: 3097479537910210728
+      spriteID: e15c349003ff7c480800000000000000
+      internalID: -8878847558558694114
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_lv_number_5
+      name: item_select_number_5
       rect:
         serializedVersion: 2
-        x: 57
+        x: 55
         y: 0
         width: 10
         height: 13
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4b6c9c3cb43a76fb0800000000000000
-      internalID: -4654572144061462860
+      spriteID: 2e76ec8680e67d530800000000000000
+      internalID: 3879690586400122850
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_lv_number_6
+      name: item_select_number_6
       rect:
         serializedVersion: 2
-        x: 68
+        x: 66
         y: 0
         width: 10
         height: 13
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: efa1a88ffa22ce1f0800000000000000
-      internalID: -1014397676880782594
+      spriteID: 57bc1a8af3c12d070800000000000000
+      internalID: 8129591337094859637
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_lv_number_7
+      name: item_select_number_7
       rect:
         serializedVersion: 2
-        x: 79
+        x: 77
         y: 0
         width: 10
         height: 13
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 118c5831ce1fe6d90800000000000000
-      internalID: -7102473566074583023
+      spriteID: 6284477d9270f9fb0800000000000000
+      internalID: -4638981214878545882
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_lv_number_8
+      name: item_select_number_8
       rect:
         serializedVersion: 2
-        x: 90
+        x: 88
         y: 0
         width: 10
         height: 13
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 53d39d2bbb1a060a0800000000000000
-      internalID: -6890329602345321163
+      spriteID: fa5ca0cd77a771530800000000000000
+      internalID: 3825661063685916079
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_lv_number_9
+      name: item_select_number_9
       rect:
         serializedVersion: 2
-        x: 101
+        x: 99
         y: 0
         width: 10
         height: 13
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3cdbe933782f77ef0800000000000000
-      internalID: -110353003346739773
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: in_lv_number_10
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 0
-        width: 10
-        height: 13
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dc5b1d8e591cc2e70800000000000000
-      internalID: 9091854597354534349
+      spriteID: 4c5838d5460bc45b0800000000000000
+      internalID: -5382733509502466620
       vertices: []
       indices: 
       edges: []
@@ -388,7 +363,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 50a2f8ffe62caf64fa52463a88a393f5
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -398,17 +373,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      in_lv_number_0: -5663663806158557085
-      in_lv_number_1: 5627555111907983189
-      in_lv_number_10: 9091854597354534349
-      in_lv_number_2: -4735102334518847311
-      in_lv_number_3: -2701780876984775330
-      in_lv_number_4: 3097479537910210728
-      in_lv_number_5: -4654572144061462860
-      in_lv_number_6: -1014397676880782594
-      in_lv_number_7: -7102473566074583023
-      in_lv_number_8: -6890329602345321163
-      in_lv_number_9: -110353003346739773
+      item_select_number_0: -1546667181152239243
+      item_select_number_1: 6656797971186752648
+      item_select_number_2: 1000828221715230208
+      item_select_number_3: 3764897193604927966
+      item_select_number_4: -8878847558558694114
+      item_select_number_5: 3879690586400122850
+      item_select_number_6: 8129591337094859637
+      item_select_number_7: -4638981214878545882
+      item_select_number_8: 3825661063685916079
+      item_select_number_9: -5382733509502466620
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
