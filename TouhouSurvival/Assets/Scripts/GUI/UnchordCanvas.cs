@@ -8,6 +8,8 @@ namespace Unchord
         protected static UIManager s_uiManager;
         protected static WorldUIManager s_wuiManager;
 
+        public bool IsTopCanvas => s_uiManager.TopCanvas == this;
+
         protected virtual void Awake()
         {
             if (s_gameManager == null)

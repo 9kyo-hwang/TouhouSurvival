@@ -13,7 +13,6 @@ namespace Unchord
         private SpawnerRuntime[] _bossSpawners;
         private SpawnerRuntime[] _otherEnemySpawners;
 
-        private bool _interruptedHalt = false;
 
         public BossPhaseRuntime(BossPhaseDataSO phase)
         : base(phase)
@@ -48,9 +47,6 @@ namespace Unchord
 
         public override RuntimeState Update()
         {
-            if (_interruptedHalt)
-                return RuntimeState.Fail;
-
             _gm.ShouldUpdateElapsedPlaytime = !RuntimeData.useTimerStop;
 
             bool canPassRuntime = true;
@@ -72,19 +68,6 @@ namespace Unchord
             return canPassRuntime ? RuntimeState.Pass : RuntimeState.Continue;
         }
 
-        public override void Pause()
-        {
-            base.Pause();
-
-            _gm.InterruptTimeStop();
-        }
-
-        public override void Resume()
-        {
-            base.Resume();
-
-            _gm.ReleaseTimeStopInterrupt();
-        }
 
         public override void End()
         {
@@ -93,11 +76,7 @@ namespace Unchord
             Debug.Log("Boss Phase End");
         }
 
-        public override void InterruptHalt()
         {
-            base.InterruptHalt();
-
-            _interruptedHalt = true;
         }
 
         private void OnBossSpawned(object sender, SpawnEventArgs args)

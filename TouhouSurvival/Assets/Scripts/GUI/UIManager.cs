@@ -20,6 +20,9 @@ namespace Unchord
         public SingleColorCanvas SingleColorCanvas0 => GetCanvas<SingleColorCanvas>("GUIs/Canvas/SingleColorCanvas0");
         #endregion
 
+        public int TopCanvasIndex => _topOfCanvas;
+        public UnchordCanvas TopCanvas => _topCanvas;
+
         private int _topOfCanvas;
         private UnchordCanvas _topCanvas;
 

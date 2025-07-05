@@ -9,7 +9,6 @@ namespace Unchord
 
         private float _startTime;
 
-        private bool _interruptedHalt = false;
 
         public SurvivalPhaseRuntime(SurvivalPhaseDataSO phase)
         : base(phase)
@@ -35,9 +34,6 @@ namespace Unchord
 
         public override RuntimeState Update()
         {
-            if (_interruptedHalt)
-                return RuntimeState.Fail;
-
             for (int i = 0; i < _spawners.Length; ++i)
             {
                 _spawners[i].TrySpawn();
@@ -51,20 +47,6 @@ namespace Unchord
                 return RuntimeState.Pass;
         }
 
-        public override void Pause()
-        {
-            base.Pause();
-
-            _gm.InterruptTimeStop();
-        }
-
-        public override void Resume()
-        {
-            base.Resume();
-
-            _gm.ReleaseTimeStopInterrupt();
-        }
-
         public override void End()
         {
             base.End();
@@ -72,11 +54,8 @@ namespace Unchord
             Debug.Log("Survival Phase End");
         }
 
-        public override void InterruptHalt()
         {
-            base.InterruptHalt();
 
-            _interruptedHalt = true;
         }
 
         private void OnEnemySpawned(object sender, SpawnEventArgs args)

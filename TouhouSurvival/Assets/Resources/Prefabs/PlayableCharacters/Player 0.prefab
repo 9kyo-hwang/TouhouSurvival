@@ -426,7 +426,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconCharacter: {fileID: 21300000, guid: 0ae367b3774435b429beab8e1c841857, type: 3}
   iconMainWeapon: {fileID: 21300000, guid: 110c8d3f8954b3444b7261d5423d02dd, type: 3}
-  iconSpell: {fileID: 21300000, guid: f0d2a6c9b8731e248ba98ccfacb68c93, type: 3}
+  iconSpell: {fileID: 21300000, guid: f83e3d1b12c4c694fadd903565ec6267, type: 3}
+  iconSpecial: {fileID: 21300000, guid: f0d2a6c9b8731e248ba98ccfacb68c93, type: 3}
   iconPreview: {fileID: 21300000, guid: 9fce9b30f91d92e41b829783361ca2b3, type: 3}
   attributeXlsxPathRelative: \AttributeTables\PlayableCharacters\cirno.xlsx
   expXlsxPathRelative: 

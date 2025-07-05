@@ -7,12 +7,9 @@ namespace Unchord
 {
     public class BlockingEventHandler : MonoBehaviour
     {
-        public event Action onBlockingEventOccurred;
-        public event Action onBlockingEventHandled;
-
         private Queue<IEnumerator> _eventHandlers;
-        public float _handlingCooldown;
-        public bool _eventEnabled;
+        private float _handlingCooldown;
+        private bool _eventEnabled;
 
         private GameManager _gameManager;
 
@@ -24,10 +21,18 @@ namespace Unchord
             _eventHandlers.Enqueue(eventHandler);
         }
 
+        public void SetCooldown(float cooldown)
+        {
+            if (cooldown <= 0.0f)
+                _handlingCooldown = cooldown;
+        }
+
         private void Awake()
         {
             _gameManager = GameManager.Instance;
             _eventHandlers = new Queue<IEnumerator>(16);
+
+            _handlingCooldown = 0.0f;
         }
 
         private void Update()
@@ -37,18 +42,16 @@ namespace Unchord
             else if (_handlingCooldown > 0.0f)
                 _handlingCooldown -= Time.deltaTime;
             else if (_eventHandlers.Count > 0)
-                StartCoroutine(HandleEventCoroutine(_eventHandlers.Dequeue()));
+                StartCoroutine(HandleEventCoroutine());
         }
 
-        private IEnumerator HandleEventCoroutine(IEnumerator eventHandler)
+        private IEnumerator HandleEventCoroutine()
         {
             _gameManager.InterruptTimeStop();
             _eventEnabled = true;
-            onBlockingEventOccurred?.Invoke();
-            yield return StartCoroutine(eventHandler);
-            _handlingCooldown = 1.0f;
+            while (_eventHandlers.Count > 0)
+                yield return StartCoroutine(_eventHandlers.Dequeue());
             _eventEnabled = false;
-            onBlockingEventHandled?.Invoke();
             _gameManager.ReleaseTimeStopInterrupt();
         }
     }

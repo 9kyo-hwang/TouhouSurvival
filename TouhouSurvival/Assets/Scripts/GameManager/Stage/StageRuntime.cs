@@ -16,6 +16,8 @@ namespace Unchord
             _compositeRuntime = new CompositePhaseRuntime(RuntimeData.phaseList);
 
             _map.transform.parent = _gm.RuntimeContainer;
+
+            _interruptedHalt = false;
         }
 
         public override void Start()
@@ -27,7 +29,22 @@ namespace Unchord
         {
             _map.ScrollMap(_gm.MainCamera);
 
-            return _compositeRuntime.Update();
+            if (!_gm.IsGameStarted)
+            {
+                return RuntimeState.Continue;
+            }
+            else if (_interruptedHalt)
+            {
+                return RuntimeState.Halt;
+            }
+            else if (!_gm.IsPlayerDead)
+            {
+                return _compositeRuntime.Update();
+            }
+            else
+            {
+                return RuntimeState.Fail;
+            }
         }
 
         public override void Pause()
@@ -48,6 +65,9 @@ namespace Unchord
         public override void InterruptHalt()
         {
             _compositeRuntime.InterruptHalt();
+
+            _interruptedHalt = true;
+        }
         }
     }
 }

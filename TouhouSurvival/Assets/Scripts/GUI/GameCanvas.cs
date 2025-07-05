@@ -194,9 +194,10 @@ namespace Unchord
 
         private void OnPauseButtonClick()
         {
-            s_gameManager.InterruptTimeStop();
+            if (!this.IsTopCanvas)
+                return;
+
             s_gameManager.PauseGame();
-            this.Hide();
             s_uiManager.PauseCanvas.Show();
         }
     }

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7c37a823ad7ac43b18e8c94c1bc7ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayIcon: {fileID: 0}
+  displayIcon: {fileID: 21300000, guid: 9b6e4469ba8d16d4e97da5b72e0dc37a, type: 3}
   displayName: Burning Blood
   displayDescription: 1_2
   attributeXlsxPathRelative: \AttributeTables\Abilities\Specials\Moscow\BurningBlood.xlsx
