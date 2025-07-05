@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3379cda3a8c87fc42b99470d33606603
+guid: fcfbb253d9739664580f05ec2863b451
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2655588801625789334
-    second: in_lv_frame_0
+      213: 5114110720841084588
+    second: mid_game_kill&coin_frame&bg_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: in_lv_frame_0
+      name: mid_game_kill&coin_frame&bg_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 74
-        height: 56
+        width: 149
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a6ce6990e04752bd0800000000000000
-      internalID: -2655588801625789334
+      spriteID: caeefb9da98f8f640800000000000000
+      internalID: 5114110720841084588
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      in_lv_frame_0: -2655588801625789334
+      mid_game_kill&coin_frame&bg_0: 5114110720841084588
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

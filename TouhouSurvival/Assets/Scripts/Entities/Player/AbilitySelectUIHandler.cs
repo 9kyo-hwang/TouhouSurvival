@@ -38,31 +38,39 @@ namespace Unchord
 
         private IEnumerator WaitForGeneralAbility(AbilityManager abilityManager)
         {
-            LevelUpCanvas canvas = UIManager.Instance.LevelUpCanvas;
+            LevelUpCanvas lCanvas = UIManager.Instance.LevelUpCanvas;
             List<AbilityComponent> sampledAbilities = abilityManager.SampleAbilities(3);
 
-            canvas.Clear();
+            lCanvas.Clear();
 
             foreach (AbilityComponent ability in sampledAbilities)
             {
-                canvas.Add(ability);
+                lCanvas.Add(ability);
             }
 
-            canvas.Show();
-            yield return new WaitWhile(() => canvas.SelectedIndex < 0);
-            canvas.Hide();
+            lCanvas.Show();
+            yield return new WaitWhile(() => lCanvas.SelectedIndex < 0);
+            lCanvas.Hide();
 
             if (sampledAbilities.Count == 0)
             {
                 yield break;
             }
 
-            int selectedIndex = canvas.SelectedIndex;
+            int selectedIndex = lCanvas.SelectedIndex;
             AbilityComponent selectedAbility = sampledAbilities[selectedIndex];
 
             selectedAbility.LevelUp();
             selectedAbility.gameObject.SetActive(true);
-            abilityManager.UpdateAbilitySlot();
+
+            abilityManager.SortSelf();
+
+            GameCanvas gCanvas = UIManager.Instance.GameCanvas;
+
+            if (selectedAbility is WeaponComponent)
+                gCanvas.AddWeaponIcon(selectedAbility.DisplayIcon);
+            else if (selectedAbility is PassiveComponent)
+                gCanvas.AddPassiveIcon(selectedAbility.DisplayIcon);
         }
     }
 }

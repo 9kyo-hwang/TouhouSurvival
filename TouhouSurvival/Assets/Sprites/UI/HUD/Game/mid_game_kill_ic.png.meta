@@ -1,25 +1,16 @@
 fileFormatVersion: 2
-guid: 4ca3b2b8275da38478bb3d89da6168d7
+guid: a4b576bf8449aba4ab6d274a0f460049
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8432324799490676330
-    second: in_item_bg_L_0
+      213: 5839647857825292752
+    second: mid_game_kill_ic_0
   - first:
-      213: 7931396614184188952
-    second: in_item_bg_L_1
+      213: 2753963096943470688
+    second: mid_game_kill_ic_1
   - first:
-      213: -8475064149399851943
-    second: in_item_bg_L_2
-  - first:
-      213: -8393487026706538682
-    second: in_item_bg_L_3
-  - first:
-      213: 6013114435413476421
-    second: in_item_bg_L_4
-  - first:
-      213: 3327246795206879678
-    second: in_item_bg_L_5
+      213: -4798390028169094794
+    second: mid_game_kill_ic_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -111,17 +102,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: in_item_bg_L_0
+      name: mid_game_kill_ic_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 209
-        width: 32
-        height: 32
+        x: 0
+        y: 1
+        width: 18
+        height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a66db509ab2a50570800000000000000
-      internalID: 8432324799490676330
+      spriteID: 0d12c0379c89a0150800000000000000
+      internalID: 5839647857825292752
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_item_bg_L_1
+      name: mid_game_kill_ic_1
       rect:
         serializedVersion: 2
-        x: 4
-        y: 168
-        width: 32
-        height: 32
+        x: 0
+        y: 0
+        width: 5
+        height: 5
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 81c3f21c23bf11e60800000000000000
-      internalID: 7931396614184188952
+      spriteID: 068a9d578da083620800000000000000
+      internalID: 2753963096943470688
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: in_item_bg_L_2
+      name: mid_game_kill_ic_2
       rect:
         serializedVersion: 2
-        x: 4
-        y: 127
-        width: 32
-        height: 32
+        x: 13
+        y: 0
+        width: 5
+        height: 5
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,74 +178,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 95caf561f06826a80800000000000000
-      internalID: -8475064149399851943
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: in_item_bg_L_3
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 86
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 64f9e421508548b80800000000000000
-      internalID: -8393487026706538682
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: in_item_bg_L_4
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 45
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 544089c58bfd27350800000000000000
-      internalID: 6013114435413476421
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: in_item_bg_L_5
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 4
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: eb9ec5ce451cc2e20800000000000000
-      internalID: 3327246795206879678
+      spriteID: 679543d31b1b86db0800000000000000
+      internalID: -4798390028169094794
       vertices: []
       indices: 
       edges: []
@@ -260,12 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      in_item_bg_L_0: 8432324799490676330
-      in_item_bg_L_1: 7931396614184188952
-      in_item_bg_L_2: -8475064149399851943
-      in_item_bg_L_3: -8393487026706538682
-      in_item_bg_L_4: 6013114435413476421
-      in_item_bg_L_5: 3327246795206879678
+      mid_game_kill_ic_0: 5839647857825292752
+      mid_game_kill_ic_1: 2753963096943470688
+      mid_game_kill_ic_2: -4798390028169094794
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
