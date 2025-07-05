@@ -46,7 +46,9 @@ namespace Unchord
             _abilitySets[0][0].LevelUp();
             _abilitySets[2][0].LevelUp();
 
-            UpdateAbilitySlot();
+            this.SortSelf();
+
+            UIManager.Instance.GameCanvas.AddWeaponIcon(_abilitySets[0][0].DisplayIcon);
         }
 
         private void Update()
@@ -90,35 +92,11 @@ namespace Unchord
             return _sampledPool;
         }
 
-        private void SortSelf()
+        public void SortSelf()
         {
             foreach (AbilitySet abilitySet in _abilitySamples)
             {
                 abilitySet.SortSelf();
-            }
-        }
-
-        public void UpdateAbilitySlot()
-        {
-            this.SortSelf();
-
-            GameCanvas canvas = UIManager.Instance.GameCanvas;
-
-            AbilitySet wSet = _abilitySets[0];
-            AbilitySet pSet = _abilitySets[1];
-
-            for (int i = 0; i < wSet.ValidAbilityCount; ++i)
-            {
-                canvas.EnableWeaponSlot(i);
-                canvas.SetWeaponIcon(i, wSet[i].DisplayIcon);
-                canvas.SetWeaponLevel(i, wSet[i].CurrentLevel);
-            }
-
-            for (int i = 0; i < pSet.ValidAbilityCount; ++i)
-            {
-                canvas.EnablePassiveSlot(i);
-                canvas.SetPassiveIcon(i, pSet[i].DisplayIcon);
-                canvas.SetPassiveLevel(i, pSet[i].CurrentLevel);
             }
         }
 
