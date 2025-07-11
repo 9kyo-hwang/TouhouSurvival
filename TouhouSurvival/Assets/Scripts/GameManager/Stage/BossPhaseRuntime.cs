@@ -13,10 +13,8 @@ namespace Unchord
         private SpawnerRuntime[] _bossSpawners;
         private SpawnerRuntime[] _otherEnemySpawners;
 
-        private bool _interruptedHalt = false;
-
-        public BossPhaseRuntime(BossPhaseDataSO phase)
-        : base(phase)
+        public BossPhaseRuntime(BossPhaseDataSO phase, PhaseRuntimeCommons commonData)
+        : base(phase, commonData)
         {
             _gm = GameManager.Instance;
 
@@ -33,14 +31,14 @@ namespace Unchord
 
             for (int i = 0; i < RuntimeData.bossSpawnerSO.Count; ++i)
             {
-                _bossSpawners[i] = RuntimeData.bossSpawnerSO[i].CreateRuntime() as SpawnerRuntime;
+                _bossSpawners[i] = RuntimeData.bossSpawnerSO[i].CreateRuntime(base.CommonData) as SpawnerRuntime;
                 _bossSpawners[i].onSpawnSuccess += OnBossSpawned;
                 _bossSpawners[i].onSpawnSuccess += _gm.OnEnemySpawned;
             }
 
             for (int i = 0; i < RuntimeData.additionalSpawnerSO.Count; ++i)
             {
-                _otherEnemySpawners[i] = RuntimeData.additionalSpawnerSO[i].CreateRuntime() as SpawnerRuntime;
+                _otherEnemySpawners[i] = RuntimeData.additionalSpawnerSO[i].CreateRuntime(base.CommonData) as SpawnerRuntime;
                 _otherEnemySpawners[i].onSpawnSuccess += OnOtherEnemySpawned;
                 _otherEnemySpawners[i].onSpawnSuccess += _gm.OnEnemySpawned;
             }
@@ -48,42 +46,29 @@ namespace Unchord
 
         public override RuntimeState Update()
         {
-            if (_interruptedHalt)
-                return RuntimeState.Fail;
-
             _gm.ShouldUpdateElapsedPlaytime = !RuntimeData.useTimerStop;
 
             bool canPassRuntime = true;
 
-
             for (int i = 0; i < _bossSpawners.Length; ++i)
             {
-                canPassRuntime &= _bossSpawners[i].SpawnedCount > 0 || _bossSpawners[i].TrySpawn();
+                if (_bossSpawners[i].SpawnedCount == 0)
+                {
+                    canPassRuntime = false;
+                    _bossSpawners[i].TrySpawn();
+                }
+                else
+                {
+                    canPassRuntime &= (_bossSpawners[i].SpawnedObjectCount == 0);
+                }
             }
 
-            for (int i = _spawnedBossList.Count - 1; i >= 0; --i)
+            for (int i = 0; i < _otherEnemySpawners.Length; ++i)
             {
-                if (_spawnedBossList[i] == null)
-                    _spawnedBossList.RemoveAt(i);
+                _otherEnemySpawners[i].TrySpawn();
             }
-
-            canPassRuntime &= (_spawnedBossList.Count == 0);
 
             return canPassRuntime ? RuntimeState.Pass : RuntimeState.Continue;
-        }
-
-        public override void Pause()
-        {
-            base.Pause();
-
-            _gm.InterruptTimeStop();
-        }
-
-        public override void Resume()
-        {
-            base.Resume();
-
-            _gm.ReleaseTimeStopInterrupt();
         }
 
         public override void End()
@@ -93,11 +78,9 @@ namespace Unchord
             Debug.Log("Boss Phase End");
         }
 
-        public override void InterruptHalt()
+        public override void InterruptResurrect()
         {
-            base.InterruptHalt();
-
-            _interruptedHalt = true;
+            base.InterruptResurrect();
         }
 
         private void OnBossSpawned(object sender, SpawnEventArgs args)

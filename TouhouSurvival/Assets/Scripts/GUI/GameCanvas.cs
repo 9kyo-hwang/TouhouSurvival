@@ -9,26 +9,30 @@ namespace Unchord
     {
         private const int MAX_ABILITY_COUNT = 6;
 
+        public IntegerCounterFontSO levelFont;
+
         private Image _expGauge;
-        private IntegerCounter _playerLevel;
+        private Image[] _imgPlayerLevel;
         private TextMeshProUGUI _timer;
         private TextMeshProUGUI _killCount;
         private TextMeshProUGUI _earnedGold;
 
         private Button _pauseButton;
 
-        private AbilitySlot[] _weaponSlots;
-        private AbilitySlot[] _passiveSlots;
+        private Transform _weaponIconParent;
+        private Transform _passiveIconParent;
+        private Image[] _weaponIcons;
+        private Image[] _passiveIcons;
+        private int _weaponIconCount;
+        private int _passiveIconCount;
 
         private class AbilitySlot
         {
             public Image icon;
-            public IntegerCounter level;
 
-            public AbilitySlot(Transform iconParent, Transform levelParent, int siblingIndex)
+            public AbilitySlot(Transform iconParent, int siblingIndex)
             {
                 icon = iconParent.GetChild(siblingIndex).GetComponent<Image>();
-                level = levelParent.GetChild(siblingIndex).GetComponent<IntegerCounter>();
             }
 
             public void Enable()
@@ -44,7 +48,6 @@ namespace Unchord
             public void SetActive(bool active)
             {
                 icon.gameObject.SetActive(active);
-                level.gameObject.SetActive(active);
             }
         }
 
@@ -53,26 +56,29 @@ namespace Unchord
             base.Awake();
 
             _expGauge = transform.Find("Exp/Gauge").GetComponent<Image>();
-            _playerLevel = transform.Find("Exp/Level").GetComponent<IntegerCounter>();
-            _timer = transform.Find("TimerText").GetComponent<TextMeshProUGUI>();
-            _killCount = transform.Find("KillCount/Value").GetComponent<TextMeshProUGUI>();
-            _earnedGold = transform.Find("EarnedGold/Value").GetComponent<TextMeshProUGUI>();
+            _imgPlayerLevel = new Image[2];
+
+            for (int i = 0; i < _imgPlayerLevel.Length; ++i)
+            {
+                _imgPlayerLevel[i] = transform.Find($"Exp/Level/D{i}").GetComponent<Image>();
+            }
+
+            _timer = transform.Find("Exp/TimerText").GetComponent<TextMeshProUGUI>();
+            _killCount = transform.Find("Scores/KillText").GetComponent<TextMeshProUGUI>();
+            _earnedGold = transform.Find("Scores/GoldText").GetComponent<TextMeshProUGUI>();
 
             _pauseButton = transform.Find("PauseButton").GetComponent<Button>();
 
-            _weaponSlots = new AbilitySlot[MAX_ABILITY_COUNT];
-            _passiveSlots = new AbilitySlot[MAX_ABILITY_COUNT];
+            _weaponIcons = new Image[MAX_ABILITY_COUNT];
+            _passiveIcons = new Image[MAX_ABILITY_COUNT];
 
-            Transform weaponIconParent = transform.Find("WeaponSlot/Icons");
-            Transform weaponLevelParent = transform.Find("WeaponSlot/Levels");
-            
-            Transform passiveIconParent = transform.Find("PassiveSlot/Icons");
-            Transform passiveLevelParent = transform.Find("PassiveSlot/Levels");
+            _weaponIconParent = transform.Find("ItemSlots/WeaponIcons");
+            _passiveIconParent = transform.Find("ItemSlots/PassiveIcons");
 
             for (int i = 0; i < MAX_ABILITY_COUNT; ++i)
             {
-                _weaponSlots[i] = new AbilitySlot(weaponIconParent, weaponLevelParent, i);
-                _passiveSlots[i] = new AbilitySlot(passiveIconParent, passiveLevelParent, i);
+                _weaponIcons[i] = _weaponIconParent.Find($"Icon ({i})").GetComponent<Image>();
+                _passiveIcons[i] = _passiveIconParent.Find($"Icon ({i})").GetComponent<Image>();
             }
 
             _pauseButton.onClick.AddListener(OnPauseButtonClick);
@@ -110,10 +116,16 @@ namespace Unchord
             SetKillCount(0);
             SetEarnedGold(0);
 
+            _weaponIconCount = 0;
+            _passiveIconCount = 0;
+
             for (int i = 0; i < MAX_ABILITY_COUNT; ++i)
             {
-                DisableWeaponSlot(i);
-                DisablePassiveSlot(i);
+                _weaponIcons[i].gameObject.SetActive(false);
+                _weaponIcons[i].sprite = null;
+
+                _passiveIcons[i].gameObject.SetActive(false);
+                _passiveIcons[i].sprite = null;
             }
         }
 
@@ -128,7 +140,14 @@ namespace Unchord
         {
             UnityEngine.Debug.Assert(level >= 0);
 
-            _playerLevel.SetValue(level);
+            if (level > 99)
+                level = 99;
+
+            int d0 = level % 10;
+            int d1 = level / 10;
+
+            _imgPlayerLevel[0].sprite = levelFont.digitSprites[d0];
+            _imgPlayerLevel[1].sprite = levelFont.digitSprites[d1];
         }
 
         public void SetTimer(int playtime)
@@ -143,77 +162,42 @@ namespace Unchord
         {
             UnityEngine.Debug.Assert(count >= 0);
 
-            _killCount.text = count.ToString();
+            if (count > 999999)
+                count = 999999;
+
+            _killCount.text = count.ToString("D06");
         }
 
         public void SetEarnedGold(int earnedGold)
         {
             UnityEngine.Debug.Assert(earnedGold >= 0);
 
-            _earnedGold.text = earnedGold.ToString();
+            if (earnedGold > 999999)
+                earnedGold = 999999;
+
+            _earnedGold.text = earnedGold.ToString("D06");
         }
 
-        public void EnableWeaponSlot(int index)
+        public void AddWeaponIcon(Sprite icon)
         {
-            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
-
-            _weaponSlots[index].Enable();
+            _weaponIcons[_weaponIconCount].sprite = icon;
+            _weaponIcons[_weaponIconCount].gameObject.SetActive(true);
+            _weaponIconCount++;
         }
 
-        public void DisableWeaponSlot(int index)
+        public void AddPassiveIcon(Sprite icon)
         {
-            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
-
-            _weaponSlots[index].Disable();
-        }
-
-        public void SetWeaponIcon(int index, Sprite weaponIcon)
-        {
-            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
-
-            _weaponSlots[index].icon.sprite = weaponIcon;
-        }
-
-        public void SetWeaponLevel(int index, int level)
-        {
-            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
-
-            _weaponSlots[index].level.SetValue(level);
-        }
-
-        public void EnablePassiveSlot(int index)
-        {
-            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
-
-            _passiveSlots[index].Enable();
-        }
-
-        public void DisablePassiveSlot(int index)
-        {
-            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
-
-            _passiveSlots[index].Disable();
-        }
-
-        public void SetPassiveIcon(int index, Sprite passiveIcon)
-        {
-            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
-
-            _passiveSlots[index].icon.sprite = passiveIcon;
-        }
-
-        public void SetPassiveLevel(int index, int level)
-        {
-            UnityEngine.Debug.Assert(index >= 0 && index < MAX_ABILITY_COUNT);
-
-            _passiveSlots[index].level.SetValue(level);
+            _passiveIcons[_passiveIconCount].sprite = icon;
+            _passiveIcons[_passiveIconCount].gameObject.SetActive(true);
+            _passiveIconCount++;
         }
 
         private void OnPauseButtonClick()
         {
-            s_gameManager.InterruptTimeStop();
+            if (!this.IsTopCanvas)
+                return;
+
             s_gameManager.PauseGame();
-            this.Hide();
             s_uiManager.PauseCanvas.Show();
         }
     }

@@ -38,31 +38,60 @@ namespace Unchord
 
         private IEnumerator WaitForGeneralAbility(AbilityManager abilityManager)
         {
-            LevelUpCanvas canvas = UIManager.Instance.LevelUpCanvas;
+            LevelUpCanvas lCanvas = UIManager.Instance.LevelUpCanvas;
             List<AbilityComponent> sampledAbilities = abilityManager.SampleAbilities(3);
 
-            canvas.Clear();
+            lCanvas.Clear();
 
-            foreach (AbilityComponent ability in sampledAbilities)
+            int aCount = sampledAbilities.Count;
+
+            if (aCount == 0)
             {
-                canvas.Add(ability);
+                yield return WaitForSelectionEmpty(lCanvas);
+            }
+            else
+            {
+                yield return WaitForSelection(lCanvas, sampledAbilities, abilityManager);
+            }
+
+        }
+
+        private IEnumerator WaitForSelectionEmpty(LevelUpCanvas canvas)
+        {
+            canvas.AddNoEntry();
+
+            canvas.Show();
+            yield return new WaitWhile(() => canvas.SelectedIndex < 0);
+            canvas.Hide();
+        }
+
+        private IEnumerator WaitForSelection(LevelUpCanvas canvas, List<AbilityComponent> abilities, AbilityManager abilityManager)
+        {
+            for (int i = 0; i < abilities.Count; ++i)
+            {
+                canvas.AddAbility(abilities[i]);
             }
 
             canvas.Show();
             yield return new WaitWhile(() => canvas.SelectedIndex < 0);
             canvas.Hide();
 
-            if (sampledAbilities.Count == 0)
-            {
-                yield break;
-            }
-
-            int selectedIndex = canvas.SelectedIndex;
-            AbilityComponent selectedAbility = sampledAbilities[selectedIndex];
+            int idxSelected = canvas.SelectedIndex;
+            AbilityComponent selectedAbility = abilities[idxSelected];
 
             selectedAbility.LevelUp();
             selectedAbility.gameObject.SetActive(true);
-            abilityManager.UpdateAbilitySlot();
+
+            abilityManager.SortSelf();
+
+            GameCanvas gCanvas = UIManager.Instance.GameCanvas;
+
+            if (selectedAbility.CurrentLevel != 1)
+                yield break;
+            else if (selectedAbility is WeaponComponent)
+                gCanvas.AddWeaponIcon(selectedAbility.DisplayIcon);
+            else if (selectedAbility is PassiveComponent)
+                gCanvas.AddPassiveIcon(selectedAbility.DisplayIcon);
         }
     }
 }

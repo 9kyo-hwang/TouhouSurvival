@@ -9,17 +9,15 @@ namespace Unchord
 
         private float _startTime;
 
-        private bool _interruptedHalt = false;
-
-        public SurvivalPhaseRuntime(SurvivalPhaseDataSO phase)
-        : base(phase)
+        public SurvivalPhaseRuntime(SurvivalPhaseDataSO phase, PhaseRuntimeCommons commonData)
+        : base(phase, commonData)
         {
             _gm = GameManager.Instance;
             _spawners = new SpawnerRuntime[RuntimeData.spawnerSO.Count];
 
             for (int i = 0; i < _spawners.Length; ++i)
             {
-                _spawners[i] = RuntimeData.spawnerSO[i].CreateRuntime() as SpawnerRuntime;
+                _spawners[i] = RuntimeData.spawnerSO[i].CreateRuntime(commonData) as SpawnerRuntime;
                 _spawners[i].onSpawnSuccess += OnEnemySpawned;
                 _spawners[i].onSpawnSuccess += _gm.OnEnemySpawned;
             }
@@ -35,9 +33,6 @@ namespace Unchord
 
         public override RuntimeState Update()
         {
-            if (_interruptedHalt)
-                return RuntimeState.Fail;
-
             for (int i = 0; i < _spawners.Length; ++i)
             {
                 _spawners[i].TrySpawn();
@@ -51,20 +46,6 @@ namespace Unchord
                 return RuntimeState.Pass;
         }
 
-        public override void Pause()
-        {
-            base.Pause();
-
-            _gm.InterruptTimeStop();
-        }
-
-        public override void Resume()
-        {
-            base.Resume();
-
-            _gm.ReleaseTimeStopInterrupt();
-        }
-
         public override void End()
         {
             base.End();
@@ -72,11 +53,14 @@ namespace Unchord
             Debug.Log("Survival Phase End");
         }
 
-        public override void InterruptHalt()
+        public override void InterruptResurrect()
         {
-            base.InterruptHalt();
+            base.InterruptResurrect();
 
-            _interruptedHalt = true;
+            for (int i = 0; i < _spawners.Length; ++i)
+            {
+                _spawners[i].InterruptResurrect();
+            }
         }
 
         private void OnEnemySpawned(object sender, SpawnEventArgs args)

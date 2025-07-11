@@ -9,6 +9,6 @@ namespace Unchord
         public MapSO mapSO;
         public List<PhaseDataSO> phaseList;
 
-        public override IRuntime CreateRuntime() => new StageRuntime(this);
+        public IRuntime CreateRuntime(PhaseRuntimeCommons commonData) => new StageRuntime(this, commonData);
     }
 }

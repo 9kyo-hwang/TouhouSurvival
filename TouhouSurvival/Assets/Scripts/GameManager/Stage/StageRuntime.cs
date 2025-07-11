@@ -7,15 +7,19 @@ namespace Unchord
         private Map _map;
         private IPhase _compositeRuntime;
 
-        public StageRuntime(StageDataSO phase)
-        : base(phase)
+        private bool _interruptedHalt;
+
+        public StageRuntime(StageDataSO phase, PhaseRuntimeCommons commonData)
+        : base(phase, commonData)
         {
             _gm = GameManager.Instance;
 
             _map = Map.Create(RuntimeData.mapSO);
-            _compositeRuntime = new CompositePhaseRuntime(RuntimeData.phaseList);
+            _compositeRuntime = new CompositePhaseRuntime(RuntimeData.phaseList, commonData);
 
             _map.transform.parent = _gm.RuntimeContainer;
+
+            _interruptedHalt = false;
         }
 
         public override void Start()
@@ -27,7 +31,26 @@ namespace Unchord
         {
             _map.ScrollMap(_gm.MainCamera);
 
-            return _compositeRuntime.Update();
+            if (!_gm.IsGameStarted)
+            {
+                return RuntimeState.Continue;
+            }
+            else if (_interruptedHalt)
+            {
+                return RuntimeState.Halt;
+            }
+            else if (!_gm.IsPlayerDead)
+            {
+                return _compositeRuntime.Update();
+            }
+            else if (_gm.ResurrectedCount < _gm.ResurrectCountMax)
+            {
+                return RuntimeState.Resurrect;
+            }
+            else
+            {
+                return RuntimeState.Fail;
+            }
         }
 
         public override void Pause()
@@ -48,6 +71,14 @@ namespace Unchord
         public override void InterruptHalt()
         {
             _compositeRuntime.InterruptHalt();
+
+            _interruptedHalt = true;
+        }
+
+        // Post-Order DFS 수행해야 함.
+        public override void InterruptResurrect()
+        {
+            _compositeRuntime.InterruptResurrect();
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Unchord
         {
             base.Start();
 
-            AttributeBase[EnemyAttributeType.Health].OnAttributeChanged += this.OnHealthChanged;
+            AttributeBase[EnemyAttributeType.Health].onAttributeChanged += this.OnHealthChanged;
 
             _currentHealth = AttributeBase[EnemyAttributeType.Health].CurrentValue;
         }
@@ -85,7 +85,12 @@ namespace Unchord
             Colliders.eulerAngles = Vector3.up * angle;
         }
 
-        public override float TakeDamage(float damageAmount, Pawn eventInstigator, GameObject damageCauser)
+        private void OnHealthChange(object sender, EventArgs args)
+        {
+            // NOTE: this block intentionally no operation.
+        }
+
+        public override float TakeDamage(float damageAmount)
         {
             if (AttributeBase == null)
             {
@@ -101,9 +106,12 @@ namespace Unchord
 
             float newHealth = _currentHealth;
 
+            // TODO: 이벤트 변수로 빼는 방안을 고려함.
+            OnHealthChanged(this, null);
+
             if (newHealth <= 0.0f)
             {
-                OnDead();
+                Die();
             }
             else
             {
@@ -113,7 +121,21 @@ namespace Unchord
             Debug.Log($"적이 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
         }
-        
+
+        public override float TakeTrueDamage(float damageAmount)
+        {
+            GameplayAttribute maxHealth = AttributeBase[EnemyAttributeType.Health];
+
+            float currentHealth = _currentHealth;
+            _currentHealth = Mathf.Clamp(_currentHealth - damageAmount, 0.0f, maxHealth.CurrentValue);
+
+            // TODO: 이벤트 변수로 빼는 방안을 고려함.
+            OnHealthChanged(this, null);
+
+            Debug.Log($"적이 {damageAmount} 고정 피해를 입었습니다. 체력: {currentHealth} -> {_currentHealth}");
+            return damageAmount;
+        }
+
         public void KnockBack(float knockBackStrength)
         {
             StartCoroutine(KnockBackCoroutine(knockBackStrength));
@@ -144,10 +166,10 @@ namespace Unchord
 
         private void OnHit()
         {
-            Animator.SetTrigger("Hit");
+            //Animator.SetTrigger("Hit");
         }
 
-        private void OnDead()
+        public override void Die()
         {
             Rigidbody.simulated = false;
             // Renderer.sortingOrder--;

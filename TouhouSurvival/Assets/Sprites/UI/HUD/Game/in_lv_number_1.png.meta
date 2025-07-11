@@ -126,6 +126,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -155,9 +168,9 @@ TextureImporter:
       name: in_lv_number_1
       rect:
         serializedVersion: 2
-        x: 16
+        x: 15
         y: 0
-        width: 9
+        width: 10
         height: 13
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -177,9 +190,9 @@ TextureImporter:
       name: in_lv_number_2
       rect:
         serializedVersion: 2
-        x: 27
+        x: 25
         y: 0
-        width: 6
+        width: 10
         height: 13
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -199,9 +212,9 @@ TextureImporter:
       name: in_lv_number_3
       rect:
         serializedVersion: 2
-        x: 35
+        x: 34
         y: 0
-        width: 9
+        width: 10
         height: 13
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -221,9 +234,9 @@ TextureImporter:
       name: in_lv_number_4
       rect:
         serializedVersion: 2
-        x: 46
+        x: 45
         y: 0
-        width: 9
+        width: 10
         height: 13
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -265,9 +278,9 @@ TextureImporter:
       name: in_lv_number_6
       rect:
         serializedVersion: 2
-        x: 69
+        x: 68
         y: 0
-        width: 9
+        width: 10
         height: 13
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -287,9 +300,9 @@ TextureImporter:
       name: in_lv_number_7
       rect:
         serializedVersion: 2
-        x: 80
+        x: 79
         y: 0
-        width: 9
+        width: 10
         height: 13
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -309,9 +322,9 @@ TextureImporter:
       name: in_lv_number_8
       rect:
         serializedVersion: 2
-        x: 91
+        x: 90
         y: 0
-        width: 9
+        width: 10
         height: 13
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -331,9 +344,9 @@ TextureImporter:
       name: in_lv_number_9
       rect:
         serializedVersion: 2
-        x: 102
+        x: 101
         y: 0
-        width: 9
+        width: 10
         height: 13
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -353,9 +366,9 @@ TextureImporter:
       name: in_lv_number_10
       rect:
         serializedVersion: 2
-        x: 113
+        x: 112
         y: 0
-        width: 9
+        width: 10
         height: 13
       alignment: 6
       pivot: {x: 0, y: 0}

@@ -51,7 +51,7 @@ namespace Unchord
                 float hpRegen = base.Player.AttributeBase[PlayerAttributeType.HpRegen].CurrentValue;
                 float damage = hpRegen * base.AttributeBase["BloodDamage"].CurrentValue;
 
-                enemy.TakeDamage(damage, null, null);
+                enemy.TakeDamage(damage);
             }
         }
 

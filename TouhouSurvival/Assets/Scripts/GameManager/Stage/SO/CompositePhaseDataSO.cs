@@ -8,6 +8,6 @@ namespace Unchord
     {
         public List<PhaseDataSO> phaseList;
 
-        public override IRuntime CreateRuntime() => new CompositePhaseRuntime(phaseList);
+        public override IRuntime CreateRuntime(PhaseRuntimeCommons commonData) => new CompositePhaseRuntime(phaseList, commonData);
     }
 }

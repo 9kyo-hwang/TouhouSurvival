@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Boss Phase
   m_EditorClassIdentifier: 
   bossSpawnerSO:
-  - {fileID: 11400000, guid: efe0896378e3851498a7c8c3e305c97e, type: 2}
+  - {fileID: 11400000, guid: ff4aaeb81a1912e44977956144309fd9, type: 2}
   additionalSpawnerSO:
   - {fileID: 11400000, guid: 23586de79048cd9448d23700d555316f, type: 2}
   useTimerStop: 1

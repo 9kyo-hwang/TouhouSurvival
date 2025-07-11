@@ -8,8 +8,8 @@ namespace Unchord
         private int _ptrRuntime;
         private IPhase[] _runtimes;
 
-        public CompositePhaseRuntime(List<PhaseDataSO> phaseList)
-        : base(phaseList)
+        public CompositePhaseRuntime(List<PhaseDataSO> phaseList, PhaseRuntimeCommons commonData)
+        : base(phaseList, commonData)
         {
             int count = phaseList.Count;
             UnityEngine.Debug.Assert(count > 0);
@@ -21,7 +21,7 @@ namespace Unchord
             for (int i = 0; i < count; ++i)
             {
                 UnityEngine.Debug.Assert(phaseList[i] != null);
-                _runtimes[i] = phaseList[i].CreateRuntime() as IPhase;
+                _runtimes[i] = phaseList[i].CreateRuntime(commonData) as IPhase;
             }
         }
 
@@ -76,6 +76,15 @@ namespace Unchord
         public override void InterruptHalt()
         {
             _runtimes[_ptrRuntime].InterruptHalt();
+        }
+
+        // Post-Order DFS 수행해야 함.
+        public override void InterruptResurrect()
+        {
+            for (int i = 0; i <= _ptrRuntime; ++i)
+            {
+                _runtimes[i].InterruptResurrect();
+            }
         }
     }
 }

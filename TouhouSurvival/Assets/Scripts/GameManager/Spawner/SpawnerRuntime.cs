@@ -5,21 +5,42 @@ using UnityEngine;
 namespace Unchord
 {
     public class SpawnerRuntime : Runtime<SpawnerSO>
+        , IInterruptableResurrect
     {
         public float LeftCooldown { get; private set; }
         public int SpawnedCount { get; private set; }
+        public int SpawnedObjectCount
+        {
+            get
+            {
+                EnsureValidObjectsOnArray();
+
+                return _spawnedObjectCount;
+            }
+        }
+
+        protected PhaseRuntimeCommons CommonData { get; private set; }
 
         public event EventHandler<SpawnEventArgs> onSpawnSuccess;
 
+        // 성능 향상을 위해 List<GameObject> 컬렉션을 사용하지 않고 동적 배열을 직접 구현함.
+        // 생성된 순서에 대해 Unstable한 알고리즘으로 배열을 관리함.
+        private GameObject[] _spawnedObjects;
+        private int _spawnedObjectCount;
+
         private GameManager _gm;
 
-        public SpawnerRuntime(SpawnerSO data)
+        public SpawnerRuntime(SpawnerSO data, PhaseRuntimeCommons commonData)
         : base(data)
         {
+            _spawnedObjects = new GameObject[32];
+            _spawnedObjectCount = 0;
             _gm = GameManager.Instance;
 
             LeftCooldown = data.initLeftCooldown;
             SpawnedCount = 0;
+
+            CommonData = commonData;
         }
 
         public bool TrySpawn()
@@ -41,6 +62,8 @@ namespace Unchord
             if (RuntimeData.spawnRatio <= 0.0f || RuntimeData.spawnRatio < UnityEngine.Random.value)
                 return false;
 
+            EnsureValidObjectsOnArray();
+
             SpawnedCount++;
 
             switch (RuntimeData.spawnShape)
@@ -50,9 +73,11 @@ namespace Unchord
                     return true;
 
                 case SpawnShape.Group:
+                    SpawnAsGroupShape();
                     return true;
 
                 case SpawnShape.Circular:
+                    SpawnAsCircularShape();
                     return true;
 
                 default:
@@ -112,6 +137,8 @@ namespace Unchord
             int count = RuntimeData.spawnCountAtOnce;
             int prefabIndex = -1;
 
+            EnsureObjectListCapacity(count);
+
             for (int i = 0; i < count; ++i)
             {
                 if (RuntimeData.mixEntityAtOnce || i == 0)
@@ -151,7 +178,55 @@ namespace Unchord
             args.spawnedInstance = instance;
             args.spawnedPosition = spawnedPosition;
 
+            _spawnedObjects[_spawnedObjectCount++] = instance;
+            CommonData.spawnedObjects.Add(instance);
             onSpawnSuccess?.Invoke(this, args);
+        }
+
+        #region Dynamic Array Handling
+        private void EnsureValidObjectsOnArray()
+        {
+            // Unstable Algorithm.
+            for (int i = _spawnedObjectCount - 1; i >= 0; --i)
+            {
+                if (_spawnedObjects[i] == null)
+                {
+                    _spawnedObjects[i] = _spawnedObjects[--_spawnedObjectCount];
+                }
+            }
+        }
+
+        private void EnsureObjectListCapacity(int countToAdd)
+        {
+            UnityEngine.Debug.Assert(countToAdd >= 0);
+
+            int newCapacity = _spawnedObjects.Length;
+
+            while (_spawnedObjectCount + countToAdd > newCapacity)
+                newCapacity *= 2;
+
+            if (newCapacity == _spawnedObjects.Length)
+                return;
+
+            GameObject[] newArray = new GameObject[newCapacity];
+
+            Array.Copy(_spawnedObjects, 0, newArray, 0, _spawnedObjectCount);
+
+            _spawnedObjects = newArray;
+        }
+        #endregion
+
+        public void InterruptResurrect()
+        {
+            for (int i = _spawnedObjectCount - 1; i >= 0; --i)
+            {
+                if (_spawnedObjects[i] != null)
+                {
+                    _spawnedObjects[i].GetComponent<Pawn>()?.Die();
+                }
+            }
+
+            _spawnedObjectCount = 0;
         }
     }
 }

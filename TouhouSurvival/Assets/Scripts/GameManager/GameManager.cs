@@ -13,7 +13,19 @@ namespace Unchord
         public Player[] PlayerPrefabs { get; private set; }
         public int PlayerPrefabIndex { get; set; } = -1;
 
-        public bool IsGameStarted { get; private set; }
+        public bool IsGameStarted
+        {
+            get
+            {
+                bool started = true;
+
+                started &= _isGameStarted;
+                started &= this.Player.IsStarted;
+
+                return started;
+            }
+        }
+
         public bool IsGamePaused { get; private set; }
 
         public float AbsolutePlaytime { get; private set; }
@@ -22,12 +34,22 @@ namespace Unchord
 
         public int KillCount { get; set; }
         public int EarnedGold { get; set; }
-        
+
+        public int ResurrectedCount { get; set; }
+        public int ResurrectCountMax { get; set; }
+
+        public bool IsPlayerDead => (this.Player.CurrentHealth <= 0.0f);
+        public bool IsRuntimeBlocked => (_execBlockingCounter > 0);
+        public PhaseRuntimeCommons PhaseRuntimeCommonData { get; private set; }
+
+        private bool _isGameStarted;
+
         private IPhase _stageTree;
 
         public List<GameObject> SpawnedEnemies { get; private set; }
 
         private int _timeStopInterruptCounter = 0;
+        private int _execBlockingCounter = 0;
 
         public BlockingEventHandler BlockingEvent { get; private set; }
         public Camera MainCamera { get; private set; }
@@ -49,9 +71,6 @@ namespace Unchord
 
             ProjectileContainer.SetParent(RuntimeContainer);
 
-            BlockingEvent.onBlockingEventOccurred += OnBlockEventOccurred;
-            BlockingEvent.onBlockingEventHandled += OnBlockEventHandled;
-
             SpawnedEnemies = new List<GameObject>(1024);
 
             DontDestroyOnLoad(RuntimeContainer);
@@ -67,6 +86,9 @@ namespace Unchord
             if (_stageTree == null)
                 return;
 
+            if (_execBlockingCounter > 0)
+                return;
+
             RuntimeState execResult = _stageTree.Update();
 
             switch (execResult)
@@ -75,13 +97,17 @@ namespace Unchord
                     UpdatePlaytime();
                     break;
 
+                case RuntimeState.Resurrect:
+                    this.BlockingEvent.Publish(OnResurrectCoroutine());
+                    break;
+
                 case RuntimeState.Pass:
                 case RuntimeState.Fail:
-                    EndGame(execResult);
+                    this.BlockingEvent.Publish(OnGameEndCoroutine(execResult));
                     break;
 
                 case RuntimeState.Halt:
-                    _stageTree = null;
+                    this.BlockingEvent.Publish(OnGameEndCoroutine(RuntimeState.Fail));
                     break;
 
                 default:
@@ -92,27 +118,38 @@ namespace Unchord
 
         public void StartGame()
         {
-            if (IsGameStarted)
+            if (_isGameStarted)
                 return;
 
-            IsGameStarted = true;
+            ResurrectedCount = 0;
+            ResurrectCountMax = 0;
 
             // TODO: 이름 수정
-            StartPhaseRuntimeTree("Phases/Test/New Stage");
             CreatePlayer();
+            StartPhaseRuntimeTree("Phases/Test/New Stage");
             MainCamera.transform.position = 10.0f * Vector3.back;
+
+            _isGameStarted = true;
 
             UIManager.Instance.GameCanvas.Show();
         }
 
         public void PauseGame()
         {
-            // TODO: 추후 구현해야 합니다.
+            _stageTree.Pause();
+            InterruptTimeStop();
         }
 
         public void ResumeGame()
         {
-            // TODO: 추후 구현해야 합니다.
+            _stageTree.Resume();
+            ReleaseTimeStopInterrupt();
+        }
+
+        public void HaltGame()
+        {
+            _stageTree.InterruptHalt();
+            ReleaseTimeStopInterrupt();
         }
 
         public void InterruptTimeStop()
@@ -136,18 +173,13 @@ namespace Unchord
         private void CreatePlayer()
         {
             Player resource = PlayerPrefabs[PlayerPrefabIndex];
-            Player instance = GameObject.Instantiate(resource, RuntimeContainer.transform, true);
+            Player instance = GameObject.Instantiate(resource, null, true);
 
             instance.name = "Player";
             instance.transform.position = Vector3.zero;
 
             Player = instance;
             PlayerLoaded?.Invoke(Player);
-        }
-
-        public void HaltGame()
-        {
-            _stageTree.InterruptHalt();
         }
 
         public void CleanupGame()
@@ -166,16 +198,17 @@ namespace Unchord
             if(Player != null)
             {
                 // TODO: 플레이어 언로드 로직 추가
+                Destroy(Player.gameObject);
             }
+
+            _stageTree = null;
         }
 
         private void EndGame(RuntimeState stageResult)
         {
             UnityEngine.Debug.Assert(stageResult == RuntimeState.Pass || stageResult == RuntimeState.Fail);
 
-            UIManager.Instance.GameCanvas.Hide();
-
-            IsGameStarted = false;
+            _isGameStarted = false;
 
             if(Player != null)
             {
@@ -198,18 +231,7 @@ namespace Unchord
             }
 
             GameData.Instance.Save();
-            UIManager.Instance.GameCanvas.Clear();
             UIManager.Instance.GameResultCanvas.Show();
-        }
-
-        private void OnBlockEventOccurred()
-        {
-            _stageTree.Pause();
-        }
-
-        private void OnBlockEventHandled()
-        {
-            _stageTree.Resume();
         }
 
         private void StartPhaseRuntimeTree(string phaseSoResourcePath)
@@ -217,8 +239,10 @@ namespace Unchord
             if (_stageTree != null)
                 return;
 
+            PhaseRuntimeCommonData = new PhaseRuntimeCommons(this);
+
             StageDataSO stageSO = Resources.Load(phaseSoResourcePath) as StageDataSO;
-            _stageTree = stageSO.CreateRuntime() as IPhase;
+            _stageTree = stageSO.CreateRuntime(PhaseRuntimeCommonData) as IPhase;
         }
 
         private void UpdatePlaytime()
@@ -233,6 +257,43 @@ namespace Unchord
                 ElapsedPlaytime += Time.deltaTime;
                 UIManager.Instance.GameCanvas.SetTimer((int)ElapsedPlaytime);
             }
+        }
+
+        private IEnumerator OnResurrectCoroutine()
+        {
+            ++_execBlockingCounter;
+            this.Player.Animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+
+            yield return new WaitUntil(this.Player.IsDeadAnimationEnd);
+            yield return new WaitForSecondsRealtime(1.0f);
+
+            --_execBlockingCounter;
+            ++ResurrectedCount;
+
+            _stageTree.InterruptResurrect();
+            this.Player.Animator.updateMode = AnimatorUpdateMode.Normal;
+            this.Player.Resurrect();
+        }
+
+        private IEnumerator OnGameEndCoroutine(RuntimeState result)
+        {
+            ++_execBlockingCounter;
+            this.Player.Animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+
+            EndGame(result);
+
+            yield return new WaitUntil(() => UIManager.Instance.GameResultCanvas.IsResultButtonClicked);
+
+            --_execBlockingCounter;
+            this.Player.Animator.updateMode = AnimatorUpdateMode.Normal;
+
+            CleanupGame();
+
+            // Return To Menu
+            UIManager.Instance.GameCanvas.Hide();
+            UIManager.Instance.GameCanvas.Clear();
+            UIManager.Instance.GameResultCanvas.Hide();
+            UIManager.Instance.LobbyCanvas.Show();
         }
 
         public void OnEnemySpawned(object sender, SpawnEventArgs args)

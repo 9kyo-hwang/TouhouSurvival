@@ -82,7 +82,7 @@ namespace Unchord
 
             float damage = _attributeBase[IcicleFallAttributeType.SpearDamage].CurrentValue;
             float knockBackStrength = _attributeBase[IcicleFallAttributeType.SpearKnockbackStrength].CurrentValue;
-            enemy.TakeDamage(damage, _transform.GetComponentInParent<Player>(), args.eventSource);
+            enemy.TakeDamage(damage);
             enemy.KnockBack(knockBackStrength);
 
             GameObject projectileGameObject = args.eventSource;

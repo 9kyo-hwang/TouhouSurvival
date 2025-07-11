@@ -6,6 +6,8 @@ namespace Unchord
 {
     public class GameResultCanvas : UnchordCanvas
     {
+        public bool IsResultButtonClicked { get; private set; }
+
         private TextMeshProUGUI _txtResultText;
         private Button _btnBack;
 
@@ -35,6 +37,15 @@ namespace Unchord
             _txtResultText.text += "\n\n";
             _txtResultText.text += "Gold\n";
             _txtResultText.text += s_gameManager.EarnedGold.ToString();
+
+            IsResultButtonClicked = false;
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+
+            IsResultButtonClicked = false;
         }
 
         private string GetPlaytimeString(float playtime)
@@ -50,9 +61,7 @@ namespace Unchord
 
         private void OnBackButtonClick()
         {
-            this.Hide();
-            s_gameManager.CleanupGame();
-            s_uiManager.LobbyCanvas.Show();
+            IsResultButtonClicked = true;
         }
     }
 }

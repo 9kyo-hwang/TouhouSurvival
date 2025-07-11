@@ -103,7 +103,7 @@ namespace Unchord
             if (enemy.AttributeBase[EnemyAttributeType.Health].CurrentValue > 0.0f)
             {
                 float damage = this.AttributeBase[BattojutsuAttributeType.EffectDamage].CurrentValue;
-                enemy.TakeDamage(damage, null, null);
+                enemy.TakeDamage(damage);
             }
         }
     }

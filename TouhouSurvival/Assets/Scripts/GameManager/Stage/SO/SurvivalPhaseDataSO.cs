@@ -9,6 +9,6 @@ namespace Unchord
         public List<SpawnerSO> spawnerSO;
         public float phaseDuration = 30.0f;
 
-        public override IRuntime CreateRuntime() => new SurvivalPhaseRuntime(this);
+        public override IRuntime CreateRuntime(PhaseRuntimeCommons commonData) => new SurvivalPhaseRuntime(this, commonData);
     }
 }
