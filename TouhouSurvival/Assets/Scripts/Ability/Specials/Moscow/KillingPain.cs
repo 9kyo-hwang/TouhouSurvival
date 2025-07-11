@@ -15,7 +15,7 @@ namespace Unchord
             base.Awake();
 
             _modifier = new GameplayAttributeModifier(
-                PlayerAttributeType.HealthRegeneration,
+                PlayerAttributeType.HpRegen,
                 0.0f,
                 GameplayAttributeOperator.PercentAdd);
         }
@@ -26,7 +26,7 @@ namespace Unchord
 
             _gm = GameManager.Instance;
 
-            _attrHealthRegen = base.Player.AttributeBase[PlayerAttributeType.HealthRegeneration];
+            _attrHealthRegen = base.Player.AttributeBase[PlayerAttributeType.HpRegen];
 
             _attrHealthRegen.AddModifier(_modifier);
         }
@@ -47,7 +47,7 @@ namespace Unchord
 
             // 4. (적용할 체력 재생) = (최대 체력 재생) * w
             //// _attrHealthRegen.RemoveModifier(_modifier);
-            //// _modifier.value = base.AttributeBase[PlayerAttributeType.HealthRegeneration + "Max"].CurrentValue * w;
+            //// _modifier.value = base.AttributeBase[PlayerAttributeType.HpRegen + "Max"].CurrentValue * w;
             //// _attrHealthRegen.AddModifier(_modifier);
         }
 

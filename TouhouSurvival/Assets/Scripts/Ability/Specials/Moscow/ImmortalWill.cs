@@ -4,15 +4,15 @@ namespace Unchord
     public class ImmortalWill : SpecialAbilityComponent
     {
         private GameplayAttributeModifier _modifier;
-        private GameplayAttribute _attrHealthMax;
-        private GameplayAttribute _attrHealthRegen;
+        private GameplayAttribute _attrHpMax;
+        private GameplayAttribute _attrHpRegen;
 
         protected override void Awake()
         {
             base.Awake();
 
             _modifier = new GameplayAttributeModifier(
-                PlayerAttributeType.HealthRegeneration,
+                PlayerAttributeType.HpRegen,
                 0.0f,
                 GameplayAttributeOperator.PercentAdd);
         }
@@ -21,26 +21,26 @@ namespace Unchord
         {
             base.Start();
 
-            _attrHealthMax = base.Player.AttributeBase[PlayerAttributeType.Health];
-            _attrHealthRegen = base.Player.AttributeBase[PlayerAttributeType.HealthRegeneration];
+            _attrHpMax = base.Player.AttributeBase[PlayerAttributeType.HpMax];
+            _attrHpRegen = base.Player.AttributeBase[PlayerAttributeType.HpRegen];
 
-            _attrHealthRegen.AddModifier(_modifier);
+            _attrHpRegen.AddModifier(_modifier);
         }
 
         protected override void Update()
         {
             base.Update();
 
-            _attrHealthRegen.RemoveModifier(_modifier);
-            _modifier.value = GetHealthRegeneration(base.Player.CurrentHealth, _attrHealthMax.CurrentValue);
-            _attrHealthRegen.AddModifier(_modifier);
+            _attrHpRegen.RemoveModifier(_modifier);
+            _modifier.value = GetHealthRegeneration(base.Player.CurrentHealth, _attrHpMax.CurrentValue);
+            _attrHpRegen.AddModifier(_modifier);
         }
 
         public float GetHealthRegeneration(float currentHealth, float maxHealth)
         {
-            float min = base.AttributeBase[PlayerAttributeType.HealthRegeneration + "Min"].CurrentValue;
-            float max = base.AttributeBase[PlayerAttributeType.HealthRegeneration + "Max"].CurrentValue;
-            float threshold = base.AttributeBase[PlayerAttributeType.HealthRegeneration + "Threshold"].CurrentValue;
+            float min = base.AttributeBase[PlayerAttributeType.HpRegen + "Min"].CurrentValue;
+            float max = base.AttributeBase[PlayerAttributeType.HpRegen + "Max"].CurrentValue;
+            float threshold = base.AttributeBase[PlayerAttributeType.HpRegen + "Threshold"].CurrentValue;
             float health01 = currentHealth / maxHealth;
 
             if (health01 > threshold)
