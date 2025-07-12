@@ -1,5 +1,7 @@
 using System;
+using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +10,7 @@ namespace Unchord
     public class GameCanvas : UnchordCanvas
     {
         private const int MAX_ABILITY_COUNT = 6;
+        private const int MAX_COUNTER_BUFFER_SIZE = 10;
 
         public IntegerCounterFontSO levelFont;
 
@@ -25,6 +28,12 @@ namespace Unchord
         private Image[] _passiveIcons;
         private int _weaponIconCount;
         private int _passiveIconCount;
+
+        private Color _counterColorWhite = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        private Color _counterColorGray = new Color(0.3f, 0.3f, 0.3f, 1.0f);
+        private StringBuilder _counterBuilder = new StringBuilder();
+        private char[] _counterBuffer = new char[MAX_COUNTER_BUFFER_SIZE];
+        private int _counterBufferCount;
 
         private class AbilitySlot
         {
@@ -165,7 +174,7 @@ namespace Unchord
             if (count > 999999)
                 count = 999999;
 
-            _killCount.text = count.ToString("D06");
+            _killCount.text = GetCounterString(count, 6, _counterColorWhite, _counterColorGray);
         }
 
         public void SetEarnedGold(int earnedGold)
@@ -175,7 +184,7 @@ namespace Unchord
             if (earnedGold > 999999)
                 earnedGold = 999999;
 
-            _earnedGold.text = earnedGold.ToString("D06");
+            _earnedGold.text = GetCounterString(earnedGold, 6, _counterColorWhite, _counterColorGray);
         }
 
         public void AddWeaponIcon(Sprite icon)
@@ -199,6 +208,44 @@ namespace Unchord
 
             s_gameManager.PauseGame();
             s_uiManager.PauseCanvas.Show();
+        }
+
+        private string GetCounterString(int value, int digitLength, Color enabled, Color disabled)
+        {
+            UnityEngine.Debug.Assert(digitLength <= MAX_COUNTER_BUFFER_SIZE);
+
+            _counterBufferCount = 0;
+
+            while (value > 0 && _counterBufferCount < MAX_COUNTER_BUFFER_SIZE)
+            {
+                _counterBuffer[_counterBufferCount++] = (char)(0x30 + value % 10);
+                value /= 10;
+            }
+
+            if (_counterBufferCount == 0)
+            {
+                _counterBuffer[_counterBufferCount++] = '0';
+            }
+
+            _counterBuilder.Clear();
+            _counterBuilder.AppendFormat($"<color=#{disabled.ToHexString()}>");
+
+            for (int i = digitLength - 1; i >= _counterBufferCount; --i)
+            {
+                _counterBuilder.Append('0');
+            }
+
+            _counterBuilder.Append("</color>");
+            _counterBuilder.AppendFormat($"<color=#{enabled.ToHexString()}>");
+
+            for (int i = _counterBufferCount - 1; i >= 0; --i)
+            {
+                _counterBuilder.Append(_counterBuffer[i]);
+            }
+
+            _counterBuilder.Append("</color>");
+
+            return _counterBuilder.ToString();
         }
     }
 }
