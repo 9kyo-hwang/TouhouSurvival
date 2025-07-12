@@ -63,8 +63,11 @@ namespace Unchord
 
         private void ShowSpecial(int idxSpecial, SpecialAbilityComponent special)
         {
-            _imgSpecials[idxSpecial].sprite = special.DisplayIcon;
-            _imgSpecials[idxSpecial].gameObject.SetActive(special.CurrentLevel > 0);
+            Image img = _imgSpecials[idxSpecial];
+
+            img.sprite = special.DisplayIcon;
+            img.gameObject.SetActive(true);
+            img.transform.Find("LockIcon").gameObject.SetActive(special.CurrentLevel == 0);
         }
 
         public override void UpdateKeyboardInput()
