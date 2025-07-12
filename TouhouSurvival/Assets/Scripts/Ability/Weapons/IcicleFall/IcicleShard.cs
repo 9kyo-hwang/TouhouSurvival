@@ -11,6 +11,7 @@ namespace Unchord
             projectile.transform.position = spearPosition;
             projectile.ProjectileSpeed = speed;
             projectile.ProjectileDirection = direction;
+            projectile.OriginEulerAngle = Vector2.SignedAngle(Vector2.right, direction) - 45.0f;
 
             StartCoroutine(Timeout(duration));
         }
