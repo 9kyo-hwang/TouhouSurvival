@@ -83,7 +83,7 @@ namespace Unchord
             s_gameManager.HaltGame();
         }
 
-        private void OnResumeButtonClick()
+        public void OnResumeButtonClick()
         {
             s_uiManager.SingleColorCanvas0.Hide();
             this.Hide();

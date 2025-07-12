@@ -203,11 +203,15 @@ namespace Unchord
 
         private void OnPauseButtonClick()
         {
-            if (!this.IsTopCanvas)
-                return;
-
-            s_gameManager.PauseGame();
-            s_uiManager.PauseCanvas.Show();
+            if (s_gameManager.IsGamePaused)
+            {
+                s_uiManager.PauseCanvas.OnResumeButtonClick();
+            }
+            else
+            {
+                s_gameManager.PauseGame();
+                s_uiManager.PauseCanvas.Show();
+            }
         }
 
         private string GetCounterString(int value, int digitLength, Color enabled, Color disabled)
