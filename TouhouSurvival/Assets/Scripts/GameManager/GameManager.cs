@@ -136,12 +136,14 @@ namespace Unchord
 
         public void PauseGame()
         {
+            IsGamePaused = true;
             _stageTree.Pause();
             InterruptTimeStop();
         }
 
         public void ResumeGame()
         {
+            IsGamePaused = false;
             _stageTree.Resume();
             ReleaseTimeStopInterrupt();
         }
