@@ -88,5 +88,27 @@ namespace Unchord
         {
             _modifiers = new SortedList<int, GameplayAttributeModifier>(8);
         }
+
+        public string GetDescription(int level)
+        {
+            GameplayAttributeModifier mod = this[level];
+
+            string message = string.Empty;
+
+            while (mod != null && mod.description.Equals(string.Empty))
+                mod.next = mod;
+
+            while (mod != null)
+            {
+                message += mod.description;
+
+                if (mod.next != null && !mod.next.description.Equals(string.Empty))
+                    message += "\n";
+
+                mod = mod.next;
+            }
+
+            return message;
+        }
     }
 }

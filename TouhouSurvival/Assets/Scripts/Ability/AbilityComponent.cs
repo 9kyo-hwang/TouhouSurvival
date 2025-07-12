@@ -51,5 +51,10 @@ namespace Unchord
             CurrentLevel++;
             this.gameObject.SetActive(true);
         }
+
+        public virtual string GetModifierDescription(int level)
+        {
+            return string.Empty;
+        }
     }
 }

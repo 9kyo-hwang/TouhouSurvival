@@ -67,6 +67,11 @@ namespace Unchord
             AttributeBase.ApplyModifiers(_attributeModifier[CurrentLevel]);
         }
 
+        public override string GetModifierDescription(int level)
+        {
+            return _attributeModifier.GetDescription(level);
+        }
+
         private bool TryUpdateCooltime()
         {
             if (_leftCooltime <= 0.0f)
