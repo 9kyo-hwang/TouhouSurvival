@@ -141,7 +141,7 @@ namespace Unchord
             CharacterSlot slot = _characterSlots[idxSlot];
             Player prefab = s_gameManager.PlayerPrefabs[idxPrefab];
 
-            slot.SetIcons(prefab.iconCharacter, prefab.iconMainWeapon, prefab.iconSpell);
+            slot.SetIcons(prefab.iconCharacter, prefab.iconMainWeapon, prefab.iconSpecial);
         }
 
         private void SetPreview(int idxPrefab)
