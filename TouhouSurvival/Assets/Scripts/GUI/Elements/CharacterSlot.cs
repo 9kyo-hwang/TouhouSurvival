@@ -7,20 +7,20 @@ namespace Unchord
     {
         private Image _characterIcon;
         private Image _weaponIcon;
-        private Image _spellIcon;
+        private Image _specialIcon;
 
         public CharacterSlot(Transform slot)
         {
             _characterIcon = slot.Find("Icon (0)").GetComponent<Image>();
             _weaponIcon = slot.Find("Icon (1)").GetComponent<Image>();
-            _spellIcon = slot.Find("Icon (2)").GetComponent<Image>();
+            _specialIcon = slot.Find("Icon (2)").GetComponent<Image>();
         }
 
-        public void SetIcons(Sprite character, Sprite mainWeapon, Sprite spell)
+        public void SetIcons(Sprite character, Sprite mainWeapon, Sprite special)
         {
             _characterIcon.sprite = character;
             _weaponIcon.sprite = mainWeapon;
-            _spellIcon.sprite = spell;
+            _specialIcon.sprite = special;
         }
     }
 }
