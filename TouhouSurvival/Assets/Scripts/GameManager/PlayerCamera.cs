@@ -4,75 +4,92 @@ namespace Unchord
 {
     public class PlayerCamera : MonoBehaviour
     {
-        [Range(0.01f, 30.0f)]
-        public float traceSpeed = 5.0f;
+        public float rMax = 3.0f;
+        public float sMax = 5.0f;
 
-        [Range(0.0f, 10.0f)]
-        public float limitRadius = 2.0f;
+        public float w = 0.2f;
 
         private GameManager _gameManager;
 
         private Vector2 _prevPosition;
-        private Vector2 _nextPosition;
-        private Vector2 _camPosition;
+        private Vector2 _moveSum;
 
-        private bool _prevAimed;
-        private bool _nextAimed;
-
-        private float _finalDistance;
+        private Transform _target;
 
         private void Awake()
         {
             _gameManager = GameManager.Instance;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
-            AimTarget();
-            //TraceTarget();
-        }
-
-        private void AimTarget()
-        {
-            if (!_gameManager.Player)
-                return;
-
-            float camZ = _gameManager.MainCamera.transform.position.z;
-
-            _camPosition = _gameManager.Player.transform.position;
-
-            _gameManager.MainCamera.transform.position = new Vector3(_camPosition.x, _camPosition.y, camZ);
-        }
-
-        private void TraceTarget()
-        {
-            _prevAimed = _nextAimed;
-            _nextAimed = _gameManager.Player;
-
-            if (!_nextAimed)
-                return;
-
-            float camZ = _gameManager.MainCamera.transform.position.z;
-
-            _prevPosition = _nextPosition;
-            _nextPosition = _gameManager.Player.transform.position;
-
-            if (!_prevAimed)
+            if (_gameManager.Player == null)
             {
-                _prevPosition = _nextPosition;
-                _camPosition = _nextPosition;
-                _gameManager.MainCamera.transform.position = new Vector3(_camPosition.x, _camPosition.y, camZ);
+                _target = null;
+                return;
+            }
+            else if (_target == null)
+            {
+                SetTarget(_gameManager.Player.transform);
+            }
+
+            TraceTarget(this.transform, _target);
+        }
+
+        private void LateUpdate()
+        {
+            if (_target == null)
+            {
                 return;
             }
 
-            // TODO: 위치 보간 코드를 이 곳에 삽입합니다.
-            if (_prevPosition == _nextPosition)
-                _finalDistance = Mathf.Lerp(_finalDistance, 0.0f, traceSpeed * Time.deltaTime);
-            else
-                _finalDistance = Mathf.Lerp(_finalDistance, limitRadius * 1.001f, traceSpeed * Time.deltaTime);
+            SetPosition(this.transform, _target);
+        }
 
-            _camPosition = _nextPosition + (_camPosition - _nextPosition).normalized * _finalDistance;
-            _gameManager.MainCamera.transform.position = new Vector3(_camPosition.x, _camPosition.y, camZ);
+        private void SetTarget(Transform target)
+        {
+            _prevPosition = target.position;
+            _target = target;
+        }
+
+        private void TraceTarget(Transform camera, Transform target)
+        {
+            Vector2 deltaPosition = (Vector2)target.position - _prevPosition;
+            _prevPosition = target.position;
+
+            float currentSpeed = deltaPosition.magnitude / Time.fixedDeltaTime;
+
+            if (currentSpeed > 0.0f)
+            {
+                _moveSum += deltaPosition;
+                _moveSum *= (1.0f - w);
+
+                float r = currentSpeed * (rMax / sMax);
+                r = Mathf.Round(r * 10.0f) / 10.0f;
+
+                if (r > rMax)
+                    r = rMax;
+
+                if (_moveSum.magnitude > r)
+                    _moveSum = _moveSum.normalized * r;
+            }
+            else
+            {
+                UnityEngine.Debug.Assert(w > 0.0f && w <= 1.0f);
+
+                _moveSum *= (1.0f - w);
+            }
+        }
+
+        private void SetPosition(Transform camera, Transform target)
+        {
+            Vector3 position = camera.position;
+            position.x = target.position.x - _moveSum.x;
+            position.y = target.position.y - _moveSum.y;
+
+            Debug.Log($"distance == {_moveSum.magnitude}");
+
+            camera.position = position;
         }
     }
 }
