@@ -205,12 +205,11 @@ namespace Unchord
         {
             if (s_gameManager.IsGamePaused)
             {
-                s_uiManager.PauseCanvas.OnResumeButtonClick();
+                s_gameManager.ResumeGame();
             }
             else
             {
                 s_gameManager.PauseGame();
-                s_uiManager.PauseCanvas.Show();
             }
         }
 

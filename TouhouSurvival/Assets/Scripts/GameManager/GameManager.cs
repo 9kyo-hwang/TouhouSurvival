@@ -136,33 +136,47 @@ namespace Unchord
 
         public void PauseGame()
         {
+            if (IsGamePaused)
+                return;
+
             IsGamePaused = true;
             _stageTree.Pause();
             InterruptTimeStop();
+
+            UIManager ui = UIManager.Instance;
+
+            ui.PauseCanvas.Show();
         }
 
         public void ResumeGame()
         {
+            if (!IsGamePaused)
+                return;
+
             IsGamePaused = false;
             _stageTree.Resume();
             ReleaseTimeStopInterrupt();
+
+            UIManager ui = UIManager.Instance;
+
+            ui.PauseCanvas.Hide();
         }
 
         public void HaltGame()
         {
+            ResumeGame();
             _stageTree.InterruptHalt();
-            ReleaseTimeStopInterrupt();
         }
 
         public void InterruptTimeStop()
         {
-            _timeStopInterruptCounter++;
-            Time.timeScale = 0.0f;
+            if (++_timeStopInterruptCounter > 0)
+                Time.timeScale = 0.0f;
         }
 
         public void ReleaseTimeStopInterrupt()
         {
-            if (--_timeStopInterruptCounter == 0)
+            if (--_timeStopInterruptCounter <= 0)
                 Time.timeScale = 1.0f;
         }
 
@@ -233,7 +247,13 @@ namespace Unchord
             }
 
             GameData.Instance.Save();
-            UIManager.Instance.GameResultCanvas.Show();
+
+            UIManager ui = UIManager.Instance;
+
+            // TODO:
+            // GameResultCanvas의 디자인이 완성된 후 값을 이 곳에서 UI로 넣어줍니다.
+            // 이후 GameResultCanvas에서 GameManager로 접근해 UI에 값을 넣는 코드를 제거합니다.
+            ui.GameResultCanvas.Show();
         }
 
         private void StartPhaseRuntimeTree(string phaseSoResourcePath)
