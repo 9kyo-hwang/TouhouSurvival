@@ -171,7 +171,7 @@ namespace Unchord
 
             instance.name = prefab.name;
             instance.transform.position = spawnedPosition;
-            instance.transform.parent = _gm.RuntimeContainer;
+            instance.transform.parent = _gm.EnemyContainer;
 
             SpawnEventArgs args = new SpawnEventArgs();
             args.spawnerRuntime = this;
