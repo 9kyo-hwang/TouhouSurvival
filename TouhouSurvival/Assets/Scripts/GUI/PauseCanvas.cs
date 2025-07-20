@@ -20,8 +20,8 @@ namespace Unchord
             _mainButton = transform.Find("Navigators/MainButton").GetComponent<Button>();
             _resumeButton = transform.Find("Navigators/ResumeButton").GetComponent<Button>();
 
-            _resumeButton.onClick.AddListener(OnResumeButtonClick);
-            _mainButton.onClick.AddListener(OnMainButtonClick);
+            _resumeButton.onClick.AddListener(s_gameManager.ResumeGame);
+            _mainButton.onClick.AddListener(s_gameManager.HaltGame);
 
             _bgmSlider = new VolumeSlider(transform.Find("Setting/BgmSlider"), SoundManager.Instance.BGM);
             _sfxSlider = new VolumeSlider(transform.Find("Setting/SfxSlider"), SoundManager.Instance.SFX);
@@ -61,6 +61,13 @@ namespace Unchord
             s_uiManager.SingleColorCanvas0.Show();
         }
 
+        public override void Hide()
+        {
+            s_uiManager.SingleColorCanvas0.Hide();
+
+            base.Hide();
+        }
+
         private void ShowSpecial(int idxSpecial, SpecialAbilityComponent special)
         {
             Image img = _imgSpecials[idxSpecial];
@@ -75,23 +82,7 @@ namespace Unchord
             base.UpdateKeyboardInput();
 
             if (Input.GetKeyDown(KeyCode.Escape))
-                OnResumeButtonClick();
-        }
-
-        private void OnMainButtonClick()
-        {
-            s_uiManager.SingleColorCanvas0.Hide();
-            this.Hide();
-
-            s_gameManager.HaltGame();
-        }
-
-        public void OnResumeButtonClick()
-        {
-            s_uiManager.SingleColorCanvas0.Hide();
-            this.Hide();
-
-            s_gameManager.ResumeGame();
+                s_gameManager.ResumeGame();
         }
     }
 }
