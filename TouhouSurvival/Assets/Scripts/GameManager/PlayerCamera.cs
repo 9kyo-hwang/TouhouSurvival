@@ -98,8 +98,6 @@ namespace Unchord
             position.x = target.position.x - _moveSum.x;
             position.y = target.position.y - _moveSum.y;
 
-            Debug.Log($"distance == {_moveSum.magnitude}");
-
             camera.position = position;
         }
     }
