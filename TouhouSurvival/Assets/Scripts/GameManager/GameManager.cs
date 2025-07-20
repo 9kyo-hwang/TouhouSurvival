@@ -57,6 +57,7 @@ namespace Unchord
 
         public Transform RuntimeContainer { get; private set; }
         public Transform ProjectileContainer { get; private set; }
+        public Transform EnemyContainer { get; private set; }
 
         public System.Action<Player> PlayerLoaded;
         public System.Action<Player> PlayerUnloaded;
@@ -68,8 +69,10 @@ namespace Unchord
 
             RuntimeContainer = new GameObject("@Runtime Container").transform;
             ProjectileContainer = new GameObject("@Projectile Container").transform;
+            EnemyContainer = new GameObject("@Enemy Container").transform;
 
             ProjectileContainer.SetParent(RuntimeContainer);
+            EnemyContainer.SetParent(RuntimeContainer);
 
             SpawnedEnemies = new List<GameObject>(1024);
 
@@ -192,6 +195,7 @@ namespace Unchord
             Player instance = GameObject.Instantiate(resource, null, true);
 
             instance.name = "Player";
+            instance.transform.parent = RuntimeContainer;
             instance.transform.position = Vector3.zero;
 
             Player = instance;
@@ -200,10 +204,7 @@ namespace Unchord
 
         public void CleanupGame()
         {
-            for (int i = RuntimeContainer.childCount - 1; i >= 0; --i)
-            {
-                Destroy(RuntimeContainer.GetChild(i).gameObject);
-            }
+            CleanContainerBFS(RuntimeContainer);
 
             KillCount = 0;
             EarnedGold = 0;
@@ -218,6 +219,29 @@ namespace Unchord
             }
 
             _stageTree = null;
+        }
+
+        private void CleanContainerBFS(Transform rootContainer)
+        {
+            Queue<Transform> bfs = new Queue<Transform>(512); // 멤버 변수로 뺄까?
+
+            bfs.Enqueue(rootContainer);
+
+            while (bfs.Count > 0)
+            {
+                Transform target = bfs.Dequeue();
+
+                if (target.name[0] != '@')
+                {
+                    Destroy(target.gameObject);
+                    continue;
+                }
+
+                for (int i = target.childCount - 1; i >= 0; --i)
+                {
+                    bfs.Enqueue(target.GetChild(i));
+                }
+            }
         }
 
         private void EndGame(RuntimeState stageResult)
