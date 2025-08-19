@@ -5,31 +5,31 @@ using UnityEngine;
 
 namespace Unchord
 {
-    public class AttributeModifierSet
+    public class AttributeModifierSet : SortedList<int, GameplayAttributeModifier>
     {
         public int MaxLevel
         {
             get
             {
-                if (_modifiers.Count == 0)
+                if (this.Count == 0)
                     return 1;
 
-                return Mathf.Max(1, _modifiers.Last().Key);
+                return Mathf.Max(1, this.Last().Key);
             }
         }
 
-        public GameplayAttributeModifier this[int level]
-        {
-            get
-            {
-                if (!_modifiers.ContainsKey(level))
-                    return null;
+        //public GameplayAttributeModifier this[int level]
+        //{
+        //    get
+        //    {
+        //        if (!_modifiers.ContainsKey(level))
+        //            return null;
 
-                return _modifiers[level];
-            }
-        }
+        //        return _modifiers[level];
+        //    }
+        //}
 
-        private SortedList<int, GameplayAttributeModifier> _modifiers;
+        //private SortedList<int, GameplayAttributeModifier> _modifiers;
 
         public static AttributeModifierSet LoadFromFile(string csvFilePath)
         {
@@ -66,17 +66,17 @@ namespace Unchord
                     }
 
                     int level = int.Parse(tokens[0]);
-                    set._modifiers.TryAdd(level, null);
+                    set.TryAdd(level, null);
 
                     float value = float.Parse(tokens[2]);
                     string attributeType = tokens[1];
                     string desc = tokens[4];
                     GameplayAttributeModifier modifier = new GameplayAttributeModifier(attributeType, value, opcode, desc)
                     {
-                        next = set._modifiers[level]
+                        next = set[level]
                     };
 
-                    set._modifiers[level] = modifier;
+                    set[level] = modifier;
                 }
             }
 
@@ -84,9 +84,10 @@ namespace Unchord
         }
 
         // only can instantiate class-scope.
-        private AttributeModifierSet()
+        public AttributeModifierSet(int capacity = 1)
+        : base(capacity)
         {
-            _modifiers = new SortedList<int, GameplayAttributeModifier>(8);
+            
         }
 
         public string GetDescription(int level)

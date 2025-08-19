@@ -46,7 +46,8 @@ namespace Unchord
         }
 
         // only can instantiate class-scope.
-        private AttributeBaseSet()
+        public AttributeBaseSet(int capacity = 1)
+        : base(capacity)
         {
             // this block intentionally left blank.
         }
