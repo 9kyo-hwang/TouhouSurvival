@@ -60,5 +60,12 @@ namespace Unchord.Editor
                 EditorGUILayout.PropertyField(property);
             }
         }
+
+        protected void DrawSeparator(int height = 1)
+        {
+            Rect rect = EditorGUILayout.GetControlRect(false, height);
+            rect.height = height;
+            EditorGUI.DrawRect(rect, Color.gray);
+        }
     }
 }

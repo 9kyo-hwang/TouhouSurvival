@@ -9,30 +9,14 @@ namespace Unchord.Editor
     [Serializable]
     public class AttributeEditorWindow : UnchordEditorWindow
     {
-        private SerializedObject _serialEditorWindow;
-
+        private SerializedObject _serialObject;
         private SerializedProperty _serialBases;
         private SerializedProperty _serialModifiers;
+        private SerializedProperty _serialExpTable;
 
-        [SerializeField] private List<SerializedGameplayAttributeBase> _bases;
-        [SerializeField] private List<SerializedGameplayAttributeModifier> _modifiers;
+        private static AttributeEditorWindowMember s_member;
 
-        private string _log = string.Empty;
-        private int _logContinuousCount;
-
-        // For usage toggle buttons
-        private bool _useBaseValueDict = true;
-        private bool _useModifierTable = true;
-        private bool _useExpTable = false;
-
-        // DEPRECATED: 현재 MultiCSVReader가 Alias를 얻어오기는 어려운 구조로 구현되어 있어서 현재 사용하지 않음.
-        // Aliases of csv table
-        //private string _aliasBaseValueDict = string.Empty;
-        //private string _aliasModifierTable = string.Empty;
-        //private string _aliasExpTable = string.Empty;
-
-        private string _assetPathRelative = string.Empty;
-        private Vector2 _scrollPosition = Vector2.zero;
+        [SerializeField] private AttributeEditorWindowMember _member;
 
         [MenuItem("Touhou/Attribute Table Window")]
         public static void ShowWindow()
@@ -40,25 +24,32 @@ namespace Unchord.Editor
             EditorWindow.GetWindow<AttributeEditorWindow>();
         }
 
-        private void Awake()
-        {
-            _bases = new List<SerializedGameplayAttributeBase>(0);
-            _modifiers = new List<SerializedGameplayAttributeModifier>(0);
-        }
-
         private void OnEnable()
         {
-            _serialEditorWindow = new SerializedObject(this);
+            _member = s_member;
 
-            _serialBases = _serialEditorWindow.FindProperty("_bases");
-            _serialModifiers = _serialEditorWindow.FindProperty("_modifiers");
+            if (_member == null)
+            {
+                _member = new AttributeEditorWindowMember();
+
+                _serialObject = new SerializedObject(this);
+            }
+
+            _serialBases = _serialObject.FindProperty("_member.bases");
+            _serialModifiers = _serialObject.FindProperty("_member.modifiers");
+            _serialExpTable = _serialObject.FindProperty("_member.expTable");
+        }
+
+        private void OnDisable()
+        {
+            s_member = _member;
         }
 
         private void OnGUI()
         {
-            _serialEditorWindow.Update();
+            _serialObject.Update();
 
-            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+            _member.windowScrollPosition = EditorGUILayout.BeginScrollView(_member.windowScrollPosition);
 
             GUILayout.BeginHorizontal();
             float wNav = 45.0f;
@@ -67,71 +58,55 @@ namespace Unchord.Editor
             {
                 if (SaveFile())
                 {
-                    PublishLog("File saved.");
+                    _member.logField.Publish("File saved.");
                 }
                 else
                 {
-                    PublishLog("Saving file failed.");
+                    _member.logField.Publish("Saving file failed.");
                 }
             }
             if (OnNavigatorClicked("Load", wNav, hNav))
             {
                 if (LoadFile())
                 {
-                    PublishLog("File loaded.");
+                    _member.logField.Publish("File loaded.");
                 }
                 else
                 {
-                    PublishLog("Loading file failed.");
+                    _member.logField.Publish("Loading file failed.");
                 }
             }
-            DrawLog();
+
+            _member.logField.OnGUI();
+
             GUILayout.EndHorizontal();
 
-            string root = Application.streamingAssetsPath;
-            int pathSuffixLength = 16;
-            float oldLabelWidth = EditorGUIUtility.labelWidth;
-            EditorGUIUtility.labelWidth = 116;
-            _assetPathRelative = EditorGUILayout.TextField(new GUIContent($"...{root.Substring(root.Length - pathSuffixLength, pathSuffixLength)}/"), _assetPathRelative);
-            EditorGUIUtility.labelWidth = oldLabelWidth;
-
-            //_modifiersCount = base.DrawSerializedList<SerializedGameplayAttributeModifier>("modifiers", _serialModifiers, _modifiersCount);
+            _member.pathBrowser.OnGUI();
 
             DrawSeparator();
 
             // Draw Base Value Dictionary
-            _useBaseValueDict = EditorGUILayout.BeginToggleGroup(new GUIContent("Base Value Table"), _useBaseValueDict);
-
-            // DEPRECATED
-            //_aliasBaseValueDict = EditorGUILayout.TextField(new GUIContent("Alias"), _aliasBaseValueDict, GUILayout.MaxWidth(300));
-
+            _member.useBaseValueDict = EditorGUILayout.BeginToggleGroup(new GUIContent("Base Value Table"), _member.useBaseValueDict);
             EditorGUILayout.PropertyField(_serialBases, new GUIContent("Base Value Dictionary"), true);
             EditorGUILayout.EndToggleGroup();
 
             DrawSeparator();
 
             // Draw Modifier Elements
-            _useModifierTable = EditorGUILayout.BeginToggleGroup(new GUIContent("Attribute Modifier Table"), _useModifierTable);
-
-            // DEPRECATED
-            //_aliasModifierTable = EditorGUILayout.TextField(new GUIContent("Alias"), _aliasModifierTable, GUILayout.MaxWidth(300));
-
+            _member.useBaseValueDict = EditorGUILayout.BeginToggleGroup(new GUIContent("Attribute Modifier Table"), _member.useModifierTable);
             EditorGUILayout.PropertyField(_serialModifiers, true);
             EditorGUILayout.EndToggleGroup();
 
             DrawSeparator();
 
             // Draw Exp Table
-            _useExpTable = EditorGUILayout.BeginToggleGroup(new GUIContent("Exp Table"), _useExpTable);
-
-            // DEPRECATED
-            //_aliasExpTable = EditorGUILayout.TextField(new GUIContent("Alias"), _aliasExpTable, GUILayout.MaxWidth(300));
-
+            _member.useBaseValueDict = EditorGUILayout.BeginToggleGroup(new GUIContent("Exp Table"), _member.useExpTable);
+            EditorGUILayout.PropertyField(_serialExpTable, true);
             EditorGUILayout.EndToggleGroup();
 
             EditorGUILayout.EndScrollView();
 
-            _serialEditorWindow.ApplyModifiedProperties();
+            _serialObject.ApplyModifiedProperties();
         }
 
         private bool OnNavigatorClicked(string label, float w, float h)
@@ -145,7 +120,7 @@ namespace Unchord.Editor
 
         private bool SaveFile()
         {
-            string path = Application.streamingAssetsPath + "/" + _assetPathRelative;
+            string path = _member.pathBrowser.ConfirmedPath;
             string directory = Path.GetDirectoryName(path);
 
             FileStream fs = null;
@@ -153,6 +128,11 @@ namespace Unchord.Editor
 
             try
             {
+                if (!Path.GetExtension(path).Equals(".multicsv"))
+                {
+                    return false;
+                }
+
                 if (!Directory.Exists(directory))
                 {
                     Directory.CreateDirectory(directory);
@@ -161,20 +141,19 @@ namespace Unchord.Editor
                 fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read);
                 wr = new MultiCSVWriter(fs);
 
-                if (_useBaseValueDict)
+                if (_member.useBaseValueDict)
                 {
-                    wr.TryWriteTable<SerializedGameplayAttributeBase>(_bases, "BaseValueTable");
-
-                    // DEPRECATED
-                    //wr.TryWriteTable<SerializedGameplayAttributeBase>(_bases, _aliasBaseValueDict);
+                    wr.TryWriteTable<SerializedGameplayAttributeBase>(_member.bases, "BaseValueTable");
                 }
 
-                if (_useModifierTable)
+                if (_member.useModifierTable)
                 {
-                    wr.TryWriteTable<SerializedGameplayAttributeModifier>(_modifiers, "ModifierTable");
+                    wr.TryWriteTable<SerializedGameplayAttributeModifier>(_member.modifiers, "ModifierTable");
+                }
 
-                    // DEPRECATED
-                    //wr.TryWriteTable<SerializedGameplayAttributeModifier>(_modifiers, _aliasModifierTable);
+                if (_member.useExpTable)
+                {
+                    wr.TryWriteTable<SerializedLevelUpExp>(_member.expTable, "ExpTable");
                 }
 
                 return true;
@@ -192,7 +171,7 @@ namespace Unchord.Editor
 
         private bool LoadFile()
         {
-            string path = Application.streamingAssetsPath + "/" + _assetPathRelative;
+            string path = _member.pathBrowser.ConfirmedPath;
             string directory = Path.GetDirectoryName(path);
 
             FileStream fs = null;
@@ -210,29 +189,42 @@ namespace Unchord.Editor
 
                 List<SerializedGameplayAttributeBase> bases;
                 List<SerializedGameplayAttributeModifier> modifiers;
+                List<SerializedLevelUpExp> expTable;
 
                 if (rd.TryParseTable<SerializedGameplayAttributeBase>(out bases))
                 {
-                    _bases = bases;
-                    _serialBases = _serialEditorWindow.FindProperty("_bases");
-                    _useBaseValueDict = true;
+                    _member.bases = bases;
+                    _member.useBaseValueDict = true;
+                    _serialBases = _serialObject.FindProperty("_member.bases");
                 }
                 else
                 {
-                    _bases.Clear();
-                    _useBaseValueDict = false;
+                    _member.bases.Clear();
+                    _member.useBaseValueDict = false;
                 }
 
                 if (rd.TryParseTable<SerializedGameplayAttributeModifier>(out modifiers))
                 {
-                    _modifiers = modifiers;
-                    _serialModifiers = _serialEditorWindow.FindProperty("_modifiers");
-                    _useModifierTable = true;
+                    _member.modifiers = modifiers;
+                    _member.useModifierTable = true;
+                    _serialModifiers = _serialObject.FindProperty("_member.modifiers");
                 }
                 else
                 {
-                    _modifiers.Clear();
-                    _useModifierTable = false;
+                    _member.modifiers.Clear();
+                    _member.useModifierTable = false;
+                }
+
+                if (rd.TryParseTable<SerializedLevelUpExp>(out expTable))
+                {
+                    _member.expTable = expTable;
+                    _member.useExpTable = true;
+                    _serialExpTable = _serialObject.FindProperty("_member.expTable");
+                }
+                else
+                {
+                    _member.expTable.Clear();
+                    _member.useExpTable = false;
                 }
 
                 return true;
@@ -246,47 +238,6 @@ namespace Unchord.Editor
                 rd?.Close();
                 fs?.Close();
             }
-        }
-
-        private void DrawSeparator(int height = 1)
-        {
-            Rect rect = EditorGUILayout.GetControlRect(false, height);
-            rect.height = height;
-            EditorGUI.DrawRect(rect, Color.gray);
-        }
-
-        private void PublishLog(string message)
-        {
-            if (message == null || message.Equals(string.Empty))
-            {
-                _logContinuousCount = 0;
-                _log = string.Empty;
-            }
-            else if (_log.Equals(message))
-            {
-                _logContinuousCount++;
-            }
-            else
-            {
-                _logContinuousCount = 0;
-                _log = message;
-            }
-        }
-
-        private void DrawLog()
-        {
-            string log = _log;
-
-            if (!log.Equals(string.Empty) && _logContinuousCount > 0)
-            {
-                log = $"({_logContinuousCount + 1}) {log.Trim()}";
-            }
-
-            GUILayoutOption minHeight = GUILayout.MinHeight(EditorGUIUtility.singleLineHeight);
-            GUILayoutOption maxHeight = GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight);
-            GUILayoutOption maxWidth = GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth);
-
-            GUILayout.Label(log, minHeight, maxHeight, maxWidth);
         }
     }
 }
