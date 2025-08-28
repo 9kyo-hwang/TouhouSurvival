@@ -29,7 +29,7 @@ namespace Unchord.Editor
             string modifierSummary = GetPropertyLabel(pLevel.intValue, pKey.stringValue, opcode);
 
             property.isExpanded = EditorGUI.Foldout(rect, property.isExpanded, modifierSummary);
-
+            
             if (!property.isExpanded)
             {
                 return;
