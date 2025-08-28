@@ -21,7 +21,7 @@ namespace Unchord.Editor
             }
             else
             {
-                EditorGUILayout.LabelField($"{_messageContinuousCount + 1} {_message}");
+                EditorGUILayout.LabelField($"({_messageContinuousCount + 1}) {_message}");
             }
         }
 
