@@ -10,12 +10,12 @@ namespace Unchord.Editor
     public class AttributeEditorWindow : UnchordEditorWindow
     {
         private SerializedObject _serialObject;
+
         private SerializedProperty _serialBases;
         private SerializedProperty _serialModifiers;
         private SerializedProperty _serialExpTable;
 
         private static AttributeEditorWindowMember s_member;
-
         [SerializeField] private AttributeEditorWindowMember _member;
 
         [MenuItem("Touhou/Attribute Table Window")]
@@ -31,10 +31,9 @@ namespace Unchord.Editor
             if (_member == null)
             {
                 _member = new AttributeEditorWindowMember();
-
-                _serialObject = new SerializedObject(this);
             }
 
+            _serialObject = new SerializedObject(this);
             _serialBases = _serialObject.FindProperty("_member.bases");
             _serialModifiers = _serialObject.FindProperty("_member.modifiers");
             _serialExpTable = _serialObject.FindProperty("_member.expTable");
