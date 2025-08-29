@@ -386,7 +386,7 @@ namespace Unchord
 
             PushToBuilder();
 
-            int readLen = _stream.Read(_byteBuffer, _byteIdx + 1, _byteBuffer.Length - _byteIdx - 1);
+            int readLen = _stream.Read(_byteBuffer, _byteLen, _byteBuffer.Length - _byteLen);
 
             if (readLen == 0)
             {
@@ -395,7 +395,7 @@ namespace Unchord
                 return 0;
             }
 
-            _byteLen = readLen;
+            _byteLen += readLen;
 
             return _byteLen;
         }
