@@ -1,0 +1,5 @@
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+1,ExpGain,0.2,PercentAdd,경험치 획득량 20%p 증가
+2,ExpGain,0.3,PercentAdd,경험치 획득량 30%p 증가
+

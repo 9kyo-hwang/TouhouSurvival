@@ -1,0 +1,6 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+FlameDuration,4
+FlameTickTime,0.8
+FlameDamage,1.2
+

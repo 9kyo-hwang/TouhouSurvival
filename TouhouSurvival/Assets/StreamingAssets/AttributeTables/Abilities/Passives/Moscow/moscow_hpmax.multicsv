@@ -1,0 +1,5 @@
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+1,HpMax,0.1,PercentMul,최대 체력 10% 증가
+2,HpMax,0.25,PercentMul,최대 체력 25% 증가
+

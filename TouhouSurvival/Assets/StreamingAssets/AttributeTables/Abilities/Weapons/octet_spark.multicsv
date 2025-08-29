@@ -1,0 +1,13 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+SparkWidth,1
+SparkDamage,1
+SparkKnockbackForce,0
+SparkDamageTime,0.25
+SparkDuration,2
+
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+2,SparkWidth,0.1,PercentAdd,팔괘로의 스파크 폭 10% 증가
+3,SparkDamage,1,Flat,틱당 스파크 데미지 1 증가
+

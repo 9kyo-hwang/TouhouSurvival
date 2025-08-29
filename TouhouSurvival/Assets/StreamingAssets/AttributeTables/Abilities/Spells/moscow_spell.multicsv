@@ -1,0 +1,18 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+DirectionCount,3
+RotationAnglePerTick,5
+BurstCount,10
+BurstDelay,0.5
+ProjectileSpeed,3
+ProjectileDamage,1
+ProjectileSize,0.6
+ExplosionDamage,1
+ExplosionSize,1
+ProjectilePenetrationCount,0
+
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+2,BurstCount,1,Flat,발사 횟수 1회 증가
+3,BurstCount,1,Flat,발사 횟수 1회 증가
+

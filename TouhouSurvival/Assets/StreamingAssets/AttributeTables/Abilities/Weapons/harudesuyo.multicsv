@@ -1,0 +1,15 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+BombingCooldown,10
+BombingRange,5
+NumDropPoints,3
+BombSpawnDelay,1
+BombFallDelay,0.5
+BombExplosionRadius,3
+BombExplosionDamage,5
+
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+2,BombingCooldown,0.8,PercentMul,스킬 발동 쿨타임 20% 감소
+3,NumDropPoints,1,Flat,폭격 지점 개수 1 증가
+

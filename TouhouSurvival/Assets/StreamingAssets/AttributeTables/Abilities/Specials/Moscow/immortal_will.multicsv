@@ -1,0 +1,6 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+HpRegenMin,0.05
+HpRegenMax,0.1
+HpRegenThreshold,0.4
+

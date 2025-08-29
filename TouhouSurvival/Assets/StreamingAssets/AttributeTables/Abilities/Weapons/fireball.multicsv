@@ -1,0 +1,19 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+ShootingEulerAngleError,5
+ShootingBurstDelay,1
+ShootingBurstCount,1
+ProjectileSize,0.6
+ProjectileSpeed,1.5
+ProjectileDamage,1
+ProjectileKnockbackForce,0
+ExplosionSize,0.8
+ExplosionDamage,1
+ExplosionKnockbackForce,0
+ProjectilePenetrationCount,0
+
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+2,ProjectileSpeed,1,Flat,화염구 발사 속도 1 증가
+3,ShootingEulerAngleError,-0.5,Flat,발사 각도 오차 0.5 감소
+

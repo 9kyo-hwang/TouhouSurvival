@@ -1,0 +1,5 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+ResurrectCount,1
+HpRegenMax,0.05
+

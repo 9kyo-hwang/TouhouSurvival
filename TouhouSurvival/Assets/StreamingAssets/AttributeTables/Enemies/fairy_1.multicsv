@@ -1,0 +1,7 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+Health,3
+Speed,1
+Attack,0
+DropRate,0.6
+
