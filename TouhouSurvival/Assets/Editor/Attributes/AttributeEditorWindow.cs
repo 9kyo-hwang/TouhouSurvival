@@ -92,14 +92,14 @@ namespace Unchord.Editor
             DrawSeparator();
 
             // Draw Modifier Elements
-            _member.useBaseValueDict = EditorGUILayout.BeginToggleGroup(new GUIContent("Attribute Modifier Table"), _member.useModifierTable);
+            _member.useModifierTable = EditorGUILayout.BeginToggleGroup(new GUIContent("Attribute Modifier Table"), _member.useModifierTable);
             EditorGUILayout.PropertyField(_serialModifiers, true);
             EditorGUILayout.EndToggleGroup();
 
             DrawSeparator();
 
             // Draw Exp Table
-            _member.useBaseValueDict = EditorGUILayout.BeginToggleGroup(new GUIContent("Exp Table"), _member.useExpTable);
+            _member.useExpTable = EditorGUILayout.BeginToggleGroup(new GUIContent("Exp Table"), _member.useExpTable);
             EditorGUILayout.PropertyField(_serialExpTable, true);
             EditorGUILayout.EndToggleGroup();
 
