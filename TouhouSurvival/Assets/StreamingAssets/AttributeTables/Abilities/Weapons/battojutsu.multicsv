@@ -1,0 +1,11 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+EffectSize,1
+EffectDamage,1
+KnockbackForce,0
+
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+2,EffectSize,0.05,PercentAdd,발도 크기 5% 증가
+3,EffectSize,0.1,PercentAdd,발도 크기 10% 증가
+

@@ -1,0 +1,6 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+BloodAreaSize,1.5
+BloodCooldown,5
+BloodDamage,1
+

@@ -1,0 +1,20 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+LaunchAngleOffset,0.01
+SpearSize,1
+SpearSpeed,10
+SpearDamage,5
+SpearKnockbackStrength,2
+SpearDuration,3
+ShardSize,0.7
+ShardCount,5
+ShardSpeed,3
+ShardDamage,3
+ShardKnockbackStrength,1.5
+ShardDuration,0.5
+
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+2,SpearSize,0.1,PercentAdd,얼음창 크기 10% 증가
+3,ShardCount,1,Flat,얼음 파편 개수 1 증가
+

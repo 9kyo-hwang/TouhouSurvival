@@ -1,0 +1,17 @@
+#SerializedGameplayAttributeBase,BaseValueTable
+attributeName,baseValue
+Cooldown,5
+Size,0.5
+ThrowAngleOffset,5
+ThrowDelay,0.3
+ThrowCount,5
+ThrowSpeed,10
+Damage,10
+KnockbackStrength,3
+Duration,1
+
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+2,Size,0.1,PercentAdd,단검 크기 10% 증가
+3,ThrowAngleOffset,-0.5,Flat,투척 각도 오차 0.5도 감소
+
