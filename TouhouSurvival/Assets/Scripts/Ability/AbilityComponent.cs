@@ -11,6 +11,10 @@ namespace Unchord
         public string DisplayName => displayName;
         public string DisplayDescription => displayDescription;
 
+        [Header("Data File")]
+        [Tooltip("Root path is UnityEngine.Application.streamingAssetsPath. Relative path must be start with slash(/) character.")]
+        public string dataFilePathRelative;
+
         [Header("Displays on GUI")]
         [SerializeField]
         private Sprite displayIcon;

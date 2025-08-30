@@ -51,7 +51,7 @@ namespace Unchord
 
         private IEnumerator EmitCoroutine(GameObject sparkObject)
         {
-            _isCooltimePaused = true;
+            _isCooldownPaused = true;
 
             float duration = AttributeBase[OctetSparkAttributeType.SparkDuration].CurrentValue;
             yield return new WaitForSeconds(duration);
@@ -59,7 +59,7 @@ namespace Unchord
             FlagComponent flagTable = sparkObject.GetComponent<FlagComponent>();
             flagTable[OctetSpark.FLAG_END_OF_SPARK_EMIT] = true;
 
-            _isCooltimePaused = false;
+            _isCooldownPaused = false;
         }
 
         private GameObject OnCreateSpark()

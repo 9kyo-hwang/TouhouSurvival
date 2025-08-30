@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb6a36f4260f35042a42da0c63b6f4ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataFilePathRelative: /AttributeTables/Abilities/Passives/Moscow/moscow_speed.multicsv
   displayIcon: {fileID: 21300000, guid: 8b52ea288085f9640ade4d6880dbfe9c, type: 3}
   displayName: "\uC774\uB3D9 \uC18D\uB3C4 \uC99D\uAC00"
-  displayDescription: 
-  attributeXlsxPathRelative: \AttributeTables\Abilities\Passives\Moscow\moscow_speed.xlsx
+  displayDescription: "\uC774\uB3D9 \uC18D\uB3C4 \uC99D\uAC00 \uBC84\uD504\uB97C
+    \uBC1B\uC2B5\uB2C8\uB2E4."

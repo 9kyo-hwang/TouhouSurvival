@@ -94,7 +94,7 @@ namespace Unchord
 
         private IEnumerator ThrowCoroutine()
         {
-            _isCooltimePaused = true;
+            _isCooldownPaused = true;
             
             GameObject nearestGameObject = Player.GetNearestEnemyOrNull();
             if (nearestGameObject)
@@ -110,7 +110,7 @@ namespace Unchord
                 }
             }
             
-            _isCooltimePaused = false;
+            _isCooldownPaused = false;
         }
 
         private void Throw(Vector3 targetPosition, Vector3 playerPosition)

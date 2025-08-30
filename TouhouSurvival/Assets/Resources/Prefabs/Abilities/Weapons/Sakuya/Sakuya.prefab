@@ -57,12 +57,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e606fc9bf579154ca1997bb463f5292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataFilePathRelative: /AttributeTables/Abilities/Weapons/sakuya.multicsv
   displayIcon: {fileID: 21300000, guid: 26421d4023394ec46bb67d93b0d0aaf8, type: 3}
   displayName: "\uC0AC\uCFE0\uC57C"
-  displayDescription: 
-  attributeXlsxPathRelative: \AttributeTables\Abilities\Weapons\sakuya.xlsx
-  weaponActivationMode: 1
-  fixedCooltime: 5
-  variableCooltimeMin: 1
-  variableCooltimeMax: 2
+  displayDescription: "\uB2E8\uAC80\uC744 \uD22C\uCC99\uD569\uB2C8\uB2E4."
   sakuyaPrefab: {fileID: 7440575811571424432, guid: ac8723d954b01564d9601330a5e21ba9, type: 3}

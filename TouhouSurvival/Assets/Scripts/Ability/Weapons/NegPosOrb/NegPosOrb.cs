@@ -36,7 +36,7 @@ namespace Unchord
 
         private IEnumerator ShootCoroutine()
         {
-            _isCooltimePaused = true;
+            _isCooldownPaused = true;
 
             int burstCount = (int)AttributeBase[NegPosOrbAttributeType.ShootingBurstCount].CurrentValue;
             float burstDelay = AttributeBase[NegPosOrbAttributeType.ShootingBurstDelay].CurrentValue;
@@ -52,7 +52,7 @@ namespace Unchord
                     yield return new WaitForSeconds(burstDelay);
             }
 
-            _isCooltimePaused = false;
+            _isCooldownPaused = false;
         }
 
         private void Shoot(GameObject nearestEnemyObject)

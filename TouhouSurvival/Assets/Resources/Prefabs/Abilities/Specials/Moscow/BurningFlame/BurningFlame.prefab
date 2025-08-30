@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 759fd5e993d61004198dbeb98b225160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataFilePathRelative: /AttributeTables/Abilities/Specials/Moscow/burning_flame.multicsv
   displayIcon: {fileID: 21300000, guid: e577486b653c6204f9f7548c7f5fba01, type: 3}
   displayName: Burning Flame
   displayDescription: 2_3
-  attributeXlsxPathRelative: \AttributeTables\Abilities\Specials\Moscow\BurningFlame.xlsx
+  attributeXlsxPathRelative: 
   flamePrefab: {fileID: 2276124644164008218, guid: 19744f36d0a8f424881be27c7edbaf97, type: 3}

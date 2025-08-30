@@ -1,3 +1,6 @@
+using System.IO;
+using UnityEngine;
+
 namespace Unchord
 {
     public abstract class SpecialAbilityComponent : AbilityComponent
@@ -6,15 +9,17 @@ namespace Unchord
 
         public sealed override int MaxLevel => 1;
 
-        public string attributeXlsxPathRelative;
-
         protected override void Awake()
         {
             base.Awake();
 
-            string[] csvPaths = AttributeUtility.ConvertXlsxToCsv(attributeXlsxPathRelative);
+            FileStream fs = new FileStream(Application.streamingAssetsPath + base.dataFilePathRelative, FileMode.Open, FileAccess.Read);
+            MultiCSVReader rd = new MultiCSVReader(fs);
 
-            AttributeBase = AttributeBaseSet.LoadFromFile(csvPaths[0]);
+            this.AttributeBase = new AttributeBaseSet(rd);
+            
+            rd.Close();
+            fs.Close();
         }
 
         public sealed override void LevelUp()

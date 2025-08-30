@@ -44,12 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f030b9d19b1be94d94cbf051367a94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataFilePathRelative: /AttributeTables/Abilities/Weapons/shanghai_guard.multicsv
   displayIcon: {fileID: 21300000, guid: 70170fab5e8fac247acb15eb473eeced, type: 3}
   displayName: Shanghai Guard
-  displayDescription: 
-  attributeXlsxPathRelative: \AttributeTables\Abilities\Weapons\shanghai_guard.xlsx
-  weaponActivationMode: 1
-  fixedCooltime: 7
-  variableCooltimeMin: 1
-  variableCooltimeMax: 2
+  displayDescription: "\uC8FC\uBCC0\uC744 \uD68C\uC804\uD558\uB294 \uC0C1\uD558\uC774
+    \uC778\uD615\uC744 \uC18C\uD658\uD569\uB2C8\uB2E4."
   shanghaiPrefab: {fileID: 8067668102894359120, guid: d292fb349d192b241a9ac6c80a9f8be5, type: 3}
