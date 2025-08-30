@@ -1,0 +1,8 @@
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+1,ProjSize,5,PercentAdd,투사체 크기 증가
+2,ProjSize,10,PercentAdd,투사체 크기 증가
+3,ProjSize,15,PercentAdd,투사체 크기 증가
+4,ProjSize,20,PercentAdd,투사체 크기 증가
+5,ProjSize,25,PercentAdd,투사체 크기 증가
+

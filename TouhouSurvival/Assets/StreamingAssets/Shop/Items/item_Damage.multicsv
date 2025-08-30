@@ -1,0 +1,8 @@
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+1,Damage,1,Flat,공격력 증가
+2,Damage,2,Flat,공격력 증가
+3,Damage,3,Flat,공격력 증가
+4,Damage,5,Flat,공격력 증가
+5,Damage,8,Flat,공격력 증가
+

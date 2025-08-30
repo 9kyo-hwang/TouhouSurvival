@@ -1,0 +1,8 @@
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+1,ProjLifetime,5,PercentAdd,투사체 지속시간 증가
+2,ProjCount,10,PercentAdd,투사체 지속시간 증가
+3,ProjCount,15,PercentAdd,투사체 지속시간 증가
+4,ProjCount,20,PercentAdd,투사체 지속시간 증가
+5,ProjCount,25,PercentAdd,투사체 지속시간 증가
+

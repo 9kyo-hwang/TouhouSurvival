@@ -1,0 +1,16 @@
+#SerializedShopItem,ShopItemShelf
+itemPath
+/Shop/Items/item_Armor.multicsv
+/Shop/Items/item_Cooldown.multicsv
+/Shop/Items/item_Damage.multicsv
+/Shop/Items/item_ExpGain.multicsv
+/Shop/Items/item_HpMax.multicsv
+/Shop/Items/item_HpRegen.multicsv
+/Shop/Items/item_Knockback.multicsv
+/Shop/Items/item_PickRange.multicsv
+/Shop/Items/item_ProjCount.multicsv
+/Shop/Items/item_ProjLifetime.multicsv
+/Shop/Items/item_ProjSize.multicsv
+/Shop/Items/item_ProjSpeed.multicsv
+/Shop/Items/item_Speed.multicsv
+

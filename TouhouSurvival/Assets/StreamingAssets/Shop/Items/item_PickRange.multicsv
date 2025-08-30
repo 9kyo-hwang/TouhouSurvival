@@ -1,0 +1,8 @@
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+1,PickRange,5,PercentAdd,아이템 획득 범위 증가
+2,PickRange,10,PercentAdd,아이템 획득 범위 증가
+3,PickRange,15,PercentAdd,아이템 획득 범위 증가
+4,PickRange,20,PercentAdd,아이템 획득 범위 증가
+5,PickRange,25,PercentAdd,아이템 획득 범위 증가
+

@@ -1,0 +1,8 @@
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+1,ProjCount,1,Flat,투사체 개수 증가
+2,ProjCount,1,Flat,투사체 개수 증가
+3,ProjCount,1,Flat,투사체 개수 증가
+4,ProjCount,1,Flat,투사체 개수 증가
+5,ProjCount,1,Flat,투사체 개수 증가
+

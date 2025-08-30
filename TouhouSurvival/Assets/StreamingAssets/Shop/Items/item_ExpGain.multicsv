@@ -1,0 +1,8 @@
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+1,ExpGain,5,Flat,경험치 획득량 증가
+2,ExpGain,10,Flat,경험치 획득량 증가
+3,ExpGain,15,Flat,경험치 획득량 증가
+4,ExpGain,20,Flat,경험치 획득량 증가
+5,ExpGain,25,Flat,경험치 획득량 증가
+
