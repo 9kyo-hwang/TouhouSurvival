@@ -1,0 +1,8 @@
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+1,Speed,1,PercentAdd,이동 속도 증가
+2,Speed,2,PercentAdd,이동 속도 증가
+3,Speed,3,PercentAdd,이동 속도 증가
+4,Speed,5,PercentAdd,이동 속도 증가
+5,Speed,8,PercentAdd,이동 속도 증가
+

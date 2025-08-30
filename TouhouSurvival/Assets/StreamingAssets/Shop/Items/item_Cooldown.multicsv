@@ -1,0 +1,8 @@
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+1,ExpGain,-5,PercentAdd,무기 쿨타임 감소
+2,ExpGain,-10,PercentAdd,무기 쿨타임 감소
+3,ExpGain,-15,PercentAdd,무기 쿨타임 감소
+4,ExpGain,-20,PercentAdd,무기 쿨타임 감소
+5,ExpGain,-25,PercentAdd,무기 쿨타임 감소
+

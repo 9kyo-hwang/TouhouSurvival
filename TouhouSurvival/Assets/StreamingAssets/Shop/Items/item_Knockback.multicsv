@@ -1,0 +1,8 @@
+#SerializedGameplayAttributeModifier,ModifierTable
+level,attributeName,value,operationMode,description
+1,Knockback,5,PercentAdd,넉백률 증가
+2,Knockback,10,PercentAdd,넉백률 증가
+3,Knockback,15,PercentAdd,넉백률 증가
+4,Knockback,20,PercentAdd,넉백률 증가
+5,Knockback,25,PercentAdd,넉백률 증가
+
