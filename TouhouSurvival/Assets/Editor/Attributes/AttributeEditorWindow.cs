@@ -31,6 +31,7 @@ namespace Unchord.Editor
             if (_member == null)
             {
                 _member = new AttributeEditorWindowMember();
+                _member.menuBar.SetContents(new string[] { "Save", "Load" }, new Action[] { OnClickSaveButton, OnClickLoadButton });
             }
 
             _serialObject = new SerializedObject(this);
@@ -51,33 +52,8 @@ namespace Unchord.Editor
             _member.windowScrollPosition = EditorGUILayout.BeginScrollView(_member.windowScrollPosition);
 
             GUILayout.BeginHorizontal();
-            float wNav = 45.0f;
-            float hNav = 20.0f;
-            if (OnNavigatorClicked("Save", wNav, hNav))
-            {
-                if (SaveFile())
-                {
-                    _member.logField.Publish("File saved.");
-                }
-                else
-                {
-                    _member.logField.Publish("Saving file failed.");
-                }
-            }
-            if (OnNavigatorClicked("Load", wNav, hNav))
-            {
-                if (LoadFile())
-                {
-                    _member.logField.Publish("File loaded.");
-                }
-                else
-                {
-                    _member.logField.Publish("Loading file failed.");
-                }
-            }
-
+            _member.menuBar.OnGUI();
             _member.logField.OnGUI();
-
             GUILayout.EndHorizontal();
 
             _member.pathBrowser.OnGUI();
@@ -115,6 +91,30 @@ namespace Unchord.Editor
                 GUILayout.MaxWidth(w),
                 GUILayout.MinHeight(h),
                 GUILayout.MaxHeight(h));
+        }
+
+        private void OnClickSaveButton()
+        {
+            if (SaveFile())
+            {
+                _member.logField.Publish("File saved.");
+            }
+            else
+            {
+                _member.logField.Publish("Saving file failed.");
+            }
+        }
+
+        private void OnClickLoadButton()
+        {
+            if (LoadFile())
+            {
+                _member.logField.Publish("File loaded.");
+            }
+            else
+            {
+                _member.logField.Publish("Loading file failed.");
+            }
         }
 
         private bool SaveFile()

@@ -19,6 +19,7 @@ namespace Unchord.Editor
 
         internal Vector2 windowScrollPosition;
 
+        internal MenuBar menuBar;
         internal LogField logField;
         internal PathBrowser pathBrowser;
 
@@ -34,6 +35,7 @@ namespace Unchord.Editor
 
             windowScrollPosition = Vector2.zero;
 
+            menuBar = new MenuBar();
             logField = new LogField();
             pathBrowser = new PathBrowser(Application.streamingAssetsPath, 16);
         }
