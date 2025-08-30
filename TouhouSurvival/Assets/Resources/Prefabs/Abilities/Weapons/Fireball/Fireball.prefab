@@ -45,14 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ff2ed278775e44f90ed07cd70e0173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataFilePathRelative: /AttributeTables/Abilities/Weapons/fireball.multicsv
   displayIcon: {fileID: 21300000, guid: 110c8d3f8954b3444b7261d5423d02dd, type: 3}
   displayName: Fireball
-  displayDescription: 
-  attributeXlsxPathRelative: \AttributeTables\Abilities\Weapons\fireball.xlsx
-  weaponActivationMode: 1
-  fixedCooltime: 1
-  variableCooltimeMin: 1
-  variableCooltimeMax: 2
+  displayDescription: "\uB728\uAC70\uC6B4 \uBD88 \uACF5\uC744 \uB358\uC9D1\uB2C8\uB2E4."
   projectilePrefab: {fileID: 7389579929433498551, guid: 040917b989cffd64cbd276e44b67a014, type: 3}
   explosionPrefab: {fileID: 7389579929433498551, guid: 8109957d4d5bd6d4db110f341238dd4f, type: 3}
 --- !u!114 &7197898148767006592

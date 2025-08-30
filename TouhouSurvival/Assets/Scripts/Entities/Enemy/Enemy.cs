@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,9 +10,9 @@ namespace Unchord
     {
         // TODO: 추후 Attributes 속성을 Pawn에 배치해야 합니다. (AbilityComponent에 선언한 Attributes 속성과 같은 형태로 코드를 작성할 수 있도록 합니다.)
         public AttributeBaseSet AttributeBase { get; private set; }
-        private AttributeModifierSet _attributeModifier;
-
-        public string attributeXlsxPathRelative;
+        
+        [Tooltip("Root path is UnityEngine.Application.streamingAssetsPath. Relative path must be start with slash(/) character.")]
+        public string dataFilePathRelative;
 
         [SerializeField] private Rigidbody2D target;
         private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
@@ -22,12 +23,14 @@ namespace Unchord
         protected override void Awake()
         {
             base.Awake();
-            
-            string[] attrCsvPaths = AttributeUtility.ConvertXlsxToCsv(attributeXlsxPathRelative);
-            this.AttributeBase = AttributeBaseSet.LoadFromFile(attrCsvPaths[0]);
 
-            // TODO: 사용할 일이 있을까?
-            //this._attributeModifier = AttributeModifierSet.LoadFromFile(attrCsvPaths[1]);
+            FileStream fs = new FileStream(Application.streamingAssetsPath + this.dataFilePathRelative, FileMode.Open, FileAccess.Read, FileShare.Read);
+            MultiCSVReader rd = new MultiCSVReader(fs);
+
+            this.AttributeBase = new AttributeBaseSet(rd);
+            
+            rd.Close();
+            fs.Close();
         }
 
         protected override void Start()

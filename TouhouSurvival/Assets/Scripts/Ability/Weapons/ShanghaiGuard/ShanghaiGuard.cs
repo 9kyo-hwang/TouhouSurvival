@@ -46,7 +46,7 @@ namespace Unchord
         {
             base.Update();
 
-            if (!base._isCooltimePaused)
+            if (!base._isCooldownPaused)
                 return;
 
             UpdateDolls();
@@ -63,7 +63,7 @@ namespace Unchord
             
             _leftDuration = base.AttributeBase[ShanghaiGuardAttributeType.ShanghaiDuration].CurrentValue;
 
-            base._isCooltimePaused = true;
+            base._isCooldownPaused = true;
 
             GetDolls();
         }
@@ -129,7 +129,7 @@ namespace Unchord
 
             if (_wTarget == 0.0f)
             {
-                base._isCooltimePaused = false;
+                base._isCooldownPaused = false;
                 ReleaseDolls();
             }
         }

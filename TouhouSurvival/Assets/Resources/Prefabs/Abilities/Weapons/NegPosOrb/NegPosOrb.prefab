@@ -45,14 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73c32ec529a982c4f88cb525bee8ea78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataFilePathRelative: /AttributeTables/Abilities/Weapons/neg_pos_orb.multicsv
   displayIcon: {fileID: 21300000, guid: 074e9b4fdb72e0647be9566cd2778018, type: 3}
   displayName: NegPosOrb
-  displayDescription: 
-  attributeXlsxPathRelative: \AttributeTables\Abilities\Weapons\neg_pos_orb.xlsx
-  weaponActivationMode: 1
-  fixedCooltime: 3
-  variableCooltimeMin: 1
-  variableCooltimeMax: 2
+  displayDescription: "\uC74C\uACFC \uC591\uC758 \uAE30\uC6B4\uC73C\uB85C \uC774\uB8E8\uC5B4\uC9C4
+    \uC2E0\uBE44\uD55C \uACF5\uC744 \uC5EC\uB7EC \uAC1C \uB358\uC9D1\uB2C8\uB2E4."
   projectilePrefab: {fileID: 3358568520741998925, guid: b505ab191ab14d343ade4bd145962cd9, type: 3}
 --- !u!114 &349659077728846009
 MonoBehaviour:

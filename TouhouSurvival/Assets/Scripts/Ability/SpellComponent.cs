@@ -1,3 +1,6 @@
+using System.IO;
+using UnityEngine;
+
 namespace Unchord
 {
     public abstract class SpellComponent : AbilityComponent
@@ -8,8 +11,6 @@ namespace Unchord
 
         public bool IsCooldownPaused { get; set; } = false;
 
-        public string attributeXlsxPathRelative;
-
         private AttributeModifierSet _attributeModifier;
 
         public abstract void UseSpell();
@@ -18,15 +19,24 @@ namespace Unchord
         {
             base.Awake();
 
-            string[] csvPaths = AttributeUtility.ConvertXlsxToCsv(attributeXlsxPathRelative);
+            FileStream fs = new FileStream(Application.streamingAssetsPath + base.dataFilePathRelative, FileMode.Open, FileAccess.Read, FileShare.Read);
+            MultiCSVReader rd = new MultiCSVReader(fs);
 
-            AttributeBase = AttributeBaseSet.LoadFromFile(csvPaths[0]);
-            _attributeModifier = AttributeModifierSet.LoadFromFile(csvPaths[1]);
+            this.AttributeBase = new AttributeBaseSet(rd);
+            this._attributeModifier = new AttributeModifierSet(rd);
+            
+            rd.Close();
+            fs.Close();
         }
 
         public sealed override void LevelUp()
         {
             base.LevelUp();
+
+            if (!_attributeModifier.ContainsKey(CurrentLevel))
+                return;
+
+            UnityEngine.Debug.Assert(_attributeModifier[CurrentLevel] != null);
 
             AttributeBase.ApplyModifiers(_attributeModifier[CurrentLevel]);
         }

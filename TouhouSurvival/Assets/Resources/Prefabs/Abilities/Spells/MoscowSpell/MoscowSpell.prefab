@@ -57,9 +57,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36880f2d788c284498958af770c6312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataFilePathRelative: /AttributeTables/Abilities/Spells/moscow_spell.multicsv
   displayIcon: {fileID: 21300000, guid: 110c8d3f8954b3444b7261d5423d02dd, type: 3}
   displayName: Moscow Spell
   displayDescription: 
-  attributeXlsxPathRelative: \AttributeTables\Abilities\Spells\moscow_spell.xlsx
   projectilePrefab: {fileID: 7389579929433498551, guid: 040917b989cffd64cbd276e44b67a014, type: 3}
   explosionPrefab: {fileID: 7389579929433498551, guid: 8109957d4d5bd6d4db110f341238dd4f, type: 3}

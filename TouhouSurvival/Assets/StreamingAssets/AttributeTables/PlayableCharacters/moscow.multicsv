@@ -41,7 +41,7 @@ level,attributeName,value,operationMode,description
 19,Speed,0.01,Flat,이동속도 0.01 증가
 20,Speed,0.01,Flat,이동속도 0.01 증가
 21,Speed,0.01,Flat,이동속도 0.01 증가
-22,Speed,0.01,Flat,이동도 0.01 증가
+22,Speed,0.01,Flat,이동속도 0.01 증가
 23,Speed,0.01,Flat,이동속도 0.01 증가
 24,Speed,0.01,Flat,이동속도 0.01 증가
 25,Speed,0.01,Flat,이동속도 0.01 증가
@@ -62,7 +62,8 @@ level,attributeName,value,operationMode,description
 40,Speed,0.01,Flat,이동속도 0.01 증가
 
 #SerializedLevelUpExp,ExpTable
-nextLevel,expRequirement
+currentLevel,expRequirement
+1,5
 2,5
 3,5
 4,5
@@ -111,5 +112,4 @@ nextLevel,expRequirement
 47,5
 48,5
 49,5
-50,5
 

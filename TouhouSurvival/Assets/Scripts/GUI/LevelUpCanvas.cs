@@ -73,7 +73,14 @@ namespace Unchord
             button.SetIcon(ability.DisplayIcon);
             button.SetLevel(ability.CurrentLevel + 1, levelFont);
             button.SetSelectionName(ability.DisplayName);
-            button.SetDescription(ability.GetModifierDescription(ability.CurrentLevel + 1));
+
+            string description = ability.GetModifierDescription(ability.CurrentLevel + 1);
+
+            if (description.Equals(string.Empty))
+                button.SetDescription(ability.DisplayDescription);
+            else
+                button.SetDescription(description);
+
             button.Enable();
 
             ++_btnEnabledCount;

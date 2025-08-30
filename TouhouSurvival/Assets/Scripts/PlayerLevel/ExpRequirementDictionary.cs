@@ -1,25 +1,22 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
 
 namespace Unchord
 {
-    public class PlayerLevelSystem
+    /// <summary>
+    /// 현재 레벨에서 다음 레벨로 올라갈 때 필요한 경험치 요구량 사전입니다.
+    /// </summary>
+    public class ExpRequirementDictionary : Dictionary<int, float>
     {
-        private const string ExperienceTablePath = "/Players/ExperienceTable.CSV";
-
         public GameplayAttribute ExpGainIncreaseAttribute { get; set; }
 
         private float ExpIncrement => ExpGainIncreaseAttribute?.CurrentValue ?? 0.0f;
-        
-        private Dictionary<int, float> _experienceTable;    // level -> level + 1 필요 경험치
         
         public event EventHandler<LevelUpEventArgs> OnLevelUp;
         public event EventHandler<ExperienceChangedEventArgs> OnExperienceChanged;
         
         private int _level;
-        private bool IsMaxLevel => _level > _experienceTable.Count;
+        private bool IsMaxLevel => _level > base.Count;
         public int Level
         {
             get => _level;
@@ -45,7 +42,7 @@ namespace Unchord
                     return 1.0f;
                 }
 
-                return _experienceTable[Level];
+                return base[Level];
             }
         }
         
@@ -58,17 +55,17 @@ namespace Unchord
                 float prev = _experience;
                 while (!IsMaxLevel && remain >= 0)
                 {
-                    float required = _experienceTable[Level];
+                    float required = base[Level];
                     if (remain < required)
                     {
                         _experience = remain;
-                        OnExperienceChanged?.Invoke(this, new ExperienceChangedEventArgs(prev, _experience, _experienceTable[Level]));
+                        OnExperienceChanged?.Invoke(this, new ExperienceChangedEventArgs(prev, _experience, base[Level]));
                         break;
                     }
                     
                     remain -= required;
                     _experience = remain;
-                    OnExperienceChanged?.Invoke(this, new ExperienceChangedEventArgs(prev, _experience, _experienceTable[Level]));
+                    OnExperienceChanged?.Invoke(this, new ExperienceChangedEventArgs(prev, _experience, base[Level]));
                     prev = _experience;
                     
                     Level += 1;
@@ -76,40 +73,31 @@ namespace Unchord
             }
         }
 
-        public PlayerLevelSystem()
+        private ExpRequirementDictionary()
+        : base(capacity: 32)
         {
-            LoadExperienceTable();
-        }
-
-        // TODO: 이 곳에 Xlsx 파일을 Csv로 Convert하고 경험치 테이블을 얻는 코드를 작성합니다.
-        //public static PlayerLevelSystem LoadFromFile(string xlsxAssetPathRelative) { }
-
-        private void LoadExperienceTable()
-        {
-            _experienceTable = new Dictionary<int, float>();
-            
-            string path = Application.streamingAssetsPath + ExperienceTablePath;
-            if (!File.Exists(path))
-            {
-                Debug.LogError($"Could not load experience table csv file from {path}");
-                return;
-            }
-            
-            using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read);
-            using StreamReader reader = new StreamReader(stream);
-            while (reader.ReadLine() is { } line)
-            {
-                string[] tokens = line.Split(',');
-                if (!string.IsNullOrEmpty(tokens[0]))
-                {
-                    _experienceTable.Add(int.Parse(tokens[0]), float.Parse(tokens[1]));
-                }
-            }
-            reader.Close();
-            
-            // First Element: Level 1 / Experience 0
             Level = 1;
             Experience = 0;
+        }
+
+        public ExpRequirementDictionary(MultiCSVReader reader, string aliasOrNull = null)
+        : this()
+        {
+            List<SerializedLevelUpExp> expReqs;
+
+            if (!reader.TryParseTable<SerializedLevelUpExp>(out expReqs, aliasOrNull))
+            {
+                UnityEngine.Debug.Assert(false, "Parsing SerializedLevelUpExp type failed.");
+                return;
+            }
+
+            for (int i = 0; i < expReqs.Count; ++i)
+            {
+                UnityEngine.Debug.Assert(!base.ContainsKey(expReqs[i].currentLevel));
+                UnityEngine.Debug.Assert(expReqs[i].expRequirement >= 0);
+
+                base.Add(expReqs[i].currentLevel, expReqs[i].expRequirement);
+            }
         }
     }
 }

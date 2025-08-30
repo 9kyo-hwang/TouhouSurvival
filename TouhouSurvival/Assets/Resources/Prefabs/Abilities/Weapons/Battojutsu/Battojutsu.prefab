@@ -44,12 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21627c3b1a727cf4c9f0c06de163cf52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataFilePathRelative: /AttributeTables/Abilities/Weapons/battojutsu.multicsv
   displayIcon: {fileID: 21300000, guid: 66338f2422926064e96f8443d93b7c1a, type: 3}
   displayName: Battojutsu
-  displayDescription: 
-  attributeXlsxPathRelative: \AttributeTables\Abilities\Weapons\battojutsu.xlsx
-  weaponActivationMode: 1
-  fixedCooltime: 2
-  variableCooltimeMin: 1
-  variableCooltimeMax: 2
+  displayDescription: "\uCE7C\uB0A0 \uD6A8\uACFC\uAC00 \uCD94\uAC00\uB429\uB2C8\uB2E4."
   effectPrefab: {fileID: 1683605131522403942, guid: 5a7db31677d4ac744910aa7c3b4102a5, type: 3}

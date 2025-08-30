@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +11,7 @@ namespace Unchord
     {
         private static int s_playerDeadHash = Animator.StringToHash("PlayerDead");
 
-        public PlayerLevelSystem LevelSystem { get; private set; }
+        public ExpRequirementDictionary LevelSystem { get; private set; }
 
         public AttributeBaseSet AttributeBase { get; private set; }
         private AttributeModifierSet _attributeModifier;
@@ -36,10 +37,8 @@ namespace Unchord
         public Transform SpecialTransform1 { get; private set; }
         #endregion
 
-        #region Xlsx File Path (relative path from 'StreamingAssets')
-        public string attributeXlsxPathRelative;
-        public string expXlsxPathRelative; // TODO: 아직 미구현, 추후 사용 예정.
-        #endregion
+        [Tooltip("Root path is UnityEngine.Application.streamingAssetsPath. Relative path must be start with slash(/) character.")]
+        public string dataFilePathRelative;
 
         public float CurrentHealth => _currentHealth;
         private float _currentHealth;
@@ -53,12 +52,16 @@ namespace Unchord
         {
             base.Awake();
 
-            LevelSystem = new PlayerLevelSystem();
+            FileStream fs = new FileStream(Application.streamingAssetsPath + this.dataFilePathRelative, FileMode.Open, FileAccess.Read, FileShare.Read);
+            MultiCSVReader rd = new MultiCSVReader(fs);
 
-            string[] attrCsvPaths = AttributeUtility.ConvertXlsxToCsv(attributeXlsxPathRelative);
-            this.AttributeBase = AttributeBaseSet.LoadFromFile(attrCsvPaths[0]);
-            this._attributeModifier = AttributeModifierSet.LoadFromFile(attrCsvPaths[1]);
-            
+            this.AttributeBase = new AttributeBaseSet(rd);
+            this._attributeModifier = new AttributeModifierSet(rd);
+            this.LevelSystem = new ExpRequirementDictionary(rd);
+
+            rd.Close();
+            fs.Close();
+
             _abilitySelectUI = new AbilitySelectUIHandler();
             _abilityManager = GetComponent<AbilityManager>();
             

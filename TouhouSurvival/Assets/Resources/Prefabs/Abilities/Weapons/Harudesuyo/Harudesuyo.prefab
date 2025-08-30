@@ -45,14 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01317d104ecce7d48abad988e064f6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataFilePathRelative: /AttributeTables/Abilities/Weapons/harudesuyo.multicsv
   displayIcon: {fileID: 21300000, guid: bce4bd4525621d14780a5dd49580ad2a, type: 3}
   displayName: "\uBD04\uC774\uC5D0\uC694"
-  displayDescription: "\uC0AC\uC2E4\uC740 \uD3ED\uD0C4\uC785\uB2C8\uB2E4,"
-  attributeXlsxPathRelative: \AttributeTables\Abilities\Weapons\harudesuyo.xlsx
-  weaponActivationMode: 1
-  fixedCooltime: 5
-  variableCooltimeMin: 10
-  variableCooltimeMax: 20
+  displayDescription: "\uC0AC\uC2E4\uC740 \uD3ED\uD0C4\uC785\uB2C8\uB2E4."
   harudesuyoPrefab: {fileID: 1343935588900269220, guid: 26d938f000a54104696662d54924e786, type: 3}
   explosionPrefab: {fileID: 6291589043752310054, guid: cc12db9895f2c784aa14d9b1c6ae3b1c, type: 3}
 --- !u!114 &4006998538697097703
