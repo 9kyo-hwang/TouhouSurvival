@@ -29,7 +29,7 @@ namespace Unchord
             tooltip         = GetComponentInChildren<Tooltip>();
         }
 
-        public void Initialize(ShopData shopData, ShopItemDataSO itemDataSO, List<SerializedGameplayAttributeModifier> modifiers)
+        public void Initialize(ShopData shopData, ShopItemDataSO itemDataSO)
         {
             _shopData = shopData;
             _itemDataSO = itemDataSO;
@@ -37,7 +37,7 @@ namespace Unchord
             icon.sprite = _itemDataSO.icon;
             titleText.text = _itemDataSO.title;
 
-            ItemData = new ShopItemData(itemDataSO, modifiers);
+            ItemData = new ShopItemData(itemDataSO);
             ItemData.LevelChanged += UpdateDisplay;
             _shopData.PointsChanged += OnPointsChanged;
 
@@ -135,9 +135,9 @@ namespace Unchord
         public int MaxLevel => _modifierSet.MaxLevel;
         public event System.Action LevelChanged;
 
-        public ShopItemData(ShopItemDataSO so, List<SerializedGameplayAttributeModifier> modifiers)
+        public ShopItemData(ShopItemDataSO so)
         {
-            _modifierSet = new AttributeModifierSet(modifiers);
+            _modifierSet = new AttributeModifierSet(so.modifiers);
             Debug.Assert(_modifierSet != null, "AttributeModifierSet is null");
             AttributeType = so.attributeType;
         }

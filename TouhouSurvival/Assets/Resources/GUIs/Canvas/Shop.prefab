@@ -1803,7 +1803,7 @@ MonoBehaviour:
   resetButton: {fileID: 2443867367030050909}
   itemContainer: {fileID: 6765744408822874237}
   itemViewTemplate: {fileID: 2941932822605833874}
-  shelfFileRelativePath: /Shop/Shelves/shelf_0.multicsv
+  itemShelfSO: {fileID: 11400000, guid: 8750cf60eaf0c8542be9658b673f7d0a, type: 2}
 --- !u!1 &6341578277787705940
 GameObject:
   m_ObjectHideFlags: 0

@@ -81,7 +81,7 @@ namespace Unchord
         [SerializeField] private Button resetButton;
         [SerializeField] private Transform itemContainer;
         [SerializeField] private GameObject itemViewTemplate;
-        [SerializeField] private string shelfFileRelativePath;
+        [SerializeField] private ShopItemShelfSO itemShelfSO;
 
         private UnchordCanvas _previousCanvas;
         private ShopData _shopData = new ShopData();
@@ -172,85 +172,24 @@ namespace Unchord
             _itemViews.Clear();
             itemViewTemplate.SetActive(false);
 
-            string shelfFilePath = Application.streamingAssetsPath + shelfFileRelativePath;
-            List<SerializedShopItem> items = new List<SerializedShopItem>();
-            try
+            if(itemShelfSO == null || itemShelfSO.itemDataSOs == null)
             {
-                using (FileStream stream = new FileStream(shelfFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                using (MultiCSVReader reader = new MultiCSVReader(stream))
-                {
-                    if (!reader.TryParseTable(out items, "ShopItemShelf"))
-                    {
-                        Debug.LogError($"Failed to parse ShopItemShelf from {shelfFilePath}");
-                        return;
-                    }
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                Debug.LogError($"Shelf file not found: {shelfFilePath}");
-                return;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"An error occured while reading shelf file {shelfFilePath}: {e.Message}");
+                Debug.LogError("ItemShelf is not assigned or empty in ShopCanvas");
                 return;
             }
 
-            ShopItemDataSO[] itemDataSOs = Resources.LoadAll<ShopItemDataSO>("GUIs/ScriptableObjects");
-            if(itemDataSOs == null || itemDataSOs.Length == 0)
+            foreach (ShopItemDataSO itemDataSO in itemShelfSO.itemDataSOs)
             {
-                Debug.LogError("No ShopItemDataSO found in Resources/GUIs/ScriptableObjects");
-                return;
-            }
-
-            foreach(var item in items)
-            {
-                string itemDataFilePath = Application.streamingAssetsPath + item.itemPath;
-                ShopItemDataSO currentDataSO = null;
-                foreach(var so in itemDataSOs)
+                if(itemDataSO == null)
                 {
-                    if(so.attributeType == item.itemName || so.alias == item.itemName)
-                    {
-                        currentDataSO = so;
-                        break;
-                    }
-                }
-
-                if(currentDataSO == null)
-                {
-                    Debug.LogWarning($"ShopItemDataSO not found for item: '{item.itemName}', Skipping this item");
-                    continue;
-                }
-
-                List<SerializedGameplayAttributeModifier> itemModifiers = null;
-                try
-                {
-                    using (FileStream stream = new FileStream(itemDataFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    using (MultiCSVReader reader = new MultiCSVReader(stream))
-                    {
-                        if(!reader.TryParseTable(out itemModifiers, "ModifierTable"))
-                        {
-                            continue;
-                        }
-                    }
-                }
-                catch (FileNotFoundException)
-                {
-                    Debug.LogWarning($"AttributeModifier not found for item: '{item.itemName}', Skipping this item");
-                    continue;
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError($"An error occured while parsing modifier table of {item.itemName}: {e.Message}");
                     continue;
                 }
 
                 GameObject itemViewGO = Instantiate(itemViewTemplate, itemContainer);
                 itemViewGO.SetActive(true);
 
-                var itemView = itemViewGO.GetComponent<ShopItemView>();
-                itemView.Initialize(_shopData, currentDataSO, itemModifiers);
+                ShopItemView itemView = itemViewGO.GetComponent<ShopItemView>();
+                itemView.Initialize(_shopData, itemDataSO);
                 _itemViews.Add(itemView);
             }
         }
