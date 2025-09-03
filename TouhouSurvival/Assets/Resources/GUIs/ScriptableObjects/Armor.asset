@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: f2f39996b40435746a7142cb2b8a0096, type: 3}
   title: Item
-  xlsxPath: \Shop\Armor.xlsx
+  attributeType: Armor
+  alias: 

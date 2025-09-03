@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 454964562040f5245b78fabab60cfbbb, type: 3}
   title: Item
-  xlsxPath: \Shop\PickRange.xlsx
+  attributeType: PickRange
+  alias: 

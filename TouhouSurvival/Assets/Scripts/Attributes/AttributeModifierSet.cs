@@ -79,6 +79,33 @@ namespace Unchord
             
         }
 
+        public AttributeModifierSet(List<SerializedGameplayAttributeModifier> modifiers) : this()
+        {
+            for (int i = 0; i < modifiers.Count; ++i)
+            {
+                GameplayAttributeOperator opcode;
+
+                if (!Enum.TryParse<GameplayAttributeOperator>(modifiers[i].operationMode, out opcode))
+                {
+                    UnityEngine.Debug.Assert(false, "Invalid enum value of type GameplayAttributeOperator.");
+                    break;
+                }
+
+                GameplayAttributeModifier modifier = new GameplayAttributeModifier(
+                    modifiers[i].attributeName,
+                    modifiers[i].value,
+                    opcode,
+                    modifiers[i].description);
+
+                int level = modifiers[i].level;
+
+                // linked list data structure.
+                this.TryAdd(level, null);
+                modifier.next = this[level];
+                this[level] = modifier;
+            }
+        }
+
         public AttributeModifierSet(MultiCSVReader reader, string aliasOrNull = null)
         : this()
         {

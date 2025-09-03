@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: f83e3d1b12c4c694fadd903565ec6267, type: 3}
   title: Item
-  xlsxPath: \Shop\ProjCount.xlsx
+  attributeType: ProjCount
+  alias: 

@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Unchord
 {
@@ -28,7 +29,7 @@ namespace Unchord
             tooltip         = GetComponentInChildren<Tooltip>();
         }
 
-        public void Initialize(ShopData shopData, ShopItemDataSO itemDataSO)
+        public void Initialize(ShopData shopData, ShopItemDataSO itemDataSO, List<SerializedGameplayAttributeModifier> modifiers)
         {
             _shopData = shopData;
             _itemDataSO = itemDataSO;
@@ -36,7 +37,7 @@ namespace Unchord
             icon.sprite = _itemDataSO.icon;
             titleText.text = _itemDataSO.title;
 
-            ItemData = new ShopItemData(_itemDataSO.xlsxPath);
+            ItemData = new ShopItemData(itemDataSO, modifiers);
             ItemData.LevelChanged += UpdateDisplay;
             _shopData.PointsChanged += OnPointsChanged;
 
@@ -134,14 +135,11 @@ namespace Unchord
         public int MaxLevel => _modifierSet.MaxLevel;
         public event System.Action LevelChanged;
 
-        public ShopItemData(string xlsxPath)
+        public ShopItemData(ShopItemDataSO so, List<SerializedGameplayAttributeModifier> modifiers)
         {
-            string[] csvPaths = AttributeUtility.ConvertXlsxToCsv(xlsxPath);
-            _modifierSet = AttributeModifierSet.LoadFromFile(csvPaths[1]);
-            
+            _modifierSet = new AttributeModifierSet(modifiers);
             Debug.Assert(_modifierSet != null, "AttributeModifierSet is null");
-            string fileName = Path.GetFileNameWithoutExtension(csvPaths[1]);
-            AttributeType = fileName.Split('+')[0];
+            AttributeType = so.attributeType;
         }
         
         public bool TryUpgrade()

@@ -5,5 +5,6 @@ public class ShopItemDataSO : ScriptableObject
 {
     public Sprite icon;
     public string title;
-    public string xlsxPath;
+    public string attributeType;
+    public string alias = string.Empty;    // unique id in master csv
 }

@@ -7,7 +7,16 @@ namespace Unchord
     {
         public static string[] ConvertXlsxToCsv(string xlsxAssetPathRelative)
         {
+            Debug.Log($"[Debug] Input Relative Path: {xlsxAssetPathRelative}");
             string xlsxPath = Application.streamingAssetsPath + xlsxAssetPathRelative;
+            Debug.Log($"[Debug] Full XLSL Path: {xlsxPath}");
+
+            if(!File.Exists(xlsxPath))
+            {
+                Debug.LogError($"[Debug] XLSX File NOT FOUND at: {xlsxPath}");
+                return new string[2];
+            }
+
             string xlsxDir = Path.GetDirectoryName(xlsxPath);
             string xlsxName = Path.GetFileNameWithoutExtension(xlsxPath);
 

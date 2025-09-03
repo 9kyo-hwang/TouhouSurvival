@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 66a83582049c35f4c95aa010a7e2a729, type: 3}
   title: Item
-  xlsxPath: \Shop\HpRegen.xlsx
+  attributeType: HpRegen
+  alias: 

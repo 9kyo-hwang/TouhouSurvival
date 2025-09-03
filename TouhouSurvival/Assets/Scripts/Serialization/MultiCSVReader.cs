@@ -7,7 +7,7 @@ using System.Text;
 namespace Unchord
 {
     // TODO: 코드 기본 로직 완성 후 예외 처리 문제를 고민할 것.
-    public class MultiCSVReader
+    public class MultiCSVReader : IDisposable
     {
         private const int DEFAULT_BYTE_BUFFER_SIZE = 1024;
 
@@ -42,9 +42,28 @@ namespace Unchord
             TryCreateAliasMap(out _aliasMap);
         }
 
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                if(_stream != null)
+                {
+                    _stream.Close();
+                    _stream.Dispose();
+                    _stream = null;
+                }
+            }
+        }
+
         public void Close()
         {
-            _stream.Close();
+            this.Dispose();
         }
 
         private bool TryCreateAliasMap(out Dictionary<string, Dictionary<string, long>> map)
