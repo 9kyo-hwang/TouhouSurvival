@@ -220,6 +220,13 @@ namespace Unchord
                 totalRefund += itemView.ResetLevel();
             }
 
+            if(totalRefund > 0)
+            {
+                _shopData.ResetInvestedPoints(totalRefund);
+            }
+
+            // Point가 변경되면 ItemView에서 UpdateDisplay가 자동으로 호출됨
+
             _shopData.ResetInvestedPoints(totalRefund);
         }
 

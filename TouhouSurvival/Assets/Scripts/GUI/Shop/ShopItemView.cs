@@ -91,13 +91,15 @@ namespace Unchord
             int refund = ItemData.CurrentLevel;
             if(refund > 0)
             {
-                for(int i=0; i<refund; ++i)
-                {
-                    _shopData.RefundPoint();
-                }
+                //for (int i = 0; i < refund; ++i)
+                //{
+                //    _shopData.RefundPoint();
+                //}
 
-                ItemData.ForceSetLevel(0);
-                UpdateDisplay();
+                //ItemData.ForceSetLevel(0);
+                //UpdateDisplay();
+
+                ItemData.ForceSetLevel(0);  // UI 갱신은 Canvas에서 한 번만 수행
             }
             return refund;
         }
