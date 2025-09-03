@@ -7,27 +7,36 @@ namespace Unchord
 {
     public class ShopItemView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] private Image icon;
-        [SerializeField] private Text titleText;
-        [SerializeField] private Text levelText;
-        [SerializeField] private Button upgradeButton;
-        [SerializeField] private Button downgradeButton;
-        [SerializeField] private string xlsxPath;
-        [SerializeField] private Tooltip tooltip;
+        private Image icon;
+        private Text titleText;
+        private Text levelText;
+        private Button upgradeButton;
+        private Button downgradeButton;
+        private Tooltip tooltip;
 
         public ShopItemData ItemData { get; private set; }
         private ShopData _shopData;
+        private ShopItemDataSO _itemDataSO;
 
         private void Awake()
         {
-            tooltip = GetComponentInChildren<Tooltip>();
+            icon            = transform.Find("Image").GetComponent<Image>();
+            titleText       = transform.Find("Name").GetComponent<Text>();
+            levelText       = transform.Find("Level").GetComponent<Text>();
+            upgradeButton   = transform.Find("Up").GetComponent<Button>();
+            downgradeButton = transform.Find("Down").GetComponent<Button>();
+            tooltip         = GetComponentInChildren<Tooltip>();
         }
 
-        public void Initialize(ShopData shopData)
+        public void Initialize(ShopData shopData, ShopItemDataSO itemDataSO)
         {
             _shopData = shopData;
+            _itemDataSO = itemDataSO;
 
-            ItemData = new ShopItemData(xlsxPath);
+            icon.sprite = _itemDataSO.icon;
+            titleText.text = _itemDataSO.title;
+
+            ItemData = new ShopItemData(_itemDataSO.xlsxPath);
             ItemData.LevelChanged += UpdateDisplay;
             _shopData.PointsChanged += OnPointsChanged;
 

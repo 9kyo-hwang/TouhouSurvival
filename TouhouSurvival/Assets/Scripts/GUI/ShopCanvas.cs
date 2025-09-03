@@ -79,6 +79,7 @@ namespace Unchord
         [SerializeField] private Button exchangeButton;
         [SerializeField] private Button resetButton;
         [SerializeField] private Transform itemContainer;
+        [SerializeField] private GameObject itemViewTemplate;
 
         private UnchordCanvas _previousCanvas;
         private ShopData _shopData = new ShopData();
@@ -166,15 +167,18 @@ namespace Unchord
 
         private void InitializeItemViews()
         {
-            foreach(Transform child in itemContainer)
-            {
-                var itemView = child.GetComponent<ShopItemView>();
-                if(itemView == null)
-                {
-                    itemView = child.gameObject.AddComponent<ShopItemView>();
-                }
+            _itemViews.Clear();
+            itemViewTemplate.SetActive(false);  // 시작은 비활성화
 
-                itemView.Initialize(_shopData);
+            foreach(var itemDataSO in Resources.LoadAll<ShopItemDataSO>("GUIs/ScriptableObjects"))
+            {
+                GameObject itemViewGO = Instantiate(itemViewTemplate, itemContainer);
+                itemViewGO.SetActive(true);
+
+                var itemView = itemViewGO.GetComponent<ShopItemView>();
+
+                itemView.Initialize(_shopData, itemDataSO);
+
                 _itemViews.Add(itemView);
             }
         }
