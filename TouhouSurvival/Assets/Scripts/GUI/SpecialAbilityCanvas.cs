@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,15 +7,12 @@ namespace Unchord
     {
         public int SelectedIndex { get; private set; }
 
-        private Transform _treeRoot;
-        
-        public enum SelectionState : int
-        {
-            FutureSelection = 0b00,
-            Selectable = 0b10,
-            Selected = 0b11,
-        }
+        public SelectionButtonSpecial[,] Selections => _selections;
 
+        private Transform _treeRoot;
+        private SelectionButtonSpecial[,] _selections;
+        private Image _iconSpecial;
+        
         public void Clear()
         {
             SelectedIndex = -1;
@@ -26,54 +22,26 @@ namespace Unchord
         {
             base.Awake();
 
-            _treeRoot = transform.Find("SelectionTrees");
-        }
+            _treeRoot = transform.Find("Tree");
+            _iconSpecial = _treeRoot.Find("Special Icon").GetComponent<Image>();
+            _selections = new SelectionButtonSpecial[AbilityManager.MAX_SPECIAL_ABILITY_TREE_COUNT, AbilityManager.MAX_SPECIAL_ABILITY_COUNT];
 
-        public void SetDescription(int treeIndex, int level, string description)
-        {
-            UnityEngine.Debug.Assert(treeIndex >= 0);
-            UnityEngine.Debug.Assert(level > 0);
-
-            Transform btnObject = _treeRoot.GetChild(treeIndex).GetChild(level - 1);
-            TextMeshProUGUI desc = btnObject.Find("Description").GetComponent<TextMeshProUGUI>();
-
-            desc.text = description;
-        }
-
-        public void InitButton(int treeIndex, int level, SelectionState selectionMode)
-        {
-            UnityEngine.Debug.Assert(treeIndex >= 0);
-            UnityEngine.Debug.Assert(level > 0);
+            _iconSpecial.sprite = s_gameManager.Player.iconSpecial;
             
-            Transform btnObject = _treeRoot.GetChild(treeIndex).GetChild(level - 1);
-            Button button = btnObject.GetComponent<Button>();
-
-            button.interactable = false;
-            button.onClick.RemoveAllListeners();
-
-            switch (selectionMode)
+            for (int i = 0; i < AbilityManager.MAX_SPECIAL_ABILITY_TREE_COUNT; ++i)
             {
-                case SelectionState.FutureSelection:
-                    // TODO: 현재는 선택 불가능하지만 미래에 선택 가능할 수도 있는 버튼 구현
-                    break;
-
-                case SelectionState.Selectable:
-                    button.onClick.AddListener(() => OnSelectionButtonClick(button));
-                    button.interactable = true;
-                    break;
-
-                case SelectionState.Selected:
-                    // TODO: 이미 선택된 버튼 구현
-                    break;
-
-                default:
-                    break;
+                for (int j = 0; j < AbilityManager.MAX_SPECIAL_ABILITY_COUNT; ++j)
+                {
+                    Transform btnTransform = _treeRoot.Find($"Selection {i}{j}");
+                    _selections[i, j] = btnTransform.GetComponent<SelectionButtonSpecial>();
+                    _selections[i, j].Init(OnSelectionButtonClicked, AbilityManager.MAX_SPECIAL_ABILITY_COUNT * i + j);
+                }
             }
         }
 
-        private void OnSelectionButtonClick(Button clickedButton)
+        private void OnSelectionButtonClicked(SelectionButtonSpecial button)
         {
-            SelectedIndex = clickedButton.transform.parent.GetSiblingIndex();
+            SelectedIndex = button.SelectionIndex;
         }
     }
 }

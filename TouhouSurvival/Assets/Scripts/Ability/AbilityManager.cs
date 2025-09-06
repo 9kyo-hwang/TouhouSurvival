@@ -9,6 +9,7 @@ namespace Unchord
         public const int MAX_PASSIVE_COUNT = 6;
         public const int MAX_SPELL_COUNT = 1;
         public const int MAX_SPECIAL_ABILITY_COUNT = 3;
+        public const int MAX_SPECIAL_ABILITY_TREE_COUNT = 2;
 
         public AbilityComponent MainWeapon => _abilitySets[0][0];
         public AbilityComponent MainSpell => _abilitySets[2][0];
@@ -104,43 +105,35 @@ namespace Unchord
         {
             SpecialAbilityCanvas canvas = UIManager.Instance.SpecialAbilityCanvas;
 
-            AbilitySet tree0 = _abilitySets[3];
-            AbilitySet tree1 = _abilitySets[4];
-
-            int flag0 = 1;
-            int flag1 = 1;
-
-            for (int i = 0; i < MAX_SPECIAL_ABILITY_COUNT; ++i)
+            for (int i = 0; i < MAX_SPECIAL_ABILITY_TREE_COUNT; ++i)
             {
-                int level = i + 1;
+                int flag = 1;
+                AbilitySet tree = _abilitySets[i + 3];
 
-                flag0 = ((flag0 << 1) | (tree0[i].CurrentLevel > 0 ? 1 : 0)) & 3;
-                flag1 = ((flag1 << 1) | (tree1[i].CurrentLevel > 0 ? 1 : 0)) & 3;
+                for (int j = 0; j < MAX_SPECIAL_ABILITY_COUNT; ++j)
+                {
+                    int level = j + 1;
 
-                canvas.SetDescription(0, level, tree0[i].DisplayDescription);
-                canvas.InitButton(0, level, (SpecialAbilityCanvas.SelectionState)flag0);
+                    // NOTE: 플래그의 의미, 자세한 사항은 SelectionButtonSpecial.ButtonState 참조.
+                    // 0b11 = Selected, 0b10 = Selectable, 0b00 = Lock
+                    flag = ((flag << 1) | (tree[j].CurrentLevel > 0 ? 1 : 0)) & 3;
 
-                canvas.SetDescription(1, level, tree1[i].DisplayDescription);
-                canvas.InitButton(1, level, (SpecialAbilityCanvas.SelectionState)flag1);
+                    canvas.Selections[i, j].SetDescription(tree[j].DisplayDescription);
+                    canvas.Selections[i, j].SetIcon(tree[j].DisplayIcon);
+                    canvas.Selections[i, j].SetState((SelectionButtonSpecial.ButtonState)flag);
+                    canvas.Selections[i, j].SetTooltipPivot(new Vector2(0.5f, 0.0f));
+                }
             }
         }
 
         public void AddSpecialAbilityLevel(int treeIndex)
         {
-            AbilitySet tree = _abilitySets[treeIndex + 3];
+            int idxTree = treeIndex / MAX_SPECIAL_ABILITY_COUNT;
+            int idxHeight = treeIndex % MAX_SPECIAL_ABILITY_COUNT;
 
-            int flag = 1;
+            AbilitySet tree = _abilitySets[idxTree + 3];
 
-            for (int i = 0; i < MAX_SPECIAL_ABILITY_COUNT; ++i)
-            {
-                flag = ((flag << 1) | (tree[i].CurrentLevel > 0 ? 1 : 0)) & 3;
-
-                if (flag == (int)SpecialAbilityCanvas.SelectionState.Selectable)
-                {
-                    tree[i].LevelUp();
-                    break;
-                }
-            }
+            tree[idxHeight].LevelUp();
         }
     }
 }
