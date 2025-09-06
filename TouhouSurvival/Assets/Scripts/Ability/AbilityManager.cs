@@ -118,10 +118,10 @@ namespace Unchord
                     // 0b11 = Selected, 0b10 = Selectable, 0b00 = Lock
                     flag = ((flag << 1) | (tree[j].CurrentLevel > 0 ? 1 : 0)) & 3;
 
-                    canvas.Selections[i, j].SetDescription(tree[j].DisplayDescription);
                     canvas.Selections[i, j].SetIcon(tree[j].DisplayIcon);
                     canvas.Selections[i, j].SetState((SelectionButtonSpecial.ButtonState)flag);
-                    canvas.Selections[i, j].SetTooltipPivot(new Vector2(0.5f, 0.0f));
+                    canvas.Selections[i, j].TooltipEvent.SetDescription(tree[j].DisplayDescription);
+                    canvas.Selections[i, j].TooltipEvent.SetTooltipPivot(new Vector2(0.5f, 0.0f));
                 }
             }
         }

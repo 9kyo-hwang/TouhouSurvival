@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Unchord
 {
-    public class ShopItemView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class ShopItemView : MonoBehaviour
     {
         private Image icon;
         private Text titleText;
@@ -14,6 +14,7 @@ namespace Unchord
         private Button upgradeButton;
         private Button downgradeButton;
         private Tooltip tooltip;
+        private TooltipEvent tooltipEvent;
 
         public ShopItemData ItemData { get; private set; }
         private ShopData _shopData;
@@ -27,6 +28,7 @@ namespace Unchord
             upgradeButton   = transform.Find("Up").GetComponent<Button>();
             downgradeButton = transform.Find("Down").GetComponent<Button>();
             tooltip         = GetComponentInChildren<Tooltip>();
+            tooltipEvent    = GetComponentInChildren<TooltipEvent>();
         }
 
         public void Initialize(ShopData shopData, ShopItemDataSO itemDataSO)
@@ -41,20 +43,13 @@ namespace Unchord
             ItemData.LevelChanged += UpdateDisplay;
             _shopData.PointsChanged += OnPointsChanged;
 
+            tooltipEvent.SetDescription("대충 이 아이템은 체력을 조금 올려줘서 전투에서 오래 버틸 수 있게 해줌 - ChatGPT");
+            tooltipEvent.SetTooltipPivot(0.5f * Vector2.right);
+
             UpdateDisplay();
             BindEvents();
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            tooltip.Show("Test", Input.mousePosition);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            tooltip.Hide();
-        }
-        
         private void BindEvents()
         {
             upgradeButton.onClick.AddListener(OnUpgradeClicked);

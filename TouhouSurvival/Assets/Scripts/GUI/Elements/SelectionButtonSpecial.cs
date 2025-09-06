@@ -1,29 +1,22 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Unchord
 {
     public class SelectionButtonSpecial : MonoBehaviour
-    , IPointerEnterHandler
-    , IPointerExitHandler
-    , IPointerMoveHandler
     {
         public int SelectionIndex { get; private set; }
+        public TooltipEvent TooltipEvent { get; private set; }
 
         private Button _button;
         private Image _lock;
         private Tooltip _tooltip;
-        private string _description;
         private Action<SelectionButtonSpecial> _onButtonClicked;
 
         private Color _clrLock;
         private Color _clrSelectable;
         private Color _clrSelected;
-
-        private Vector2 _tooltipPivot;
-        private Vector2 _tooltipOffset;
 
         private ButtonState _btnState;
 
@@ -47,6 +40,7 @@ namespace Unchord
             _clrSelected = new Color(0.375f, 0.375f, 0.375f, 1.0f);
 
             SelectionIndex = index;
+            TooltipEvent = GetComponent<TooltipEvent>();
 
             SetState(ButtonState.Lock);
 
@@ -58,23 +52,6 @@ namespace Unchord
             UnityEngine.Debug.Assert(icon != null);
 
             _button.image.sprite = icon;
-        }
-
-        public void SetDescription(string description)
-        {
-            UnityEngine.Debug.Assert(description != null);
-
-            _description = description;
-        }
-
-        public void SetTooltipPivot(Vector2 pivot)
-        {
-            _tooltipPivot = pivot;
-        }
-
-        public void SetTooltipOffset(Vector2 offset)
-        {
-            _tooltipOffset = offset;
         }
 
         public void SetState(ButtonState state)
@@ -102,25 +79,6 @@ namespace Unchord
             }
 
             _btnState = state;
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            _tooltip.SetPivot(_tooltipPivot);
-            _tooltip.SetOffset(_tooltipOffset);
-            _tooltip.Show(_description, Input.mousePosition);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            _tooltip.Hide();
-        }
-
-        public void OnPointerMove(PointerEventData eventData)
-        {
-            _tooltip.SetPivot(_tooltipPivot);
-            _tooltip.SetOffset(_tooltipOffset);
-            _tooltip.Show(_description, Input.mousePosition);
         }
 
         private void OnButtonClicked()
