@@ -137,6 +137,14 @@ namespace Unchord
             GameData.Instance.Save();
         }
 
+        public override void UpdateKeyboardInput()
+        {
+            base.UpdateKeyboardInput();
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+                OnBackClicked();
+        }
+
         private void OnPlayerLoaded(Player player)
         {
             foreach(var itemView in _itemViews)
