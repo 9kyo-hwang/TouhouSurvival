@@ -8,9 +8,6 @@ namespace Unchord
         private Button _mainButton;
         private Button _resumeButton;
 
-        private VolumeSlider _bgmSlider;
-        private VolumeSlider _sfxSlider;
-
         private Image[] _imgSpecials;
         
         protected override void Awake()
@@ -22,9 +19,6 @@ namespace Unchord
 
             _resumeButton.onClick.AddListener(s_gameManager.ResumeGame);
             _mainButton.onClick.AddListener(s_gameManager.HaltGame);
-
-            _bgmSlider = new VolumeSlider(transform.Find("Setting/BgmSlider"), SoundManager.Instance.BGM);
-            _sfxSlider = new VolumeSlider(transform.Find("Setting/SfxSlider"), SoundManager.Instance.SFX);
 
             _imgSpecials = new Image[7];
             _imgSpecials[0] = transform.Find("Special/Icon (0)").GetComponent<Image>();
@@ -44,9 +38,6 @@ namespace Unchord
         public override void Show()
         {
             base.Show();
-
-            _bgmSlider.OnShow();
-            _sfxSlider.OnShow();
 
             // TODO: 어빌리티 매니저를 public property로 열어서 접근을 할까?
             _imgSpecials[0].sprite = s_gameManager.Player.iconSpecial;
