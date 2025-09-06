@@ -15,6 +15,7 @@ namespace Unchord
         private Button _btnRight;
         private CharacterSlot[] _characterSlots;
         private Image _imgPreview;
+        private Tooltip _tooltip;
 
         private int _idxSelected;
 
@@ -27,12 +28,15 @@ namespace Unchord
             _btnLeft = transform.Find("CharacterSlots/LeftButton").GetComponent<Button>();
             _btnRight = transform.Find("CharacterSlots/RightButton").GetComponent<Button>();
             _imgPreview = transform.Find("CharacterPreview").GetComponent<Image>();
+            _tooltip = GetComponentInChildren<Tooltip>(true);
+
+            base.RegisterTooltipEvent(_tooltip);
 
             _characterSlots = new CharacterSlot[MAX_CHARACTER_SLOT_COUNT];
 
             for (int i = 0; i < MAX_CHARACTER_SLOT_COUNT; ++i)
             {
-                _characterSlots[i] = new CharacterSlot(transform.Find($"CharacterSlots/Slot ({i})"));
+                _characterSlots[i] = transform.Find($"CharacterSlots/Slot ({i})").GetComponent<CharacterSlot>();
             }
             
             _btnBack.onClick.AddListener(OnBackButtonClick);
@@ -141,7 +145,7 @@ namespace Unchord
             CharacterSlot slot = _characterSlots[idxSlot];
             Player prefab = s_gameManager.PlayerPrefabs[idxPrefab];
 
-            slot.SetIcons(prefab.iconCharacter, prefab.iconMainWeapon, prefab.iconSpecial);
+            slot.Show(prefab);
         }
 
         private void SetPreview(int idxPrefab)

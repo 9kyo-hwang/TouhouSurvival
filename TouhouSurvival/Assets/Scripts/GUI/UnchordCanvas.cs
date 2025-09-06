@@ -72,5 +72,17 @@ namespace Unchord
         {
 
         }
+
+        protected void RegisterTooltipEvent(Tooltip tooltip)
+        {
+            UnityEngine.Debug.Assert(tooltip != null);
+
+            TooltipEvent[] events = GetComponentsInChildren<TooltipEvent>(true);
+
+            for (int i = 0; i < events.Length; ++i)
+            {
+                events[i].tooltip = tooltip;
+            }
+        }
     }
 }

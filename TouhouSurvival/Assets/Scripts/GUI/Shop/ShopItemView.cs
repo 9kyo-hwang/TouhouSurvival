@@ -13,7 +13,6 @@ namespace Unchord
         private Text levelText;
         private Button upgradeButton;
         private Button downgradeButton;
-        private Tooltip tooltip;
         private TooltipEvent tooltipEvent;
 
         public ShopItemData ItemData { get; private set; }
@@ -27,7 +26,6 @@ namespace Unchord
             levelText       = transform.Find("Level").GetComponent<Text>();
             upgradeButton   = transform.Find("Up").GetComponent<Button>();
             downgradeButton = transform.Find("Down").GetComponent<Button>();
-            tooltip         = GetComponentInChildren<Tooltip>();
             tooltipEvent    = GetComponentInChildren<TooltipEvent>();
         }
 
@@ -43,8 +41,8 @@ namespace Unchord
             ItemData.LevelChanged += UpdateDisplay;
             _shopData.PointsChanged += OnPointsChanged;
 
-            tooltipEvent.SetDescription("대충 이 아이템은 체력을 조금 올려줘서 전투에서 오래 버틸 수 있게 해줌 - ChatGPT");
-            tooltipEvent.SetTooltipPivot(0.5f * Vector2.right);
+            tooltipEvent.description = "대충 이 아이템은 체력을 조금 올려줘서 전투에서 오래 버틸 수 있게 해줌 - ChatGPT";
+            tooltipEvent.pivot = 0.5f * Vector2.right;
 
             UpdateDisplay();
             BindEvents();

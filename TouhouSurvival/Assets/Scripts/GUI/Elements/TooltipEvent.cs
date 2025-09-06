@@ -8,51 +8,48 @@ namespace Unchord
     , IPointerExitHandler
     , IPointerMoveHandler
     {
-        private Tooltip _tooltip;
-        private string _description;
-        private Vector2 _pivot;
-        private Vector2 _offset;
+        public Tooltip tooltip;
 
-        private void Awake()
-        {
-            _tooltip = transform.parent.GetComponentInChildren<Tooltip>();
-        }
+        public string description;
+        public Vector2 pivot;
+        public Vector2 offset;
+        public Vector2 position;
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
         {
-            _tooltip.SetDescription(_description);
-            _tooltip.SetPivot(_pivot);
-            _tooltip.SetOffset(_offset);
-            _tooltip.Show(Input.mousePosition);
+            tooltip.SetDescription(description);
+            tooltip.SetPivot(pivot);
+            tooltip.SetOffset(offset);
+            tooltip.Show(Input.mousePosition);
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
-            _tooltip.Hide();
+            tooltip.Hide();
         }
 
         void IPointerMoveHandler.OnPointerMove(PointerEventData eventData)
         {
-            _tooltip.SetPivot(_pivot);
-            _tooltip.SetOffset(_offset);
-            _tooltip.Show(Input.mousePosition);
+            tooltip.SetPivot(pivot);
+            tooltip.SetOffset(offset);
+            tooltip.Show(Input.mousePosition);
         }
 
         public void SetDescription(string description)
         {
             UnityEngine.Debug.Assert(description != null);
 
-            _description = description;
+            this.description = description;
         }
 
         public void SetTooltipPivot(Vector2 pivot)
         {
-            _pivot = pivot;
+            this.pivot = pivot;
         }
 
         public void SetTooltipOffset(Vector2 offset)
         {
-            _offset = offset;
+            this.offset = offset;
         }
     }
 }

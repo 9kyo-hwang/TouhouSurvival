@@ -12,6 +12,7 @@ namespace Unchord
         private Transform _treeRoot;
         private SelectionButtonSpecial[,] _selections;
         private Image _iconSpecial;
+        private Tooltip _tooltip;
         
         public void Clear()
         {
@@ -23,8 +24,11 @@ namespace Unchord
             base.Awake();
 
             _treeRoot = transform.Find("Tree");
-            _iconSpecial = _treeRoot.Find("Special Icon").GetComponent<Image>();
             _selections = new SelectionButtonSpecial[AbilityManager.MAX_SPECIAL_ABILITY_TREE_COUNT, AbilityManager.MAX_SPECIAL_ABILITY_COUNT];
+            _iconSpecial = _treeRoot.Find("Special Icon").GetComponent<Image>();
+            _tooltip = GetComponentInChildren<Tooltip>(true);
+
+            base.RegisterTooltipEvent(_tooltip);
 
             _iconSpecial.sprite = s_gameManager.Player.iconSpecial;
             

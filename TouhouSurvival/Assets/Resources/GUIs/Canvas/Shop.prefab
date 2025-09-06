@@ -846,7 +846,6 @@ RectTransform:
   - {fileID: 7061972363263823038}
   - {fileID: 4271781537794115208}
   - {fileID: 1301267045253115186}
-  - {fileID: 8821947180621385371}
   m_Father: {fileID: 6765744408822874237}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -954,6 +953,7 @@ RectTransform:
   - {fileID: 3599947888793979492}
   - {fileID: 7342847269250274862}
   - {fileID: 1734647465546627104}
+  - {fileID: 8821947180621385371}
   m_Father: {fileID: 485024867549820185}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1457,6 +1457,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2230c81c6ee2adb4a9a4506a9baf84d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltip: {fileID: 0}
+  description: 
+  pivot: {x: 0, y: 0}
+  offset: {x: 0, y: 0}
+  position: {x: 0, y: 0}
 --- !u!1 &5583669921939272650
 GameObject:
   m_ObjectHideFlags: 0
@@ -1672,7 +1677,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -2523,7 +2528,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 7257398388014687361}
+    m_TransformParent: {fileID: 253178814993167813}
     m_Modifications:
     - target: {fileID: 2403010273908355858, guid: 7368137405c3c494e94917797a033800, type: 3}
       propertyPath: m_Pivot.x
@@ -2575,23 +2580,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2403010273908355858, guid: 7368137405c3c494e94917797a033800, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2403010273908355858, guid: 7368137405c3c494e94917797a033800, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2403010273908355858, guid: 7368137405c3c494e94917797a033800, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2403010273908355858, guid: 7368137405c3c494e94917797a033800, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -260
       objectReference: {fileID: 0}
     - target: {fileID: 2403010273908355858, guid: 7368137405c3c494e94917797a033800, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 177.5
       objectReference: {fileID: 0}
     - target: {fileID: 2403010273908355858, guid: 7368137405c3c494e94917797a033800, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

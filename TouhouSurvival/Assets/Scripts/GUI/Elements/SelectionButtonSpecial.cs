@@ -11,7 +11,6 @@ namespace Unchord
 
         private Button _button;
         private Image _lock;
-        private Tooltip _tooltip;
         private Action<SelectionButtonSpecial> _onButtonClicked;
 
         private Color _clrLock;
@@ -32,7 +31,6 @@ namespace Unchord
         {
             _button = transform.Find("Button").GetComponent<Button>();
             _lock = transform.Find("Lock Icon").GetComponent<Image>();
-            _tooltip = transform.GetComponentInChildren<Tooltip>(true);
             _onButtonClicked = onButtonClicked;
 
             _clrLock = new Color(0.75f, 0.75f, 0.75f, 1.0f);
@@ -87,7 +85,7 @@ namespace Unchord
                 return;
 
             _onButtonClicked?.Invoke(this);
-            _tooltip.Hide();
+            TooltipEvent.tooltip.Hide();
         }
     }
 }

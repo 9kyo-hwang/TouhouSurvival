@@ -9,6 +9,8 @@ namespace Unchord
         private Button _resumeButton;
 
         private Image[] _imgSpecials;
+
+        private Tooltip _tooltip;
         
         protected override void Awake()
         {
@@ -33,6 +35,9 @@ namespace Unchord
             {
                 _imgSpecials[i].gameObject.SetActive(false);
             }
+
+            _tooltip = GetComponentInChildren<Tooltip>(true);
+            base.RegisterTooltipEvent(_tooltip);
         }
 
         public override void Show()
