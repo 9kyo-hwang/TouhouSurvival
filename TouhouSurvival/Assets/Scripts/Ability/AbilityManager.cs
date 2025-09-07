@@ -120,8 +120,8 @@ namespace Unchord
 
                     canvas.Selections[i, j].SetIcon(tree[j].DisplayIcon);
                     canvas.Selections[i, j].SetState((SelectionButtonSpecial.ButtonState)flag);
-                    canvas.Selections[i, j].TooltipEvent.SetDescription(tree[j].DisplayDescription);
-                    canvas.Selections[i, j].TooltipEvent.SetTooltipPivot(new Vector2(0.5f, 0.0f));
+                    canvas.Selections[i, j].TooltipEvent.description = $"{tree[j].DisplayName}\n\n{tree[j].DisplayDescription}";
+                    canvas.Selections[i, j].TooltipEvent.pivot = 0.5f * Vector2.right;
                 }
             }
         }

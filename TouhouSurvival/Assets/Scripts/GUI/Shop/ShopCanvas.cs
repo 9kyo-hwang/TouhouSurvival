@@ -87,14 +87,9 @@ namespace Unchord
         private ShopData _shopData = new ShopData();
         private List<ShopItemView> _itemViews = new List<ShopItemView>();
 
-        private Tooltip _tooltip;
-
         protected override void Awake()
         {
             base.Awake();
-
-            _tooltip = GetComponentInChildren<Tooltip>(true);
-            base.RegisterTooltipEvent(_tooltip);
 
             BindButtonEvents();
             BindShopDataEvents();

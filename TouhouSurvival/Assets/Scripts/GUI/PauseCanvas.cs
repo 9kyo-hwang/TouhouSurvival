@@ -8,10 +8,8 @@ namespace Unchord
         private Button _mainButton;
         private Button _resumeButton;
 
-        private Image[] _imgSpecials;
+        private SpecialSummaryIcon[] _specials;
 
-        private Tooltip _tooltip;
-        
         protected override void Awake()
         {
             base.Awake();
@@ -22,36 +20,32 @@ namespace Unchord
             _resumeButton.onClick.AddListener(s_gameManager.ResumeGame);
             _mainButton.onClick.AddListener(s_gameManager.HaltGame);
 
-            _imgSpecials = new Image[7];
-            _imgSpecials[0] = transform.Find("Special/Icon (0)").GetComponent<Image>();
-            _imgSpecials[1] = transform.Find("Special/Icon (1-1)").GetComponent<Image>();
-            _imgSpecials[2] = transform.Find("Special/Icon (1-2)").GetComponent<Image>();
-            _imgSpecials[3] = transform.Find("Special/Icon (1-3)").GetComponent<Image>();
-            _imgSpecials[4] = transform.Find("Special/Icon (2-1)").GetComponent<Image>();
-            _imgSpecials[5] = transform.Find("Special/Icon (2-2)").GetComponent<Image>();
-            _imgSpecials[6] = transform.Find("Special/Icon (2-3)").GetComponent<Image>();
+            _specials = new SpecialSummaryIcon[7];
 
-            for (int i = 1; i < _imgSpecials.Length; ++i)
+            for (int i = 0; i < _specials.Length; ++i)
             {
-                _imgSpecials[i].gameObject.SetActive(false);
+                _specials[i] = transform.Find($"Special/Icon ({i})").GetComponent<SpecialSummaryIcon>();
             }
-
-            _tooltip = GetComponentInChildren<Tooltip>(true);
-            base.RegisterTooltipEvent(_tooltip);
         }
 
         public override void Show()
         {
             base.Show();
 
+            Player player = s_gameManager.Player;
+            Transform t0 = player.SpecialTransform0;
+            Transform t1 = player.SpecialTransform1;
+
             // TODO: 어빌리티 매니저를 public property로 열어서 접근을 할까?
-            _imgSpecials[0].sprite = s_gameManager.Player.iconSpecial;
-            ShowSpecial(1, s_gameManager.Player.SpecialTransform0.GetChild(0).GetComponent<SpecialAbilityComponent>());
-            ShowSpecial(2, s_gameManager.Player.SpecialTransform0.GetChild(1).GetComponent<SpecialAbilityComponent>());
-            ShowSpecial(3, s_gameManager.Player.SpecialTransform0.GetChild(2).GetComponent<SpecialAbilityComponent>());
-            ShowSpecial(4, s_gameManager.Player.SpecialTransform1.GetChild(0).GetComponent<SpecialAbilityComponent>());
-            ShowSpecial(5, s_gameManager.Player.SpecialTransform1.GetChild(1).GetComponent<SpecialAbilityComponent>());
-            ShowSpecial(6, s_gameManager.Player.SpecialTransform1.GetChild(2).GetComponent<SpecialAbilityComponent>());
+            _specials[0].SetIcon(player.iconSpecial);
+            _specials[0].SetTooltipDescription(player.descSpecialAbility);
+            _specials[0].SetLock(false);
+
+            for (int i = 0; i < 3; ++i)
+            {
+                _specials[i + 1].Register(t0.GetChild(i).GetComponent<SpecialAbilityComponent>());
+                _specials[i + 4].Register(t1.GetChild(i).GetComponent<SpecialAbilityComponent>());
+            }
 
             s_uiManager.SingleColorCanvas0.LayerBackOf(s_uiManager.GameCanvas);
             s_uiManager.SingleColorCanvas0.Show();
@@ -62,15 +56,6 @@ namespace Unchord
             s_uiManager.SingleColorCanvas0.Hide();
 
             base.Hide();
-        }
-
-        private void ShowSpecial(int idxSpecial, SpecialAbilityComponent special)
-        {
-            Image img = _imgSpecials[idxSpecial];
-
-            img.sprite = special.DisplayIcon;
-            img.gameObject.SetActive(true);
-            img.transform.Find("LockIcon").gameObject.SetActive(special.CurrentLevel == 0);
         }
 
         public override void UpdateKeyboardInput()

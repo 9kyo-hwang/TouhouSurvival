@@ -22,11 +22,14 @@ namespace Unchord
         private AbilityManager _abilityManager;
 
         #region Player's Icon for SelectCharacterCanvas GUI
+        public string descCharacterName;
         public Sprite iconCharacter;
         public Sprite iconMainWeapon;
         public Sprite iconSpell;
         public Sprite iconSpecial;
         public Sprite iconPreview;
+        public string descMainWeapon;
+        public string descSpecialAbility;
         #endregion
 
         #region Ability Component Containers

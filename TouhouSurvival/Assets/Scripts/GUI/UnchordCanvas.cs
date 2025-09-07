@@ -55,6 +55,11 @@ namespace Unchord
                 transform.SetSiblingIndex(j - 1);
         }
 
+        public void ToBottomLayer()
+        {
+            transform.SetSiblingIndex(0);
+        }
+
         public void LayerFrontOf(UnchordCanvas canvas)
         {
             UnityEngine.Debug.Assert(this.transform.parent == canvas.transform.parent);
@@ -66,6 +71,13 @@ namespace Unchord
                 transform.SetSiblingIndex(j + 1);
             else
                 transform.SetSiblingIndex(j);
+        }
+
+        public void ToTopLayer()
+        {
+            int count = this.transform.parent.childCount;
+
+            transform.SetSiblingIndex(count - 1);
         }
 
         public virtual void UpdateKeyboardInput()

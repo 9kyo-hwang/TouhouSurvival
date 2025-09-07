@@ -30,9 +30,9 @@ namespace Unchord
             _weaponIcon.sprite = player.iconMainWeapon;
             _specialIcon.sprite = player.iconSpecial;
 
-            _characterTooltip.description = player.name;
-            _weaponTooltip.description = "Main Weapon Name Here.";
-            _specialTooltip.description = "Special Ability Name Here.";
+            _characterTooltip.description = player.descCharacterName;
+            _weaponTooltip.description = player.descMainWeapon;
+            _specialTooltip.description = player.descSpecialAbility;
         }
     }
 }

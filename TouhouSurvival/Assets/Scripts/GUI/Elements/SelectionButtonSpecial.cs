@@ -85,7 +85,6 @@ namespace Unchord
                 return;
 
             _onButtonClicked?.Invoke(this);
-            TooltipEvent.tooltip.Hide();
         }
     }
 }

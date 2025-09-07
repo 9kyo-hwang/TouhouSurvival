@@ -15,8 +15,26 @@ namespace Unchord
         public Vector2 offset;
         public Vector2 position;
 
+        private bool _pointerEntered;
+
+        private void Start()
+        {
+            tooltip = TooltipManager.Instance.Tooltip;
+        }
+
+        private void OnDisable()
+        {
+            if (_pointerEntered)
+            {
+                _pointerEntered = false;
+                tooltip.Hide();
+            }
+        }
+
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
         {
+            _pointerEntered = true;
+
             tooltip.SetDescription(description);
             tooltip.SetPivot(pivot);
             tooltip.SetOffset(offset);
@@ -25,6 +43,7 @@ namespace Unchord
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
+            _pointerEntered = false;
             tooltip.Hide();
         }
 
@@ -33,23 +52,6 @@ namespace Unchord
             tooltip.SetPivot(pivot);
             tooltip.SetOffset(offset);
             tooltip.Show(Input.mousePosition);
-        }
-
-        public void SetDescription(string description)
-        {
-            UnityEngine.Debug.Assert(description != null);
-
-            this.description = description;
-        }
-
-        public void SetTooltipPivot(Vector2 pivot)
-        {
-            this.pivot = pivot;
-        }
-
-        public void SetTooltipOffset(Vector2 offset)
-        {
-            this.offset = offset;
         }
     }
 }

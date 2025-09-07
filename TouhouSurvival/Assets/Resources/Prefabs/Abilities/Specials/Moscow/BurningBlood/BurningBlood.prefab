@@ -48,9 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataFilePathRelative: /AttributeTables/Abilities/Specials/Moscow/burning_blood.multicsv
   displayIcon: {fileID: 21300000, guid: 9b6e4469ba8d16d4e97da5b72e0dc37a, type: 3}
-  displayName: Burning Blood
-  displayDescription: 1_2
-  attributeXlsxPathRelative: 
+  displayName: "\uBD88\uD0C0\uB294 \uD53C"
+  displayDescription: "\uCE90\uB9AD\uD130 \uC8FC\uBCC0 \uBC18\uACBD\uC758 \uC801\uC5D0\uAC8C
+    \uC8FC\uAE30\uC801\uC73C\uB85C \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4."
 --- !u!114 &8575751909825280461
 MonoBehaviour:
   m_ObjectHideFlags: 0

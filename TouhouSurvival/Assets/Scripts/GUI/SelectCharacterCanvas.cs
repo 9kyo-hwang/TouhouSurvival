@@ -15,8 +15,7 @@ namespace Unchord
         private Button _btnRight;
         private CharacterSlot[] _characterSlots;
         private Image _imgPreview;
-        private Tooltip _tooltip;
-
+        
         private int _idxSelected;
 
         protected override void Awake()
@@ -28,10 +27,7 @@ namespace Unchord
             _btnLeft = transform.Find("CharacterSlots/LeftButton").GetComponent<Button>();
             _btnRight = transform.Find("CharacterSlots/RightButton").GetComponent<Button>();
             _imgPreview = transform.Find("CharacterPreview").GetComponent<Image>();
-            _tooltip = GetComponentInChildren<Tooltip>(true);
-
-            base.RegisterTooltipEvent(_tooltip);
-
+            
             _characterSlots = new CharacterSlot[MAX_CHARACTER_SLOT_COUNT];
 
             for (int i = 0; i < MAX_CHARACTER_SLOT_COUNT; ++i)
