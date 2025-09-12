@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ad34c72efee95264dad3f0a49f19fbdb
+guid: ec28ad37f4178034c93c130bcfd04fee
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2863959778521798171
-    second: walk_2_0
+      213: 9111333075354394234
+    second: Cirno_Special_Icon_2_2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: walk_2_0
+      name: Cirno_Special_Icon_2_2_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 5
-        width: 33
-        height: 43
+        x: 0
+        y: 0
+        width: 60
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b165cc1ae34deb720800000000000000
-      internalID: 2863959778521798171
+      spriteID: a7e14ca7825f17e70800000000000000
+      internalID: 9111333075354394234
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      walk_2_0: 2863959778521798171
+      Cirno_Special_Icon_2_2_0: 9111333075354394234
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

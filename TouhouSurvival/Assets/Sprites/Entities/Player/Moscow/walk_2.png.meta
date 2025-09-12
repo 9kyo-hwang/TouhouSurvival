@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9fce9b30f91d92e41b829783361ca2b3
+guid: ad34c72efee95264dad3f0a49f19fbdb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7451426116336585031
-    second: idle_0_0
+      213: 2863959778521798171
+    second: walk_2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,11 +96,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: idle_0_0
+      name: walk_2_0
       rect:
         serializedVersion: 2
         x: 9
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9b670b13d67379890800000000000000
-      internalID: -7451426116336585031
+      spriteID: b165cc1ae34deb720800000000000000
+      internalID: 2863959778521798171
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      idle_0_0: -7451426116336585031
+      walk_2_0: 2863959778521798171
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
