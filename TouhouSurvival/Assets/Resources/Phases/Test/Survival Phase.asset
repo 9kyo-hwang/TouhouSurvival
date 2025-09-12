@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Survival Phase
   m_EditorClassIdentifier: 
   spawnerSO:
+  - {fileID: 11400000, guid: 279638dbde653b94e953e5530be31ca5, type: 2}
   - {fileID: 11400000, guid: 026485c74214fa54fb680361c6a3ce38, type: 2}
   - {fileID: 11400000, guid: 5439f7e8ba7dc064187d405884341588, type: 2}
-  - {fileID: 11400000, guid: 279638dbde653b94e953e5530be31ca5, type: 2}
   phaseDuration: 30

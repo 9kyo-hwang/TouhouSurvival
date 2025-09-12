@@ -430,7 +430,7 @@ MonoBehaviour:
   iconSpell: {fileID: 21300000, guid: f83e3d1b12c4c694fadd903565ec6267, type: 3}
   iconSpecial: {fileID: 21300000, guid: db8988930a5aeb549ae8974d5c4ac8fd, type: 3}
   iconPreview: {fileID: 21300000, guid: 545bbefa5edca72419b67d93a624887f, type: 3}
-  descMainWeapon: "\uCE58\uB974\uB178"
+  descMainWeapon: "\uC544\uC774\uC2DC\uD074 \uD3F4"
   descSpecialAbility: "\uAF43\uC78E\uD0C4"
   dataFilePathRelative: /AttributeTables/PlayableCharacters/cirno.multicsv
 --- !u!114 &8863588712717059164

@@ -18,20 +18,17 @@ namespace Unchord
         {
             //float scanRangeMultiplier = _player.GetComponent<PlayerAttributeSet>().GetCurrentValue(PlayerAttributeType.ScanRangeMultiplier);
             _hits = Physics2D.CircleCastAll(_player.transform.position, range, Vector2.zero);
-            AddExperiences();
+            UseItems();
         }
 
-        private void AddExperiences()
+        private void UseItems()
         {
             foreach (RaycastHit2D hit in _hits)
             {
-                ExperienceDropObject experience = hit.collider.GetComponent<ExperienceDropObject>();
-                if (experience)
-                {
-                    // _player.GetComponent<PlayerAttributeSet>().AddExperience(experience.amount);
-                    _player.LevelSystem.Experience += experience.amount;
-                    Destroy(experience.gameObject);
-                }
+                ItemComponent item = hit.collider.GetComponent<ItemComponent>();
+                item.Use(_player);
+
+                // NOTE: 이 곳에서 Destroy(item)을 수행하지 마세요. item.Use() 함수 안에서 구현하도록 합니다.
             }
         }
     }

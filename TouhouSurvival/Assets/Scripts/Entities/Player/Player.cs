@@ -217,6 +217,15 @@ namespace Unchord
             spell.UseSpell();
         }
 
+        public void AddSpellGauge(float amount)
+        {
+            UnityEngine.Debug.Assert(amount >= 0.0f);
+
+            float max = (int)AttributeBase[PlayerAttributeType.MaxSpellCount].CurrentValue;
+
+            _currentSpellGauge = Mathf.Min(_currentSpellGauge + amount, max);
+        }
+
         private void UpdateCurrentSpellGauge()
         {
             float delta = 1 / AttributeBase[PlayerAttributeType.SpellAutoRechargeTime].CurrentValue;
@@ -268,6 +277,15 @@ namespace Unchord
             }
 
             return selected;
+        }
+
+        public void AddHealth(float amount)
+        {
+            UnityEngine.Debug.Assert(amount >= 0.0f);
+
+            GameplayAttribute maxHealth = AttributeBase[PlayerAttributeType.HpMax];
+
+            _currentHealth = Mathf.Min(_currentHealth + amount, maxHealth.CurrentValue);
         }
 
         public override float TakeDamage(float damageAmount)
