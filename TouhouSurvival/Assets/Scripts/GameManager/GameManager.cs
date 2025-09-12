@@ -301,7 +301,7 @@ namespace Unchord
             if (ShouldUpdateElapsedPlaytime)
             {
                 ElapsedPlaytime += Time.deltaTime;
-                UIManager.Instance.GameCanvas.SetTimer((int)ElapsedPlaytime);
+                UIManager.Instance.GameCanvas.SetTimer(ElapsedPlaytime);
             }
         }
 

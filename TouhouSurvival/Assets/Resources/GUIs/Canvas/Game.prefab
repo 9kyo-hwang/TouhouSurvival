@@ -1010,6 +1010,7 @@ GameObject:
   - component: {fileID: 7122639954230160194}
   - component: {fileID: 428248397072713416}
   - component: {fileID: 5243248496975728219}
+  - component: {fileID: 122635336527980455}
   m_Layer: 5
   m_Name: TimerText
   m_TagString: Untagged
@@ -1135,6 +1136,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &122635336527980455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2753306300316111433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74dc9c27647801641a060f44069899c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useHours: 0
 --- !u!1 &2827754161731253344
 GameObject:
   m_ObjectHideFlags: 0
@@ -2455,6 +2469,7 @@ GameObject:
   - component: {fileID: 1706169619213570795}
   - component: {fileID: 6704737081844539150}
   - component: {fileID: 3471186915940888703}
+  - component: {fileID: 6173126839500774095}
   m_Layer: 5
   m_Name: GoldText
   m_TagString: Untagged
@@ -2580,6 +2595,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6173126839500774095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6603161664242005970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a705fcb4a71e049b364c3910807b81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  digit: 6
+  clrEnabled: {r: 1, g: 1, b: 1, a: 1}
+  clrDisabled: {r: 0.3, g: 0.3, b: 0.3, a: 1}
 --- !u!1 &6767745237627516622
 GameObject:
   m_ObjectHideFlags: 0
@@ -2966,6 +2996,7 @@ GameObject:
   - component: {fileID: 7982660818949535049}
   - component: {fileID: 4002653704623523228}
   - component: {fileID: 8126534561621291852}
+  - component: {fileID: 8080516458898072717}
   m_Layer: 5
   m_Name: KillText
   m_TagString: Untagged
@@ -3091,6 +3122,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8080516458898072717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7704205497142512249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a705fcb4a71e049b364c3910807b81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  digit: 6
+  clrEnabled: {r: 1, g: 1, b: 1, a: 1}
+  clrDisabled: {r: 0.3, g: 0.3, b: 0.3, a: 1}
 --- !u!1 &7747564830780715530
 GameObject:
   m_ObjectHideFlags: 0

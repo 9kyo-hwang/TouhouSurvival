@@ -1,7 +1,3 @@
-using System;
-using System.Text;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,15 +6,14 @@ namespace Unchord
     public class GameCanvas : UnchordCanvas
     {
         private const int MAX_ABILITY_COUNT = 6;
-        private const int MAX_COUNTER_BUFFER_SIZE = 10;
-
+        
         public IntegerCounterFontSO levelFont;
 
         private Image _expGauge;
         private Image[] _imgPlayerLevel;
-        private TextMeshProUGUI _timer;
-        private TextMeshProUGUI _killCount;
-        private TextMeshProUGUI _earnedGold;
+        private TimerText _timer;
+        private DecimalCounterText _killCount;
+        private DecimalCounterText _earnedGold;
 
         private Button _pauseButton;
 
@@ -28,12 +23,6 @@ namespace Unchord
         private Image[] _passiveIcons;
         private int _weaponIconCount;
         private int _passiveIconCount;
-
-        private Color _counterColorWhite = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-        private Color _counterColorGray = new Color(0.3f, 0.3f, 0.3f, 1.0f);
-        private StringBuilder _counterBuilder = new StringBuilder();
-        private char[] _counterBuffer = new char[MAX_COUNTER_BUFFER_SIZE];
-        private int _counterBufferCount;
 
         private class AbilitySlot
         {
@@ -72,9 +61,9 @@ namespace Unchord
                 _imgPlayerLevel[i] = transform.Find($"Exp/Level/D{i}").GetComponent<Image>();
             }
 
-            _timer = transform.Find("Exp/TimerText").GetComponent<TextMeshProUGUI>();
-            _killCount = transform.Find("Scores/KillText").GetComponent<TextMeshProUGUI>();
-            _earnedGold = transform.Find("Scores/GoldText").GetComponent<TextMeshProUGUI>();
+            _timer = transform.Find("Exp/TimerText").GetComponent<TimerText>();
+            _killCount = transform.Find("Scores/KillText").GetComponent<DecimalCounterText>();
+            _earnedGold = transform.Find("Scores/GoldText").GetComponent<DecimalCounterText>();
 
             _pauseButton = transform.Find("PauseButton").GetComponent<Button>();
 
@@ -159,12 +148,9 @@ namespace Unchord
             _imgPlayerLevel[1].sprite = levelFont.digitSprites[d1];
         }
 
-        public void SetTimer(int playtime)
+        public void SetTimer(float playtime)
         {
-            int s = playtime % 60;
-            int m = playtime / 60;
-
-            _timer.text = $"{m.ToString("D02")}:{s.ToString("D02")}";
+            _timer.SetValue(playtime);
         }
 
         public void SetKillCount(int count)
@@ -174,7 +160,7 @@ namespace Unchord
             if (count > 999999)
                 count = 999999;
 
-            _killCount.text = GetCounterString(count, 6, _counterColorWhite, _counterColorGray);
+            _killCount.SetValue(count);
         }
 
         public void SetEarnedGold(int earnedGold)
@@ -184,7 +170,7 @@ namespace Unchord
             if (earnedGold > 999999)
                 earnedGold = 999999;
 
-            _earnedGold.text = GetCounterString(earnedGold, 6, _counterColorWhite, _counterColorGray);
+            _earnedGold.SetValue(earnedGold);
         }
 
         public void AddWeaponIcon(Sprite icon)
@@ -203,6 +189,11 @@ namespace Unchord
 
         private void OnPauseButtonClick()
         {
+            if (!s_gameManager.IsGameStarted)
+            {
+                return;
+            }
+
             if (s_gameManager.IsGamePaused)
             {
                 s_gameManager.ResumeGame();
@@ -211,44 +202,6 @@ namespace Unchord
             {
                 s_gameManager.PauseGame();
             }
-        }
-
-        private string GetCounterString(int value, int digitLength, Color enabled, Color disabled)
-        {
-            UnityEngine.Debug.Assert(digitLength <= MAX_COUNTER_BUFFER_SIZE);
-
-            _counterBufferCount = 0;
-
-            while (value > 0 && _counterBufferCount < MAX_COUNTER_BUFFER_SIZE)
-            {
-                _counterBuffer[_counterBufferCount++] = (char)(0x30 + value % 10);
-                value /= 10;
-            }
-
-            if (_counterBufferCount == 0)
-            {
-                _counterBuffer[_counterBufferCount++] = '0';
-            }
-
-            _counterBuilder.Clear();
-            _counterBuilder.AppendFormat($"<color=#{disabled.ToHexString()}>");
-
-            for (int i = digitLength - 1; i >= _counterBufferCount; --i)
-            {
-                _counterBuilder.Append('0');
-            }
-
-            _counterBuilder.Append("</color>");
-            _counterBuilder.AppendFormat($"<color=#{enabled.ToHexString()}>");
-
-            for (int i = _counterBufferCount - 1; i >= 0; --i)
-            {
-                _counterBuilder.Append(_counterBuffer[i]);
-            }
-
-            _counterBuilder.Append("</color>");
-
-            return _counterBuilder.ToString();
         }
     }
 }
