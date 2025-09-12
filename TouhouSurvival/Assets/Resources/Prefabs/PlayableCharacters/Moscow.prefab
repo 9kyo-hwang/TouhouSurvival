@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 8863588712717059164}
   - component: {fileID: -1628125831766901487}
   m_Layer: 7
-  m_Name: Player 0
+  m_Name: Moscow
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -431,8 +431,7 @@ MonoBehaviour:
   iconSpecial: {fileID: 21300000, guid: f0d2a6c9b8731e248ba98ccfacb68c93, type: 3}
   iconPreview: {fileID: 21300000, guid: 9fce9b30f91d92e41b829783361ca2b3, type: 3}
   descMainWeapon: "\uD654\uC5FC\uAD6C"
-  descSpecialAbility: "\uBAA8\uCF54\uC6B0\uC758 \uD2B9\uC131 \uC774\uB984\uC744 \uC5EC\uAE30
-    \uC785\uB825\uD558\uC138\uC694."
+  descSpecialAbility: "\uBD88\uC0AC\uC870"
   dataFilePathRelative: /AttributeTables/PlayableCharacters/moscow.multicsv
 --- !u!114 &8863588712717059164
 MonoBehaviour:
