@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SmallFairyAnimator_0
+  m_Controller: {fileID: 9100000, guid: da1ad6dd16dc2aa44bef46edbb2b9115, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 3b875f7308623ea40bb697c2926cbb0b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: bf6ff7e4a7cbb9b4c86364672c071e6b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c8ecf0e1fa4bf1a47993d33ad40e1a11, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e09fb67a97ef58940a07db559913f83f, type: 2}
