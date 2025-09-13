@@ -14,6 +14,7 @@ namespace Unchord.Editor
         private SerializedProperty _serialBases;
         private SerializedProperty _serialModifiers;
         private SerializedProperty _serialExpTable;
+        private SerializedProperty _serialDropTable;
 
         private static AttributeEditorWindowMember s_member;
         [SerializeField] private AttributeEditorWindowMember _member;
@@ -38,6 +39,7 @@ namespace Unchord.Editor
             _serialBases = _serialObject.FindProperty("_member.bases");
             _serialModifiers = _serialObject.FindProperty("_member.modifiers");
             _serialExpTable = _serialObject.FindProperty("_member.expTable");
+            _serialDropTable = _serialObject.FindProperty("_member.dropTable");
         }
 
         private void OnDisable()
@@ -77,6 +79,13 @@ namespace Unchord.Editor
             // Draw Exp Table
             _member.useExpTable = EditorGUILayout.BeginToggleGroup(new GUIContent("Exp Table"), _member.useExpTable);
             EditorGUILayout.PropertyField(_serialExpTable, true);
+            EditorGUILayout.EndToggleGroup();
+
+            DrawSeparator();
+
+            // Draw Drop Table
+            _member.useDropTable = EditorGUILayout.BeginToggleGroup(new GUIContent("Drop Table"), _member.useDropTable);
+            EditorGUILayout.PropertyField(_serialDropTable, true);
             EditorGUILayout.EndToggleGroup();
 
             EditorGUILayout.EndScrollView();
@@ -155,6 +164,11 @@ namespace Unchord.Editor
                     wr.TryWriteTable<SerializedLevelUpExp>(_member.expTable, "ExpTable");
                 }
 
+                if (_member.useDropTable)
+                {
+                    wr.TryWriteTable<SerializedDropTableRecord>(_member.dropTable, "DropTable");
+                }
+
                 return true;
             }
             catch (Exception)
@@ -189,6 +203,7 @@ namespace Unchord.Editor
                 List<SerializedGameplayAttributeBase> bases;
                 List<SerializedGameplayAttributeModifier> modifiers;
                 List<SerializedLevelUpExp> expTable;
+                List<SerializedDropTableRecord> dropTable;
 
                 if (rd.TryParseTable<SerializedGameplayAttributeBase>(out bases))
                 {
@@ -224,6 +239,18 @@ namespace Unchord.Editor
                 {
                     _member.expTable.Clear();
                     _member.useExpTable = false;
+                }
+
+                if (rd.TryParseTable<SerializedDropTableRecord>(out dropTable))
+                {
+                    _member.dropTable = dropTable;
+                    _member.useDropTable = true;
+                    _serialDropTable = _serialObject.FindProperty("_member.dropTable");
+                }
+                else
+                {
+                    _member.dropTable.Clear();
+                    _member.useDropTable = false;
                 }
 
                 return true;

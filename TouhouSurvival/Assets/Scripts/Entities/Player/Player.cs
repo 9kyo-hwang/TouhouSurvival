@@ -286,6 +286,8 @@ namespace Unchord
             GameplayAttribute maxHealth = AttributeBase[PlayerAttributeType.HpMax];
 
             _currentHealth = Mathf.Min(_currentHealth + amount, maxHealth.CurrentValue);
+
+            OnHealthChanged(this, null);
         }
 
         public override float TakeDamage(float damageAmount)

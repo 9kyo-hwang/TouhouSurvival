@@ -5,3 +5,10 @@ Speed,1
 Attack,0
 DropRate,0.8
 
+#SerializedDropTableRecord,DropTable
+itemName,dropRatio01
+xp_1,1
+hp_1,0.2
+magnet_20,0.002
+gold_1,0.1
+

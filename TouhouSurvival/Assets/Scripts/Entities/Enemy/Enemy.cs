@@ -16,8 +16,9 @@ namespace Unchord
 
         [SerializeField] private Rigidbody2D target;
         private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
-        [SerializeField] private GameObject dropExperiencePrefab;
 
+        private DropTable _dropTable;
+        
         private float _currentHealth;
 
         protected override void Awake()
@@ -28,6 +29,7 @@ namespace Unchord
             MultiCSVReader rd = new MultiCSVReader(fs);
 
             this.AttributeBase = new AttributeBaseSet(rd);
+            this._dropTable = new DropTable(rd);
             
             rd.Close();
             fs.Close();
@@ -178,7 +180,11 @@ namespace Unchord
             // Renderer.sortingOrder--;
             Animator.SetBool("Dead", true);
 
-            DropExperienceObject();
+            float dropRate = AttributeBase[EnemyAttributeType.DropRate].CurrentValue;
+            if (Random.value >= dropRate)
+            {
+                _dropTable.Generate(transform.position, 1.0f, 1.0f);
+            }
         }
 
         // 적 사망 애니메이션 종료 시 이벤트
@@ -187,23 +193,6 @@ namespace Unchord
             //gameObject.SetActive(false);
             Destroy(this.gameObject);
             UIManager.Instance.GameCanvas.SetKillCount(++GameManager.Instance.KillCount);
-        }
-
-        private void DropExperienceObject()
-        {
-            if (!dropExperiencePrefab)
-            {
-                Debug.LogAssertion("DropExperiencePrefab is null");
-                return;
-            }
-
-            // TODO: 드랍 확률 적용 & 해당 맵 섹션(청크)에 정보를 넘겨줘야 함
-            float dropRate = AttributeBase[EnemyAttributeType.DropRate].CurrentValue;
-            if (Random.value >= dropRate)    // [0.0f, 1.0f] 사이 랜덤값이 dropRate(0.0 ~ 1.0) 사이보다 크거나 같으면 Drop
-            {
-                GameObject experience = Instantiate(dropExperiencePrefab, transform.position, Quaternion.identity);
-                experience.transform.SetParent(GameManager.Instance.RuntimeContainer, true);
-            }
         }
     }
 }

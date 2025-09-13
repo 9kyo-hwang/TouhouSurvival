@@ -6,7 +6,12 @@ namespace Unchord
 
         public override void Use(Player player)
         {
-            GameManager.Instance.EarnedGold += amount;
+            GameManager gm = GameManager.Instance;
+            UIManager ui = UIManager.Instance;
+
+            gm.EarnedGold += amount;
+            ui.GameCanvas.SetEarnedGold(gm.EarnedGold);
+            
             Destroy(this.gameObject);
         }
     }

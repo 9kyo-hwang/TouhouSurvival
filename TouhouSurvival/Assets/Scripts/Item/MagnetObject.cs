@@ -25,7 +25,7 @@ namespace Unchord
             {
                 ItemComponent item = hits[i].collider.gameObject.GetComponent<ItemComponent>();
 
-                if (!item.allowMagnetCollecting)
+                if (item == null || !item.allowMagnetCollecting)
                     continue;
 
                 item.Use(player);

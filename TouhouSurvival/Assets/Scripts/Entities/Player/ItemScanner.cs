@@ -26,7 +26,9 @@ namespace Unchord
             foreach (RaycastHit2D hit in _hits)
             {
                 ItemComponent item = hit.collider.GetComponent<ItemComponent>();
-                item.Use(_player);
+
+                if (item != null)
+                    item.Use(_player);
 
                 // NOTE: 이 곳에서 Destroy(item)을 수행하지 마세요. item.Use() 함수 안에서 구현하도록 합니다.
             }
