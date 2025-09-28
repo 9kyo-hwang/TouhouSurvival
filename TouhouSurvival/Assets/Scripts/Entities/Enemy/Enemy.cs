@@ -7,40 +7,28 @@ using Random = UnityEngine.Random;
 namespace Unchord
 {
     public class Enemy : Pawn
-    {
-        // TODO: 추후 Attributes 속성을 Pawn에 배치해야 합니다. (AbilityComponent에 선언한 Attributes 속성과 같은 형태로 코드를 작성할 수 있도록 합니다.)
-        public AttributeBaseSet AttributeBase { get; private set; }
-        
-        [Tooltip("Root path is UnityEngine.Application.streamingAssetsPath. Relative path must be start with slash(/) character.")]
-        public string dataFilePathRelative;
-
-        [SerializeField] private Rigidbody2D target;
+    {        
+        private Rigidbody2D _target;
         private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
 
         private DropTable _dropTable;
-        
-        private float _currentHealth;
 
         protected override void Awake()
         {
             base.Awake();
+        }
 
-            FileStream fs = new FileStream(Application.streamingAssetsPath + this.dataFilePathRelative, FileMode.Open, FileAccess.Read, FileShare.Read);
-            MultiCSVReader rd = new MultiCSVReader(fs);
-
-            this.AttributeBase = new AttributeBaseSet(rd);
-            this._dropTable = new DropTable(rd);
-            
-            rd.Close();
-            fs.Close();
+        protected override void InitializeFromFile(MultiCSVReader reader)
+        {
+            this.AttributeBase = new AttributeBaseSet(reader);
+            this._dropTable = new DropTable(reader);
         }
 
         protected override void Start()
         {
             base.Start();
-
+            
             AttributeBase[EnemyAttributeType.Health].onAttributeChanged += this.OnHealthChanged;
-
             _currentHealth = AttributeBase[EnemyAttributeType.Health].CurrentValue;
         }
 
@@ -51,9 +39,9 @@ namespace Unchord
 
         protected override void Update()
         {
-            if (!target)
+            if (!_target)
             {
-                target = GameManager.Instance.Player.Rigidbody;
+                _target = GameManager.Instance.Player.Rigidbody;
             }
             
             if (!gameObject.activeSelf)
@@ -72,7 +60,7 @@ namespace Unchord
             }
 
             float speed = AttributeBase[EnemyAttributeType.Speed].CurrentValue;
-            Vector2 toTargetDirection = (target.position - Rigidbody.position).normalized;
+            Vector2 toTargetDirection = (_target.position - Rigidbody.position).normalized;
             Vector2 nextPosition = toTargetDirection * (speed * Time.fixedDeltaTime);
             Rigidbody.MovePosition(Rigidbody.position + nextPosition);
             Rigidbody.linearVelocity = Vector2.zero;
@@ -85,45 +73,17 @@ namespace Unchord
                 return;
             }
             
-            float angle = target.position.x < Rigidbody.position.x ? 0f : 180f;
+            float angle = _target.position.x < Rigidbody.position.x ? 0f : 180f;
             Renderers.eulerAngles = Vector3.up * angle;
             Colliders.eulerAngles = Vector3.up * angle;
         }
 
-        private void OnHealthChange(object sender, EventArgs args)
-        {
-            // NOTE: this block intentionally no operation.
-        }
-
         public override float TakeDamage(float damageAmount)
         {
-            if (AttributeBase == null)
-            {
-                Debug.Assert(false, "Enemy has no attribute set");
-                return 0f;
-            }
-
-            GameplayAttribute maxHealth = AttributeBase[EnemyAttributeType.Health];
-
-            float currentHealth = _currentHealth;
-
-            _currentHealth = Mathf.Clamp(_currentHealth - damageAmount, 0.0f, maxHealth.CurrentValue);
-
-            float newHealth = _currentHealth;
+            base.TakeDamage(damageAmount);
 
             // TODO: 이벤트 변수로 빼는 방안을 고려함.
             OnHealthChanged(this, null);
-
-            if (newHealth <= 0.0f)
-            {
-                Die();
-            }
-            else
-            {
-                OnHit();
-            }
-            
-            Debug.Log($"적이 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
         }
 
@@ -152,7 +112,7 @@ namespace Unchord
             Rigidbody.simulated = true;
             // Renderer.sortingOrder++;
             Animator.SetBool("Dead", false);
-            target = GameManager.Instance.Player.Rigidbody;
+            _target = GameManager.Instance.Player.Rigidbody;
         }
 
         private void OnDisable()
@@ -165,13 +125,8 @@ namespace Unchord
             yield return _waitForFixedUpdate; // 1 frame 대기
 
             // TODO: 플레이어 반대 방향으로 넉백
-            Vector3 direction = transform.position - target.transform.position;
+            Vector3 direction = transform.position - _target.transform.position;
             Rigidbody.AddForce(direction.normalized * (3 * knockBackStrength), ForceMode2D.Impulse);
-        }
-
-        private void OnHit()
-        {
-            //Animator.SetTrigger("Hit");
         }
 
         public override void Die()
@@ -185,6 +140,11 @@ namespace Unchord
             {
                 _dropTable.Generate(transform.position, 1.0f, 1.0f);
             }
+        }
+
+        protected override void OnHit()
+        {
+            //Animator.SetTrigger("Hit");
         }
 
         // 적 사망 애니메이션 종료 시 이벤트

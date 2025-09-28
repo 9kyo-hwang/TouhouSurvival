@@ -13,7 +13,6 @@ namespace Unchord
 
         public ExpRequirementDictionary LevelSystem { get; private set; }
 
-        public AttributeBaseSet AttributeBase { get; private set; }
         private AttributeModifierSet _attributeModifier;
 
         public bool IsStarted { get; private set; } = false;
@@ -40,30 +39,20 @@ namespace Unchord
         public Transform SpecialTransform1 { get; private set; }
         #endregion
 
-        [Tooltip("Root path is UnityEngine.Application.streamingAssetsPath. Relative path must be start with slash(/) character.")]
-        public string dataFilePathRelative;
-
         public float CurrentHealth => _currentHealth;
-        private float _currentHealth;
 
         private Vector2 _movementVector;
 
         private float _lastSpellUsingTime;
         private float _currentSpellGauge;
 
+        private bool _isInvincible = false;
+        [SerializeField] private float invincibilityDuration = 2.0f;  // 무적 시간(TEMP)
+        private int _enemyLayer;
+
         protected override void Awake()
         {
             base.Awake();
-
-            FileStream fs = new FileStream(Application.streamingAssetsPath + this.dataFilePathRelative, FileMode.Open, FileAccess.Read, FileShare.Read);
-            MultiCSVReader rd = new MultiCSVReader(fs);
-
-            this.AttributeBase = new AttributeBaseSet(rd);
-            this._attributeModifier = new AttributeModifierSet(rd);
-            this.LevelSystem = new ExpRequirementDictionary(rd);
-
-            rd.Close();
-            fs.Close();
 
             _abilitySelectUI = new AbilitySelectUIHandler();
             _abilityManager = GetComponent<AbilityManager>();
@@ -73,6 +62,12 @@ namespace Unchord
             SpellTransform = transform.Find($"Abilities/Spells");
             SpecialTransform0 = transform.Find($"Abilities/Specials0");
             SpecialTransform1 = transform.Find($"Abilities/Specials1");
+        }
+        protected override void InitializeFromFile(MultiCSVReader reader)
+        {
+            this.AttributeBase = new AttributeBaseSet(reader);
+            this._attributeModifier = new AttributeModifierSet(reader);
+            this.LevelSystem = new ExpRequirementDictionary(reader);
         }
 
         protected override void Start()
@@ -84,7 +79,6 @@ namespace Unchord
             LevelSystem.OnExperienceChanged += this.OnExpChanged;
 
             AttributeBase[PlayerAttributeType.HpMax].onAttributeChanged += this.OnMaxHealthChanged;
-
             _currentHealth = AttributeBase[PlayerAttributeType.HpMax].CurrentValue;
 
             _lastSpellUsingTime = float.MinValue;
@@ -99,6 +93,8 @@ namespace Unchord
             wuiManager.SetPlayerHealthValue(AttributeBase[PlayerAttributeType.HpMax].CurrentValue, 10.0f);
 
             IsStarted = true;
+
+            _enemyLayer = LayerMask.NameToLayer("Enemy");
         }
 
         private void OnLevelUp(object sender, LevelUpEventArgs args)
@@ -292,26 +288,18 @@ namespace Unchord
 
         public override float TakeDamage(float damageAmount)
         {
-            if (AttributeBase == null)
+            if(_isInvincible)
             {
-                Debug.Assert(false, "Player has no attribute set");
-                return 0f;
+                return 0.0f;
             }
 
-            GameplayAttribute maxHealth = AttributeBase[PlayerAttributeType.HpMax];
             GameplayAttribute defense = AttributeBase[PlayerAttributeType.Armor];
-
-            float currentHealth = _currentHealth;
-            float currentDefense = defense.CurrentValue;
-            damageAmount -= currentDefense;
-
-            _currentHealth = Mathf.Clamp(_currentHealth - damageAmount, 0.0f, maxHealth.CurrentValue);
-            float newHealth = _currentHealth;
+            damageAmount = Mathf.Max(damageAmount - defense.CurrentValue, 0);
+            base.TakeDamage(damageAmount);
 
             // TODO: 이벤트 변수로 빼는 방안을 고려함.
             OnHealthChanged(this, null);
             
-            Debug.Log($"플레이어가 {damageAmount} 피해를 입었습니다. 체력: {currentHealth} -> {newHealth}");
             return damageAmount;
         }
 
@@ -327,6 +315,44 @@ namespace Unchord
 
             Debug.Log($"플레이어가 {damageAmount} 고정 피해를 입었습니다. 체력: {currentHealth} -> {_currentHealth}");
             return damageAmount;
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            // TEMP
+            if(!_isInvincible && collision.gameObject.layer == _enemyLayer)
+            {
+                TakeDamage(10.0f);
+            }
+        }
+
+        private IEnumerator InvincibilityCoroutine()
+        {
+            Debug.Log("Player entered invincibility.");
+            _isInvincible = true;
+
+            // 0.2초 간격으로 깜빡임
+            float endTime = Time.time + invincibilityDuration;
+            while(Time.time < endTime)
+            {
+                Renderers.gameObject.SetActive(!Renderers.gameObject.activeSelf);
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            Renderers.gameObject.SetActive(true);
+            _isInvincible = false;
+            Debug.Log("Player exited invincibility.");
+        }
+
+        public override void Die()
+        {
+            base.Die();
+        }
+
+        protected override void OnHit()
+        {
+            base.OnHit();
+            StartCoroutine(InvincibilityCoroutine());
         }
     }
 }
