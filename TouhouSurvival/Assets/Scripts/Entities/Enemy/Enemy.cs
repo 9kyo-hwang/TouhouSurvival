@@ -12,6 +12,7 @@ namespace Unchord
         private readonly WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
 
         private DropTable _dropTable;
+        private int _playerLayer;
 
         protected override void Awake()
         {
@@ -30,6 +31,7 @@ namespace Unchord
             
             AttributeBase[EnemyAttributeType.Health].onAttributeChanged += this.OnHealthChanged;
             _currentHealth = AttributeBase[EnemyAttributeType.Health].CurrentValue;
+            _playerLayer = LayerMask.NameToLayer("Player");
         }
 
         private void OnHealthChanged(object sender, AttributeChangedEventArgs args)
@@ -118,6 +120,20 @@ namespace Unchord
         private void OnDisable()
         {
 
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            if(collision.gameObject.layer != _playerLayer)
+            {
+                return;
+            }    
+
+            if(collision.gameObject.TryGetComponent<Player>(out Player player))
+            {
+                float damage = AttributeBase[EnemyAttributeType.Attack].CurrentValue;
+                player.TakeDamage(damage);
+            }
         }
 
         private IEnumerator KnockBackCoroutine(float knockBackStrength)
