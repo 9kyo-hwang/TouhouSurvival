@@ -117,7 +117,7 @@ namespace Unchord
             }
 
             UpdateGoldDisplay(shopSaveData.gold);
-            UpdatePointsDisplay(shopSaveData.investedPoints, shopSaveData.exchangedPoints);
+            UpdatePointsDisplay(shopSaveData.exchangedPoints - shopSaveData.investedPoints, shopSaveData.exchangedPoints);
         }
 
         protected override void OnDisable()

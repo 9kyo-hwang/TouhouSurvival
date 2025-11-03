@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapSO: {fileID: 11400000, guid: cffce074e0e466b4ab8e333d24b4c6b5, type: 2}
   phaseList:
-  - {fileID: 11400000, guid: 8202289fc974f4f4abc6bca23622bcdc, type: 2}
+  - {fileID: 11400000, guid: c4d1822f831c9b4469e631ccd3796984, type: 2}
   - {fileID: 11400000, guid: 69c74ccbb17e74846a12f82e6adc51dc, type: 2}
   - {fileID: 11400000, guid: 8202289fc974f4f4abc6bca23622bcdc, type: 2}
   - {fileID: 11400000, guid: 69c74ccbb17e74846a12f82e6adc51dc, type: 2}
-  - {fileID: 11400000, guid: 8202289fc974f4f4abc6bca23622bcdc, type: 2}
+  - {fileID: 11400000, guid: babe0d5301fcdaf4eaf0e2703530e4ab, type: 2}
   - {fileID: 11400000, guid: 69c74ccbb17e74846a12f82e6adc51dc, type: 2}

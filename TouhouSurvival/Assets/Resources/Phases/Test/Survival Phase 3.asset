@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8f89657daf02b44badb372b89bf457d, type: 3}
-  m_Name: Survival Phase
+  m_Name: Survival Phase 3
   m_EditorClassIdentifier: 
   spawnerSO:
-  - {fileID: 11400000, guid: 279638dbde653b94e953e5530be31ca5, type: 2}
-  - {fileID: 11400000, guid: 026485c74214fa54fb680361c6a3ce38, type: 2}
-  - {fileID: 11400000, guid: 5439f7e8ba7dc064187d405884341588, type: 2}
-  phaseDuration: 30
+  - {fileID: 11400000, guid: d8a36a9e3db45aa4b89ef4578ef0f14b, type: 2}
+  - {fileID: 11400000, guid: b4ba3987693940f4faf51839b72ad71a, type: 2}
+  - {fileID: 11400000, guid: e4ab87102a8509b4db0fc0314557b3ad, type: 2}
+  phaseDuration: 60

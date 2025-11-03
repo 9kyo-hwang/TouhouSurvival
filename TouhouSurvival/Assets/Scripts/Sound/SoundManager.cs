@@ -9,6 +9,8 @@ namespace Unchord
         {
             BGM = new SingleSoundChannel();
             SFX = new MultipleSoundChannel();
+
+            BGM.ChangeSoundEvent("event:/BGM/Cirno");
         }
 
         private void Update()

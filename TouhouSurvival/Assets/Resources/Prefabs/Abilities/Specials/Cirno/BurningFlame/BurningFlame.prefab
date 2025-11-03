@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2276124644164008218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4913900210111072942}
+  - component: {fileID: 8805636461181743736}
+  m_Layer: 0
+  m_Name: BurningFlame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4913900210111072942
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2276124644164008218}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8805636461181743736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2276124644164008218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 759fd5e993d61004198dbeb98b225160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dataFilePathRelative: /AttributeTables/Abilities/Specials/Moscow/burning_flame.multicsv
+  displayIcon: {fileID: 21300000, guid: 6139fca58bd823f4cb55385d8e1ccae1, type: 3}
+  displayName: "\uD0C0\uC624\uB974\uB294 \uBD88\uAF43"
+  displayDescription: "\uD654\uC5FC\uAD6C\uAC00 \uD3ED\uBC1C\uD560 \uB54C \uC801\uC5D0\uAC8C
+    \uC8FC\uAE30\uC801\uC73C\uB85C \uD53C\uD574\uB97C \uC785\uD788\uB294 \uC601\uC5ED\uC744
+    \uC0DD\uC131\uD569\uB2C8\uB2E4."
+  flamePrefab: {fileID: 2276124644164008218, guid: 19744f36d0a8f424881be27c7edbaf97, type: 3}

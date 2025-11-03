@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{5401577b-cd43-49fd-b265-c172eb11751f}">
+		<property name="assetPath">
+			<value>sfx_gold.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.41827664399092973</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0075945e-cb4b-4600-870f-85bb579fcad0}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58dda18df3584e54b8b12ef24fd6da36, type: 3}
   m_Name: Cooldown
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 90628eaf357940b48b664f4ecc6872ce, type: 3}
   title: Cooldown
   attributeType: Cooldown
   alias: Cooldown

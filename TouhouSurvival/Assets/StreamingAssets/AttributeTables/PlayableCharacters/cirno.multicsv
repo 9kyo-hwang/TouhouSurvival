@@ -5,7 +5,7 @@ HpRegen,0.01
 Speed,3
 Damage,1
 Armor,1
-PickRange,1
+PickRange,0.5
 ExpGain,0
 Cooldown,1
 Knockback,0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58dda18df3584e54b8b12ef24fd6da36, type: 3}
   m_Name: PickRange
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 454964562040f5245b78fabab60cfbbb, type: 3}
   title: PickRange
   attributeType: PickRange
   alias: PickRange

@@ -3,13 +3,13 @@ attributeName,baseValue
 LaunchAngleOffset,0.01
 SpearSize,1
 SpearSpeed,10
-SpearDamage,5
+SpearDamage,1
 SpearKnockbackStrength,2
 SpearDuration,3
 ShardSize,0.7
 ShardCount,5
 ShardSpeed,3
-ShardDamage,3
+ShardDamage,1
 ShardKnockbackStrength,1.5
 ShardDuration,0.5
 

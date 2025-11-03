@@ -6,7 +6,7 @@ ThrowAngleOffset,5
 ThrowDelay,0.3
 ThrowCount,5
 ThrowSpeed,10
-Damage,10
+Damage,1
 KnockbackStrength,3
 Duration,1
 

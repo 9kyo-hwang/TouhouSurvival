@@ -11,6 +11,8 @@ namespace Unchord
 
             gm.EarnedGold += amount;
             ui.GameCanvas.SetEarnedGold(gm.EarnedGold);
+
+            SoundManager.Instance.SFX.AddSoundEvent("event:/SFX/Gold");
             
             Destroy(this.gameObject);
         }

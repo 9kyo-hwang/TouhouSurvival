@@ -424,6 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa81ac904013a549972e820f2827861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataFilePathRelative: /AttributeTables/PlayableCharacters/cirno.multicsv
   descCharacterName: "\uCE58\uB974\uB178"
   iconCharacter: {fileID: 21300000, guid: 03c198b4f9dbae1499d50c7589ad2942, type: 3}
   iconMainWeapon: {fileID: 21300000, guid: 800a464113ddb7c4d91b27c475d57a19, type: 3}
@@ -432,7 +433,7 @@ MonoBehaviour:
   iconPreview: {fileID: 21300000, guid: 545bbefa5edca72419b67d93a624887f, type: 3}
   descMainWeapon: "\uC544\uC774\uC2DC\uD074 \uD3F4"
   descSpecialAbility: "\uAF43\uC78E\uD0C4"
-  dataFilePathRelative: /AttributeTables/PlayableCharacters/cirno.multicsv
+  invincibilityDuration: 2
 --- !u!114 &8863588712717059164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,13 +472,13 @@ MonoBehaviour:
   spellSet:
   - MoscowSpell
   specialAbilitySet0:
-  - Moscow/ImmortalWill
-  - Moscow/BurningBlood
-  - Moscow/KillingPain
+  - Cirno/ImmortalWill
+  - Cirno/BurningBlood
+  - Cirno/KillingPain
   specialAbilitySet1:
-  - Moscow/MoscowFlame
-  - Moscow/PenetrativeFlame
-  - Moscow/BurningFlame
+  - Cirno/MoscowFlame
+  - Cirno/PenetrativeFlame
+  - Cirno/BurningFlame
 --- !u!1 &7941737267563311883
 GameObject:
   m_ObjectHideFlags: 0
